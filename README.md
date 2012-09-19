@@ -89,30 +89,22 @@ IDE Configuration to use RoboSpice in your App
 Project Configuration to use RoboSpice
 ======================================
 
-Once all the jars are part of your project, define the following fields and methods inside your base activity class.
+Once all the jars are part of your project, you need to follow 2 configuration steps : 
+
+* First, create a subclass of ContentService. 
+This is needed to configure your CacheManager (and in the case you are using the spring android module, you will configure your RestTemplate as well).
+* Second, define a few fields and methods inside your base activity class.
 This will allow all your activities to use RoboSpice's ContentManager.
 
-```java
-public class BaseSampleContentActivity extends <whatever subclass of activity> {
-    private ContentManager contentManager = new ContentManager( SampleContentService.class );
+Those steps are examplified in the sample of RoboSpice.
 
-    @Override
-    protected void onStart() {
-        contentManager.start( this );
-        super.onStart();
-    }
 
-    @Override
-    protected void onStop() {
-        contentManager.shouldStop();
-        super.onStop();
-    }
-
-    public ContentManager getContentManager() {
-        return contentManager;
-    }
-}
-``
-
+IDE Configuration to contribute to RoboSpice
+============================================
+First, clone the RoboSpice git repo. Then, 
+* In Eclipse :: 
+**import the maven projects from your local git repo.
+**change the sample-it project : remove maven nature and add the sample project in the buildpath of sample-it, as a project.
+This is due to a bug in current Android Configurator.
 
 
