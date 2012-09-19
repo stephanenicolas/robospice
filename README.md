@@ -76,4 +76,43 @@ And the request listener classes are implemented as inner classes of the activit
 
 ````
 
+IDE Configuration to use RoboSpice in your App
+==============================================
+
+* In Eclipse :: simply add the following jars to your libs folder :
+** robospice-x.x.x.jar
+** robospice-json-x.x.x.jar
+** robospice-spring-android-x.x.x.jar
+* In Eclipse using Maven Android Plugin :: //TODO
+* In IntelliJ :: //TODO
+
+Project Configuration to use RoboSpice
+======================================
+
+Once all the jars are part of your project, define the following fields and methods inside your base activity class.
+This will allow all your activities to use RoboSpice's ContentManager.
+
+```java
+public class BaseSampleContentActivity extends <whatever subclass of activity> {
+    private ContentManager contentManager = new ContentManager( SampleContentService.class );
+
+    @Override
+    protected void onStart() {
+        contentManager.start( this );
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        contentManager.shouldStop();
+        super.onStop();
+    }
+
+    public ContentManager getContentManager() {
+        return contentManager;
+    }
+}
+``
+
+
 
