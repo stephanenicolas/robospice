@@ -80,9 +80,9 @@ IDE Configuration to use RoboSpice in your App
 ==============================================
 
 * In Eclipse :: simply add the following jars to your libs folder :
-** robospice-x.x.x.jar
-** robospice-json-x.x.x.jar
-** robospice-spring-android-x.x.x.jar
+    * robospice-x.x.x.jar
+    * robospice-json-x.x.x.jar
+    * robospice-spring-android-x.x.x.jar
 * In Eclipse using Maven Android Plugin :: //TODO
 * In IntelliJ :: //TODO
 
