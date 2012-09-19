@@ -4,15 +4,25 @@ RoboSpice
 RoboSpice is a modular android library that eases the development of Data-Driven Android applications.
 
 RoboSpice
-* executes asynchronously (in an AndroidService) network requests that will return POJOs (ex: REST requests)
+* executes asynchronously (in a background AndroidService) network requests that will return POJOs (ex: REST requests)
 * cache results (in Json, or Xml, or flat text files, or binary files)
 * notifies your activities (or any other context) of the result of the network request if they are still alive
 * doesn't notify your activities of the result if they are not alive anymore
+* notifies your activities on their UI Thread
+* uses a simple but robust exception handling model
+* supports multiple ContentServices to aggregate different web services results
+* supports multi-threading of request executions
 * is strongly typed ! 
+* is open source ;) 
+* and tested
 
-Here is a small example (extracted from the sample app) : 
+Here is a small example (a snippet from the sample app) : 
 
 ````java
+    // ============================================================================================
+    // ACTIVITY CLASS, can subclass any class, just a few line of boiler plate code to add to your common super class
+    // could be a Service, an Application, any context.
+    // ============================================================================================
     @Override
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -21,18 +31,23 @@ Here is a small example (extracted from the sample app) :
         weatherRequest = new WeatherRequest( "75000" );
 
         //execute a request, 
-        //check if the result is not in cache,
+        //check if the result is in cache with a maximum expiry of 24 hours,
         //if it isn't, fetch remote data and cache it
-        //each request has it own listener
+        //each request has it own listener (see below)
         getContentManager().execute( weatherRequest, "75000.weather", DurationInMillis.ONE_DAY, new WeatherRequestListener() );        
     }
 
 ````
 
 
-And the request class for the Pojo simply looks like : 
+And the request class for the POJO simply looks like : 
 
 ```java
+    // ============================================================================================
+    // REQUEST CLASS, fully testable, will be executed in background, 
+    // in a context that is independent of the activity
+    // ============================================================================================
+
 public final class WeatherRequest extends RestContentRequest< WeatherResult > {
 
     private String baseUrl;
@@ -44,7 +59,7 @@ public final class WeatherRequest extends RestContentRequest< WeatherResult > {
 
     @Override
     public WeatherResult loadDataFromNetwork() throws RestClientException {
-        Log.d( getClass().getName(), "Call web service " + baseUrl );
+        //use a spring android RestTemplate to query web services and obtain the response as a POJO
         return getRestTemplate().getForObject( baseUrl, WeatherResult.class );
     }
 
@@ -52,22 +67,24 @@ public final class WeatherRequest extends RestContentRequest< WeatherResult > {
 
 ```
 
-And the request listener classes are implemented as inner classes of the activity class : 
+And the request listener class are implemented as inner classes of the activity class : 
 
 ```java
     // ============================================================================================
-    // INNER CLASSES of the activity
+    // INNER CLASS of the activity, notified on UI Thread, if and only if your activity is alive
     // ============================================================================================
 
     public final class WeatherRequestListener implements RequestListener< WeatherResult > {
 
         @Override
         public void onRequestFailure( ContentManagerException contentManagerException ) {
+            //get notified of request's failure via a detailed exception
             Toast.makeText( SampleContentActivity.this, "failure", Toast.LENGTH_SHORT ).show();
         }
 
         @Override
         public void onRequestSuccess( final WeatherResult result ) {
+            //get notified of request's success and access the result as POJO.
             Toast.makeText( SampleContentActivity.this, "success", Toast.LENGTH_SHORT ).show();
             String originalText = mCurrentWeatherTextView.getText().toString();
             mCurrentWeatherTextView.setText( originalText + result.toString() );
