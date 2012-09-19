@@ -1,9 +1,14 @@
 RoboSpice
 =========
 
+Overview
+--------
+
 RoboSpice is a modular android library that eases the development of Data-Driven Android applications.
 
-RoboSpice
+Main features of RoboSpice
+--------------------------
+
 * executes asynchronously (in a background AndroidService) network requests that will return POJOs (ex: REST requests)
 * cache results (in Json, or Xml, or flat text files, or binary files)
 * notifies your activities (or any other context) of the result of the network request if they are still alive
@@ -15,6 +20,9 @@ RoboSpice
 * is strongly typed ! 
 * is open source ;) 
 * and tested
+
+Example code
+------------
 
 Here is a small example (a snippet from the sample app) : 
 
@@ -92,9 +100,11 @@ And the request listener class are implemented as inner classes of the activity 
     }
 
 ````
+For developpers
+===============
 
 IDE Configuration to use RoboSpice in your App
-==============================================
+----------------------------------------------
 
 * In Eclipse :: simply add the following jars to your libs folder :
     * robospice-x.x.x.jar
@@ -104,7 +114,7 @@ IDE Configuration to use RoboSpice in your App
 * In IntelliJ :: //TODO
 
 Project Configuration to use RoboSpice
-======================================
+--------------------------------------
 
 Once all the jars are part of your project, you need to follow 2 configuration steps : 
 
@@ -115,9 +125,12 @@ This will allow all your activities to use RoboSpice's ContentManager.
 
 Those steps are examplified in the sample of RoboSpice.
 
+For contributors
+================
 
 IDE Configuration to contribute to RoboSpice
-============================================
+--------------------------------------------
+
 First, clone the RoboSpice git repo. Then, 
 * In Eclipse :: 
     * import the maven projects from your local git repo.
