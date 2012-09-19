@@ -103,8 +103,8 @@ IDE Configuration to contribute to RoboSpice
 ============================================
 First, clone the RoboSpice git repo. Then, 
 * In Eclipse :: 
-    *import the maven projects from your local git repo.
-    *change the sample-it project : remove maven nature and add the sample project in the buildpath of sample-it, as a project.
+    * import the maven projects from your local git repo.
+    * change the sample-it project : remove maven nature and add the sample project in the buildpath of sample-it, as a project.
 This is due to a bug in current Android Configurator.
 
 
