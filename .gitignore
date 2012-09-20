@@ -9,8 +9,28 @@
 *.class
 
 # generated files
-bin/
-gen/
+*/bin/
+*/gen/
+*/out/
 
 # Local configuration file (sdk path, etc)
 local.properties
+release.properties
+
+# Eclipse project files
+.classpath
+.project
+.settings
+.DS_Store
+
+#Intelli J project files
+.idea/
+.iml
+
+#Maven project files
+target/
+*/target/
+
+#Maven release files
+.releaseBackup
+.versionsBackup

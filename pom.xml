@@ -234,6 +234,15 @@
 				          </execution>
 				        </executions>
 			      </plugin>
+				<plugin>
+					<groupid>org.apache.maven.plugins</groupid>
+					<artifactid>maven-release-plugin</artifactid>
+					<version>2.3.2</version>
+					<configuration>
+						<goals>deploy</goals>
+						<autoversionsubmodules>true</autoversionsubmodules>
+					</configuration>
+				</plugin>
 	            </plugins>
         </pluginManagement>
     </build>
