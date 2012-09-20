@@ -1,0 +1,6 @@
+com.octo.android.robospice
+com.octo.android.robospice.exception
+com.octo.android.robospice.persistence
+com.octo.android.robospice.persistence.file
+com.octo.android.robospice.request
+com.octo.android.robospice.request.simple
