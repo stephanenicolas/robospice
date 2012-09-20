@@ -10,7 +10,7 @@ Main features of RoboSpice
 --------------------------
 
 * executes asynchronously (in a background AndroidService) network requests that will return POJOs (ex: REST requests)
-* cache results (in Json, or Xml, or flat text files, or binary files)
+* caches results (in Json, or Xml, or flat text files, or binary files)
 * notifies your activities (or any other context) of the result of the network request if they are still alive
 * doesn't notify your activities of the result if they are not alive anymore
 * notifies your activities on their UI Thread
