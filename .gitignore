@@ -21,6 +21,7 @@ release.properties
 .classpath
 .project
 .settings
+.settings/
 .DS_Store
 
 #Intelli J project files
@@ -31,5 +32,5 @@ release.properties
 target/
 
 #Maven release files
-.releaseBackup
-.versionsBackup
+*.releaseBackup
+*.versionsBackup
