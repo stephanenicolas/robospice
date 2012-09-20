@@ -41,7 +41,7 @@ Here is a small example (a snippet from the sample app) :
         //execute a request, 
         //check if the result is in cache with a maximum expiry of 24 hours,
         //if it isn't, fetch remote data and cache it
-        //each request has it own listener (see below)
+        //each request has its own listener (see below)
         getContentManager().execute( weatherRequest, "75000.weather", DurationInMillis.ONE_DAY, new WeatherRequestListener() );        
     }
 
