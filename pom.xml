@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Sonatype config to publish on Maven Central -->
+    <!-- don t forget to remove nexus @octo when sonatype accepts our project 
+    <parent>
+      <groupId>org.sonatype.oss</groupId>
+      <artifactId>oss-parent</artifactId>
+      <version>7</version>
+    </parent>
+    -->
+
+
+    <groupId>com.octo.android.robospice</groupId>
+    <artifactId>robospice-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Robospice - Parent</name>
+    <description>RoboSpice is a modular android library that eases the development of Data-Driven Android applications.</description>
+    <url>https://github.com/octo-online/robospice</url>
+    
+    <scm>
+       <connection>scm:git:ssh://git@github.com:octo-online/robospice.git</connection>
+       <url>git:ssh://git@github.com:octo-online/robospice.git</url>
+       <developerConnection>scm:git:ssh://git@github.com:octo-online/robospice.git</developerConnection>
+    </scm>
+    
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    
+    <issueManagement>
+        <system>Github Issue Tracker</system>
+        <url>https://github.com/octo-online/robospice/issues</url>
+    </issueManagement>
+    
+    <developers>
+        <developer>
+            <id>SNI</id>
+            <name>Stéphane Nicolas</name>
+            <email>snicolas@octo.com</email>
+        </developer>
+        <developer>
+            <id>VDL</id>
+            <name>Jérôme Van Der Linden</name>
+            <email>jvanderlinden@octo.com</email>
+        </developer>
+        <developer>
+            <id>MWA</id>
+            <name>Maxence Walbrou</name>
+            <email>mwalbrou@octo.com</email>
+        </developer>
+        <developer>
+            <id>MHA</id>
+            <name>Mathieu Hausherr</name>
+            <email>mhausherr@octo.com</email>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>robospice</module>
+    	<module>robospice-json</module>
+    	<module>robospice-spring-android</module>
+    	<module>robospice-sample</module>
+        <module>robospice-sample-it</module>
+    </modules>
+  
+    <properties>
+        <platform.version>2.1.2</platform.version>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    	<github.global.server>github</github.global.server>
+    </properties>
+
+    <!-- To be removed when sonatype accepts our artefacts -->
+    <distributionManagement>
+       <repository>
+          <id>octo</id>
+          <name>Maven OCTO Release Repository</name>
+          <url>https://projets.octo.com/nexus/content/repositories/releases/</url>
+       </repository>
+
+       <snapshotRepository>
+          <id>octo</id>
+          <name>Maven OCTO Snapshots Repository</name>
+          <url>https://projets.octo.com/nexus/content/repositories/snapshots/</url>
+          <uniqueVersion>false</uniqueVersion>
+       </snapshotRepository>
+    </distributionManagement>
+   
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.android</groupId>
+                <artifactId>annotations</artifactId>
+                <version>4.1.1.4</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.android</groupId>
+                <artifactId>android</artifactId>
+                <version>${platform.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.android</groupId>
+                <artifactId>android-test</artifactId>
+                <version>${platform.version}</version>
+                <scope>provided</scope>
+            </dependency>
+			<dependency>
+			  <groupId>com.google.android</groupId>
+			  <artifactId>support-v4</artifactId>
+			  <version>r6</version>
+			</dependency>
+            <!-- Androlog is a logging and reporting library for Android -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.10</version>
+                <scope>provided</scope>
+            </dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>13.0-rc1</version>
+		</dependency>            
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>3.3.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+                <plugin>
+		            <groupId>org.apache.maven.plugins</groupId>
+		            <artifactId>maven-javadoc-plugin</artifactId>
+		            <version>2.7</version>
+		        </plugin>
+		        <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.1.2</version>
+				</plugin>
+				
+				<!-- deploy artifacts to github for downloads -->
+                <plugin>
+			      <groupId>com.github.github</groupId>
+			      <artifactId>downloads-maven-plugin</artifactId>
+			      <version>0.6</version>
+			      <configuration>
+			        <description>${project.version} release of ${project.name}</description>
+			        <override>true</override>
+			        <includeAttached>true</includeAttached>
+			      </configuration>
+			      <executions>
+				 	 <execution>
+					    <goals>
+					      <goal>upload</goal>
+					    </goals>
+					    <phase>deploy</phase>
+					  </execution>
+				   </executions>
+			    </plugin>
+			    
+			    <!-- deploy javadoc and maven site to github -->
+			    <plugin>
+					<groupId>com.github.github</groupId>
+					<artifactId>site-maven-plugin</artifactId>
+					<version>0.7</version>
+					<configuration>
+						<message>Creating site for ${project.version}</message>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>site</goal>
+							</goals>
+							<phase>site</phase>
+						</execution>
+					</executions>
+				</plugin>
+			    <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.0</version>
+					<configuration>
+						<reportPlugins>
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-project-info-reports-plugin</artifactId>
+								<version>2.2</version>
+								<configuration>
+									<dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+									<dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+								</configuration>
+							</plugin>
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-javadoc-plugin</artifactId>
+								<version>2.7</version>
+							</plugin>
+						</reportPlugins>
+					</configuration>
+				</plugin>
+				<plugin>
+				        <groupId>org.apache.maven.plugins</groupId>
+				        <artifactId>maven-gpg-plugin</artifactId>
+					<version>1.1</version>
+				        <executions>
+				          <execution>
+				            <id>sign-artifacts</id>
+				            <phase>verify</phase>
+				            <goals>
+				              <goal>sign</goal>
+				            </goals>
+				          </execution>
+				        </executions>
+			      </plugin>
+	            </plugins>
+        </pluginManagement>
+    </build>
+
+<profiles>
+  <profile>
+    <id>sign</id>
+    <activation>
+      <property>
+        <name>performRelease</name>
+        <value>true</value>
+      </property>
+    </activation>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
+</profiles>
+
+
+</project>
