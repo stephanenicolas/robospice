@@ -21,9 +21,9 @@
     <url>https://github.com/octo-online/robospice</url>
     
     <scm>
-       <connection>scm:git:ssh://git@github.com:octo-online/robospice.git</connection>
-       <url>git:ssh://git@github.com:octo-online/robospice.git</url>
-       <developerConnection>scm:git:ssh://git@github.com:octo-online/robospice.git</developerConnection>
+       <connection>scm:git:ssh://git@github.com/octo-online/robospice.git</connection>
+       <url>https://github.com/octo-online/robospice.git</url>
+       <developerConnection>scm:git:ssh://git@github.com/octo-online/robospice.git</developerConnection>
     </scm>
     
     <licenses>
