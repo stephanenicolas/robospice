@@ -2,7 +2,6 @@ package com.octo.android.robospice;
 
 import android.test.InstrumentationTestCase;
 
-import com.octo.android.robospice.ContentManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.request.CachedContentRequest;
 import com.octo.android.robospice.request.ContentRequest;
@@ -169,7 +168,6 @@ public class ContentManagerTest extends InstrumentationTestCase {
 		ContentRequestStub<String> contentRequestStub2 = new ContentRequestFailingStub<String>(TEST_CLASS);
 		RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
 		RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
-		contentManager.waitForServiceToBeBound();
 
 		// when
 		contentManager.execute(contentRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
