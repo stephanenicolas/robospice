@@ -1,3 +1,7 @@
-com.octo.android.robospice.sample
-com.octo.android.robospice.sample.model
-com.octo.android.robospice.sample.request
+com.octo.android.robospice
+com.octo.android.robospice.persistence
+com.octo.android.robospice.persistence.file
+com.octo.android.robospice.persistence.json
+com.octo.android.robospice.request
+com.octo.android.robospice.stub
+com.octo.android.robospice.test
