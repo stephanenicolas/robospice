@@ -14,7 +14,7 @@
 
     <groupId>com.octo.android.robospice</groupId>
     <artifactId>robospice-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Robospice - Parent</name>
     <description>RoboSpice is a modular android library that eases the development of Data-Driven Android applications.</description>
