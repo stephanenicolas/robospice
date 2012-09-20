@@ -109,7 +109,7 @@ For developpers
 IDE & Build Tools configuration to use RoboSpice in your App
 ------------------------------------------------------------
 
-* In Eclipse :: simply add the following jars to your libs folder (availlable in [downloads]([RoboSpice Javadocs online](http://octo-online.github.com/robospice/apidocs/index.html))) :
+* In Eclipse :: simply add the following jars to your libs folder (availlable in [downloads](https://github.com/octo-online/robospice/downloads)) :
     * robospice-x.x.x.jar
     * robospice-json-x.x.x.jar
     * robospice-spring-android-x.x.x.jar
