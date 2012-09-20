@@ -29,7 +29,6 @@ release.properties
 
 #Maven project files
 target/
-*/target/
 
 #Maven release files
 .releaseBackup
