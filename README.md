@@ -100,13 +100,16 @@ And the request listener class are implemented as inner classes of the activity 
     }
 
 ````
+
+
+For more information, browse the source code of the sample project. Also, browse [RoboSpice Javadocs online](http://octo-online.github.com/robospice/apidocs/index.html).
 For developpers
 ===============
 
 IDE & Build Tools configuration to use RoboSpice in your App
 ------------------------------------------------------------
 
-* In Eclipse :: simply add the following jars to your libs folder :
+* In Eclipse :: simply add the following jars to your libs folder (availlable in [downloads]([RoboSpice Javadocs online](http://octo-online.github.com/robospice/apidocs/index.html))) :
     * robospice-x.x.x.jar
     * robospice-json-x.x.x.jar
     * robospice-spring-android-x.x.x.jar
