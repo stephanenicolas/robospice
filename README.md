@@ -6,6 +6,8 @@ Overview
 
 RoboSpice is a modular android library that eases the development of Data-Driven Android applications.
 
+RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice).
+
 Main features of RoboSpice
 --------------------------
 
