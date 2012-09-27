@@ -115,7 +115,23 @@ IDE & Build Tools configuration to use RoboSpice in your App
     * robospice-x.x.x.jar
     * robospice-json-x.x.x.jar
     * robospice-spring-android-x.x.x.jar
-* Using Maven Android Plugin :: //TODO (RoboSpice is maven-ready, we need to publish on Maven Central Repo)
+* Using Maven Android Plugin :: Add this dependencies to your pom :
+
+````xml
+                <dependency>
+                        <groupId>com.octo.android.robospice</groupId>
+                        <artifactId>robospice-json</artifactId>
+                        <version>${project.version}</version>
+                        <type>jar</type>
+                </dependency>
+                <dependency>
+                        <groupId>com.octo.android.robospice</groupId>
+                        <artifactId>robospice-spring-android</artifactId>
+                        <version>${project.version}</version>
+                        <type>jar</type>
+                </dependency>
+```
+
 * In IntelliJ :: //TODO
 
 Project Configuration to use RoboSpice
