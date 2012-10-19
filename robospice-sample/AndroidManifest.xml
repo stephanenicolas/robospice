@@ -25,7 +25,8 @@
         
         <activity android:name=".TestActivity" />
 
-        <service android:name="com.octo.android.robospice.sample.SampleContentService" android:exported="false"/>
+        <service android:name=".SampleJsonPersistenceRestContentService" android:exported="false"/>
+        <service android:name=".SampleOrmlitePersistenceRestContentService" android:exported="false"/>
     </application>
 
 </manifest>

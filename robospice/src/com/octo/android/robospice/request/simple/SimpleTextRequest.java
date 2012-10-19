@@ -8,9 +8,9 @@ import java.net.URL;
 import android.util.Log;
 
 import com.google.common.io.CharStreams;
-import com.octo.android.robospice.request.ContentRequest;
+import com.octo.android.robospice.request.SpiceRequest;
 
-public class SimpleTextRequest extends ContentRequest<String> {
+public class SimpleTextRequest extends SpiceRequest<String> {
 
 	private String url;
 

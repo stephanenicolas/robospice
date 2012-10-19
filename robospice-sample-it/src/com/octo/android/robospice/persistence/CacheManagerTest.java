@@ -1,12 +1,13 @@
 package com.octo.android.robospice.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.octo.android.robospice.exception.CacheLoadingException;
-import com.octo.android.robospice.exception.CacheSavingException;
-import com.octo.android.robospice.persistence.CacheManager;
-import com.octo.android.robospice.persistence.ObjectPersister;
+import com.octo.android.robospice.persistence.exception.CacheLoadingException;
+import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
 @SmallTest
 public class CacheManagerTest extends AndroidTestCase {
@@ -20,7 +21,7 @@ public class CacheManagerTest extends AndroidTestCase {
 
     public void testEmptyDataPersistenceManager() {
         try {
-            cacheManager.getClassCacheManager( Object.class );
+            cacheManager.getObjectPersister( Object.class );
             fail( "No data class persistence manager should have been found as none had been registered" );
         } catch ( Exception ex ) {
             assertTrue( true );
@@ -29,37 +30,37 @@ public class CacheManagerTest extends AndroidTestCase {
 
     public void testRegisterDataClassPersistenceManager() {
         MockDataClassPersistenceManager mockDataClassPersistenceManager = new MockDataClassPersistenceManager();
-        cacheManager.addObjectPersisterFactory( mockDataClassPersistenceManager );
-        ObjectPersister< ? > actual = cacheManager.getClassCacheManager( String.class );
+        cacheManager.addPersister( mockDataClassPersistenceManager );
+        ObjectPersister< ? > actual = cacheManager.getObjectPersister( String.class );
         assertEquals( mockDataClassPersistenceManager, actual );
     }
 
     public void testGetDataClassPersistenceManager_returns_CacheManagerBusElement_in_order() {
         // register a data class persistence manager first
         MockDataClassPersistenceManager mockDataClassPersistenceManager = new MockDataClassPersistenceManager();
-        cacheManager.addObjectPersisterFactory( mockDataClassPersistenceManager );
+        cacheManager.addPersister( mockDataClassPersistenceManager );
 
         // register a second data class persistence manager
         MockDataClassPersistenceManager mockDataClassPersistenceManager2 = new MockDataClassPersistenceManager();
-        cacheManager.addObjectPersisterFactory( mockDataClassPersistenceManager2 );
+        cacheManager.addPersister( mockDataClassPersistenceManager2 );
 
-        ObjectPersister< ? > actual = cacheManager.getClassCacheManager( String.class );
+        ObjectPersister< ? > actual = cacheManager.getObjectPersister( String.class );
         assertEquals( mockDataClassPersistenceManager, actual );
     }
 
     public void testUnRegisterDataClassPersistenceManager() {
         // register a data class persistence manager first
         MockDataClassPersistenceManager mockDataClassPersistenceManager = new MockDataClassPersistenceManager();
-        cacheManager.addObjectPersisterFactory( mockDataClassPersistenceManager );
-        ObjectPersister< ? > actual = cacheManager.getClassCacheManager( String.class );
+        cacheManager.addPersister( mockDataClassPersistenceManager );
+        ObjectPersister< ? > actual = cacheManager.getObjectPersister( String.class );
         assertEquals( mockDataClassPersistenceManager, actual );
 
         // unregister it
-        cacheManager.removeObjectPersisterFactory( mockDataClassPersistenceManager );
+        cacheManager.removePersister( mockDataClassPersistenceManager );
 
         // no persistence manager should be found any more
         try {
-            cacheManager.getClassCacheManager( String.class );
+            cacheManager.getObjectPersister( String.class );
             fail( "No data class persistence manager should have been found as none had been registered" );
         } catch ( Exception ex ) {
             assertTrue( true );
@@ -70,7 +71,7 @@ public class CacheManagerTest extends AndroidTestCase {
         private static final String TEST_PERSISTED_STRING = "TEST";
 
         public MockDataClassPersistenceManager() {
-            super( null );
+            super( null, String.class );
         }
 
         @Override
@@ -95,6 +96,18 @@ public class CacheManagerTest extends AndroidTestCase {
         @Override
         public boolean removeDataFromCache( Object arg0 ) {
             return true;
+        }
+
+        @Override
+        public List< String > loadAllDataFromCache() throws CacheLoadingException {
+            ArrayList< String > listString = new ArrayList< String >();
+            listString.add( TEST_PERSISTED_STRING );
+            return listString;
+        }
+
+        @Override
+        public List< Object > getAllCacheKeys() {
+            return null;
         }
     }
 }

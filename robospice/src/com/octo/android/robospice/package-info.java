@@ -11,34 +11,34 @@
  * 
  * @startuml
  * abstract class ContentActivity {
- *   - ContentManager
+ *   - SpiceManager
  *   - List<request>
  * }
  * 
- * class ContentManager {
+ * class SpiceManager {
  *   - List<request>
  * }
  * 
- * class ContentService {
+ * class SpiceService {
  * }
  * 
  * 
- * abstract class ContentRequest<T> {
+ * abstract class SpiceRequest<T> {
  *   +loadData(): T;
  * }
  * 
- * ContentService -left- ContentRequest : execute
- * ContentActivity -left- ContentManager 
- * ContentManager -left- ContentService: bind \n unbind \n submit requests
+ * SpiceService -left- SpiceRequest : execute
+ * ContentActivity -left- SpiceManager 
+ * SpiceManager -left- SpiceService: bind \n unbind \n submit requests
  * 
- * abstract class CachedContentRequest<T> extends ContentRequest {
+ * abstract class CachedSpiceRequest<T> extends SpiceRequest {
  *    # DataPersistenceManager persistenceManager;
  *    -loadData(): T
  *    +loadDataFromCache(): T
  *    +saveDataToCacheAndReturnData(T): T 
  * }
  * 
- * CachedContentRequest *-right- DataPersistenceManager
+ * CachedSpiceRequest *-right- DataPersistenceManager
  * 
  * class DataPersistenceManager {
  * -List<DataClassPersistenceManager>

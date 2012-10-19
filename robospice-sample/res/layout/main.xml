@@ -24,11 +24,17 @@
             android:text="@string/textview_image" />
 
         <TextView
-            android:id="@+id/textview_hello_credit_status"
+            android:id="@+id/textview_hello_json"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:singleLine="false"
             android:text="@string/textview_json" />
+        <TextView
+            android:id="@+id/textview_hello_xml"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:text="@string/textview_xml" />
     </LinearLayout>
 
 </ScrollView>

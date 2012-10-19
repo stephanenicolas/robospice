@@ -4,9 +4,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.octo.android.robospice.request.ContentRequest;
+import com.octo.android.robospice.request.SpiceRequest;
 
-public abstract class ContentRequestStub< T > extends ContentRequest< T > {
+public abstract class ContentRequestStub< T > extends SpiceRequest< T > {
     protected boolean isLoadDataFromNetworkCalled = false;
 
     private ReentrantLock lock = new ReentrantLock();

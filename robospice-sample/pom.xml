@@ -19,11 +19,35 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.octo.android.robospice</groupId>
-			<artifactId>robospice-json</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.7</version>
 		</dependency>
+		<dependency>
+			<groupId>org.simpleframework</groupId>
+			<artifactId>simple-xml</artifactId>
+			<version>2.6.6</version>
+		  	<exclusions>
+		    	<exclusion>
+		      		<groupId>xpp3</groupId>
+		      		<artifactId>xpp3</artifactId>
+	    		</exclusion>
+		    	<exclusion>
+		      		<groupId>stax</groupId>
+		      		<artifactId>stax-api</artifactId>
+	    		</exclusion>
+  			</exclusions>			
+		</dependency>
+		<dependency>
+            <groupId>com.j256.ormlite</groupId>
+            <artifactId>ormlite-core</artifactId>
+            <version>4.41</version>
+        </dependency>
+        <dependency>
+            <groupId>com.j256.ormlite</groupId>
+            <artifactId>ormlite-android</artifactId>
+            <version>4.41</version>
+        </dependency>				
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice-spring-android</artifactId>

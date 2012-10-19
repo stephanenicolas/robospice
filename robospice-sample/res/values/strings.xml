@@ -4,5 +4,6 @@
     <string name="app_name">android.rest.client</string>
     <string name="textview_text">Text:</string>
     <string name="textview_json">Json:</string>
+    <string name="textview_xml">Xml:</string>
     <string name="textview_image">Image:</string>
 </resources>

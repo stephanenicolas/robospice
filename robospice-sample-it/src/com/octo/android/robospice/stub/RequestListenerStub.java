@@ -6,8 +6,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import android.os.Looper;
 
-import com.octo.android.robospice.exception.ContentManagerException;
-import com.octo.android.robospice.request.RequestListener;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
 public class RequestListenerStub< T > implements RequestListener< T > {
 
@@ -19,7 +19,7 @@ public class RequestListenerStub< T > implements RequestListener< T > {
     private Exception exception;
 
     @Override
-    public void onRequestFailure( ContentManagerException exception ) {
+    public void onRequestFailure( SpiceException exception ) {
         lock.lock();
         try {
             checkIsExectuedInUIThread();

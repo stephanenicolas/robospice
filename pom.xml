@@ -3,13 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Sonatype config to publish on Maven Central -->
-    <!-- don t forget to remove nexus @octo when sonatype accepts our project 
     <parent>
       <groupId>org.sonatype.oss</groupId>
       <artifactId>oss-parent</artifactId>
       <version>7</version>
     </parent>
-    -->
+    
 
 
     <groupId>com.octo.android.robospice</groupId>
@@ -62,10 +61,15 @@
     </developers>
 
     <modules>
+        <!-- persistence -->
+    	<module>robospice-cache</module>
+        <!-- core library -->
         <module>robospice</module>
-    	<module>robospice-json</module>
+        <!-- rest -->
     	<module>robospice-spring-android</module>
+    	<!-- sample -->
     	<module>robospice-sample</module>
+    	<!-- tests -->
         <module>robospice-sample-it</module>
     </modules>
   
@@ -75,23 +79,6 @@
     	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     	<github.global.server>github</github.global.server>
     </properties>
-
-    <!-- To be removed when sonatype accepts our artefacts -->
-    <distributionManagement>
-       <repository>
-          <id>octo</id>
-          <name>Maven OCTO Release Repository</name>
-          <url>https://projets.octo.com/nexus/content/repositories/releases/</url>
-       </repository>
-
-       <snapshotRepository>
-          <id>octo</id>
-          <name>Maven OCTO Snapshots Repository</name>
-          <url>https://projets.octo.com/nexus/content/repositories/snapshots/</url>
-          <uniqueVersion>false</uniqueVersion>
-       </snapshotRepository>
-    </distributionManagement>
-   
 
     <dependencyManagement>
         <dependencies>
@@ -116,7 +103,7 @@
 			<dependency>
 			  <groupId>com.google.android</groupId>
 			  <artifactId>support-v4</artifactId>
-			  <version>r6</version>
+			  <version>r7</version>
 			</dependency>
             <!-- Androlog is a logging and reporting library for Android -->
             <dependency>

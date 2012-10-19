@@ -1,12 +1,29 @@
 Release notes for RoboSpice
 ===========================
 
+Version 1.1.0 (to be released for DroidCon London, October 24th)
+-------------
+
+* Added Json Serialization support using Gson (Jackson is also supported since V1.0)
+* Added Xml Serialization support using SimpleXMLSerializer
+* Added Orm Serialization support using OrmLite
+* Permission check : applications must declare both INTERNET and NETWORK_STATE permission.
+* Added getFromCache method in ContentManager to query cache content.
+* Added progress monitoring for requests (both status and progress percent).
+* Added common foreground service for all ContentManagers using the same service class.
+   * Requests are now completely decoupled from Activity life cycle.
+   * Service stops when no more requests are active and no CM is bound.
+* Added methods to get data in cache if present
+* Added methods to add listeners to a pending request if present.
+* Added support for creating notifications through a new service.
+* Allow to cancel pending requests from new Activity. 
+
 Version 1.0.0
 -------------
 
 * Name changed from Content Manager to RoboSpice
 * published on Github
-* asked for Sonatype / Maven Central artefact hosting
+* published on Maven Central 
 
 Version 0.0.13
 --------------

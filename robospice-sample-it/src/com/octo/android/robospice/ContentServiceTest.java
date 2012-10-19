@@ -5,29 +5,28 @@ import android.os.IBinder;
 import android.test.ServiceTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.octo.android.robospice.ContentService;
-import com.octo.android.robospice.sample.SampleContentService;
+import com.octo.android.robospice.sample.SampleJsonPersistenceRestContentService;
 
 //Thanks to http://stackoverflow.com/questions/2300029/servicetestcaset-getservice
 @SmallTest
-public class ContentServiceTest extends ServiceTestCase<SampleContentService> {
+public class ContentServiceTest extends ServiceTestCase< SampleJsonPersistenceRestContentService > {
 
-	public ContentServiceTest() {
-		super(SampleContentService.class);
-	}
+    public ContentServiceTest() {
+        super( SampleJsonPersistenceRestContentService.class );
+    }
 
-	public void testServiceNotNull() {
-		Intent startIntent = new Intent();
-		startIntent.setClass(getContext(), ContentService.class);
-		startService(startIntent);
-		assertNotNull(getService());
-	}
+    public void testServiceNotNull() {
+        Intent startIntent = new Intent();
+        startIntent.setClass( getContext(), SampleJsonPersistenceRestContentService.class );
+        startService( startIntent );
+        assertNotNull( getService() );
+    }
 
-	public void testBindable() {
-		Intent startIntent = new Intent();
-		startIntent.setClass(getContext(), ContentService.class);
-		IBinder service = bindService(startIntent);
-		assertNotNull(service);
-	}
+    public void testBindable() {
+        Intent startIntent = new Intent();
+        startIntent.setClass( getContext(), SampleJsonPersistenceRestContentService.class );
+        IBinder service = bindService( startIntent );
+        assertNotNull( service );
+    }
 
 }

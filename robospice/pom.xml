@@ -23,8 +23,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
+			<groupId>com.octo.android.robospice</groupId>
+			<artifactId>robospice-cache</artifactId>
+			<version>${project.version}</version>			
 		</dependency>
 	</dependencies>
 

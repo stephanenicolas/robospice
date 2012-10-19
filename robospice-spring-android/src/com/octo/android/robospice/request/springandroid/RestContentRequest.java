@@ -4,9 +4,9 @@ import org.springframework.web.client.RestTemplate;
 
 import android.util.Log;
 
-import com.octo.android.robospice.request.ContentRequest;
+import com.octo.android.robospice.request.SpiceRequest;
 
-public abstract class RestContentRequest< RESULT > extends ContentRequest< RESULT > {
+public abstract class RestContentRequest< RESULT > extends SpiceRequest< RESULT > {
 
     private RestTemplate restTemplate;
 
@@ -23,14 +23,16 @@ public abstract class RestContentRequest< RESULT > extends ContentRequest< RESUL
     }
 
     @Override
-    @Deprecated
     /**
-     * This method should be invoked directly. It is invoked internally by the framework.
-     * @see ContentManager#cancelAllRequests();
+     * This method doesn't really work within the Spring Android module : once the request is 
+     * loading data from network, there is no way to interrupt it. This is weakness of the spring android framework,
+     * and seems to come from even deeper. The IO operations on which it relies don't support the interrupt flag
+     * properly.
+     * Nevertheless, there are still some opportunities to cancel the request, basically during cache operations.
      */
     public void cancel() {
         super.cancel();
         Log.w( RestContentRequest.class.getName(), "Cancel can't be invoked directly on " + RestContentRequest.class.getName()
-                + " requests. You must call ContentManager.cancelAllRequests()." );
+                + " requests. You must call SpiceManager.cancelAllRequests()." );
     }
 }

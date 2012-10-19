@@ -2,7 +2,7 @@ package com.octo.android.robospice.sample;
 
 import roboguice.activity.RoboActivity;
 
-import com.octo.android.robospice.ContentManager;
+import com.octo.android.robospice.SpiceManager;
 
 /**
  * This class is the base class of all activities of the sample project.
@@ -14,21 +14,28 @@ import com.octo.android.robospice.ContentManager;
  * 
  */
 public class BaseSampleContentActivity extends RoboActivity {
-    private ContentManager contentManager = new ContentManager( SampleContentService.class );
+    private SpiceManager contentManagerJson = new SpiceManager( SampleJsonPersistenceRestContentService.class );
+    private SpiceManager contentManagerOrmlite = new SpiceManager( SampleOrmlitePersistenceRestContentService.class );
 
     @Override
     protected void onStart() {
-        contentManager.start( this );
+        contentManagerJson.start( this );
+        contentManagerOrmlite.start( this );
         super.onStart();
     }
 
     @Override
     protected void onStop() {
-        contentManager.shouldStop();
+        contentManagerJson.shouldStop();
+        contentManagerOrmlite.shouldStop();
         super.onStop();
     }
 
-    public ContentManager getContentManager() {
-        return contentManager;
+    public SpiceManager getJsonContentManager() {
+        return contentManagerJson;
+    }
+
+    public SpiceManager getOrmLiteContentManager() {
+        return contentManagerOrmlite;
     }
 }
