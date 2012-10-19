@@ -6,6 +6,8 @@ Overview
 
 RoboSpice is a modular android library that eases the development of Data-Driven Android applications.
 
+RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice).
+
 Main features of RoboSpice
 --------------------------
 
@@ -100,17 +102,38 @@ And the request listener class are implemented as inner classes of the activity 
     }
 
 ````
+
+
+For more information, browse the source code of the sample project. Also, browse [RoboSpice Javadocs online](http://octo-online.github.com/robospice/apidocs/index.html).
 For developpers
 ===============
 
 IDE & Build Tools configuration to use RoboSpice in your App
 ------------------------------------------------------------
 
-* In Eclipse :: simply add the following jars to your libs folder :
+Depending on the module you use, you need to import their respective jars in your project.
+The following examples, illustrate IDE configurations when using both json and spring-android-modules.
+
+* In Eclipse :: simply add the following jars to your libs folder (availlable on [downloads](https://github.com/octo-online/robospice/downloads)) :
     * robospice-x.x.x.jar
     * robospice-json-x.x.x.jar
     * robospice-spring-android-x.x.x.jar
-* Using Maven Android Plugin :: //TODO (RoboSpice is maven-ready, we need to publish on Maven Central Repo)
+* Using Maven Android Plugin :: Add this dependencies to your pom :
+
+````xml
+<dependency>
+        <groupId>com.octo.android.robospice</groupId>
+        <artifactId>robospice-json</artifactId>
+        <version>${project.version}</version>
+        <type>jar</type>
+</dependency>
+<dependency>
+        <groupId>com.octo.android.robospice</groupId>
+        <artifactId>robospice-spring-android</artifactId>
+        <version>${project.version}</version>
+        <type>jar</type>
+</dependency>
+```
 * In IntelliJ :: //TODO
 
 Project Configuration to use RoboSpice

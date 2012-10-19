@@ -156,6 +156,9 @@
 			        <description>${project.version} release of ${project.name}</description>
 			        <override>true</override>
 			        <includeAttached>true</includeAttached>
+			        <includes>
+			        	<include>${project.artifactId}-${project.version}.jar</include>
+			        </includes>
 			      </configuration>
 			      <executions>
 				 	 <execution>
@@ -208,8 +211,8 @@
 					</configuration>
 				</plugin>
 				<plugin>
-				        <groupId>org.apache.maven.plugins</groupId>
-				        <artifactId>maven-gpg-plugin</artifactId>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-gpg-plugin</artifactId>
 					<version>1.1</version>
 				        <executions>
 				          <execution>
