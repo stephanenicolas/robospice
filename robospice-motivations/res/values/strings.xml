@@ -35,7 +35,7 @@
     <string name="text_spice_rest_name">RoboSpice REST json request</string>
 
     <!-- a robospice rest xml request -->
-    <string name="text_spice_rest_xml_name">RoboSpice REST xml request</string>
+    <string name="text_spice_rest_xml_name">RoboSpice REST xml + orm lite request</string>
     
     <!-- a robospice image request -->
     <string name="text_spice_image_name">RoboSpice binary request</string>
