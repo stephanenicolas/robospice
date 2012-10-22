@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
-import roboguice.util.Ln;
+import roboguice.util.temp.Ln;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;

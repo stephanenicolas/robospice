@@ -71,10 +71,20 @@
     	<module>robospice-sample</module>
     	<!-- tests -->
         <module>robospice-sample-it</module>
+    	<!-- motivations -->
+        <module>robospice-motivations</module>
     </modules>
   
     <properties>
-        <platform.version>2.1.2</platform.version>
+        <android.version>4.0.1.2</android.version>
+        <android-platform.version>14</android-platform.version>
+        <android-annotations.version>4.1.1.4</android-annotations.version>
+        <android-support.version>r7</android-support.version>
+        <guava.version>13.0-rc1</guava.version>
+        <notificationcompat2.version>1.1.2</notificationcompat2.version>
+        <actionbarsherlock.version>4.2.0</actionbarsherlock.version>
+        <roboguice.version>2.0</roboguice.version>
+        <robosherlock.version>1.4</robosherlock.version>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     	<github.global.server>github</github.global.server>
@@ -85,25 +95,25 @@
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>annotations</artifactId>
-                <version>4.1.1.4</version>
+                <version>${android-annotations.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android</artifactId>
-                <version>${platform.version}</version>
+                <version>${android.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android-test</artifactId>
-                <version>${platform.version}</version>
+                <version>${android.version}</version>
                 <scope>provided</scope>
             </dependency>
 			<dependency>
 			  <groupId>com.google.android</groupId>
 			  <artifactId>support-v4</artifactId>
-			  <version>r7</version>
+                <version>${android-support.version}</version>
 			</dependency>
             <!-- Androlog is a logging and reporting library for Android -->
             <dependency>
@@ -112,11 +122,32 @@
                 <version>4.10</version>
                 <scope>provided</scope>
             </dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>13.0-rc1</version>
-		</dependency>            
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+	                <version>${guava.version}</version>
+			</dependency>   
+			<dependency>
+				<groupId>com.actionbarsherlock</groupId>
+				<artifactId>actionbarsherlock</artifactId>
+				<version>${actionbarsherlock.version}</version>
+				<type>apklib</type>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rtyley</groupId>
+				<artifactId>roboguice-sherlock</artifactId>
+				<version>${robosherlock.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.roboguice</groupId>
+				<artifactId>roboguice</artifactId>
+				<version>${roboguice.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jakewharton</groupId>
+				<artifactId>notificationcompat2</artifactId>
+				<version>${notificationcompat2.version}</version>
+			</dependency>		         
         </dependencies>
     </dependencyManagement>
 
