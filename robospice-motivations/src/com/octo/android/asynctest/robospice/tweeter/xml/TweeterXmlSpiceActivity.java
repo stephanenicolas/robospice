@@ -35,6 +35,7 @@ import com.octo.android.robospice.request.listener.RequestProgressListener;
 @ContentView(R.layout.activity_tweet_demo)
 public class TweeterXmlSpiceActivity extends BaseActivity {
 
+    private static final String XML_CACHE_KEY = "tweets_xml";
     private static final int REQUEST_DELAY = 10 * 1000;
     private static final int SIZE_OF_BUFFER_SO_SIMULATE_OUT_OF_MEMORY = 1000000;
     private byte[] bufferToFillMemoryFaster = new byte[ SIZE_OF_BUFFER_SO_SIMULATE_OUT_OF_MEMORY ];
@@ -85,8 +86,8 @@ public class TweeterXmlSpiceActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         spiceManager.start( this );
-        spiceManager.addListenerIfPending( Feed.class, "tweets", DurationInMillis.ALWAYS, new TweetRequestListener() );
-        spiceManager.getFromCache( Feed.class, "tweets", DurationInMillis.ALWAYS, new TweetRequestListener() );
+        spiceManager.addListenerIfPending( Feed.class, XML_CACHE_KEY, DurationInMillis.ALWAYS, new TweetRequestListener() );
+        spiceManager.getFromCache( Feed.class, XML_CACHE_KEY, DurationInMillis.ALWAYS, new TweetRequestListener() );
     }
 
     @Override
@@ -99,7 +100,7 @@ public class TweeterXmlSpiceActivity extends BaseActivity {
     public void startDemo() {
         long delay = checkBoxDelay.isChecked() ? REQUEST_DELAY : 0;
         tweetXmlRequest = new TweetXmlRequest( delay );
-        spiceManager.execute( tweetXmlRequest, "tweets", DurationInMillis.NEVER, new TweetRequestListener() );
+        spiceManager.execute( tweetXmlRequest, XML_CACHE_KEY, DurationInMillis.NEVER, new TweetRequestListener() );
     }
 
     @Override

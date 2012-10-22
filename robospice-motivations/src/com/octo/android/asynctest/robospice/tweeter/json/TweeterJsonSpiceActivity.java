@@ -35,6 +35,7 @@ import com.octo.android.robospice.request.listener.RequestProgressListener;
 @ContentView(R.layout.activity_tweet_demo)
 public class TweeterJsonSpiceActivity extends BaseActivity {
 
+    private static final String JSON_CACHE_KEY = "tweets_json";
     private static final int REQUEST_DELAY = 10 * 1000;
     private static final int SIZE_OF_BUFFER_SO_SIMULATE_OUT_OF_MEMORY = 1000000;
     private byte[] bufferToFillMemoryFaster = new byte[ SIZE_OF_BUFFER_SO_SIMULATE_OUT_OF_MEMORY ];
@@ -85,8 +86,8 @@ public class TweeterJsonSpiceActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         spiceManager.start( this );
-        spiceManager.addListenerIfPending( ListTweets.class, "tweets", DurationInMillis.ALWAYS, new TweetRequestListener() );
-        spiceManager.getFromCache( ListTweets.class, "tweets", DurationInMillis.ALWAYS, new TweetRequestListener() );
+        spiceManager.addListenerIfPending( ListTweets.class, JSON_CACHE_KEY, DurationInMillis.ALWAYS, new TweetRequestListener() );
+        spiceManager.getFromCache( ListTweets.class, JSON_CACHE_KEY, DurationInMillis.ALWAYS, new TweetRequestListener() );
     }
 
     @Override
@@ -99,7 +100,7 @@ public class TweeterJsonSpiceActivity extends BaseActivity {
     public void startDemo() {
         long delay = checkBoxDelay.isChecked() ? REQUEST_DELAY : 0;
         tweetJsonRequest = new TweetJsonRequest( delay );
-        spiceManager.execute( tweetJsonRequest, "tweets", DurationInMillis.NEVER, new TweetRequestListener() );
+        spiceManager.execute( tweetJsonRequest, JSON_CACHE_KEY, DurationInMillis.NEVER, new TweetRequestListener() );
     }
 
     @Override
