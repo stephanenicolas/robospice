@@ -23,7 +23,8 @@ import com.octo.android.asynctest.loader.LoaderWithProgressDemoActivity;
 import com.octo.android.asynctest.loader.TwitterLoaderActivity;
 import com.octo.android.asynctest.roboguice.RoboAsyncTaskDemoActivity;
 import com.octo.android.asynctest.robospice.image.ImageSpiceActivity;
-import com.octo.android.asynctest.robospice.tweeter.TweeterSpiceActivity;
+import com.octo.android.asynctest.robospice.tweeter.json.TweeterJsonSpiceActivity;
+import com.octo.android.asynctest.robospice.tweeter.xml.TweeterXmlSpiceActivity;
 
 /**
  * Main menu. Presents all tested ways to execute an asynchronous job.
@@ -68,6 +69,7 @@ public class MainActivity extends RoboSherlockActivity {
         sectionAdapter.addItem( getString( R.string.text_loader_rest_name ) );
         sectionAdapter.addSection( "RoboSpice examples" );
         sectionAdapter.addItem( getString( R.string.text_spice_rest_name ) );
+        sectionAdapter.addItem( getString( R.string.text_spice_rest_xml_name ) );
         sectionAdapter.addItem( getString( R.string.text_spice_image_name ) );
 
         listViewMain.setAdapter( sectionAdapter );
@@ -118,9 +120,12 @@ public class MainActivity extends RoboSherlockActivity {
                 activityClass = TwitterLoaderActivity.class;
                 break;
             case 10:
-                activityClass = TweeterSpiceActivity.class;
+                activityClass = TweeterJsonSpiceActivity.class;
                 break;
             case 11:
+                activityClass = TweeterXmlSpiceActivity.class;
+                break;
+            case 12:
                 activityClass = ImageSpiceActivity.class;
                 break;
 

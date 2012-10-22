@@ -27,7 +27,25 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.7</version>
-		</dependency>		
+		</dependency>	
+			<dependency>
+			<groupId>org.simpleframework</groupId>
+			<artifactId>simple-xml</artifactId>
+			<version>2.6.6</version>
+			<!-- Exclusion is useless here.
+			 It has to included in pom of project using xml parser dependency.
+			 It is given as a hint for developpers. -->
+			<exclusions>
+		    	<exclusion>
+		      		<groupId>xpp3</groupId>
+		      		<artifactId>xpp3</artifactId>
+	    		</exclusion>
+		    	<exclusion>
+		      		<groupId>stax</groupId>
+		      		<artifactId>stax-api</artifactId>
+	    		</exclusion>
+  			</exclusions>			
+		</dependency>	
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice-spring-android</artifactId>

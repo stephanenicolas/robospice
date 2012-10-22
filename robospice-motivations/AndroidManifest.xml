@@ -39,7 +39,10 @@
             android:name=".loader.TwitterLoaderActivity"
             android:theme="@style/Theme.Sherlock" />
         <activity
-            android:name=".robospice.tweeter.TweeterSpiceActivity"
+            android:name=".robospice.tweeter.json.TweeterJsonSpiceActivity"
+            android:theme="@style/Theme.Sherlock" />
+        <activity
+            android:name=".robospice.tweeter.xml.TweeterXmlSpiceActivity"
             android:theme="@style/Theme.Sherlock" />
         <activity
             android:name=".robospice.image.ImageSpiceActivity"
@@ -57,7 +60,10 @@
         </activity>
 
         <service
-            android:name=".robospice.tweeter.TweeterSpiceService"
+            android:name=".robospice.tweeter.json.TweeterJsonSpiceService"
+            android:exported="false" />
+        <service
+            android:name=".robospice.tweeter.xml.TweeterXmlSpiceService"
             android:exported="false" />
         <service
             android:name=".robospice.image.ImageSpiceNotificationService"

@@ -24,7 +24,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.octo.android.asynctest.R;
 import com.octo.android.asynctest.common.BaseActivity;
 import com.octo.android.asynctest.common.InfoActivity;
-import com.octo.android.asynctest.robospice.tweeter.TweeterSpiceService;
+import com.octo.android.asynctest.robospice.tweeter.json.TweeterJsonSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.notification.SpiceNotificationService;
@@ -62,7 +62,7 @@ public class ImageSpiceActivity extends BaseActivity {
     @InjectView(R.id.textView_memory)
     protected TextView textViewMemory;
 
-    private SpiceManager spiceManager = new SpiceManager( TweeterSpiceService.class );
+    private SpiceManager spiceManager = new SpiceManager( TweeterJsonSpiceService.class );
     private BigBinaryRequest imageRequest;
 
     protected long delay = 0;
@@ -119,7 +119,7 @@ public class ImageSpiceActivity extends BaseActivity {
         File cacheFile = new File( getCacheDir(), "earth.jpg" );
         imageRequest = new BigBinaryRequest( "http://earthobservatory.nasa.gov/blogs/elegantfigures/files/2011/10/globe_west_2048.jpg", cacheFile );
         spiceManager.execute( imageRequest, EARTH_IMAGE_CACHE_KEY, DurationInMillis.NEVER, new ImageRequestListener() );
-        Intent intent = SpiceNotificationService.createIntent( this, ImageSpiceNotificationService.class, TweeterSpiceService.class, 70, InputStream.class,
+        Intent intent = SpiceNotificationService.createIntent( this, ImageSpiceNotificationService.class, TweeterJsonSpiceService.class, 70, InputStream.class,
                 EARTH_IMAGE_CACHE_KEY, false );
         startService( intent );
     }
