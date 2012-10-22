@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
+import roboguice.util.temp.Ln;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
@@ -36,8 +37,8 @@ import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
 /**
- * Delegate class of the {@link SpiceService}, easier to test than an Android {@link Service}. TODO make it possible
- * to set the number of threads in the {@link ExecutorService}
+ * Delegate class of the {@link SpiceService}, easier to test than an Android {@link Service}. TODO make it possible to
+ * set the number of threads in the {@link ExecutorService}
  * 
  * @author jva
  * 
@@ -239,7 +240,7 @@ public class RequestProcessor {
             if ( result != null && request.getRequestCacheKey() != null ) {
                 // request worked and result is not null, save it to cache
                 try {
-                    Log.d( LOG_CAT, "Start caching content..." );
+                    Ln.d( "Start caching content..." );
                     request.setStatus( RequestStatus.WRITING_TO_CACHE );
                     result = saveDataToCacheAndReturnData( result, request.getRequestCacheKey() );
                     notifyListenersOfRequestSuccess( request, result, requestListeners );
@@ -286,8 +287,7 @@ public class RequestProcessor {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private < T > void notifyListenersOfRequestFailure( CachedSpiceRequest< T > request, final Set< RequestListener< ? >> requestListeners,
-            SpiceException e ) {
+    private < T > void notifyListenersOfRequestFailure( CachedSpiceRequest< T > request, final Set< RequestListener< ? >> requestListeners, SpiceException e ) {
         notifyOfRequestProcessed( request );
         handlerResponse.post( new ResultRunnable( requestListeners, e ) );
         notifyListenersOfRequestProgress( requestListeners, RequestStatus.COMPLETE );

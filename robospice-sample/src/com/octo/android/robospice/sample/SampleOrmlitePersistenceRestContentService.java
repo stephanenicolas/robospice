@@ -42,14 +42,10 @@ public class SampleOrmlitePersistenceRestContentService extends SpringAndroidCon
         classCollection.add( Forecast.class );
         classCollection.add( Night.class );
         classCollection.add( Wind.class );
-        /*
-         * classCollection.add( Curren_weather.class ); classCollection.add( Day.class ); classCollection.add(
-         * Forecast.class ); classCollection.add( WeatherResult.class ); classCollection.add( Wind.class );
-         */
 
         // init
         RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper( application, "sample_database.db", 1, classCollection );
-        InDatabaseObjectPersisterFactory inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory( application, databaseHelper );
+        InDatabaseObjectPersisterFactory<Integer> inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory<Integer>( application, databaseHelper , Integer.class);
         cacheManager.addPersister( inDatabaseObjectPersisterFactory );
         return cacheManager;
     }

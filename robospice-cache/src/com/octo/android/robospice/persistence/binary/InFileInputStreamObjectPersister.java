@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
-import android.util.Log;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
@@ -36,12 +36,12 @@ public class InFileInputStreamObjectPersister extends InFileObjectPersister< Inp
                 } catch ( FileNotFoundException e ) {
                     // Should not occur (we test before if file exists)
                     // Do not throw, file is not cached
-                    Log.w( LOG_CAT, "file " + file.getAbsolutePath() + " does not exists", e );
+                    Ln.w( "file " + file.getAbsolutePath() + " does not exists", e );
                     return null;
                 }
             }
         }
-        Log.v( LOG_CAT, "file " + file.getAbsolutePath() + " does not exists" );
+        Ln.v( "file " + file.getAbsolutePath() + " does not exists" );
         return null;
     }
 
@@ -63,7 +63,7 @@ public class InFileInputStreamObjectPersister extends InFileObjectPersister< Inp
                         try {
                             ByteStreams.write( byteArray, Files.newOutputStreamSupplier( getCacheFile( cacheKey ) ) );
                         } catch ( IOException e ) {
-                            Log.e( LOG_CAT, "An error occured on saving request " + cacheKey + " data asynchronously", e );
+                            Ln.e( e, "An error occured on saving request " + cacheKey + " data asynchronously" );
                         } finally {
                             // notify that saving is finished for test purpose
                             lock.lock();

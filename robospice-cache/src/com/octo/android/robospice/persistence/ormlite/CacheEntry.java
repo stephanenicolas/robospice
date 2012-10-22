@@ -5,34 +5,91 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class CacheEntry {
-	
-	@DatabaseField(id=true)
-	private String cacheKey;
-	@DatabaseField
-	private long timestamp;
-	
-	public CacheEntry() {
 
-	}
-	
-	public CacheEntry(String cacheKey, long timestamp) {
-		this.cacheKey = cacheKey;
-		this.timestamp = timestamp;
-	}
+    @DatabaseField(id = true)
+    private String cacheKey;
+    @DatabaseField
+    private long timestamp;
 
-	public String getCacheKey() {
-		return cacheKey;
-	}
-	
-	public void setCacheKey(String cacheKey) {
-		this.cacheKey = cacheKey;
-	}
-	
-	public long getTimestamp() {
-		return timestamp;
-	}
-	
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
-	}
+    @DatabaseField
+    private String resultIdString;
+    @DatabaseField
+    private Character resultIdChar;
+    @DatabaseField
+    private Byte resultIdByte;
+    @DatabaseField
+    private Short resultIdShort;
+    @DatabaseField
+    private Integer resultIdInteger;
+    @DatabaseField
+    private Float resultIdFloat;
+    @DatabaseField
+    private Double resultIdDouble;
+
+    public CacheEntry() {
+
+    }
+
+    public CacheEntry( String cacheKey, long timestamp, Object resultId ) {
+        this.cacheKey = cacheKey;
+        this.timestamp = timestamp;
+        fillResultId( resultId );
+    }
+
+    private void fillResultId( Object id ) {
+
+        if ( id instanceof String ) {
+            resultIdString = (String) id;
+        } else if ( id instanceof Character ) {
+            resultIdChar = (Character) id;
+        } else if ( id instanceof Byte ) {
+            resultIdByte = (Byte) id;
+        } else if ( id instanceof Short ) {
+            resultIdShort = (Short) id;
+        } else if ( id instanceof Integer ) {
+            resultIdInteger = (Integer) id;
+        } else if ( id instanceof Float ) {
+            resultIdFloat = (Float) id;
+        } else if ( id instanceof Double ) {
+            resultIdDouble = (Double) id;
+        }
+    }
+
+    public String getCacheKey() {
+        return cacheKey;
+    }
+
+    public void setCacheKey( String cacheKey ) {
+        this.cacheKey = cacheKey;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp( long timestamp ) {
+        this.timestamp = timestamp;
+    }
+
+    public Object getResultId() {
+
+        if ( resultIdByte != null ) {
+            return resultIdByte;
+        } else if ( resultIdChar != null ) {
+            return resultIdChar;
+        } else if ( resultIdDouble != null ) {
+            return resultIdChar;
+        } else if ( resultIdFloat != null ) {
+            return resultIdFloat;
+        } else if ( resultIdInteger != null ) {
+            return resultIdInteger;
+        } else if ( resultIdShort != null ) {
+            return resultIdShort;
+        } else if ( resultIdString != null ) {
+            return resultIdString;
+        }
+
+        throw new RuntimeException( "Cache entry has no result id." );
+
+    }
 }

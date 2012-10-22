@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
-import android.util.Log;
 
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
@@ -71,7 +71,7 @@ public final class GsonObjectPersister< T > extends InFileObjectPersister< T > {
                 } catch ( FileNotFoundException e ) {
                     // Should not occur (we test before if file exists)
                     // Do not throw, file is not cached
-                    Log.w( LOG_CAT, "file " + file.getAbsolutePath() + " does not exists", e );
+                    Ln.w( "file " + file.getAbsolutePath() + " does not exists", e );
                     return null;
                 } catch ( CacheLoadingException e ) {
                     throw e;
@@ -79,10 +79,10 @@ public final class GsonObjectPersister< T > extends InFileObjectPersister< T > {
                     throw new CacheLoadingException( e );
                 }
             }
-            Log.v( LOG_CAT, "Cache content is expired since " + ( maxTimeInCacheBeforeExpiry - timeInCache ) );
+            Ln.v( "Cache content is expired since " + ( maxTimeInCacheBeforeExpiry - timeInCache ) );
             return null;
         }
-        Log.v( LOG_CAT, "file " + file.getAbsolutePath() + " does not exists" );
+        Ln.v( "file " + file.getAbsolutePath() + " does not exists" );
         return null;
     }
 
@@ -97,9 +97,9 @@ public final class GsonObjectPersister< T > extends InFileObjectPersister< T > {
                         try {
                             saveData( data, cacheKey );
                         } catch ( IOException e ) {
-                            Log.e( LOG_CAT, "An error occured on saving request " + cacheKey + " data asynchronously", e );
+                            Ln.e( e, "An error occured on saving request " + cacheKey + " data asynchronously" );
                         } catch ( CacheSavingException e ) {
-                            Log.e( LOG_CAT, "An error occured on saving request " + cacheKey + " data asynchronously", e );
+                            Ln.e( e, "An error occured on saving request " + cacheKey + " data asynchronously" );
                         } finally {
                             // notify that saving is finished for test purpose
                             lock.lock();

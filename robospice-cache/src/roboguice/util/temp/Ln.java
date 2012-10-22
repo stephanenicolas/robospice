@@ -207,9 +207,7 @@ public class Ln {
                 final int flags = context.getPackageManager().getApplicationInfo( packageName, 0 ).flags;
                 minimumLogLevel = ( flags & ApplicationInfo.FLAG_DEBUGGABLE ) != 0 ? Log.VERBOSE : Log.INFO;
                 scope = packageName.toUpperCase();
-
                 Ln.d( "Configuring Logging, minimum log level is %s", logLevelToString( minimumLogLevel ) );
-
             } catch ( Exception e ) {
                 Log.e( packageName, "Error configuring logger", e );
             }

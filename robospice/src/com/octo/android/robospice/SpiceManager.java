@@ -16,14 +16,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+import roboguice.util.temp.Ln;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.util.Log;
-import android.webkit.CacheManager;
 
 import com.octo.android.robospice.SpiceService.ContentServiceBinder;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -54,8 +53,6 @@ import com.octo.android.robospice.request.listener.RequestListener;
  * service binding in android.
  */
 public class SpiceManager implements Runnable {
-
-    private static final String LOG_TAG = SpiceManager.class.getSimpleName();
 
     /** The class of the {@link SpiceService} to bind to. */
     private Class< ? extends SpiceService > contentServiceClass;
@@ -150,7 +147,7 @@ public class SpiceManager implements Runnable {
             isStopped = false;
             runner.start();
 
-            Log.d( LOG_TAG, "Content manager started." );
+            Ln.d( "Content manager started." );
         }
     }
 
@@ -177,7 +174,7 @@ public class SpiceManager implements Runnable {
                         Set< RequestListener< ? >> listRequestListener = mapRequestToLaunchToRequestListener.get( restRequest );
                         mapRequestToLaunchToRequestListener.remove( restRequest );
                         mapPendingRequestToRequestListener.put( restRequest, listRequestListener );
-                        Log.d( LOG_TAG, "Sending request to service : " + restRequest.getClass().getSimpleName() );
+                        Ln.d( "Sending request to service : " + restRequest.getClass().getSimpleName() );
                         spiceService.addRequest( restRequest, listRequestListener );
                     }
                 } finally {
@@ -185,7 +182,7 @@ public class SpiceManager implements Runnable {
                 }
             }
         } catch ( InterruptedException e ) {
-            Log.e( LOG_TAG, "Interrupted while waiting for acquiring service." );
+            Ln.e( e, "Interrupted while waiting for acquiring service." );
         } finally {
             unbindFromService( context.get() );
         }
@@ -193,8 +190,8 @@ public class SpiceManager implements Runnable {
 
     /**
      * Stops the {@link SpiceManager}. It will unbind from {@link SpiceService}. All request listeners that had been
-     * registered to listen to {@link SpiceRequest}s sent from this {@link SpiceManager} will be unregistered. None
-     * of them will be notified with the results of their {@link SpiceRequest}s.
+     * registered to listen to {@link SpiceRequest}s sent from this {@link SpiceManager} will be unregistered. None of
+     * them will be notified with the results of their {@link SpiceRequest}s.
      * 
      * Unbinding will occur asynchronously.
      */
@@ -202,7 +199,7 @@ public class SpiceManager implements Runnable {
         if ( this.runner == null ) {
             throw new IllegalStateException( "Not started yet" );
         }
-        Log.d( LOG_TAG, "Content manager stopping." );
+        Ln.d( "Content manager stopping." );
         dontNotifyAnyRequestListenersInternal();
         isUnbinding = false;
         unbindFromService( context.get() );
@@ -210,15 +207,15 @@ public class SpiceManager implements Runnable {
         this.isStopped = true;
         this.runner = null;
         this.context.clear();
-        Log.d( LOG_TAG, "Content manager stopped." );
+        Ln.d( "Content manager stopped." );
     }
 
     /**
      * This is mostly a testing method.
      * 
      * Stops the {@link SpiceManager}. It will unbind from {@link SpiceService}. All request listeners that had been
-     * registered to listen to {@link SpiceRequest}s sent from this {@link SpiceManager} will be unregistered. None
-     * of them will be notified with the results of their {@link SpiceRequest}s.
+     * registered to listen to {@link SpiceRequest}s sent from this {@link SpiceManager} will be unregistered. None of
+     * them will be notified with the results of their {@link SpiceRequest}s.
      * 
      * Unbinding will occur syncrhonously : the method returns when all events have been unregistered and when main
      * processing thread stops.
@@ -229,7 +226,7 @@ public class SpiceManager implements Runnable {
             throw new IllegalStateException( "Not started yet" );
         }
 
-        Log.d( LOG_TAG, "Content manager stopping. Joining" );
+        Ln.d( "Content manager stopping. Joining" );
         dontNotifyAnyRequestListenersInternal();
         unbindFromService( context.get() );
         this.isStopped = true;
@@ -237,7 +234,7 @@ public class SpiceManager implements Runnable {
         this.runner.join( timeOut );
         this.runner = null;
         this.context.clear();
-        Log.d( LOG_TAG, "Content manager stopped." );
+        Ln.d( "Content manager stopped." );
     }
 
     // ============================================================================================
@@ -247,8 +244,8 @@ public class SpiceManager implements Runnable {
     /**
      * Get some data previously saved in cache with key <i>requestCacheKey</i> with maximum time in cache :
      * <i>cacheDuration</i> millisecond and register listeners to notify when request is finished. This method executes
-     * a SpiceRequest with no network processing. It just checks whatever is in the cache and return it, including
-     * null if there is no such data found in cache.
+     * a SpiceRequest with no network processing. It just checks whatever is in the cache and return it, including null
+     * if there is no such data found in cache.
      * 
      * @param clazz
      *            the class of the result to retrieve from cache.
@@ -347,8 +344,8 @@ public class SpiceManager implements Runnable {
      * Execute a request, put the result in cache and register listeners to notify when request is finished.
      * 
      * @param request
-     *            the request to execute. {@link CachedSpiceRequest} is a wrapper of {@link SpiceRequest} that
-     *            contains cache key and cache duration
+     *            the request to execute. {@link CachedSpiceRequest} is a wrapper of {@link SpiceRequest} that contains
+     *            cache key and cache duration
      * @param requestListener
      *            the listener to notify when the request will finish
      */
@@ -416,9 +413,9 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Internal method to remove requests. If request has not been passed to the {@link SpiceService} yet, all
-     * listeners are unregistered locally before beeing passed to the service. Otherwise, it will asynchronously ask to
-     * the {@link SpiceService} to remove the listeners of the request beeing processed.
+     * Internal method to remove requests. If request has not been passed to the {@link SpiceService} yet, all listeners
+     * are unregistered locally before beeing passed to the service. Otherwise, it will asynchronously ask to the
+     * {@link SpiceService} to remove the listeners of the request beeing processed.
      * 
      * @param request
      *            Request for which listeners are to unregistered.
@@ -428,13 +425,13 @@ public class SpiceManager implements Runnable {
             lockSendRequestsToService.lock();
 
             boolean requestNotPassedToServiceYet = removeListenersOfCachedRequestToLaunch( request );
-            Log.v( LOG_TAG, "Removed from requests to launch list : " + requestNotPassedToServiceYet );
+            Ln.v( "Removed from requests to launch list : " + requestNotPassedToServiceYet );
 
             // if the request was already passed to service, bind to service and
             // unregister listeners.
             if ( !requestNotPassedToServiceYet ) {
                 removeListenersOfPendingCachedRequest( request );
-                Log.v( LOG_TAG, "Removed from pending requests list" );
+                Ln.v( "Removed from pending requests list" );
             }
 
         } catch ( InterruptedException e ) {
@@ -510,7 +507,7 @@ public class SpiceManager implements Runnable {
             lockSendRequestsToService.lock();
 
             mapRequestToLaunchToRequestListener.clear();
-            Log.v( LOG_TAG, "Cleared listeners of all requests to launch" );
+            Ln.v( "Cleared listeners of all requests to launch" );
 
             removeListenersOfAllPendingCachedRequests();
         } catch ( InterruptedException e ) {
@@ -536,7 +533,7 @@ public class SpiceManager implements Runnable {
                 spiceService.dontNotifyRequestListenersForRequest( cachedContentRequest, setRequestListeners );
             }
             mapPendingRequestToRequestListener.clear();
-            Log.v( LOG_TAG, "Cleared listeners of all pending requests" );
+            Ln.v( "Cleared listeners of all pending requests" );
         }
     }
 
@@ -616,7 +613,7 @@ public class SpiceManager implements Runnable {
                     waitForServiceToBeBound();
                     spiceService.removeDataFromCache( clazz, cacheKey );
                 } catch ( InterruptedException e ) {
-                    Log.e( LOG_TAG, "Interrupted while waiting for acquiring service." );
+                    Ln.e( e, "Interrupted while waiting for acquiring service." );
                 }
             }
         } );
@@ -664,7 +661,7 @@ public class SpiceManager implements Runnable {
                     waitForServiceToBeBound();
                     spiceService.removeAllDataFromCache();
                 } catch ( InterruptedException e ) {
-                    Log.e( LOG_TAG, "Interrupted while waiting for acquiring service." );
+                    Ln.e( e, "Interrupted while waiting for acquiring service." );
                 }
             }
         } );
@@ -685,7 +682,7 @@ public class SpiceManager implements Runnable {
                     waitForServiceToBeBound();
                     spiceService.setFailOnCacheError( failOnCacheError );
                 } catch ( InterruptedException e ) {
-                    Log.e( LOG_TAG, "Interrupted while waiting for acquiring service." );
+                    Ln.e( e, "Interrupted while waiting for acquiring service." );
                 }
             }
         } );
@@ -730,7 +727,7 @@ public class SpiceManager implements Runnable {
                     waitForServiceToBeBound();
                     spiceService.dumpState();
                 } catch ( InterruptedException e ) {
-                    Log.e( LOG_TAG, "Interrupted while waiting for acquiring service." );
+                    Ln.e( e, "Interrupted while waiting for acquiring service." );
                 } finally {
                     lockSendRequestsToService.unlock();
                 }
@@ -751,7 +748,7 @@ public class SpiceManager implements Runnable {
 
                 spiceService = ( (ContentServiceBinder) service ).getContentService();
                 spiceService.addContentServiceListener( new RequestRemoverContentServiceListener() );
-                Log.d( LOG_TAG, "Bound to service : " + spiceService.getClass().getSimpleName() );
+                Ln.d( "Bound to service : " + spiceService.getClass().getSimpleName() );
                 conditionServiceBound.signalAll();
             } finally {
                 lockAcquireService.unlock();
@@ -761,9 +758,9 @@ public class SpiceManager implements Runnable {
         /** Called only for unexpected unbinding. */
         public void onServiceDisconnected( ComponentName name ) {
             try {
-                Log.d( LOG_TAG, "Unbound from service start" );
+                Ln.d( "Unbound from service start" );
                 lockAcquireService.lock();
-                Log.d( LOG_TAG, "Unbound from service : " + spiceService.getClass().getSimpleName() );
+                Ln.d( "Unbound from service : " + spiceService.getClass().getSimpleName() );
                 spiceService = null;
                 isUnbinding = false;
                 conditionServiceUnbound.signalAll();
@@ -798,7 +795,7 @@ public class SpiceManager implements Runnable {
 
             if ( spiceService == null ) {
                 Intent intentService = new Intent( context, contentServiceClass );
-                Log.v( LOG_TAG, "Binding to service." );
+                Ln.v( "Binding to service." );
                 contentServiceConnection = new ContentServiceConnection();
                 context.getApplicationContext().bindService( intentService, contentServiceConnection, Context.BIND_AUTO_CREATE );
             }
@@ -813,19 +810,19 @@ public class SpiceManager implements Runnable {
         }
 
         try {
-            Log.v( LOG_TAG, "Unbinding from service start." );
+            Ln.v( "Unbinding from service start." );
             lockAcquireService.lock();
             if ( spiceService != null && !isUnbinding ) {
                 isUnbinding = true;
                 spiceService.removeContentServiceListener( removerContentServiceListener );
-                Log.v( LOG_TAG, "Unbinding from service." );
+                Ln.v( "Unbinding from service." );
                 context.getApplicationContext().unbindService( this.contentServiceConnection );
-                Log.d( LOG_TAG, "Unbound from service : " + spiceService.getClass().getSimpleName() );
+                Ln.d( "Unbound from service : " + spiceService.getClass().getSimpleName() );
                 spiceService = null;
                 isUnbinding = false;
             }
         } catch ( Exception e ) {
-            Log.e( LOG_TAG, "Could not unbind from service.", e );
+            Ln.e( e, "Could not unbind from service." );
         } finally {
             lockAcquireService.unlock();
         }
@@ -838,7 +835,7 @@ public class SpiceManager implements Runnable {
      *             in case the binding is interrupted.
      */
     protected void waitForServiceToBeBound() throws InterruptedException {
-        Log.d( LOG_TAG, "Waiting for service to be bound." );
+        Ln.d( "Waiting for service to be bound." );
 
         lockAcquireService.lock();
         try {
@@ -857,7 +854,7 @@ public class SpiceManager implements Runnable {
      *             in case the binding is interrupted.
      */
     protected void waitForServiceToBeUnbound() throws InterruptedException {
-        Log.d( LOG_TAG, "Waiting for service to be unbound." );
+        Ln.d( "Waiting for service to be unbound." );
 
         lockAcquireService.lock();
         try {

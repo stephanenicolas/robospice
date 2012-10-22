@@ -1,6 +1,9 @@
 package com.octo.android.robospice.persistence.ormlite;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,30 +15,34 @@ import java.util.concurrent.Callable;
 import android.app.Application;
 import android.util.Log;
 
-import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.dao.LazyForeignCollection;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.field.DatabaseFieldConfig;
+import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.TableUtils;
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
-public class InDatabaseObjectPersister< T > extends ObjectPersister< T > {
+public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
 
     public static final String TAG = "robospice-ormlite";
 
     private RoboSpiceDatabaseHelper databaseHelper;
-    @SuppressWarnings("rawtypes")
-    private RuntimeExceptionDao dao;
+    private Class< ID > idType;
+    private RuntimeExceptionDao< T, ID > dao;
 
     /**
      * @param application
      *            the android context needed to access android file system or databases to store.
      */
-    @SuppressWarnings("unchecked")
-    public InDatabaseObjectPersister( Application application, RoboSpiceDatabaseHelper databaseHelper, Class< T > modelObjectType ) {
+    public InDatabaseObjectPersister( Application application, RoboSpiceDatabaseHelper databaseHelper, Class< T > modelObjectType, Class< ID > idType ) {
         super( application, modelObjectType );
         this.databaseHelper = databaseHelper;
+        this.idType = idType;
         try {
             TableUtils.createTableIfNotExists( databaseHelper.getConnectionSource(), modelObjectType );
         } catch ( SQLException e1 ) {
@@ -61,9 +68,10 @@ public class InDatabaseObjectPersister< T > extends ObjectPersister< T > {
             if ( cacheEntry == null ) {
                 return null;
             }
+            Object id = cacheEntry.getResultId();
             long timeInCache = System.currentTimeMillis() - cacheEntry.getTimestamp();
             if ( maxTimeInCache == 0 || timeInCache <= maxTimeInCache ) {
-                result = databaseHelper.queryForIdFromDatabase( RoboSpiceDatabaseHelper.getIdForCacheKey( (String) cacheKey ), getHandledClass() );
+                result = databaseHelper.queryForIdFromDatabase( id, getHandledClass() );
             }
         } catch ( SQLException e ) {
             Log.e( TAG, "SQL error", e );
@@ -73,56 +81,124 @@ public class InDatabaseObjectPersister< T > extends ObjectPersister< T > {
 
     @Override
     public T saveDataToCacheAndReturnData( final T data, final Object cacheKey ) throws CacheSavingException {
-        if ( !( cacheKey instanceof String ) ) {
-            throw new IllegalArgumentException( "cacheKey must be a String" );
+        if ( !this.idType.equals( cacheKey.getClass() ) ) {
+            throw new IllegalArgumentException( "cacheKey must be a " + idType.getSimpleName() );
         }
         try {
             dao.callBatchTasks( new Callable< Void >() {
                 @Override
                 public Void call() throws Exception {
-                    dao.updateId( data, cacheKey );
                     databaseHelper.createOrUpdateInDatabase( data, getHandledClass() );
                     saveAllForeignObjectsToCache( data );
-                    CacheEntry cacheEntry = new CacheEntry( (String) cacheKey, System.currentTimeMillis() );
+                    Object id = null;
+                    @SuppressWarnings("unchecked")
+                    DatabaseTableConfig< T > childDatabaseTableConfig = (DatabaseTableConfig< T >) DatabaseTableConfig.fromClass(
+                            databaseHelper.getConnectionSource(), data.getClass() );
+                    for ( FieldType childFieldType : childDatabaseTableConfig.getFieldTypes( null ) ) {
+                        if ( childFieldType.isId() ) {
+                            id = childFieldType.extractJavaFieldValue( data );
+                        }
+                    }
+                    CacheEntry cacheEntry = new CacheEntry( (String) cacheKey, System.currentTimeMillis(), id );
                     databaseHelper.createOrUpdateCacheEntryInDatabase( cacheEntry );
                     return null;
                 }
             } );
+
+            databaseHelper.refreshFromDatabase( data, getHandledClass() );
+            return data;
         } catch ( Exception e ) {
             Log.e( TAG, "SQL Error", e );
+            return null;
         }
-        return data;
     }
 
+    /**
+     * During this operation, we must save a new POJO (parent) into the database. The problem is that is the POJO
+     * contains children POJOs, then saving the parent would not work as the parent must exist in the database prior to
+     * saving the children. SO :
+     * <ul>
+     * <li>we copy the children into memory,
+     * <li>put the children to null on parent
+     * <li>save the parent to the database
+     * <li>if saving filled the parent with previous children, we remove them
+     * <li>re inject the children into the parent
+     * <li>save the children (as the parent now exists in database).
+     * </ul>
+     * 
+     * @param data
+     *            the parent POJO to save in the database.
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private < E > void saveAllForeignObjectsToCache( E data ) throws SQLException, IllegalArgumentException, IllegalAccessException {
-        // copier les childs en ram
-        // mettre a null les child dans parents
+    protected < E > void saveAllForeignObjectsToCache( E data ) throws SQLException, IllegalArgumentException, IllegalAccessException,
+            InvocationTargetException {
+        // copy children on memory
+        // set children to null on parents so that we can save the parent without cascade
         Map< Field, Collection< ? >> mapFieldToCollection = new HashMap< Field, Collection< ? >>();
-        for ( Field field : data.getClass().getDeclaredFields() ) {
-            if ( field.getAnnotation( ForeignCollectionField.class ) != null ) {
-                field.setAccessible( true );
-                Collection< ? > collectionCopy = new ArrayList( (Collection< ? >) field.get( data ) );
-                field.set( data, null );
+        Class< ? extends Object > parentClass = data.getClass();
+        for ( Field field : parentClass.getDeclaredFields() ) {
+            ForeignCollectionField annotation = field.getAnnotation( ForeignCollectionField.class );
+            if ( annotation != null ) {
+                Collection< ? > collectionCopy = new ArrayList();
+                Method getMethod = DatabaseFieldConfig.findGetMethod( field, true );
+                Collection collectionInObject = (Collection< ? >) getMethod.invoke( data );
+                if ( collectionInObject != null ) {
+                    collectionCopy.addAll( collectionInObject );
+                }
+                Method setMethod = DatabaseFieldConfig.findSetMethod( field, true );
+                setMethod.invoke( data, (Object) null );
                 mapFieldToCollection.put( field, collectionCopy );
             }
         }
 
-        // sauver parents
-        databaseHelper.createOrUpdateInDatabase( data, (Class< E >) data.getClass() );
+        // save parents without cascade
+        databaseHelper.createOrUpdateInDatabase( data, (Class< E >) parentClass );
 
-        // recursif sur les childs dans la copy
-        for ( Field field : mapFieldToCollection.keySet() ) {
-            field.setAccessible( true );
-            Collection< ? > collection = mapFieldToCollection.get( field );
-            ForeignCollection foreignCollection = databaseHelper.getDao( data.getClass() ).getEmptyForeignCollection( field.getName() );
-            // rebranche dans le parent des foreign collection avec le contenu de copy
-            field.set( data, foreignCollection );
-            for ( Object object : collection ) {
-                saveAllForeignObjectsToCache( object );
-                foreignCollection.add( object );
+        // get the child from a previous database record
+        databaseHelper.refreshFromDatabase( data, (Class< E >) parentClass );
+
+        // future hook
+        // delete children obtained from previous database record
+        // we guess the type of children from the parametrized type of the collection field of the parent
+        for ( Field field : parentClass.getDeclaredFields() ) {
+            if ( field.getAnnotation( ForeignCollectionField.class ) != null ) {
+                Method getMethod = DatabaseFieldConfig.findGetMethod( field, true );
+                Collection collectionInObject = (Collection< ? >) getMethod.invoke( data );
+                // lazy collection are not loaded from database, so we load them
+                if ( collectionInObject instanceof LazyForeignCollection ) {
+                    ( (LazyForeignCollection) collectionInObject ).refreshCollection();
+                }
+                ParameterizedType listType = (ParameterizedType) field.getGenericType();
+                Class< ? > itemInListClass = (Class< ? >) listType.getActualTypeArguments()[ 0 ];
+                databaseHelper.deleteFromDataBase( collectionInObject, itemInListClass );
             }
         }
+
+        // recursive call on children
+        // we now saved the parent and can fill the foreign key of the children
+        for ( Field field : mapFieldToCollection.keySet() ) {
+            Collection< ? > collection = mapFieldToCollection.get( field );
+            // re-set complete children to the parent
+            ConnectionSource connectionSource = databaseHelper.getConnectionSource();
+            for ( Object object : collection ) {
+                DatabaseTableConfig childDatabaseTableConfig = DatabaseTableConfig.fromClass( connectionSource, object.getClass() );
+                for ( FieldType childFieldType : childDatabaseTableConfig.getFieldTypes( null ) ) {
+                    if ( parentClass.equals( childFieldType.getType() ) && childFieldType.isForeign() ) {
+                        childFieldType.assignField( object, data, true, null );
+                    }
+                }
+                // save children recursively
+                saveAllForeignObjectsToCache( object );
+
+            }
+        }
+
+        // future hook
+
     }
 
     @Override

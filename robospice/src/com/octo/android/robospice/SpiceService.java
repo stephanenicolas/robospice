@@ -6,13 +6,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -36,8 +36,6 @@ import com.octo.android.robospice.request.listener.RequestListener;
 public abstract class SpiceService extends Service {
 
     private static final int NOTIFICATION_ID = 42;
-
-    private final static String LOG_CAT = "SpiceService";
 
     private static final int DEFAULT_THREAD_COUNT = 1;
     private static final boolean DEFAULT_FAIL_ON_CACHE_ERROR = false;
@@ -91,7 +89,7 @@ public abstract class SpiceService extends Service {
         notification = createDefaultNotification();
         startForeground( notification );
 
-        Log.d( LOG_CAT, "Content Service instance created." );
+        Ln.d( "Content Service instance created." );
     }
 
     public static Notification createDefaultNotification() {
@@ -102,7 +100,7 @@ public abstract class SpiceService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d( LOG_CAT, "Content Service instance destroyed." );
+        Ln.d( "Content Service instance destroyed." );
         super.onDestroy();
         isStarted = false;
     }
@@ -193,7 +191,7 @@ public abstract class SpiceService extends Service {
     }
 
     public void dumpState() {
-        Log.v( LOG_CAT, requestProcessor.toString() );
+        Ln.v( requestProcessor.toString() );
     }
 
     public void addContentServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
@@ -205,7 +203,7 @@ public abstract class SpiceService extends Service {
     }
 
     private void stopIfNotBoundAndHasNoPendingRequests() {
-        Log.v( LOG_CAT, "Pending requests : " + currentPendingRequestCount );
+        Ln.v( "Pending requests : " + currentPendingRequestCount );
         if ( currentPendingRequestCount == 0 && !isBound ) {
             stopSelf();
         }
@@ -218,15 +216,15 @@ public abstract class SpiceService extends Service {
             Method setForegroundMethod = Service.class.getMethod( "startForeground", int.class, Notification.class );
             setForegroundMethod.invoke( this, NOTIFICATION_ID, notification );
         } catch ( SecurityException e ) {
-            Log.e( LOG_CAT, "Unable to start a service in foreground", e );
+            Ln.e( e, "Unable to start a service in foreground" );
         } catch ( NoSuchMethodException e ) {
-            Log.e( LOG_CAT, "Unable to start a service in foreground", e );
+            Ln.e( e, "Unable to start a service in foreground" );
         } catch ( IllegalArgumentException e ) {
-            Log.e( LOG_CAT, "Unable to start a service in foreground", e );
+            Ln.e( e, "Unable to start a service in foreground" );
         } catch ( IllegalAccessException e ) {
-            Log.e( LOG_CAT, "Unable to start a service in foreground", e );
+            Ln.e( e, "Unable to start a service in foreground" );
         } catch ( InvocationTargetException e ) {
-            Log.e( LOG_CAT, "Unable to start a service in foreground", e );
+            Ln.e( e, "Unable to start a service in foreground" );
         }
     }
 

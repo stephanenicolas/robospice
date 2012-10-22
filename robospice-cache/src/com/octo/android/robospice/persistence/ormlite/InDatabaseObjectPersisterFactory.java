@@ -5,13 +5,15 @@ import android.app.Application;
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.ObjectPersisterFactory;
 
-public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
+public class InDatabaseObjectPersisterFactory<ID> extends ObjectPersisterFactory {
 
     private RoboSpiceDatabaseHelper databaseHelper;
+    private Class <ID> idType;
 
-    public InDatabaseObjectPersisterFactory( Application application, RoboSpiceDatabaseHelper databaseHelper ) {
+    public InDatabaseObjectPersisterFactory( Application application, RoboSpiceDatabaseHelper databaseHelper, Class< ID > idType) {
         super( application );
         this.databaseHelper = databaseHelper;
+        this.idType = idType;
     }
 
     @Override
@@ -22,7 +24,7 @@ public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public < DATA > ObjectPersister< DATA > createObjectPersister( Class< DATA > clazz ) {
-        return new InDatabaseObjectPersister( getApplication(), databaseHelper, clazz );
+        return new InDatabaseObjectPersister( getApplication(), databaseHelper, clazz, this.idType);
     }
 
 }

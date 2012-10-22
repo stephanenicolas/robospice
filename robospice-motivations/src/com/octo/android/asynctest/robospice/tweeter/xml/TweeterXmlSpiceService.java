@@ -1,5 +1,7 @@
 package com.octo.android.asynctest.robospice.tweeter.xml;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -11,14 +13,17 @@ import org.springframework.web.client.RestTemplate;
 
 import android.app.Application;
 
+import com.octo.android.asynctest.model.tweeter.xml.Entry;
+import com.octo.android.asynctest.model.tweeter.xml.Feed;
 import com.octo.android.robospice.SpringAndroidContentService;
 import com.octo.android.robospice.persistence.CacheManager;
-import com.octo.android.robospice.persistence.binary.InFileInputStreamObjectPersister;
-import com.octo.android.robospice.persistence.json.jackson.JacksonObjectPersisterFactory;
-import com.octo.android.robospice.persistence.string.InFileStringObjectPersister;
+import com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersisterFactory;
+import com.octo.android.robospice.persistence.ormlite.RoboSpiceDatabaseHelper;
 
 public class TweeterXmlSpiceService extends SpringAndroidContentService {
 
+    private static final String DATABASE_NAME = "tweeter.db";
+    private static final int DATABASE_VERSION = 1;
     private static final int WEBSERVICES_TIMEOUT = 10000;
 
     @Override
@@ -29,19 +34,17 @@ public class TweeterXmlSpiceService extends SpringAndroidContentService {
     @Override
     public CacheManager createCacheManager( Application application ) {
         CacheManager cacheManager = new CacheManager();
+        Collection< Class< ? >> classCollection = new ArrayList< Class< ? >>();
+
+        // add persisted classes to class collection
+        classCollection.add( Entry.class );
+        classCollection.add( Feed.class );
 
         // init
-        InFileStringObjectPersister inFileStringObjectPersister = new InFileStringObjectPersister( application );
-        InFileInputStreamObjectPersister inFileInputStreamObjectPersister = new InFileInputStreamObjectPersister( application );
-        JacksonObjectPersisterFactory inJSonFileObjectPersisterFactory = new JacksonObjectPersisterFactory( application );
-
-        inFileStringObjectPersister.setAsyncSaveEnabled( true );
-        inFileInputStreamObjectPersister.setAsyncSaveEnabled( true );
-        inJSonFileObjectPersisterFactory.setAsyncSaveEnabled( true );
-
-        cacheManager.addPersister( inFileStringObjectPersister );
-        cacheManager.addPersister( inFileInputStreamObjectPersister );
-        cacheManager.addPersister( inJSonFileObjectPersisterFactory );
+        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper( application, DATABASE_NAME, DATABASE_VERSION, classCollection );
+        InDatabaseObjectPersisterFactory< String > inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory< String >( application,
+                databaseHelper, String.class );
+        cacheManager.addPersister( inDatabaseObjectPersisterFactory );
         return cacheManager;
     }
 
