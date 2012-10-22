@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-motivations</artifactId>
 	<packaging>apk</packaging>
-	<name>AsyncTest - Async jobs Tutorial</name>
+	<name>RoboSpice Motivations - Demo app</name>
 
 	<dependencies>
 		<dependency>
