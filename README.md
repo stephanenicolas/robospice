@@ -1,3 +1,5 @@
+![RoboSpice logo](https://github.com/octo-online/robospice/blob/master/gfx/Robospice-logo-white-background.png)
+
 RoboSpice
 =========
 
