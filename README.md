@@ -12,7 +12,7 @@ Join our [discussion group on google](https://groups.google.com/forum/?fromgroup
 Main features of RoboSpice
 --------------------------
 
-* executes asynchronously (in a background AndroidService) network requests that will return POJOs (ex: REST requests)
+* executes asynchronously (in a background AndroidService) network requests that will return POJOs (ex: REST requests using [Spring Android](http://www.springsource.org/spring-android))
 * caches results (in Json with both [Jackson](http://jackson.codehaus.org/) and [Gson](http://code.google.com/p/google-gson/), 
 or Xml, or flat text files, or binary files, even using [ORM Lite (still in beta)](http://ormlite.com/sqlite_java_android_orm.shtml))
 * notifies your activities (or any other context) of the result of the network request if they are still alive
