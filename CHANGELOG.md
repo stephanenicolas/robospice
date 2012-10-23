@@ -7,25 +7,31 @@ Version 1.1.1
 Bug fix and test addition release : 
 * TODO test ormlite module, xml module, gson module
 
-Version 1.1.0 (to be released for DroidCon London, October 24th)
+Version 1.1.0 (released for DroidCon London, October 24th 2012)
 -------------
 
+* Added RoboSpice Motivations to repo as a RoboSpice demo app and in-depth argumentation for RoboSpice existence.
+* Added RoboSpice Motivations to the Google Play store.
 * Added Json Serialization support using Gson (Jackson is also supported since V1.0)
 * Added Xml Serialization support using SimpleXMLSerializer
 * Added Orm Serialization support using OrmLite
 * Permission check : applications must declare both INTERNET and NETWORK_STATE permission.
-* Added getFromCache method in ContentManager to query cache content.
+* Added getFromCache method in SpiceManager to query cache content.
 * Added progress monitoring for requests (both status and progress percent).
-* Added common foreground service for all ContentManagers using the same service class.
+* Added common foreground service for all SpiceManagers using the same service class.
    * Requests are now completely decoupled from Activity life cycle.
-   * Service stops when no more requests are active and no CM is bound.
+   * Service stops when no more requests are active and no SpiceManager is bound.
 * Added methods to get data in cache if present
 * Added methods to add listeners to a pending request if present.
-* Added support for creating notifications through a new service.
+* Added support for creating notifications for a request through a new service helper.
 * Allow to cancel pending requests from new Activity. 
 * All logs in RoboSpice now use a downgraded version of RoboGuice's logging facility : 
 http://code.google.com/p/roboguice/wiki/Logging
 * Added the ability to provide a custom executor service to the SpiceService's RequestProcessor. Thx to Riccardo Ciovati.
+* Added RoboSpice presentation in the download area of Git Hub
+* Added all RoboSpice related gfx to GitHub repo.
+* Added google discussion group
+* Added Starter Guide on Git hub Wiki
 
 Version 1.0.0
 -------------
