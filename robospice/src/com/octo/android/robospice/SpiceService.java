@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
 import roboguice.util.temp.Ln;
 import android.app.Application;
@@ -20,6 +21,7 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.RequestProcessor;
 import com.octo.android.robospice.request.RequestProcessorListener;
+import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 /**
@@ -59,6 +61,8 @@ public abstract class SpiceService extends Service {
 
     private CacheManager cacheManager;
 
+    private SelfStopperRequestProcessorListener requestProcessorListener = new SelfStopperRequestProcessorListener();
+
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
@@ -77,19 +81,33 @@ public abstract class SpiceService extends Service {
         isStarted = true;
 
         cacheManager = createCacheManager( getApplication() );
-        requestProcessor = new RequestProcessor( getApplicationContext(), cacheManager, getThreadCount(), new RequestProcessorListener() {
+        ExecutorService executorService = getExecutorService();
 
-            public void allRequestComplete() {
-                currentPendingRequestCount = 0;
-                stopIfNotBoundAndHasNoPendingRequests();
-            }
-        } );
+        if ( executorService == null ) {
+            requestProcessor = new RequestProcessor( getApplicationContext(), cacheManager, getThreadCount(), requestProcessorListener );
+        } else {
+            requestProcessor = new RequestProcessor( getApplicationContext(), cacheManager, executorService, requestProcessorListener );
+        }
         requestProcessor.setFailOnCacheError( DEFAULT_FAIL_ON_CACHE_ERROR );
 
         notification = createDefaultNotification();
         startForeground( notification );
 
         Ln.d( "Content Service instance created." );
+    }
+
+    /**
+     * Factory method to create an {@link ExecutorService} that will be used to execute {@link SpiceRequest} instances.
+     * The default implementation of this method is to return null. In that case, the {@link SpiceService} will create a
+     * single threaded or multi-threaded {@link ExecutorService} depending on the number of threads returned by
+     * {@link #getThreadCount()}. If you override this method in your service, you can supply a custom
+     * {@link ExecutorService}. This feature has been implemented following a request from Riccardo Ciovati.
+     * 
+     * @return the {@link ExecutorService} to be used to execute {@link SpiceRequest} instances or null if you prefer to
+     *         use the default {@link ExecutorService} of RoboSpice.
+     */
+    protected ExecutorService getExecutorService() {
+        return null;
     }
 
     public static Notification createDefaultNotification() {
@@ -176,6 +194,13 @@ public abstract class SpiceService extends Service {
         isBound = false;
         stopIfNotBoundAndHasNoPendingRequests();
         return result;
+    }
+
+    private final class SelfStopperRequestProcessorListener implements RequestProcessorListener {
+        public void allRequestComplete() {
+            currentPendingRequestCount = 0;
+            stopIfNotBoundAndHasNoPendingRequests();
+        }
     }
 
     public static class ContentServiceBinder extends Binder {

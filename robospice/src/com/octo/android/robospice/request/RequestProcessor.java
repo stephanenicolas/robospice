@@ -26,6 +26,7 @@ import com.octo.android.robospice.SpiceServiceServiceListener;
 import com.octo.android.robospice.exception.NetworkException;
 import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.exception.RequestCancelledException;
+import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
@@ -72,14 +73,47 @@ public class RequestProcessor {
     // CONSTRUCTOR
     // ============================================================================================
 
+    /**
+     * Build a request processor using a default {@link ExecutorService}.
+     * 
+     * @param context
+     *            the context on which {@link SpiceRequest} will provide their results.
+     * @param cacheManager
+     *            the {@link CacheManager} that will be used to retrieve requests' result and store them.
+     * @param threadCount
+     *            the number of thread that will be used to execute {@link SpiceRequest}.
+     * @param requestProcessorListener
+     *            a listener of the {@link RequestProcessor}, it will be notified when no more requests are left,
+     *            typically allowing the {@link SpiceService} to stop itself.
+     */
     public RequestProcessor( Context context, ICacheManager cacheManager, int threadCount, RequestProcessorListener requestProcessorListener ) {
+        this( context, cacheManager, null, requestProcessorListener );
+        initiateExecutorService( threadCount );
+    }
+
+    /**
+     * Build a request processor using a custom. This feature has been implemented follwing a feature request from
+     * Riccardo Ciovati.
+     * 
+     * @param context
+     *            the context on which {@link SpiceRequest} will provide their results.
+     * @param cacheManager
+     *            the {@link CacheManager} that will be used to retrieve requests' result and store them.
+     * @param executorService
+     *            a custom {@link ExecutorService} that will be used to execute {@link SpiceRequest}.
+     * @param requestProcessorListener
+     *            a listener of the {@link RequestProcessor}, it will be notified when no more requests are left,
+     *            typically allowing the {@link SpiceService} to stop itself.
+     */
+    public RequestProcessor( Context context, ICacheManager cacheManager, ExecutorService executorService, RequestProcessorListener requestProcessorListener ) {
         this.applicationContext = context;
         this.cacheManager = cacheManager;
         this.requestProcessorListener = requestProcessorListener;
 
         handlerResponse = new Handler( Looper.getMainLooper() );
         contentServiceListenerSet = Collections.synchronizedSet( new HashSet< SpiceServiceServiceListener >() );
-        initiateExecutorService( threadCount );
+        this.executorService = executorService;
+
         if ( !hasNetworkPermission( context ) ) {
             throw new SecurityException( "Application doesn\'t declare <uses-permission android:name=\"android.permission.INTERNET\" />" );
         }

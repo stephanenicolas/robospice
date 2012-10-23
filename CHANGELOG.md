@@ -17,9 +17,10 @@ Version 1.1.0 (to be released for DroidCon London, October 24th)
 * Added methods to add listeners to a pending request if present.
 * Added support for creating notifications through a new service.
 * Allow to cancel pending requests from new Activity. 
+* All logs in RoboSpice now use a downgraded version of RoboGuice's logging facility : 
+http://code.google.com/p/roboguice/wiki/Logging
 
 *TODO 
-* use LN not Log
 * add factory for ExecutorService (see github issue)
 * test ormlite module, xml module, gson module
 * publish on git hub, publish on maven, publish on market
