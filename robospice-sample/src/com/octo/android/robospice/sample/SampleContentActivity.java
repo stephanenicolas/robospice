@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +55,7 @@ public class SampleContentActivity extends BaseSampleContentActivity {
 
         // Initializes the logging
         // Log a message (only on dev platform)
-        Log.i( getClass().getName(), "onCreate" );
+        Ln.i( "onCreate" );
 
         loremRequest = new SimpleTextRequest( "http://www.loremipsum.de/downloads/original.txt" );
         weatherRequest = new WeatherRequestJson( "75000" );

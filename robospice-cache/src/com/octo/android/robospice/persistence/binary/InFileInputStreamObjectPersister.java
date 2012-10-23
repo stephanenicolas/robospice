@@ -19,8 +19,6 @@ import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 public class InFileInputStreamObjectPersister extends InFileObjectPersister< InputStream > {
 
-    private final static String LOG_CAT = InFileInputStreamObjectPersister.class.getSimpleName();
-
     public InFileInputStreamObjectPersister( Application application ) {
         super( application, InputStream.class );
     }

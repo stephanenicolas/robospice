@@ -2,7 +2,7 @@ package com.octo.android.robospice.request.springandroid;
 
 import org.springframework.web.client.RestTemplate;
 
-import android.util.Log;
+import roboguice.util.temp.Ln;
 
 import com.octo.android.robospice.request.SpiceRequest;
 
@@ -32,7 +32,7 @@ public abstract class RestContentRequest< RESULT > extends SpiceRequest< RESULT 
      */
     public void cancel() {
         super.cancel();
-        Log.w( RestContentRequest.class.getName(), "Cancel can't be invoked directly on " + RestContentRequest.class.getName()
+        Ln.w( RestContentRequest.class.getName(), "Cancel can't be invoked directly on " + RestContentRequest.class.getName()
                 + " requests. You must call SpiceManager.cancelAllRequests()." );
     }
 }

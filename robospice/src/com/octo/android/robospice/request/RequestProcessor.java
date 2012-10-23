@@ -20,7 +20,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.SpiceServiceServiceListener;
@@ -44,11 +43,6 @@ import com.octo.android.robospice.request.listener.RequestStatus;
  * 
  */
 public class RequestProcessor {
-    // ============================================================================================
-    // CONSTANT
-    // ============================================================================================
-    private final static String LOG_CAT = "RequestProcessor";
-
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================
@@ -114,7 +108,7 @@ public class RequestProcessor {
     // PUBLIC
     // ============================================================================================
     public void addRequest( final CachedSpiceRequest< ? > request, Set< RequestListener< ? >> listRequestListener ) {
-        Log.d( LOG_CAT, "Adding request to queue " + hashCode() + ": " + request + " size is " + mapRequestToRequestListener.size() );
+        Ln.d( "Adding request to queue " + hashCode() + ": " + request + " size is " + mapRequestToRequestListener.size() );
 
         if ( request.isCancelled() ) {
             for ( CachedSpiceRequest< ? > cachedContentRequest : mapRequestToRequestListener.keySet() ) {
@@ -133,7 +127,7 @@ public class RequestProcessor {
                 listRequestListenerForThisRequest = new HashSet< RequestListener< ? >>();
                 this.mapRequestToRequestListener.put( request, listRequestListenerForThisRequest );
             } else {
-                Log.d( LOG_CAT, String.format( "Request for type %s and cacheKey %s already exists.", request.getResultType(), request.getRequestCacheKey() ) );
+                Ln.d( String.format( "Request for type %s and cacheKey %s already exists.", request.getResultType(), request.getRequestCacheKey() ) );
                 aggregated = true;
             }
 
@@ -160,7 +154,7 @@ public class RequestProcessor {
             return;
         }
 
-        Log.d( LOG_CAT, "Processing request : " + request );
+        Ln.d( "Processing request : " + request );
 
         T result = null;
         final Set< RequestListener< ? >> requestListeners = mapRequestToRequestListener.get( request );
@@ -181,7 +175,7 @@ public class RequestProcessor {
         if ( request.getRequestCacheKey() != null ) {
             // First, search data in cache
             try {
-                Log.d( LOG_CAT, "Loading request from cache : " + request );
+                Ln.d( "Loading request from cache : " + request );
                 request.setStatus( RequestStatus.READING_FROM_CACHE );
                 result = loadDataFromCache( request.getResultType(), request.getRequestCacheKey(), request.getCacheDuration() );
                 if ( result != null ) {
@@ -189,7 +183,7 @@ public class RequestProcessor {
                     return;
                 }
             } catch ( CacheLoadingException e ) {
-                Log.d( getClass().getName(), "Cache file could not be read.", e );
+                Ln.d( e, "Cache file could not be read." );
                 if ( failOnCacheError ) {
                     notifyListenersOfRequestFailure( request, requestListeners, e );
                     return;
@@ -204,30 +198,30 @@ public class RequestProcessor {
 
         if ( result == null && !request.isCancelled() ) {
             // if result is not in cache, load data from network
-            Log.d( LOG_CAT, "Cache content not available or expired or disabled" );
+            Ln.d( "Cache content not available or expired or disabled" );
             if ( !isNetworkAvailable( applicationContext ) ) {
-                Log.e( LOG_CAT, "Network is down." );
+                Ln.e( "Network is down." );
                 notifyListenersOfRequestFailure( request, requestListeners, new NoNetworkException() );
                 return;
             }
 
             // network is ok, load data from network
             try {
-                Log.d( LOG_CAT, "Calling netwok request." );
+                Ln.d( "Calling netwok request." );
                 request.setStatus( RequestStatus.LOADING_FROM_NETWORK );
                 result = request.loadDataFromNetwork();
-                Log.d( LOG_CAT, "Network request call ended." );
+                Ln.d( "Network request call ended." );
                 /*
-                 * if ( result == null ) { Log.d( LOG_CAT, "Unable to get web service result : " +
-                 * request.getResultType() ); fireCacheContentRequestProcessed( request ); handlerResponse.post( new
-                 * ResultRunnable( requestListeners, (T) null ) ); return; }
+                 * if ( result == null ) { Ln.d( "Unable to get web service result : " + request.getResultType() );
+                 * fireCacheContentRequestProcessed( request ); handlerResponse.post( new ResultRunnable(
+                 * requestListeners, (T) null ) ); return; }
                  */
             } catch ( Exception e ) {
                 if ( request.isCancelled() ) {
                     notifyListenersOfRequestCancellation( request, requestListeners );
                     return;
                 }
-                Log.e( LOG_CAT, "An exception occured during request network execution :" + e.getMessage(), e );
+                Ln.e( e, "An exception occured during request network execution :" + e.getMessage() );
                 notifyListenersOfRequestFailure( request, requestListeners, new NetworkException( "Exception occured during invocation of web service.", e ) );
                 return;
             }
@@ -246,7 +240,7 @@ public class RequestProcessor {
                     notifyListenersOfRequestSuccess( request, result, requestListeners );
                     return;
                 } catch ( CacheSavingException e ) {
-                    Log.d( LOG_CAT, "An exception occured during service execution :" + e.getMessage(), e );
+                    Ln.d( "An exception occured during service execution :" + e.getMessage(), e );
                     if ( failOnCacheError ) {
                         notifyListenersOfRequestFailure( request, requestListeners, e );
                         return;
@@ -295,7 +289,7 @@ public class RequestProcessor {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void notifyListenersOfRequestCancellation( CachedSpiceRequest< ? > request, final Set< RequestListener< ? >> requestListeners ) {
-        Log.d( LOG_CAT, "Not calling network request : " + request + " as it is cancelled. " );
+        Ln.d( "Not calling network request : " + request + " as it is cancelled. " );
         notifyOfRequestProcessed( request );
         notifyListenersOfRequestProgress( requestListeners, RequestStatus.COMPLETE );
         handlerResponse.post( new ResultRunnable( requestListeners, new RequestCancelledException( "Request has been cancelled explicitely." ) ) );
@@ -386,7 +380,7 @@ public class RequestProcessor {
                 return;
             }
 
-            Log.v( LOG_CAT, "Notifying " + listeners.size() + " listeners of progress " + progress );
+            Ln.v( "Notifying " + listeners.size() + " listeners of progress " + progress );
             for ( RequestListener< ? > listener : listeners ) {
                 if ( listener instanceof RequestProgressListener ) {
                     ( (RequestProgressListener) listener ).onRequestProgressUpdate( progress );
@@ -417,7 +411,7 @@ public class RequestProcessor {
             }
 
             String resultMsg = spiceException == null ? "success" : "failure";
-            Log.v( LOG_CAT, "Notifying " + listeners.size() + " listeners of request " + resultMsg );
+            Ln.v( "Notifying " + listeners.size() + " listeners of request " + resultMsg );
             for ( RequestListener< T > listener : listeners ) {
                 if ( spiceException == null ) {
                     listener.onRequestSuccess( result );

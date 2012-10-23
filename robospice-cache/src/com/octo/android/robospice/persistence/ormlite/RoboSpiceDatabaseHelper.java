@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -52,7 +52,7 @@ public class RoboSpiceDatabaseHelper extends OrmLiteSqliteOpenHelper {
                 TableUtils.createTable( connectionSource, clazz );
             }
         } catch ( SQLException e ) {
-            Log.e( "RoboSpice", "Could not create cache entry table", e );
+            Ln.e( e, "RoboSpice", "Could not create cache entry table" );
         }
     }
 

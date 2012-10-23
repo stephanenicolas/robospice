@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import android.util.Log;
+import roboguice.util.temp.Ln;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.InputSupplier;
@@ -51,10 +51,10 @@ public class BigBinaryRequest extends SpiceRequest< InputStream > {
             ByteStreams.readBytes( supplier, new ProgressByteProcessor( fileOutputStream, total ) );
             return new FileInputStream( cacheFile );
         } catch ( MalformedURLException e ) {
-            Log.e( getClass().getName(), "Unable to create image URL", e );
+            Ln.e( e, "Unable to create image URL" );
             return null;
         } catch ( IOException e ) {
-            Log.e( getClass().getName(), "Unable to download image", e );
+            Ln.e( e, "Unable to download image" );
             return null;
         }
     }

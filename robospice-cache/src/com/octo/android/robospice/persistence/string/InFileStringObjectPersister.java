@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
-import android.util.Log;
 
 import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
@@ -16,7 +16,6 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 public final class InFileStringObjectPersister extends InFileObjectPersister< String > {
-    private final static String LOG_CAT = InFileStringObjectPersister.class.getSimpleName();
 
     public InFileStringObjectPersister( Application application ) {
         super( application, String.class );
@@ -29,7 +28,7 @@ public final class InFileStringObjectPersister extends InFileObjectPersister< St
 
     @Override
     public String loadDataFromCache( Object cacheKey, long maxTimeInCacheBeforeExpiry ) throws CacheLoadingException {
-        Log.v( LOG_CAT, "Loading String for cacheKey = " + cacheKey );
+        Ln.v( "Loading String for cacheKey = " + cacheKey );
         File file = getCacheFile( cacheKey );
         if ( file.exists() ) {
             long timeInCache = System.currentTimeMillis() - file.lastModified();
@@ -39,20 +38,20 @@ public final class InFileStringObjectPersister extends InFileObjectPersister< St
                 } catch ( FileNotFoundException e ) {
                     // Should not occur (we test before if file exists)
                     // Do not throw, file is not cached
-                    Log.w( LOG_CAT, "file " + file.getAbsolutePath() + " does not exists", e );
+                    Ln.w( "file " + file.getAbsolutePath() + " does not exists", e );
                     return null;
                 } catch ( Exception e ) {
                     throw new CacheLoadingException( e );
                 }
             }
         }
-        Log.v( LOG_CAT, "file " + file.getAbsolutePath() + " does not exists" );
+        Ln.v( "file " + file.getAbsolutePath() + " does not exists" );
         return null;
     }
 
     @Override
     public String saveDataToCacheAndReturnData( final String data, final Object cacheKey ) throws CacheSavingException {
-        Log.v( LOG_CAT, "Saving String " + data + " into cacheKey = " + cacheKey );
+        Ln.v( "Saving String " + data + " into cacheKey = " + cacheKey );
         try {
             if ( isAsyncSaveEnabled ) {
 
@@ -62,7 +61,7 @@ public final class InFileStringObjectPersister extends InFileObjectPersister< St
                         try {
                             Files.write( data, getCacheFile( cacheKey ), Charset.forName( "UTF-8" ) );
                         } catch ( IOException e ) {
-                            Log.e( LOG_CAT, "An error occured on saving request " + cacheKey + " data asynchronously", e );
+                            Ln.e( e, "An error occured on saving request " + cacheKey + " data asynchronously" );
                         } finally {
                             // notify that saving is finished for test purpose
                             lock.lock();

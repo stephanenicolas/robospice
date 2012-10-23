@@ -18,6 +18,12 @@ Version 1.1.0 (to be released for DroidCon London, October 24th)
 * Added support for creating notifications through a new service.
 * Allow to cancel pending requests from new Activity. 
 
+*TODO 
+* use LN not Log
+* add factory for ExecutorService (see github issue)
+* test ormlite module, xml module, gson module
+* publish on git hub, publish on maven, publish on market
+
 Version 1.0.0
 -------------
 

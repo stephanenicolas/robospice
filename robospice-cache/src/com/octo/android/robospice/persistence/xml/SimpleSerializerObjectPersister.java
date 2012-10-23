@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
-import android.util.Log;
 
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
@@ -20,8 +20,6 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 public final class SimpleSerializerObjectPersister< T > extends InFileObjectPersister< T > {
-
-    private final static String LOG_CAT = SimpleSerializerObjectPersister.class.getSimpleName();
 
     // ============================================================================================
     // ATTRIBUTES
@@ -70,7 +68,7 @@ public final class SimpleSerializerObjectPersister< T > extends InFileObjectPers
                 } catch ( FileNotFoundException e ) {
                     // Should not occur (we test before if file exists)
                     // Do not throw, file is not cached
-                    Log.w( LOG_CAT, "file " + file.getAbsolutePath() + " does not exists", e );
+                    Ln.w( "file " + file.getAbsolutePath() + " does not exists", e );
                     return null;
                 } catch ( CacheLoadingException e ) {
                     throw e;
@@ -78,10 +76,10 @@ public final class SimpleSerializerObjectPersister< T > extends InFileObjectPers
                     throw new CacheLoadingException( e );
                 }
             }
-            Log.v( LOG_CAT, "Cache content is expired since " + ( maxTimeInCacheBeforeExpiry - timeInCache ) );
+            Ln.v( "Cache content is expired since " + ( maxTimeInCacheBeforeExpiry - timeInCache ) );
             return null;
         }
-        Log.v( LOG_CAT, "file " + file.getAbsolutePath() + " does not exists" );
+        Ln.v( "file " + file.getAbsolutePath() + " does not exists" );
         return null;
     }
 
@@ -96,9 +94,9 @@ public final class SimpleSerializerObjectPersister< T > extends InFileObjectPers
                         try {
                             saveData( data, cacheKey );
                         } catch ( IOException e ) {
-                            Log.e( LOG_CAT, "An error occured on saving request " + cacheKey + " data asynchronously", e );
+                            Ln.e( e, "An error occured on saving request " + cacheKey + " data asynchronously" );
                         } catch ( CacheSavingException e ) {
-                            Log.e( LOG_CAT, "An error occured on saving request " + cacheKey + " data asynchronously", e );
+                            Ln.e( e, "An error occured on saving request " + cacheKey + " data asynchronously" );
                         } finally {
                             // notify that saving is finished for test purpose
                             lock.lock();

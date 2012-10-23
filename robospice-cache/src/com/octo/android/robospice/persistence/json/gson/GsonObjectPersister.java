@@ -22,8 +22,6 @@ import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 public final class GsonObjectPersister< T > extends InFileObjectPersister< T > {
 
-    private final static String LOG_CAT = GsonObjectPersister.class.getSimpleName();
-
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================

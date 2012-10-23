@@ -2,7 +2,7 @@ package com.octo.android.robospice.sample.request;
 
 import org.springframework.web.client.RestClientException;
 
-import android.util.Log;
+import roboguice.util.Ln;
 
 import com.octo.android.robospice.request.springandroid.RestContentRequest;
 import com.octo.android.robospice.sample.model.json.WeatherResult;
@@ -18,7 +18,7 @@ public final class WeatherRequestJson extends RestContentRequest< WeatherResult 
 
     @Override
     public WeatherResult loadDataFromNetwork() throws RestClientException {
-        Log.d( getClass().getName(), "Call web service " + baseUrl );
+        Ln.d( "Call web service " + baseUrl );
         return getRestTemplate().getForObject( baseUrl, WeatherResult.class );
     }
 

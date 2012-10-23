@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
-import android.util.Log;
 
 import com.j256.ormlite.dao.LazyForeignCollection;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
@@ -28,8 +28,6 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
 public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
-
-    public static final String TAG = "robospice-ormlite";
 
     private RoboSpiceDatabaseHelper databaseHelper;
     private Class< ID > idType;
@@ -46,13 +44,13 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
         try {
             TableUtils.createTableIfNotExists( databaseHelper.getConnectionSource(), modelObjectType );
         } catch ( SQLException e1 ) {
-            Log.e( TAG, "SQL Error while creating table for " + modelObjectType, e1 );
+            Ln.e( e1, "SQL Error while creating table for " + modelObjectType );
         }
 
         try {
             dao = databaseHelper.getRuntimeExceptionDao( modelObjectType );
         } catch ( Throwable e ) {
-            Log.e( TAG, "SQL Error", e );
+            Ln.e( e, "SQL Error" );
         }
     }
 
@@ -74,7 +72,7 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
                 result = databaseHelper.queryForIdFromDatabase( id, getHandledClass() );
             }
         } catch ( SQLException e ) {
-            Log.e( TAG, "SQL error", e );
+            Ln.e( e, "SQL error" );
         }
         return result;
     }
@@ -108,7 +106,7 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
             databaseHelper.refreshFromDatabase( data, getHandledClass() );
             return data;
         } catch ( Exception e ) {
-            Log.e( TAG, "SQL Error", e );
+            Ln.e( e, "SQL Error" );
             return null;
         }
     }
@@ -211,7 +209,7 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
         try {
             databaseHelper.clearTableFromDataBase( getHandledClass() );
         } catch ( SQLException e ) {
-            Log.e( TAG, "SQL Error", e );
+            Ln.e( e, "SQL Error" );
         }
     }
 
