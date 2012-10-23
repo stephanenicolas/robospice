@@ -1,6 +1,12 @@
 Release notes for RoboSpice
 ===========================
 
+Version 1.1.1
+-------------
+
+Bug fix and test addition release : 
+* TODO test ormlite module, xml module, gson module
+
 Version 1.1.0 (to be released for DroidCon London, October 24th)
 -------------
 
@@ -19,11 +25,7 @@ Version 1.1.0 (to be released for DroidCon London, October 24th)
 * Allow to cancel pending requests from new Activity. 
 * All logs in RoboSpice now use a downgraded version of RoboGuice's logging facility : 
 http://code.google.com/p/roboguice/wiki/Logging
-
-*TODO 
-* add factory for ExecutorService (see github issue)
-* test ormlite module, xml module, gson module
-* publish on git hub, publish on maven, publish on market
+* Added the ability to provide a custom executor service to the SpiceService's RequestProcessor. Thx to Riccardo Ciovati.
 
 Version 1.0.0
 -------------
