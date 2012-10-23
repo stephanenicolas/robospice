@@ -5,7 +5,7 @@
         <parent>
                 <groupId>com.octo.android.robospice</groupId>
                 <artifactId>robospice-parent</artifactId>
-                <version>1.0.1-SNAPSHOT</version>
+                <version>1.1.0</version>
         </parent>
 
         <artifactId>robospice-sample</artifactId>
