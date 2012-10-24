@@ -34,3 +34,6 @@ target/
 #Maven release files
 *.releaseBackup
 *.versionsBackup
+
+#symoblic link to action bar sherlock
+library
