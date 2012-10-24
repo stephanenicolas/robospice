@@ -5,6 +5,9 @@ Overview
 
 RoboSpice is a modular android library that makes writing asynchronous network requests *easy*.
 
+To learn more about RoboSpice in 30 seconds, try this infographics : 
+https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png
+
 RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice).
 
 Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice)
@@ -33,7 +36,7 @@ Example code & demo
 
 You can find complete examples of RoboSpice usage in the application (included in Git Hub's repo) : RoboSpice Motivations.
 
-You can also find the apk of the RoboSpice Motivations app in the [download section](https://github.com/octo-online/robospice/downloads) and on the Google Play Store soon.
+You can also find the apk of the RoboSpice Motivations app in the [download section](https://github.com/octo-online/robospice/downloads) and on the [Google Play Store](http://goo.gl/pzqH4).
 
 Read the [RoboSpice starter guide](https://github.com/octo-online/robospice/wiki) to learn more.
 
