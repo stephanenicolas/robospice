@@ -14,7 +14,10 @@ Version 1.1.1
 Bug fix :
 * enhanced SpiceManager cpu usage. There used to be a bug in case a service had no request to process that boosted cpu usage.
 Thx to Riccardo Ciovati.
-* enhanced ORM Lite support : tables are created fully dynamically for all POJOs saved via the ORMLiteObjectPersisterFactory
+* enhanced ORM Lite support : tables are created fully dynamically for all POJOs saved via the ORMLiteObjectPersisterFactory.
+No need to provide a specific factory for every class of IDs used by persisted POJOs.
+* better RoboSpice Motivations icon
+* Added RoboSpice Motivations to Google Play
 
 Version 1.1.0 (released for DroidCon London, October 24th 2012)
 -------------
