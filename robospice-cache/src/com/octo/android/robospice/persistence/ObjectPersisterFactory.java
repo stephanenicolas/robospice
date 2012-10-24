@@ -72,4 +72,8 @@ public abstract class ObjectPersisterFactory implements Persister {
     public boolean isAsyncSaveEnabled() {
         return isAsyncSaveEnabled;
     }
+
+    protected List< Class< ? >> getListHandledClasses() {
+        return listHandledClasses;
+    }
 }

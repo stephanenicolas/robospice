@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import roboguice.util.temp.Ln;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,7 +17,6 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 
 /**
  * Helper class which creates/updates our database and provides the DAOs.
@@ -33,27 +31,8 @@ public class RoboSpiceDatabaseHelper extends OrmLiteSqliteOpenHelper {
         return cacheKey.substring( cacheKey.indexOf( '_' ) + 1 );
     }
 
-    private Collection< Class< ? >> classCollection;
-
-    public RoboSpiceDatabaseHelper( Application application, String databaseName, int databaseVersion, Collection< Class< ? >> classCollection ) {
+    public RoboSpiceDatabaseHelper( Application application, String databaseName, int databaseVersion ) {
         super( application, databaseName, null, databaseVersion );
-        this.classCollection = classCollection;
-    }
-
-    public Collection< Class< ? >> getClassCollection() {
-        return classCollection;
-    }
-
-    @Override
-    public final void onCreate( SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource ) {
-        try {
-            TableUtils.createTable( connectionSource, CacheEntry.class );
-            for ( Class< ? > clazz : classCollection ) {
-                TableUtils.createTable( connectionSource, clazz );
-            }
-        } catch ( SQLException e ) {
-            Ln.e( e, "RoboSpice", "Could not create cache entry table" );
-        }
     }
 
     public RoboSpiceDatabaseHelper( Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion ) {
@@ -170,6 +149,11 @@ public class RoboSpiceDatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade( SQLiteDatabase arg0, ConnectionSource arg1, int arg2, int arg3 ) {
+        // override if needed
+    }
+
+    @Override
+    public void onCreate( SQLiteDatabase database, ConnectionSource connectionSource ) {
         // override if needed
     }
 }

@@ -1,7 +1,6 @@
 package com.octo.android.robospice.motivations.robospice.tweeter.xml;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -32,18 +31,22 @@ public class TweeterXmlSpiceService extends SpringAndroidContentService {
     }
 
     @Override
+    public boolean isFailOnCacheError() {
+        return true;
+    }
+
+    @Override
     public CacheManager createCacheManager( Application application ) {
         CacheManager cacheManager = new CacheManager();
-        Collection< Class< ? >> classCollection = new ArrayList< Class< ? >>();
+        List< Class< ? >> classCollection = new ArrayList< Class< ? >>();
 
         // add persisted classes to class collection
         classCollection.add( Entry.class );
         classCollection.add( Feed.class );
 
         // init
-        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper( application, DATABASE_NAME, DATABASE_VERSION, classCollection );
-        InDatabaseObjectPersisterFactory< String > inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory< String >( application,
-                databaseHelper, String.class );
+        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper( application, DATABASE_NAME, DATABASE_VERSION );
+        InDatabaseObjectPersisterFactory inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory( application, databaseHelper, classCollection );
         cacheManager.addPersister( inDatabaseObjectPersisterFactory );
         return cacheManager;
     }

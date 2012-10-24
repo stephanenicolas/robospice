@@ -1,11 +1,20 @@
 Release notes for RoboSpice
 ===========================
 
+Version 1.1.2
+-------------
+
+TO BE RELEASED 
+Bug fix and test addition release : 
+* TODO test ormlite module, xml module, gson module
+
 Version 1.1.1
 -------------
 
-Bug fix and test addition release : 
-* TODO test ormlite module, xml module, gson module
+Bug fix :
+* enhanced SpiceManager cpu usage. There used to be a bug in case a service had no request to process that boosted cpu usage.
+Thx to Riccardo Ciovati.
+* enhanced ORM Lite support : tables are created fully dynamically for all POJOs saved via the ORMLiteObjectPersisterFactory
 
 Version 1.1.0 (released for DroidCon London, October 24th 2012)
 -------------

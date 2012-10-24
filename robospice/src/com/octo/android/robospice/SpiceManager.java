@@ -166,11 +166,10 @@ public class SpiceManager implements Runnable {
         try {
             waitForServiceToBeBound();
             while ( !isStopped ) {
+                CachedSpiceRequest< ? > restRequest = requestQueue.take();
                 try {
                     lockSendRequestsToService.lock();
-                    if ( !requestQueue.isEmpty() ) {
-                        CachedSpiceRequest< ? > restRequest;
-                        restRequest = requestQueue.take();
+                    if ( restRequest != null ) {
                         Set< RequestListener< ? >> listRequestListener = mapRequestToLaunchToRequestListener.get( restRequest );
                         mapRequestToLaunchToRequestListener.remove( restRequest );
                         mapPendingRequestToRequestListener.put( restRequest, listRequestListener );
@@ -205,6 +204,7 @@ public class SpiceManager implements Runnable {
         unbindFromService( context.get() );
         contentServiceConnection = null;
         this.isStopped = true;
+        this.runner.interrupt();
         this.runner = null;
         this.context.clear();
         Ln.d( "Content manager stopped." );
@@ -230,7 +230,7 @@ public class SpiceManager implements Runnable {
         dontNotifyAnyRequestListenersInternal();
         unbindFromService( context.get() );
         this.isStopped = true;
-
+        this.runner.interrupt();
         this.runner.join( timeOut );
         this.runner = null;
         this.context.clear();
