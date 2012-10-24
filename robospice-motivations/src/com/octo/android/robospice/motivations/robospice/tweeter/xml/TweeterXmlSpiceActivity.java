@@ -163,7 +163,7 @@ public class TweeterXmlSpiceActivity extends BaseActivity {
 
     @Override
     public String getDemoExplanation() {
-        return "spice_rest.html";
+        return "spice_rest_ormlite.html";
     }
 
     private String convertProgressToString( RequestProgress progress ) {
