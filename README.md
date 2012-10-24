@@ -10,7 +10,8 @@ https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.p
 
 RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice).
 
-Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice)
+Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
+Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki).
 
 Main features of RoboSpice
 --------------------------
