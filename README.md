@@ -42,5 +42,11 @@ You can also find the apk of the RoboSpice Motivations app in the [download sect
 Read the [RoboSpice starter guide](https://github.com/octo-online/robospice/wiki) to learn more.
 
 
+A projet initiated by Octo Technology 
+-------------------------------------
+
+RoboSpice has been incubated at [Octo Technology](http://www.octo.com/en), a french company based in Paris, focused on software design and quality. 
+It offers its employees to work part time on Research & Development projects. RoboSpice was one of them.
+
 
 
