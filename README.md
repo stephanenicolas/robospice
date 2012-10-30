@@ -50,5 +50,8 @@ A projet initiated by Octo Technology
 RoboSpice has been incubated at [Octo Technology](http://www.octo.com/en), a french company based in Paris, focused on software design and quality. 
 It offers its employees to work part time on Research & Development projects. RoboSpice was one of them.
 
+RoboSpice is the news 
+---------------------
 
+We recently appeared in Android dev weekly mailing list, [issue 31](http://androiddevweekly.com/2012/10/29/Issue-31.html).
 
