@@ -60,7 +60,7 @@ If you don't understand why activities must die, please refer to the activity li
 <h3>The AsyncTask and Activity life cycle</h3>
 
 <p>
-AsyncTasks don't follow Activity instances' life cycle. It you rotate the device, the Activity will be destroyed and a new instance will be created.
+AsyncTasks don't follow Activity instances' life cycle. If you rotate the device, the Activity will be destroyed and a new instance will be created.
 But the AsyncTask will not die. It will go on living until it completes. This a nice mechanism for long-running background operations.
 Nevertheless, it's not managed correctly by AsyncTasks and most benefit of it are lost.
 </p>
@@ -69,7 +69,7 @@ Nevertheless, it's not managed correctly by AsyncTasks and most benefit of it ar
 Click on the start button, then rotate your device. 
 As you can see, once the Activity is recreated, the former AsyncTask doesn't update the UI anymore. Indeed it updates the former instance of the activity that
 is not displayed anymore. This can lead to an Exception of the type <tt>java.lang.IllegalArgumentException: View not attached to window manager</tt> if you
-use, for instance, <tt>findViewById</tt> to retrieve a view inside the AsyncTask (here we don't do that, we use data members to hold references on views).
+use, for instance, <tt>findViewById</tt> to retrieve a view inside the Activity (here we don't do that, we use data members to hold references on views).
 </p>
 
 <p>
