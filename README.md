@@ -45,6 +45,8 @@ Read the [RoboSpice starter guide](https://github.com/octo-online/robospice/wiki
 A projet initiated by Octo Technology 
 -------------------------------------
 
+![Octo Technology logo](https://raw.github.com/octo-online/robospice/master/gfx/octo-ascii-logo-blue.png)
+
 RoboSpice has been incubated at [Octo Technology](http://www.octo.com/en), a french company based in Paris, focused on software design and quality. 
 It offers its employees to work part time on Research & Development projects. RoboSpice was one of them.
 
