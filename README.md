@@ -53,5 +53,16 @@ It offers its employees to work part time on Research & Development projects. Ro
 RoboSpice is the news 
 ---------------------
 
-We recently appeared in Android dev weekly mailing list, [issue 31](http://androiddevweekly.com/2012/10/29/Issue-31.html).
+RoboSpice has been featured in 
+* Android dev weekly mailing list, [issue 31](http://androiddevweekly.com/2012/10/29/Issue-31.html).
+* Android weekly mailing list, [issue 44](http://androidweekly.net/).
+
+RoboSpice has been presented at : 
+
+* [DroidCon London](http://uk.droidcon.com/), October 2012
+* [Nantes GDG Dev Fest, France](http://devfest.gdgnantes.com/?utm_source=3eme%2Bmsg&utm_medium=google-plus&utm_campaign=mailing-devfest), November 2012
+* [Paris Android User Group](http://www.paug.fr/actualite-android/conference-presentation-des-librairies-robospice-et-polaris/), November 2012
+
+And will be demonstrated at 
+* [DroidCon Amsterdam](http://www.droidcon.nl/), November 2012
 
