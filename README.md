@@ -45,8 +45,41 @@ Read the [RoboSpice starter guide](https://github.com/octo-online/robospice/wiki
 A projet initiated by Octo Technology 
 -------------------------------------
 
+![Octo Technology logo](https://raw.github.com/octo-online/robospice/master/gfx/octo-ascii-logo-blue.png)
+
 RoboSpice has been incubated at [Octo Technology](http://www.octo.com/en), a french company based in Paris, focused on software design and quality. 
 It offers its employees to work part time on Research & Development projects. RoboSpice was one of them.
 
+RoboSpice is the news 
+---------------------
+
+RoboSpice has been featured in 
+* Android dev weekly mailing list, [issue 31](http://androiddevweekly.com/2012/10/29/Issue-31.html).
+* Android weekly mailing list, [issue 44](http://androidweekly.net/).
+
+RoboSpice has been presented at : 
+
+* [DroidCon London](http://uk.droidcon.com/), October 2012
+* [Nantes GDG Dev Fest, France](http://devfest.gdgnantes.com/?utm_source=3eme%2Bmsg&utm_medium=google-plus&utm_campaign=mailing-devfest), November 2012
+* [Paris Android User Group](http://www.paug.fr/actualite-android/conference-presentation-des-librairies-robospice-et-polaris/), November 2012
+
+And will be demonstrated at 
+* [DroidCon Amsterdam](http://www.droidcon.nl/), November 2012
 
 
+License
+-------
+
+  Copyright (C) 2012 Octo Technology (http://www.octo.com)
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	     http://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
