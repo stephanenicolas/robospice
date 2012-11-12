@@ -5,13 +5,13 @@ import roboguice.inject.InjectView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivity;
 import com.octo.android.robospice.motivations.asynctask.AsyncTaskAsInnerClassDemoActivity;
 import com.octo.android.robospice.motivations.asynctask.AsyncTaskStaticInnerClassDemoActivity;
@@ -34,11 +34,19 @@ import com.octo.android.robospice.motivations.robospice.tweeter.xml.TweeterXmlSp
  */
 // SOF references :
 /*
- ** http://stackoverflow.com/questions/12797550/android-asynctask-for-long-running-operations
- ** http://stackoverflow.com/questions/3365768/androids-asynctask-issue/13082232#13082232
- ** http://stackoverflow.com/questions/10212489/android-issue-with-json-in-asynctask/13082263#13082263
+ * 
+ * done
+ * 
+ * http://stackoverflow.com/questions/12797550/android-asynctask-for-long-running-operations//
+ * http://stackoverflow.com/questions/3365768/androids-asynctask-issue/13082232#13082232
+ * http://stackoverflow.com/questions/10212489/android-issue-with-json-in-asynctask/13082263#13082263
  * http://stackoverflow.com/questions/12219930/asynctask-for-longer-than-a-few-seconds
  * http://stackoverflow.com/questions/2531336/asynctask-wont-stop-even-when-the-activity-has-destroyed
+ * http://stackoverflow.com/questions/13214145/progressbar-and-asynctask/13214617#13214617
+ * 
+ * todo
+ * 
+ * flaws by design. Loaders way to go.
  * http://stackoverflow.com/questions/5097565/can-honeycomb-loaders-solve-problems-with-asynctask-ui-update
  * http://stackoverflow.com/questions/4285877/which-one-to-use-onsaveinstancestate-vs-onretainnonconfigurationinstance
  */
