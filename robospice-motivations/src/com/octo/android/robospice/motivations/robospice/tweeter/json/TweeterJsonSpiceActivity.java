@@ -2,18 +2,25 @@ package com.octo.android.robospice.motivations.robospice.tweeter.json;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.motivations.R;
 import com.octo.android.robospice.motivations.common.BaseActivity;
 import com.octo.android.robospice.motivations.model.tweeter.json.ListTweets;
+import com.octo.android.robospice.motivations.model.tweeter.json.Tweet;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
@@ -68,7 +75,7 @@ public class TweeterJsonSpiceActivity extends BaseActivity {
         ActivityManager activityManager = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
         MemoryInfo mi = new MemoryInfo();
         activityManager.getMemoryInfo( mi );
-        bufferToFillMemoryFaster = new byte[ (int) Math.max( mi.availMem / 100, SIZE_OF_BUFFER_SO_SIMULATE_OUT_OF_MEMORY ) ];
+        bufferToFillMemoryFaster = new byte[ (int) Math.max( mi.availMem / 100, SIZE_OF_BUFFER_TO_SIMULATE_OUT_OF_MEMORY ) ];
         Log.v( getClass().getSimpleName(), "Keeping buffer in memory, size= " + bufferToFillMemoryFaster.length );
         textViewMemory.setText( getString( R.string.text_available_memory, mi.availMem / 1024 ) );
     }

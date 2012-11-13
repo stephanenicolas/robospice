@@ -1,7 +1,6 @@
 package com.octo.android.robospice.sample;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -33,7 +32,7 @@ public class SampleOrmlitePersistenceRestContentService extends SpringAndroidCon
     @Override
     public CacheManager createCacheManager( Application application ) {
         CacheManager cacheManager = new CacheManager();
-        Collection< Class< ? >> classCollection = new ArrayList< Class< ? >>();
+        List< Class< ? >> classCollection = new ArrayList< Class< ? >>();
 
         // add persisted classes to class collection
         classCollection.add( Weather.class );
@@ -44,8 +43,8 @@ public class SampleOrmlitePersistenceRestContentService extends SpringAndroidCon
         classCollection.add( Wind.class );
 
         // init
-        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper( application, "sample_database.db", 1, classCollection );
-        InDatabaseObjectPersisterFactory<Integer> inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory<Integer>( application, databaseHelper , Integer.class);
+        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper( application, "sample_database.db", 1 );
+        InDatabaseObjectPersisterFactory inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory( application, databaseHelper, classCollection );
         cacheManager.addPersister( inDatabaseObjectPersisterFactory );
         return cacheManager;
     }
