@@ -11,7 +11,6 @@ TO BE RELEASED
 Version 1.2.0
 -------------
 
-TO BE RELEASED
 * Added network stating indirection in RequestProcessor. Thx to Pierre Durand
 * fixed bug in InFileObjetPersister. Thx to florianmski
 * fixed bug in json and xml persisters
