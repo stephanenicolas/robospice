@@ -7,17 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
 
 import roboguice.util.temp.Ln;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -26,6 +22,7 @@ import com.octo.android.robospice.SpiceServiceServiceListener;
 import com.octo.android.robospice.exception.NetworkException;
 import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.exception.RequestCancelledException;
+import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
@@ -69,27 +66,11 @@ public class RequestProcessor {
 
     private RequestProcessorListener requestProcessorListener;
 
+    private NetworkStateChecker networkStateChecker;
+
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-
-    /**
-     * Build a request processor using a default {@link ExecutorService}.
-     * 
-     * @param context
-     *            the context on which {@link SpiceRequest} will provide their results.
-     * @param cacheManager
-     *            the {@link CacheManager} that will be used to retrieve requests' result and store them.
-     * @param threadCount
-     *            the number of thread that will be used to execute {@link SpiceRequest}.
-     * @param requestProcessorListener
-     *            a listener of the {@link RequestProcessor}, it will be notified when no more requests are left,
-     *            typically allowing the {@link SpiceService} to stop itself.
-     */
-    public RequestProcessor( Context context, ICacheManager cacheManager, int threadCount, RequestProcessorListener requestProcessorListener ) {
-        this( context, cacheManager, null, requestProcessorListener );
-        initiateExecutorService( threadCount );
-    }
 
     /**
      * Build a request processor using a custom. This feature has been implemented follwing a feature request from
@@ -105,10 +86,12 @@ public class RequestProcessor {
      *            a listener of the {@link RequestProcessor}, it will be notified when no more requests are left,
      *            typically allowing the {@link SpiceService} to stop itself.
      */
-    public RequestProcessor( Context context, ICacheManager cacheManager, ExecutorService executorService, RequestProcessorListener requestProcessorListener ) {
+    public RequestProcessor( Context context, ICacheManager cacheManager, ExecutorService executorService,//
+            RequestProcessorListener requestProcessorListener, NetworkStateChecker networkStateChecker ) {
         this.applicationContext = context;
         this.cacheManager = cacheManager;
         this.requestProcessorListener = requestProcessorListener;
+        this.networkStateChecker = networkStateChecker;
 
         handlerResponse = new Handler( Looper.getMainLooper() );
         contentServiceListenerSet = Collections.synchronizedSet( new HashSet< SpiceServiceServiceListener >() );
@@ -120,21 +103,6 @@ public class RequestProcessor {
 
         if ( !hasNetworkStatePermission( context ) ) {
             throw new SecurityException( "Application doesn\'t declare <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />" );
-        }
-    }
-
-    protected void initiateExecutorService( int threadCount ) {
-        if ( threadCount <= 0 ) {
-            throw new IllegalArgumentException( "Thread count must be >= 1" );
-        } else if ( threadCount == 1 ) {
-            executorService = Executors.newSingleThreadExecutor();
-        } else {
-            executorService = Executors.newFixedThreadPool( threadCount, new ThreadFactory() {
-
-                public Thread newThread( Runnable r ) {
-                    return new Thread( r );
-                }
-            } );
         }
     }
 
@@ -347,17 +315,10 @@ public class RequestProcessor {
     }
 
     /**
-     * @return true if network is available (at least one way to connect to network is connected or connecting).
+     * @return true if network is available.
      */
-    public static boolean isNetworkAvailable( Context context ) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService( Context.CONNECTIVITY_SERVICE );
-        NetworkInfo[] allNetworkInfos = connectivityManager.getAllNetworkInfo();
-        for ( NetworkInfo networkInfo : allNetworkInfos ) {
-            if ( networkInfo.getState() == NetworkInfo.State.CONNECTED || networkInfo.getState() == NetworkInfo.State.CONNECTING ) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isNetworkAvailable( Context context ) {
+        return networkStateChecker.isNetworkAvailable( context );
     }
 
     public static boolean hasNetworkStatePermission( Context context ) {

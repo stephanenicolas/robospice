@@ -2,6 +2,8 @@ package com.octo.android.robospice.request;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.easymock.EasyMock;
 
@@ -9,6 +11,8 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.exception.RequestCancelledException;
+import com.octo.android.robospice.networkstate.DefaultNetworkStateChecker;
+import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
@@ -45,7 +49,10 @@ public class RequestProcessorTest extends InstrumentationTestCase {
             public void allRequestComplete() {
             }
         };
-        requestProcessorUnderTest = new RequestProcessor( getInstrumentation().getTargetContext(), mockCacheManager, 1, requestProcessorListener );
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        NetworkStateChecker networkStateChecker = new DefaultNetworkStateChecker();
+        requestProcessorUnderTest = new RequestProcessor( getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener,
+                networkStateChecker );
     }
 
     // ============================================================================================

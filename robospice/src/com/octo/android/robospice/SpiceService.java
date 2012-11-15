@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 import roboguice.util.temp.Ln;
 import android.app.Application;
@@ -15,6 +17,8 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.octo.android.robospice.networkstate.DefaultNetworkStateChecker;
+import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
@@ -82,12 +86,9 @@ public abstract class SpiceService extends Service {
 
         cacheManager = createCacheManager( getApplication() );
         ExecutorService executorService = getExecutorService();
+        NetworkStateChecker networkStateChecker = getNetworkStateChecker();
 
-        if ( executorService == null ) {
-            requestProcessor = new RequestProcessor( getApplicationContext(), cacheManager, getThreadCount(), requestProcessorListener );
-        } else {
-            requestProcessor = new RequestProcessor( getApplicationContext(), cacheManager, executorService, requestProcessorListener );
-        }
+        requestProcessor = new RequestProcessor( getApplicationContext(), cacheManager, executorService, requestProcessorListener, networkStateChecker );
         requestProcessor.setFailOnCacheError( DEFAULT_FAIL_ON_CACHE_ERROR );
 
         notification = createDefaultNotification();
@@ -97,17 +98,45 @@ public abstract class SpiceService extends Service {
     }
 
     /**
-     * Factory method to create an {@link ExecutorService} that will be used to execute {@link SpiceRequest} instances.
-     * The default implementation of this method is to return null. In that case, the {@link SpiceService} will create a
-     * single threaded or multi-threaded {@link ExecutorService} depending on the number of threads returned by
-     * {@link #getThreadCount()}. If you override this method in your service, you can supply a custom
-     * {@link ExecutorService}. This feature has been implemented following a request from Riccardo Ciovati.
+     * Factory method to create an entity responsible to check for network state. The default implementation of this
+     * method will return a {@link DefaultNetworkStateChecker}. Override this method if you want to inject a custom
+     * network state for testing or to adapt to connectivity changes on the Android.
      * 
-     * @return the {@link ExecutorService} to be used to execute {@link SpiceRequest} instances or null if you prefer to
-     *         use the default {@link ExecutorService} of RoboSpice.
+     * This method is also useful to create non-network related requests. In that case create a
+     * {@link NetworkStateChecker} that always return true. This feature has been implemented following a request from
+     * Pierre Durand.
+     * 
+     * @return a {@link NetworkStateChecker} that will be used to determine if network state allows requests executions.
+     */
+    protected NetworkStateChecker getNetworkStateChecker() {
+        return new DefaultNetworkStateChecker();
+    }
+
+    /**
+     * Factory method to create an {@link ExecutorService} that will be used to execute {@link SpiceRequest} instances.
+     * The default implementation of this method will create a single threaded or multi-threaded {@link ExecutorService}
+     * depending on the number of threads returned by {@link #getThreadCount()}. If you override this method in your
+     * service, you can supply a custom {@link ExecutorService}. This feature has been implemented following a request
+     * from Riccardo Ciovati.
+     * 
+     * @return the {@link ExecutorService} to be used to execute {@link SpiceRequest} instances.
      */
     protected ExecutorService getExecutorService() {
-        return null;
+        ExecutorService executorService;
+        int threadCount = getThreadCount();
+        if ( threadCount <= 0 ) {
+            throw new IllegalArgumentException( "Thread count must be >= 1" );
+        } else if ( threadCount == 1 ) {
+            executorService = Executors.newSingleThreadExecutor();
+        } else {
+            executorService = Executors.newFixedThreadPool( threadCount, new ThreadFactory() {
+
+                public Thread newThread( Runnable r ) {
+                    return new Thread( r );
+                }
+            } );
+        }
+        return executorService;
     }
 
     public static Notification createDefaultNotification() {

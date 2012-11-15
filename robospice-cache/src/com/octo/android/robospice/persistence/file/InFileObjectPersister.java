@@ -35,6 +35,7 @@ public abstract class InFileObjectPersister< T > extends ObjectPersister< T > {
         String[] cacheFileNameList = getCacheFolder().list( new FilenameFilter() {
             @Override
             public boolean accept( File dir, String filename ) {
+                //patch from florianmski 
                 return filename.startsWith( prefix );
             }
         } );
