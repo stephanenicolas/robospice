@@ -417,6 +417,7 @@ public class RequestProcessor {
             Ln.v( "Notifying " + listeners.size() + " listeners of progress " + progress );
             for ( RequestListener< ? > listener : listeners ) {
                 if ( listener instanceof RequestProgressListener ) {
+                    Ln.v( "Notifying %s", listener.getClass().getSimpleName() );
                     ( (RequestProgressListener) listener ).onRequestProgressUpdate( progress );
                 }
             }
@@ -447,6 +448,7 @@ public class RequestProcessor {
             String resultMsg = spiceException == null ? "success" : "failure";
             Ln.v( "Notifying " + listeners.size() + " listeners of request " + resultMsg );
             for ( RequestListener< T > listener : listeners ) {
+                Ln.v( "Notifying %s", listener.getClass().getSimpleName() );
                 if ( spiceException == null ) {
                     listener.onRequestSuccess( result );
                 } else {

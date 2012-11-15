@@ -181,7 +181,7 @@ public class SpiceManager implements Runnable {
                 }
             }
         } catch ( InterruptedException e ) {
-            Ln.e( e, "Interrupted while waiting for acquiring service." );
+            Ln.d( e, "Interrupted while waiting for acquiring service." );
         } finally {
             unbindFromService( context.get() );
         }
@@ -257,8 +257,7 @@ public class SpiceManager implements Runnable {
      *            the listener to notify when the request will finish. If nothing is found in cache, listeners will
      *            receive a null result on their {@link RequestListener#onRequestSuccess(Object)} method. If something
      *            is found in cache, they will receive it in this method. If an error occurs, they will be notified via
-     *            their
-     *            {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
+     *            their {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
      *            method.
      */
     public < T > void getFromCache( Class< T > clazz, String requestCacheKey, long cacheDuration, RequestListener< T > requestListener ) {
@@ -292,8 +291,7 @@ public class SpiceManager implements Runnable {
      *            the listener to notify when the request will finish. If nothing is found in cache, listeners will
      *            receive a null result on their {@link RequestListener#onRequestSuccess(Object)} method. If something
      *            is found in cache, they will receive it in this method. If an error occurs, they will be notified via
-     *            their
-     *            {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
+     *            their {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
      *            method.
      */
     public < T > void addListenerIfPending( Class< T > clazz, String requestCacheKey, long cacheDuration, RequestListener< T > requestListener ) {
@@ -368,8 +366,7 @@ public class SpiceManager implements Runnable {
      *            the listener to notify when the request will finish. If nothing is found in cache, listeners will
      *            receive a null result on their {@link RequestListener#onRequestSuccess(Object)} method. If something
      *            is found in cache, they will receive it in this method. If an error occurs, they will be notified via
-     *            their
-     *            {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
+     *            their {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
      *            method.
      */
     public < T > void cancel( Class< T > clazz, String requestCacheKey ) {
