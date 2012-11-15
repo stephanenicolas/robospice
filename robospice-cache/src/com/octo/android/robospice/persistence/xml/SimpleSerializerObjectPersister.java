@@ -120,7 +120,7 @@ public final class SimpleSerializerObjectPersister< T > extends InFileObjectPers
         try {
             serializer.write( data, getCacheFile( cacheKey ) );
         } catch ( Exception e ) {
-            throw new CacheSavingException( "Data was null and could not be serialized in json" );
+            throw new CacheSavingException( "Data was null and could not be serialized in xml" );
         }
     }
 

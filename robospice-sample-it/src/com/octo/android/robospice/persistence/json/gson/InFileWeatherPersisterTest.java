@@ -1,4 +1,4 @@
-package com.octo.android.robospice.persistence.json.jackson;
+package com.octo.android.robospice.persistence.json.gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,8 +11,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
-import com.octo.android.robospice.persistence.json.jackson.JacksonObjectPersister;
-import com.octo.android.robospice.persistence.json.jackson.JacksonObjectPersisterFactory;
 import com.octo.android.robospice.sample.model.json.Curren_weather;
 import com.octo.android.robospice.sample.model.json.Weather;
 import com.octo.android.robospice.sample.model.json.WeatherResult;
@@ -27,7 +25,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
-        JacksonObjectPersisterFactory factory = new JacksonObjectPersisterFactory( application );
+        GsonObjectPersisterFactory factory = new GsonObjectPersisterFactory( application );
         dataPersistenceManager = factory.createObjectPersister( WeatherResult.class );
     }
 
@@ -56,7 +54,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         WeatherResult weatherReturned = dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, "weather.json" );
 
         // THEN
-        ( (JacksonObjectPersister< ? >) dataPersistenceManager ).awaitForSaveAsyncTermination( 500, TimeUnit.MILLISECONDS );
+        ( (GsonObjectPersister< ? >) dataPersistenceManager ).awaitForSaveAsyncTermination( 500, TimeUnit.MILLISECONDS );
         assertEquals( TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get( 0 ).getTemp() );
     }
 
@@ -91,7 +89,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         WeatherResult weatherRequestStatus = buildWeather();
         final String FILE_NAME = "toto";
         dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, FILE_NAME );
-        File cachedFile = ( (JacksonObjectPersister< ? >) dataPersistenceManager ).getCacheFile( FILE_NAME );
+        File cachedFile = ( (GsonObjectPersister< ? >) dataPersistenceManager ).getCacheFile( FILE_NAME );
         cachedFile.setLastModified( System.currentTimeMillis() - 5 * DurationInMillis.ONE_SECOND );
 
         // WHEN

@@ -21,7 +21,7 @@ public class Weather {
     @ElementList(inline = true)
     private Collection< Curren_weather > listWeather;
     @ForeignCollectionField(eager = false)
-    @ElementList(inline = true)
+    @ElementList(inline = true, required = false)
     private Collection< Forecast > listForecast;
 
     public Weather() {

@@ -14,20 +14,20 @@ public class Curren_weather {
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "weather_id")
     private Weather weather;
 
-    @Element
+    @Element(required = false)
     private String humidity;
-    @Element
+    @Element(required = false)
     private String pressure;
-    @Element
+    @Element(required = false)
     private String temp;
-    @Element
+    @Element(required = false)
     private String temp_unit;
-    @Element
+    @Element(required = false)
     private String weather_code;
-    @Element
+    @Element(required = false)
     private String weather_text;
 
-    @Element
+    @Element(required = false)
     private Wind wind;
 
     public String getHumidity() {
@@ -90,6 +90,44 @@ public class Curren_weather {
     public String toString() {
         return "Curren_weather [humidity=" + humidity + ", pressure=" + pressure + ", temp=" + temp + ", temp_unit=" + temp_unit + ", weather_code="
                 + weather_code + ", weather_text=" + weather_text + ", wind=" + wind + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( temp == null ? 0 : temp.hashCode() );
+        result = prime * result + ( temp_unit == null ? 0 : temp_unit.hashCode() );
+        return result;
+    }
+
+    @Override
+    public boolean equals( Object obj ) {
+        if ( this == obj ) {
+            return true;
+        }
+        if ( obj == null ) {
+            return false;
+        }
+        if ( getClass() != obj.getClass() ) {
+            return false;
+        }
+        Curren_weather other = (Curren_weather) obj;
+        if ( temp == null ) {
+            if ( other.temp != null ) {
+                return false;
+            }
+        } else if ( !temp.equals( other.temp ) ) {
+            return false;
+        }
+        if ( temp_unit == null ) {
+            if ( other.temp_unit != null ) {
+                return false;
+            }
+        } else if ( !temp_unit.equals( other.temp_unit ) ) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -9,13 +9,13 @@ public class Wind {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @Element
+    @Element(required = false)
     private String dir;
     @Element(required = false)
     private String dir_degree;
-    @Element
+    @Element(required = false)
     private String speed;
-    @Element
+    @Element(required = false)
     private String wind_unit;
 
     public String getDir() {

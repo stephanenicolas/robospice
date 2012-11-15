@@ -1,12 +1,16 @@
 Release notes for RoboSpice
 ===========================
 
-Version 1.1.2
+Version 1.2.0
 -------------
 
-TO BE RELEASED 
-Bug fix and test addition release : 
+TO BE RELEASED
+* Added network stating indirection in RequestProcessor. Thx to Pierre Durand
+* fixed bug in InFileObjetPersister. Thx to florianmski
+* fixed bug in json and xml persisters
 * TODO test ormlite module, xml module, gson module
+* TODO test network state
+* TODO test getAllDataFromCache on persisters
 
 Version 1.1.1
 -------------

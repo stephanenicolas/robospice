@@ -21,12 +21,14 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.7</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>		
 		<dependency>
 			<groupId>org.simpleframework</groupId>
 			<artifactId>simple-xml</artifactId>
-			<version>2.6.6</version>
 		  	<exclusions>
 		    	<exclusion>
 		      		<groupId>xpp3</groupId>
@@ -41,7 +43,6 @@
 		<dependency>
             <groupId>com.j256.ormlite</groupId>
             <artifactId>ormlite-core</artifactId>
-            <version>4.41</version>
         </dependency>
         <dependency>
             <groupId>com.j256.ormlite</groupId>

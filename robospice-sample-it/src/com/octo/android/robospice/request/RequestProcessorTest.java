@@ -7,11 +7,11 @@ import java.util.concurrent.Executors;
 
 import org.easymock.EasyMock;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.exception.RequestCancelledException;
-import com.octo.android.robospice.networkstate.DefaultNetworkStateChecker;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ICacheManager;
@@ -38,6 +38,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     private ICacheManager mockCacheManager;
     private RequestProcessor requestProcessorUnderTest;
     private RequestProcessorListener requestProcessorListener;
+    private MockNetworkStateChecker networkStateChecker;
 
     @Override
     protected void setUp() throws Exception {
@@ -50,7 +51,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
             }
         };
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        NetworkStateChecker networkStateChecker = new DefaultNetworkStateChecker();
+        networkStateChecker = new MockNetworkStateChecker();
         requestProcessorUnderTest = new RequestProcessor( getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener,
                 networkStateChecker );
     }
@@ -383,6 +384,35 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         EasyMock.verify( mockCacheManager );
     }
 
+    // ============================================================================================
+    // TESTING NETWORK MANAGER DEPENDENCY
+    // ============================================================================================
+    public void testAddRequestWhenNetworkIsDown() throws CacheLoadingException, CacheSavingException, InterruptedException {
+        // given
+        CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
+
+        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
+        requestListenerSet.add( mockRequestListener );
+
+        EasyMock.expect( mockCacheManager.loadDataFromCache( EasyMock.eq( TEST_CLASS ), EasyMock.eq( TEST_CACHE_KEY ), EasyMock.eq( TEST_DURATION ) ) )
+                .andReturn( null );
+        EasyMock.replay( mockCacheManager );
+
+        // when
+        requestProcessorUnderTest.setFailOnCacheError( true );
+        networkStateChecker.setNetworkAvailable( false );
+        requestProcessorUnderTest.addRequest( stubRequest, requestListenerSet );
+
+        mockRequestListener.await( REQUEST_COMPLETION_TIME_OUT );
+
+        // then
+        EasyMock.verify( mockCacheManager );
+        assertFalse( stubRequest.isLoadDataFromNetworkCalled() );
+        assertTrue( mockRequestListener.isExecutedInUIThread() );
+        assertFalse( mockRequestListener.isSuccessful() );
+    }
+
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
@@ -406,5 +436,19 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     private < T > CachedSpiceRequestStub< T > createFailedRequest( Class< T > clazz, String cacheKey, long maxTimeInCache ) {
         ContentRequestStub< T > stubContentRequest = new ContentRequestFailingStub< T >( clazz );
         return new CachedSpiceRequestStub< T >( stubContentRequest, cacheKey, maxTimeInCache );
+    }
+
+    private class MockNetworkStateChecker implements NetworkStateChecker {
+
+        private boolean networkAvailable = true;
+
+        public void setNetworkAvailable( boolean networkAvailable ) {
+            this.networkAvailable = networkAvailable;
+        }
+
+        @Override
+        public boolean isNetworkAvailable( Context context ) {
+            return networkAvailable;
+        }
     }
 }
