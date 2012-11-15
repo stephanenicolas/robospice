@@ -34,8 +34,8 @@ public abstract class InFileObjectPersister< T > extends ObjectPersister< T > {
         final String prefix = getCachePrefix();
         String[] cacheFileNameList = getCacheFolder().list( new FilenameFilter() {
             @Override
-            public boolean accept( File arg0, String arg1 ) {
-                return arg0.getName().startsWith( prefix );
+            public boolean accept( File dir, String filename ) {
+                return filename.startsWith( prefix );
             }
         } );
         List< Object > result = new ArrayList< Object >();
