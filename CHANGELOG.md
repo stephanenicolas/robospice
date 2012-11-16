@@ -8,17 +8,19 @@ TO BE RELEASED
 * TODO test ormlite module
 * TODO test getAllDataFromCache on persisters
 
-Version 1.2.0
+Version 1.2.0 (november 12 2012)
 -------------
 
 * Added network stating indirection in RequestProcessor. Thx to Pierre Durand
+* Added a check in request classes to verify that requests are not inner classes of activities
+as this would create a memory leak. Thx to Cyril Mottier.
 * fixed bug in InFileObjetPersister. Thx to florianmski
 * fixed bug in json and xml persisters
 * Added json gson and jackson and xml simple serializer tests.
 * Added network state test.
 * Added multiple object persister test.
 
-Version 1.1.1
+Version 1.1.1 (
 -------------
 
 Bug fix :
