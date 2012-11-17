@@ -17,7 +17,7 @@ Main features of RoboSpice
 --------------------------
 
 * executes asynchronously (in a background AndroidService) network requests
-* supports REST out of the box (using [Spring Android](http://www.springsource.org/spring-android)).
+* supports REST out of the box (using [Spring Android](http://www.springsource.org/spring-android) or [Google Http Client](http://code.google.com/p/google-http-java-client)).
 * is strongly typed ! You make your requests using POJOs and you get POJOs as request results.
 * enforce no constraints neither on POJOs used for requests nor on Activity classes you use in your projects
 * caches results in Json with both [Jackson](http://jackson.codehaus.org/) and [Gson](http://code.google.com/p/google-gson/), 
@@ -28,6 +28,7 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * uses a simple but robust exception handling model
 * supports aggregation of different web services
 * supports multi-threading of request executions
+* since version 1.2, RoboSpice is a full featured replacement for long running AsyncTasks even they are not related to networking.
 * is open source ;) 
 * and tested
 
