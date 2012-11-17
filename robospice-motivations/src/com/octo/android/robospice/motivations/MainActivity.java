@@ -23,7 +23,8 @@ import com.octo.android.robospice.motivations.loader.LoaderWithProgressDemoActiv
 import com.octo.android.robospice.motivations.loader.TwitterLoaderActivity;
 import com.octo.android.robospice.motivations.roboguice.RoboAsyncTaskDemoActivity;
 import com.octo.android.robospice.motivations.robospice.image.ImageSpiceActivity;
-import com.octo.android.robospice.motivations.robospice.tweeter.json.TweeterJsonSpiceActivity;
+import com.octo.android.robospice.motivations.robospice.tweeter.googlehttpclient.TweeterJsonGoogleHttpClientSpiceActivity;
+import com.octo.android.robospice.motivations.robospice.tweeter.springandroid.TweeterJsonSpringAndroidSpiceActivity;
 import com.octo.android.robospice.motivations.robospice.tweeter.xml.TweeterXmlSpiceActivity;
 
 /**
@@ -81,6 +82,7 @@ public class MainActivity extends RoboSherlockActivity {
         sectionAdapter.addItem( getString( R.string.text_spice_rest_name ) );
         sectionAdapter.addItem( getString( R.string.text_spice_rest_xml_name ) );
         sectionAdapter.addItem( getString( R.string.text_spice_image_name ) );
+        sectionAdapter.addItem( getString( R.string.text_spice_google_http_client_name ) );
 
         listViewMain.setAdapter( sectionAdapter );
         listViewMain.setOnItemClickListener( new OnItemClickListener() {
@@ -130,7 +132,7 @@ public class MainActivity extends RoboSherlockActivity {
                 activityClass = TwitterLoaderActivity.class;
                 break;
             case 10:
-                activityClass = TweeterJsonSpiceActivity.class;
+                activityClass = TweeterJsonSpringAndroidSpiceActivity.class;
                 break;
             case 11:
                 activityClass = TweeterXmlSpiceActivity.class;
@@ -138,7 +140,9 @@ public class MainActivity extends RoboSherlockActivity {
             case 12:
                 activityClass = ImageSpiceActivity.class;
                 break;
-
+            case 13:
+                activityClass = TweeterJsonGoogleHttpClientSpiceActivity.class;
+                break;
             default:
                 throw new ArrayIndexOutOfBoundsException();
         }

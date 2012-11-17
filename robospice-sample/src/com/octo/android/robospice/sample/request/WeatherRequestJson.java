@@ -4,10 +4,10 @@ import org.springframework.web.client.RestClientException;
 
 import roboguice.util.Ln;
 
-import com.octo.android.robospice.request.springandroid.RestContentRequest;
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 import com.octo.android.robospice.sample.model.json.WeatherResult;
 
-public final class WeatherRequestJson extends RestContentRequest< WeatherResult > {
+public final class WeatherRequestJson extends SpringAndroidSpiceRequest< WeatherResult > {
 
     private String baseUrl;
 

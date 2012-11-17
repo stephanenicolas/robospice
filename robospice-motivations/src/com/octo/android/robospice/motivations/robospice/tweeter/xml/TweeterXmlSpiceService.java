@@ -12,14 +12,14 @@ import org.springframework.web.client.RestTemplate;
 
 import android.app.Application;
 
-import com.octo.android.robospice.SpringAndroidContentService;
+import com.octo.android.robospice.SpringAndroidSpiceService;
 import com.octo.android.robospice.motivations.model.tweeter.xml.Entry;
 import com.octo.android.robospice.motivations.model.tweeter.xml.Feed;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersisterFactory;
 import com.octo.android.robospice.persistence.ormlite.RoboSpiceDatabaseHelper;
 
-public class TweeterXmlSpiceService extends SpringAndroidContentService {
+public class TweeterXmlSpiceService extends SpringAndroidSpiceService {
 
     private static final String DATABASE_NAME = "tweeter.db";
     private static final int DATABASE_VERSION = 1;

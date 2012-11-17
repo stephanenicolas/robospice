@@ -55,6 +55,12 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
+			<groupId>com.octo.android.robospice</groupId>
+			<artifactId>robospice-google-http-client</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
 			<groupId>com.actionbarsherlock</groupId>
 			<artifactId>actionbarsherlock</artifactId>
 			<type>apklib</type>
@@ -76,6 +82,10 @@
 		<dependency>
 			<groupId>com.jakewharton</groupId>
 			<artifactId>notificationcompat2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson</artifactId>
 		</dependency>
 	</dependencies>
 

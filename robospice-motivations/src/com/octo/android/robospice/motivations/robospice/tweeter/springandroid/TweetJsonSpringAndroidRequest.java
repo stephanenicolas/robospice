@@ -1,15 +1,15 @@
-package com.octo.android.robospice.motivations.robospice.tweeter.json;
+package com.octo.android.robospice.motivations.robospice.tweeter.springandroid;
 
 import android.util.Log;
 
 import com.octo.android.robospice.motivations.model.tweeter.json.ListTweets;
-import com.octo.android.robospice.request.springandroid.RestContentRequest;
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
-public class TweetJsonRequest extends RestContentRequest< ListTweets > {
+public class TweetJsonSpringAndroidRequest extends SpringAndroidSpiceRequest< ListTweets > {
 
     private long delay;
 
-    public TweetJsonRequest( long delay ) {
+    public TweetJsonSpringAndroidRequest( long delay ) {
         super( ListTweets.class );
         this.delay = delay;
     }

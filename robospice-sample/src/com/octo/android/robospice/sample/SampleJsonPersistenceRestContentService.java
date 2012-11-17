@@ -11,13 +11,13 @@ import org.springframework.web.client.RestTemplate;
 
 import android.app.Application;
 
-import com.octo.android.robospice.SpringAndroidContentService;
+import com.octo.android.robospice.SpringAndroidSpiceService;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.binary.InFileInputStreamObjectPersister;
 import com.octo.android.robospice.persistence.json.jackson.JacksonObjectPersisterFactory;
 import com.octo.android.robospice.persistence.string.InFileStringObjectPersister;
 
-public class SampleJsonPersistenceRestContentService extends SpringAndroidContentService {
+public class SampleJsonPersistenceRestContentService extends SpringAndroidSpiceService {
 
     private static final int WEBSERVICES_TIMEOUT = 10000;
 

@@ -1,4 +1,4 @@
-package com.octo.android.robospice.motivations.robospice.tweeter.json;
+package com.octo.android.robospice.motivations.robospice.tweeter.googlehttpclient;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -33,9 +33,9 @@ import com.octo.android.robospice.request.listener.RequestProgressListener;
  * 
  */
 @ContentView(R.layout.activity_tweet_demo)
-public class TweeterJsonSpiceActivity extends BaseActivity {
+public class TweeterJsonGoogleHttpClientSpiceActivity extends BaseActivity {
 
-    private static final String JSON_CACHE_KEY = "tweets_json";
+    private static final String JSON_CACHE_KEY = "tweets_json_google_http_client";
     private static final int REQUEST_DELAY = 10 * 1000;
     private static final int SIZE_OF_BUFFER_TO_SIMULATE_OUT_OF_MEMORY = 1000000;
     private byte[] bufferToFillMemoryFaster = new byte[ SIZE_OF_BUFFER_TO_SIMULATE_OUT_OF_MEMORY ];
@@ -57,8 +57,8 @@ public class TweeterJsonSpiceActivity extends BaseActivity {
     @InjectView(R.id.checkbox_delay)
     private CheckBox checkBoxDelay;
 
-    private SpiceManager spiceManager = new SpiceManager( TweeterJsonSpiceService.class );
-    private TweetJsonRequest tweetJsonRequest;
+    private SpiceManager spiceManager = new SpiceManager( TweeterJsonGoogleHttpClientSpiceService.class );
+    private TweetJsonGoogleHttpClientRequest tweetJsonGoogleHttpClientRequest;
 
     @Override
     public void onCreate( Bundle savedInstanceState ) {
@@ -99,14 +99,14 @@ public class TweeterJsonSpiceActivity extends BaseActivity {
     @Override
     public void startDemo() {
         long delay = checkBoxDelay.isChecked() ? REQUEST_DELAY : 0;
-        tweetJsonRequest = new TweetJsonRequest( delay );
-        spiceManager.execute( tweetJsonRequest, JSON_CACHE_KEY, DurationInMillis.NEVER, new TweetRequestListener() );
+        tweetJsonGoogleHttpClientRequest = new TweetJsonGoogleHttpClientRequest( delay );
+        spiceManager.execute( tweetJsonGoogleHttpClientRequest, JSON_CACHE_KEY, DurationInMillis.NEVER, new TweetRequestListener() );
     }
 
     @Override
     public void stopDemo() {
-        if ( tweetJsonRequest != null ) {
-            tweetJsonRequest.cancel();
+        if ( tweetJsonGoogleHttpClientRequest != null ) {
+            tweetJsonGoogleHttpClientRequest.cancel();
         }
     }
 
@@ -115,7 +115,7 @@ public class TweeterJsonSpiceActivity extends BaseActivity {
         @Override
         public void onRequestFailure( SpiceException arg0 ) {
             if ( !( arg0 instanceof RequestCancelledException ) ) {
-                Toast.makeText( TweeterJsonSpiceActivity.this, "Failed to load Twitter data.", Toast.LENGTH_SHORT ).show();
+                Toast.makeText( TweeterJsonGoogleHttpClientSpiceActivity.this, "Failed to load Twitter data.", Toast.LENGTH_SHORT ).show();
             }
         }
 
@@ -158,12 +158,12 @@ public class TweeterJsonSpiceActivity extends BaseActivity {
 
     @Override
     public String getDemoSubtitle() {
-        return getString( R.string.text_spice_rest_name );
+        return getString( R.string.text_spice_google_http_client_name );
     }
 
     @Override
     public String getDemoExplanation() {
-        return "spice_rest.html";
+        return "spice_rest_google_http_client.html";
     }
 
     private String convertProgressToString( RequestProgress progress ) {

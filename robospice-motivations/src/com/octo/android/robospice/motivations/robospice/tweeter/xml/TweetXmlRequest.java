@@ -3,9 +3,9 @@ package com.octo.android.robospice.motivations.robospice.tweeter.xml;
 import android.util.Log;
 
 import com.octo.android.robospice.motivations.model.tweeter.xml.Feed;
-import com.octo.android.robospice.request.springandroid.RestContentRequest;
+import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
-public class TweetXmlRequest extends RestContentRequest< Feed > {
+public class TweetXmlRequest extends SpringAndroidSpiceRequest< Feed > {
 
     private long delay;
 

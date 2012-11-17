@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import android.app.Application;
 
-import com.octo.android.robospice.SpringAndroidContentService;
+import com.octo.android.robospice.SpringAndroidSpiceService;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersisterFactory;
 import com.octo.android.robospice.persistence.ormlite.RoboSpiceDatabaseHelper;
@@ -25,7 +25,7 @@ import com.octo.android.robospice.sample.model.xml.Wind;
 
 ;
 
-public class SampleOrmlitePersistenceRestContentService extends SpringAndroidContentService {
+public class SampleOrmlitePersistenceRestContentService extends SpringAndroidSpiceService {
 
     private static final int WEBSERVICES_TIMEOUT = 10000;
 

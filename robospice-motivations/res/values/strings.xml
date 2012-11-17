@@ -45,4 +45,7 @@
     <string name="text_roboasynctask_name">Basic RoboAsyncTask, from RoboGuice </string>
     <string name="text_empty_image">Click the info button in the action bar to learn more</string>
 
+    <!-- a robospice rest json based on google-http-client request -->
+    <string name="text_spice_google_http_client_name">RoboSpice REST google http client request</string>
+    
 </resources>

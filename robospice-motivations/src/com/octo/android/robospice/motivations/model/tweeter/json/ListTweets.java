@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.google.api.client.util.Key;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ListTweets {
 
+    @Key
     private List< Tweet > results;
 
     public List< Tweet > getResults() {

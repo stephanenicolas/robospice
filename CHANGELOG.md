@@ -1,6 +1,12 @@
 Release notes for RoboSpice
 ===========================
 
+Version 1.3.0
+-------------
+
+TO BE RELEASED
+* Added Google Http Client support via the robospice-google-http-client-module
+
 Version 1.2.1
 -------------
 

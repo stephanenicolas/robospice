@@ -1,25 +1,24 @@
-package com.octo.android.robospice.request.springandroid;
-
-import org.springframework.web.client.RestTemplate;
+package com.octo.android.robospice.request.googlehttpclient;
 
 import roboguice.util.temp.Ln;
 
+import com.google.api.client.http.HttpRequestFactory;
 import com.octo.android.robospice.request.SpiceRequest;
 
-public abstract class RestContentRequest< RESULT > extends SpiceRequest< RESULT > {
+public abstract class GoogleHttpClientSpiceRequest< RESULT > extends SpiceRequest< RESULT > {
 
-    private RestTemplate restTemplate;
+    private HttpRequestFactory httpRequestFactory;
 
-    public RestContentRequest( Class< RESULT > clazz ) {
+    public GoogleHttpClientSpiceRequest( Class< RESULT > clazz ) {
         super( clazz );
     }
 
-    public RestTemplate getRestTemplate() {
-        return restTemplate;
+    public void setHttpRequestFactory( HttpRequestFactory httpRequestFactory ) {
+        this.httpRequestFactory = httpRequestFactory;
     }
 
-    public void setRestTemplate( RestTemplate restTemplate ) {
-        this.restTemplate = restTemplate;
+    public HttpRequestFactory getHttpRequestFactory() {
+        return httpRequestFactory;
     }
 
     @Override
@@ -32,7 +31,7 @@ public abstract class RestContentRequest< RESULT > extends SpiceRequest< RESULT 
      */
     public void cancel() {
         super.cancel();
-        Ln.w( RestContentRequest.class.getName(), "Cancel can't be invoked directly on " + RestContentRequest.class.getName()
+        Ln.w( GoogleHttpClientSpiceRequest.class.getName(), "Cancel can't be invoked directly on " + GoogleHttpClientSpiceRequest.class.getName()
                 + " requests. You must call SpiceManager.cancelAllRequests()." );
     }
 }
