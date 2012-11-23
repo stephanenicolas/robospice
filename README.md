@@ -9,6 +9,7 @@ To learn more about RoboSpice in 30 seconds, try this infographics :
 https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png
 
 RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice).
+For non-Maven developers, follow [this guide](https://github.com/octo-online/robospice/wiki/Using-RoboSpice-without-Maven) to setup RoboSpice in your app.
 
 Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki).
