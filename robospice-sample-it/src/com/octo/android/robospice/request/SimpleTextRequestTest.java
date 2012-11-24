@@ -5,6 +5,12 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.octo.android.robospice.request.simple.SimpleTextRequest;
 
+/**
+ * This test is a good example of how easy it is to test RoboSpice requests. Test is synchronous.
+ * 
+ * @author sni
+ * 
+ */
 @LargeTest
 public class SimpleTextRequestTest extends InstrumentationTestCase {
 

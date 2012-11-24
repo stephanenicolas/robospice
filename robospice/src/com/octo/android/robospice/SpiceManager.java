@@ -24,7 +24,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import com.octo.android.robospice.SpiceService.ContentServiceBinder;
+import com.octo.android.robospice.SpiceService.SpiceServiceBinder;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.request.CachedSpiceRequest;
@@ -60,7 +60,7 @@ public class SpiceManager implements Runnable {
     /** A reference on the {@link SpiceService} obtained by local binding. */
     private SpiceService spiceService;
     /** {@link SpiceService} binder. */
-    private ContentServiceConnection contentServiceConnection = new ContentServiceConnection();
+    private SpiceServiceConnection spiceServiceConnection = new SpiceServiceConnection();
 
     /** The context used to bind to the service from. */
     private WeakReference< Context > context;
@@ -202,7 +202,7 @@ public class SpiceManager implements Runnable {
         dontNotifyAnyRequestListenersInternal();
         isUnbinding = false;
         unbindFromService( context.get() );
-        contentServiceConnection = null;
+        spiceServiceConnection = null;
         this.isStopped = true;
         this.runner.interrupt();
         this.runner = null;
@@ -737,13 +737,13 @@ public class SpiceManager implements Runnable {
     // ============================================================================================
 
     /** Reacts to binding/unbinding with {@link SpiceService}. */
-    public class ContentServiceConnection implements ServiceConnection {
+    public class SpiceServiceConnection implements ServiceConnection {
 
         public void onServiceConnected( ComponentName name, IBinder service ) {
             try {
                 lockAcquireService.lock();
 
-                spiceService = ( (ContentServiceBinder) service ).getContentService();
+                spiceService = ( (SpiceServiceBinder) service ).getSpiceService();
                 spiceService.addContentServiceListener( new RequestRemoverContentServiceListener() );
                 Ln.d( "Bound to service : " + spiceService.getClass().getSimpleName() );
                 conditionServiceBound.signalAll();
@@ -793,8 +793,8 @@ public class SpiceManager implements Runnable {
             if ( spiceService == null ) {
                 Intent intentService = new Intent( context, contentServiceClass );
                 Ln.v( "Binding to service." );
-                contentServiceConnection = new ContentServiceConnection();
-                context.getApplicationContext().bindService( intentService, contentServiceConnection, Context.BIND_AUTO_CREATE );
+                spiceServiceConnection = new SpiceServiceConnection();
+                context.getApplicationContext().bindService( intentService, spiceServiceConnection, Context.BIND_AUTO_CREATE );
             }
         } finally {
             lockAcquireService.unlock();
@@ -813,7 +813,7 @@ public class SpiceManager implements Runnable {
                 isUnbinding = true;
                 spiceService.removeContentServiceListener( removerContentServiceListener );
                 Ln.v( "Unbinding from service." );
-                context.getApplicationContext().unbindService( this.contentServiceConnection );
+                context.getApplicationContext().unbindService( this.spiceServiceConnection );
                 Ln.d( "Unbound from service : " + spiceService.getClass().getSimpleName() );
                 spiceService = null;
                 isUnbinding = false;
