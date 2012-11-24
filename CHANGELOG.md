@@ -11,6 +11,7 @@ Version 1.2.1
 -------------
 
 TO BE RELEASED
+* Spring Android module classes have been renamed to make room for other REST clients implementations.
 * TODO test ormlite module
 * TODO test getAllDataFromCache on persisters
 

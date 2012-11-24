@@ -51,7 +51,7 @@ public abstract class SpiceService extends Service {
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================
-    public ContentServiceBinder mContentServiceBinder;
+    public SpiceServiceBinder mSpiceServiceBinder;
 
     /** Responsible for persisting data. */
 
@@ -76,7 +76,7 @@ public abstract class SpiceService extends Service {
      * @param name
      */
     public SpiceService() {
-        mContentServiceBinder = new ContentServiceBinder( this );
+        mSpiceServiceBinder = new SpiceServiceBinder( this );
     }
 
     @Override
@@ -214,7 +214,7 @@ public abstract class SpiceService extends Service {
     @Override
     public IBinder onBind( Intent intent ) {
         isBound = true;
-        return mContentServiceBinder;
+        return mSpiceServiceBinder;
     }
 
     @Override
@@ -232,14 +232,14 @@ public abstract class SpiceService extends Service {
         }
     }
 
-    public static class ContentServiceBinder extends Binder {
+    public static class SpiceServiceBinder extends Binder {
         private SpiceService spiceService;
 
-        public ContentServiceBinder( SpiceService spiceService ) {
+        public SpiceServiceBinder( SpiceService spiceService ) {
             this.spiceService = spiceService;
         }
 
-        public SpiceService getContentService() {
+        public SpiceService getSpiceService() {
             return spiceService;
         }
     }

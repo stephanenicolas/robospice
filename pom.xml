@@ -60,6 +60,15 @@
         </developer>
     </developers>
 
+    <mailingLists>
+        <mailingList>
+            <name>RoboSpice Forum/Mailinglist</name>
+            <post>http://groups.google.com/group/robospice</post>
+            <subscribe>http://groups.google.com/group/robospice/subscribe</subscribe>
+            <unsubscribe>https://groups.google.com/group/robospice/subscribe</unsubscribe>
+        </mailingList>
+    </mailingLists>
+
     <modules>
         <!-- persistence -->
     	<module>robospice-cache</module>
