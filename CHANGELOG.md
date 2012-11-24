@@ -6,6 +6,7 @@ Version 1.3.0
 
 TO BE RELEASED
 * Added Google Http Client support via the robospice-google-http-client-module
+* Dependency conflicts solved : upgraded Guava, excluded xpp3 dependency, updated jackson version
 
 Version 1.2.1
 -------------

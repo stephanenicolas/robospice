@@ -91,10 +91,11 @@
         <android-platform.version>14</android-platform.version>
         <android-annotations.version>4.1.1.4</android-annotations.version>
         <android-support.version>r7</android-support.version>
-        <guava.version>13.0-rc1</guava.version>
+        <android-maven-plugin.version>3.4.1</android-maven-plugin.version>
+        <guava.version>13.0</guava.version>
         <simplexmlserializer.version>2.6.6</simplexmlserializer.version>
         <gson.version>2.2.2</gson.version>
-        <jackson.version>1.9.7</jackson.version>
+        <jackson.version>1.9.9</jackson.version>
         <ormlite.version>4.41</ormlite.version>        
         <notificationcompat2.version>1.1.2</notificationcompat2.version>
         <actionbarsherlock.version>4.2.0</actionbarsherlock.version>
@@ -140,7 +141,7 @@
             </dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
+				<artifactId>guava-jdk5</artifactId>
 	                <version>${guava.version}</version>
 			</dependency>   
 			<dependency>
@@ -215,7 +216,7 @@
                 <plugin>
                     <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>3.3.2</version>
+                    <version>${android-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>

@@ -24,7 +24,7 @@
         </dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
+			<artifactId>guava-jdk5</artifactId>
 		</dependency>        
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
