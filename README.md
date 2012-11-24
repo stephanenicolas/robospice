@@ -66,6 +66,7 @@ RoboSpice has been presented at :
 * [Paris Android User Group](http://www.paug.fr/actualite-android/conference-presentation-des-librairies-robospice-et-polaris/), November 2012
 * [DroidCon Amsterdam](http://www.droidcon.nl/), November 2012
 
+[RoboSpice video at DroidConLondon](http://uk.droidcon.com/sessions/b-track-3/)
 
 License
 -------
