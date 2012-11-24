@@ -9,6 +9,7 @@ To learn more about RoboSpice in 30 seconds, try this infographics :
 https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png
 
 RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice).
+For non-Maven developers, follow [this guide](https://github.com/octo-online/robospice/wiki/Using-RoboSpice-without-Maven) to setup RoboSpice in your app.
 
 Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki).
@@ -58,14 +59,11 @@ RoboSpice has been featured in
 * Android dev weekly mailing list, [issue 31](http://androiddevweekly.com/2012/10/29/Issue-31.html).
 * Android weekly mailing list, [issue 44](http://androidweekly.net/).
 * [An article of Geeek.org ](http://www.geeek.org/developpement-android-robospice-simplifie-vos-appels-reseau-asynchrone-690.html)
-RoboSpice has been presented at : 
 
+RoboSpice has been presented at : 
 * [DroidCon London](http://uk.droidcon.com/), October 2012
 * [Nantes GDG Dev Fest, France](http://devfest.gdgnantes.com/?utm_source=3eme%2Bmsg&utm_medium=google-plus&utm_campaign=mailing-devfest), November 2012
 * [Paris Android User Group](http://www.paug.fr/actualite-android/conference-presentation-des-librairies-robospice-et-polaris/), November 2012
-
-
-And will be demonstrated at 
 * [DroidCon Amsterdam](http://www.droidcon.nl/), November 2012
 
 
