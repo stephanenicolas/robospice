@@ -6,61 +6,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import roboguice.util.temp.Ln;
-
-import com.google.common.io.ByteStreams;
-import com.google.common.io.InputSupplier;
-import com.octo.android.robospice.request.SpiceRequest;
 
 /**
- * Downloads big images in size. All data is passed to the listener using file system. This class is meant to help
- * download big images. If you wish to download smaller documents, you would be better using {@link SmallBinaryRequest}.
+ * Downloads big images in size. All data is passed to the listener using file system. This class is meant to help download big images. If you wish to download smaller documents, you would be better
+ * using {@link SmallBinaryRequest}.
  * 
- * @author sni
+ * @author sni & jva
  * 
  */
-public class BigBinaryRequest extends SpiceRequest< InputStream > {
+public class BigBinaryRequest extends BinaryRequest {
 
-    protected String url;
-    protected File cacheFile;
+	protected File cacheFile;
 
-    public BigBinaryRequest( String url, File cacheFile ) {
-        super( InputStream.class );
-        this.url = url;
-        this.cacheFile = cacheFile;
-    }
+	public BigBinaryRequest(String url, File cacheFile) {
+		super(url);
+		this.cacheFile = cacheFile;
+	}
 
-    @Override
-    public final InputStream loadDataFromNetwork() throws Exception {
-        try {
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) new URL( url ).openConnection();
-            InputSupplier< InputStream > supplier = new InputSupplier< InputStream >() {
+	@Override
+	public InputStream processStream(int contentLength, InputStream inputStream) throws IOException {
+		// touch
+		cacheFile.setLastModified(System.currentTimeMillis());
+		OutputStream fileOutputStream = new FileOutputStream(cacheFile);
+		readBytes(inputStream, new ProgressByteProcessor(fileOutputStream, contentLength));
+		return new FileInputStream(cacheFile);
 
-                public InputStream getInput() throws IOException {
-                    return httpURLConnection.getInputStream();
-                }
-            };
-            long total = httpURLConnection.getContentLength();
-            // touch
-            cacheFile.setLastModified( System.currentTimeMillis() );
-            OutputStream fileOutputStream = new FileOutputStream( cacheFile );
-            ByteStreams.readBytes( supplier, new ProgressByteProcessor( fileOutputStream, total ) );
-            return new FileInputStream( cacheFile );
-        } catch ( MalformedURLException e ) {
-            Ln.e( e, "Unable to create image URL" );
-            return null;
-        } catch ( IOException e ) {
-            Ln.e( e, "Unable to download image" );
-            return null;
-        }
-    }
-
-    protected final String getUrl() {
-        return this.url;
-    }
-
+	}
 }
