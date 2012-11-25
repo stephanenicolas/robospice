@@ -97,6 +97,12 @@ public abstract class SpiceService extends Service {
         Ln.d( "Content Service instance created." );
     }
 
+    @Override
+    public int onStartCommand( Intent intent, int flags, int startId ) {
+        super.onStartCommand( intent, flags, startId );
+        return START_NOT_STICKY;
+    }
+
     /**
      * Factory method to create an entity responsible to check for network state. The default implementation of this
      * method will return a {@link DefaultNetworkStateChecker}. Override this method if you want to inject a custom

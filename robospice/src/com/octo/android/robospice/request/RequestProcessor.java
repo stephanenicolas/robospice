@@ -134,7 +134,7 @@ public class RequestProcessor {
             }
 
             listRequestListenerForThisRequest.addAll( listRequestListener );
-            notifyListenersOfRequestProgress( listRequestListener, request.getProgress() );
+            notifyListenersOfRequestProgress( request, request.getProgress() );
         }
 
         if ( aggregated ) {
@@ -149,7 +149,7 @@ public class RequestProcessor {
         request.setFuture( future );
     }
 
-    protected < T > void processRequest( CachedSpiceRequest< T > request ) {
+    protected < T > void processRequest( final CachedSpiceRequest< T > request ) {
 
         if ( !request.isProcessable() ) {
             notifyOfRequestProcessed( request );
@@ -159,18 +159,17 @@ public class RequestProcessor {
         Ln.d( "Processing request : " + request );
 
         T result = null;
-        final Set< RequestListener< ? >> requestListeners = mapRequestToRequestListener.get( request );
 
         // add a progress listener to the request to be notified of progress during load data from network
         RequestProgressListener requestProgressListener = new RequestProgressListener() {
             public void onRequestProgressUpdate( RequestProgress progress ) {
-                notifyListenersOfRequestProgress( requestListeners, progress );
+                notifyListenersOfRequestProgress( request, progress );
             }
         };
         request.setRequestProgressListener( requestProgressListener );
 
         if ( request.isCancelled() ) {
-            notifyListenersOfRequestCancellation( request, requestListeners );
+            notifyListenersOfRequestCancellation( request );
             return;
         }
 
@@ -181,20 +180,20 @@ public class RequestProcessor {
                 request.setStatus( RequestStatus.READING_FROM_CACHE );
                 result = loadDataFromCache( request.getResultType(), request.getRequestCacheKey(), request.getCacheDuration() );
                 if ( result != null ) {
-                    notifyListenersOfRequestSuccess( request, result, requestListeners );
+                    notifyListenersOfRequestSuccess( request, result );
                     return;
                 }
             } catch ( CacheLoadingException e ) {
                 Ln.d( e, "Cache file could not be read." );
                 if ( failOnCacheError ) {
-                    notifyListenersOfRequestFailure( request, requestListeners, e );
+                    notifyListenersOfRequestFailure( request, e );
                     return;
                 }
             }
         }
 
         if ( request.isCancelled() ) {
-            notifyListenersOfRequestCancellation( request, requestListeners );
+            notifyListenersOfRequestCancellation( request );
             return;
         }
 
@@ -203,7 +202,7 @@ public class RequestProcessor {
             Ln.d( "Cache content not available or expired or disabled" );
             if ( !isNetworkAvailable( applicationContext ) ) {
                 Ln.e( "Network is down." );
-                notifyListenersOfRequestFailure( request, requestListeners, new NoNetworkException() );
+                notifyListenersOfRequestFailure( request, new NoNetworkException() );
                 return;
             }
 
@@ -220,16 +219,16 @@ public class RequestProcessor {
                  */
             } catch ( Exception e ) {
                 if ( request.isCancelled() ) {
-                    notifyListenersOfRequestCancellation( request, requestListeners );
+                    notifyListenersOfRequestCancellation( request );
                     return;
                 }
                 Ln.e( e, "An exception occured during request network execution :" + e.getMessage() );
-                notifyListenersOfRequestFailure( request, requestListeners, new NetworkException( "Exception occured during invocation of web service.", e ) );
+                notifyListenersOfRequestFailure( request, new NetworkException( "Exception occured during invocation of web service.", e ) );
                 return;
             }
 
             if ( request.isCancelled() ) {
-                notifyListenersOfRequestCancellation( request, requestListeners );
+                notifyListenersOfRequestCancellation( request );
                 return;
             }
 
@@ -239,33 +238,33 @@ public class RequestProcessor {
                     Ln.d( "Start caching content..." );
                     request.setStatus( RequestStatus.WRITING_TO_CACHE );
                     result = saveDataToCacheAndReturnData( result, request.getRequestCacheKey() );
-                    notifyListenersOfRequestSuccess( request, result, requestListeners );
+                    notifyListenersOfRequestSuccess( request, result );
                     return;
                 } catch ( CacheSavingException e ) {
                     Ln.d( "An exception occured during service execution :" + e.getMessage(), e );
                     if ( failOnCacheError ) {
-                        notifyListenersOfRequestFailure( request, requestListeners, e );
+                        notifyListenersOfRequestFailure( request, e );
                         return;
                     } else {
                         // result can't be saved to cache but we reached that point after a success of load data from
                         // network
-                        notifyListenersOfRequestSuccess( request, result, requestListeners );
+                        notifyListenersOfRequestSuccess( request, result );
                     }
                 }
             } else {
                 // result can't be saved to cache but we reached that point after a success of load data from network
-                notifyListenersOfRequestSuccess( request, result, requestListeners );
+                notifyListenersOfRequestSuccess( request, result );
                 return;
             }
         }
     }
 
-    private < T > void notifyListenersOfRequestProgress( final Set< RequestListener< ? >> requestListeners, RequestStatus status ) {
-        notifyListenersOfRequestProgress( requestListeners, new RequestProgress( status ) );
+    private < T > void notifyListenersOfRequestProgress( CachedSpiceRequest< ? > request, RequestStatus status ) {
+        notifyListenersOfRequestProgress( request, new RequestProgress( status ) );
     }
 
-    private < T > void notifyListenersOfRequestProgress( final Set< RequestListener< ? >> requestListeners, RequestProgress progress ) {
-        handlerResponse.post( new ProgressRunnable( requestListeners, progress ) );
+    private < T > void notifyListenersOfRequestProgress( CachedSpiceRequest< ? > request, RequestProgress progress ) {
+        handlerResponse.post( new ProgressRunnable( request, progress ) );
         checkAllRequestComplete();
     }
 
@@ -276,25 +275,21 @@ public class RequestProcessor {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private < T > void notifyListenersOfRequestSuccess( CachedSpiceRequest< T > request, T result, final Set< RequestListener< ? >> requestListeners ) {
-        notifyOfRequestProcessed( request );
-        handlerResponse.post( new ResultRunnable( requestListeners, result ) );
-        notifyListenersOfRequestProgress( requestListeners, RequestStatus.COMPLETE );
+    private < T > void notifyListenersOfRequestSuccess( CachedSpiceRequest< T > request, T result ) {
+        handlerResponse.post( new ResultRunnable( request, result ) );
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private < T > void notifyListenersOfRequestFailure( CachedSpiceRequest< T > request, final Set< RequestListener< ? >> requestListeners, SpiceException e ) {
-        notifyOfRequestProcessed( request );
-        handlerResponse.post( new ResultRunnable( requestListeners, e ) );
-        notifyListenersOfRequestProgress( requestListeners, RequestStatus.COMPLETE );
+    private < T > void notifyListenersOfRequestFailure( CachedSpiceRequest< T > request, SpiceException e ) {
+        handlerResponse.post( new ResultRunnable( request, e ) );
+        notifyListenersOfRequestProgress( request, RequestStatus.COMPLETE );
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void notifyListenersOfRequestCancellation( CachedSpiceRequest< ? > request, final Set< RequestListener< ? >> requestListeners ) {
+    private void notifyListenersOfRequestCancellation( CachedSpiceRequest< ? > request ) {
         Ln.d( "Not calling network request : " + request + " as it is cancelled. " );
-        notifyOfRequestProcessed( request );
-        notifyListenersOfRequestProgress( requestListeners, RequestStatus.COMPLETE );
-        handlerResponse.post( new ResultRunnable( requestListeners, new RequestCancelledException( "Request has been cancelled explicitely." ) ) );
+        notifyListenersOfRequestProgress( request, RequestStatus.COMPLETE );
+        handlerResponse.post( new ResultRunnable( request, new RequestCancelledException( "Request has been cancelled explicitely." ) ) );
     }
 
     /**
@@ -362,15 +357,17 @@ public class RequestProcessor {
     }
 
     private class ProgressRunnable implements Runnable {
-        private Set< RequestListener< ? >> listeners;
         private RequestProgress progress;
+        private CachedSpiceRequest< ? > request;
 
-        public ProgressRunnable( Set< RequestListener< ? >> listeners, RequestProgress progress ) {
+        public ProgressRunnable( CachedSpiceRequest< ? > request, RequestProgress progress ) {
             this.progress = progress;
-            this.listeners = listeners;
+            this.request = request;
         }
 
         public void run() {
+            Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
+
             if ( listeners == null ) {
                 return;
             }
@@ -389,33 +386,38 @@ public class RequestProcessor {
 
         private SpiceException spiceException;
         private T result;
-        private Set< RequestListener< T >> listeners;
+        private CachedSpiceRequest< T > request;
 
-        public ResultRunnable( Set< RequestListener< T >> listeners, T result ) {
+        public ResultRunnable( CachedSpiceRequest< T > request, T result ) {
             this.result = result;
-            this.listeners = listeners;
+            this.request = request;
         }
 
-        public ResultRunnable( Set< RequestListener< T >> listeners, SpiceException spiceException ) {
-            this.listeners = listeners;
+        public ResultRunnable( CachedSpiceRequest< T > request, SpiceException spiceException ) {
+            this.request = request;
             this.spiceException = spiceException;
         }
 
         public void run() {
+            Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
             if ( listeners == null ) {
+                notifyOfRequestProcessed( request );
                 return;
             }
 
             String resultMsg = spiceException == null ? "success" : "failure";
             Ln.v( "Notifying " + listeners.size() + " listeners of request " + resultMsg );
-            for ( RequestListener< T > listener : listeners ) {
+            for ( RequestListener< ? > listener : listeners ) {
+                @SuppressWarnings("unchecked")
+                RequestListener< T > listener2 = (RequestListener< T >) listener;
                 Ln.v( "Notifying %s", listener.getClass().getSimpleName() );
                 if ( spiceException == null ) {
-                    listener.onRequestSuccess( result );
+                    listener2.onRequestSuccess( result );
                 } else {
                     listener.onRequestFailure( spiceException );
                 }
             }
+            notifyOfRequestProcessed( request );
         }
     }
 
