@@ -276,13 +276,14 @@ public class RequestProcessor {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private < T > void notifyListenersOfRequestSuccess( CachedSpiceRequest< T > request, T result ) {
+        notifyListenersOfRequestProgress( request, RequestStatus.COMPLETE );
         handlerResponse.post( new ResultRunnable( request, result ) );
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private < T > void notifyListenersOfRequestFailure( CachedSpiceRequest< T > request, SpiceException e ) {
-        handlerResponse.post( new ResultRunnable( request, e ) );
         notifyListenersOfRequestProgress( request, RequestStatus.COMPLETE );
+        handlerResponse.post( new ResultRunnable( request, e ) );
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

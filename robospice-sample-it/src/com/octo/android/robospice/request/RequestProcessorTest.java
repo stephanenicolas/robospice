@@ -23,6 +23,7 @@ import com.octo.android.robospice.stub.ContentRequestFailingStub;
 import com.octo.android.robospice.stub.ContentRequestStub;
 import com.octo.android.robospice.stub.ContentRequestSucceedingStub;
 import com.octo.android.robospice.stub.RequestListenerStub;
+import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 
 @SmallTest
 public class RequestProcessorTest extends InstrumentationTestCase {
@@ -65,7 +66,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         String cacheKey = null;
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, cacheKey, TEST_DURATION, TEST_RETURNED_DATA );
 
-        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( mockRequestListener );
 
@@ -80,13 +81,14 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue( stubRequest.isLoadDataFromNetworkCalled() );
         assertTrue( mockRequestListener.isExecutedInUIThread() );
         assertTrue( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
     }
 
     public void testAddRequest_when_something_is_found_in_cache() throws CacheLoadingException, CacheSavingException, InterruptedException {
         // given
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
 
-        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( mockRequestListener );
 
@@ -104,13 +106,14 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertFalse( stubRequest.isLoadDataFromNetworkCalled() );
         assertTrue( mockRequestListener.isExecutedInUIThread() );
         assertTrue( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
     }
 
     public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException, CacheSavingException, InterruptedException {
         // given
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
 
-        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( mockRequestListener );
 
@@ -130,13 +133,14 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue( stubRequest.isLoadDataFromNetworkCalled() );
         assertTrue( mockRequestListener.isExecutedInUIThread() );
         assertTrue( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
     }
 
     public void testAddRequest_when_nothing_is_found_in_cache_and_request_fails() throws CacheLoadingException, CacheSavingException, InterruptedException {
         // given
         CachedSpiceRequestStub< String > stubRequest = createFailedRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION );
 
-        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( mockRequestListener );
 
@@ -154,13 +158,14 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue( stubRequest.isLoadDataFromNetworkCalled() );
         assertTrue( mockRequestListener.isExecutedInUIThread() );
         assertFalse( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
     }
 
     public void testAddRequest_when_saving_to_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException {
         // given
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
 
-        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( mockRequestListener );
 
@@ -180,6 +185,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue( stubRequest.isLoadDataFromNetworkCalled() );
         assertTrue( mockRequestListener.isExecutedInUIThread() );
         assertTrue( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
     }
 
     // ============================================================================================
@@ -190,7 +196,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // given
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
 
-        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( mockRequestListener );
 
@@ -211,6 +217,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue( stubRequest.isLoadDataFromNetworkCalled() );
         assertTrue( mockRequestListener.isExecutedInUIThread() );
         assertTrue( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
     }
 
     public void testAddRequest_when_fail_on_error_true_loading_from_cache_throws_exception() throws CacheLoadingException, CacheSavingException,
@@ -218,7 +225,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // given
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
 
-        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( mockRequestListener );
 
@@ -236,6 +243,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         EasyMock.verify( mockCacheManager );
         assertFalse( stubRequest.isLoadDataFromNetworkCalled() );
         assertFalse( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
     }
 
     public void testAddRequest_when_fail_on_error_true_saving_to_cache_throws_exception() throws CacheLoadingException, CacheSavingException,
@@ -243,7 +251,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // given
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
 
-        RequestListenerStub< String > mockRequestListener = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( mockRequestListener );
 
@@ -264,6 +272,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue( stubRequest.isLoadDataFromNetworkCalled() );
         assertTrue( mockRequestListener.isExecutedInUIThread() );
         assertFalse( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
     }
 
     // ============================================================================================
@@ -275,8 +284,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA,
                 WAIT_BEFORE_REQUEST_EXECUTION );
         CachedSpiceRequestStub< String > stubRequest2 = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA );
-        RequestListenerStub< String > requestListenerStub = new RequestListenerStub< String >();
-        RequestListenerStub< String > requestListenerStub2 = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > requestListenerStub = new RequestListenerWithProgressStub< String >();
+        RequestListenerWithProgressStub< String > requestListenerStub2 = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( requestListenerStub );
         Set< RequestListener< ? >> requestListenerSet2 = new HashSet< RequestListener< ? >>();
@@ -301,7 +310,9 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // TODO check this !! assertTrue( stubRequest.isLoadDataFromNetworkCalled() );
         assertTrue( stubRequest2.isLoadDataFromNetworkCalled() );
         assertNull( requestListenerStub.isSuccessful() );
+        assertFalse( requestListenerStub.isComplete() );
         assertTrue( requestListenerStub2.isSuccessful() );
+        assertTrue( requestListenerStub2.isComplete() );
     }
 
     // ============================================================================================
@@ -311,8 +322,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // given
         CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
         CachedSpiceRequestStub< String > stubRequest2 = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA );
-        RequestListenerStub< String > requestListenerStub = new RequestListenerStub< String >();
-        RequestListenerStub< String > requestListenerStub2 = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > requestListenerStub = new RequestListenerWithProgressStub< String >();
+        RequestListenerWithProgressStub< String > requestListenerStub2 = new RequestListenerWithProgressStub< String >();
         Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
         requestListenerSet.add( requestListenerStub );
         Set< RequestListener< ? >> requestListenerSet2 = new HashSet< RequestListener< ? >>();
@@ -336,9 +347,11 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertNotNull( requestListenerStub.isSuccessful() );
         assertFalse( requestListenerStub.isSuccessful() );
         assertTrue( requestListenerStub.getReceivedException() instanceof RequestCancelledException );
+        assertTrue( requestListenerStub.isComplete() );
 
         assertNotNull( requestListenerStub2.isSuccessful() );
         assertTrue( requestListenerStub2.isSuccessful() );
+        assertTrue( requestListenerStub2.isComplete() );
     }
 
     // ============================================================================================
