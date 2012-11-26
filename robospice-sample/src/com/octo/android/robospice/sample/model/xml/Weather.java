@@ -18,7 +18,7 @@ public class Weather {
     private String emptyField;
 
     @ForeignCollectionField(eager = false)
-    @ElementList(inline = true)
+    @ElementList(inline = true, required = false)
     private Collection< Curren_weather > listWeather;
     @ForeignCollectionField(eager = false)
     @ElementList(inline = true, required = false)
@@ -27,19 +27,27 @@ public class Weather {
     public Weather() {
     }
 
-    public Collection< Curren_weather > getCurren_weather() {
+    public void setId( int id ) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Collection< Curren_weather > getListWeather() {
         return this.listWeather;
     }
 
-    public void setCurren_weather( Collection< Curren_weather > curren_weather ) {
+    public void setListWeather( Collection< Curren_weather > curren_weather ) {
         this.listWeather = curren_weather;
     }
 
-    public Collection< Forecast > getForecast() {
+    public Collection< Forecast > getListForecast() {
         return this.listForecast;
     }
 
-    public void setForecast( Collection< Forecast > forecast ) {
+    public void setListForecast( Collection< Forecast > forecast ) {
         this.listForecast = forecast;
     }
 

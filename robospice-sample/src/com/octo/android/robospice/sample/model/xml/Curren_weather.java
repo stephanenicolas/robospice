@@ -15,16 +15,22 @@ public class Curren_weather {
     private Weather weather;
 
     @Element(required = false)
+    @DatabaseField
     private String humidity;
     @Element(required = false)
+    @DatabaseField
     private String pressure;
     @Element(required = false)
+    @DatabaseField
     private String temp;
     @Element(required = false)
+    @DatabaseField
     private String temp_unit;
     @Element(required = false)
+    @DatabaseField
     private String weather_code;
     @Element(required = false)
+    @DatabaseField
     private String weather_text;
 
     @Element(required = false)

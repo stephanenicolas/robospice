@@ -461,8 +461,10 @@ public class RequestProcessor {
     protected void notifyOfRequestProcessed( CachedSpiceRequest< ? > request ) {
         mapRequestToRequestListener.remove( request );
         checkAllRequestComplete();
-        for ( SpiceServiceServiceListener spiceServiceServiceListener : contentServiceListenerSet ) {
-            spiceServiceServiceListener.onRequestProcessed( request );
+        synchronized ( contentServiceListenerSet ) {
+            for ( SpiceServiceServiceListener spiceServiceServiceListener : contentServiceListenerSet ) {
+                spiceServiceServiceListener.onRequestProcessed( request );
+            }
         }
     }
 }

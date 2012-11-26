@@ -45,7 +45,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         Weather weatherReturned = dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, "weather.xml" );
 
         // THEN
-        assertTrue( weatherReturned.getCurren_weather().contains( TEST_TEMP ) );
+        assertTrue( weatherReturned.getListWeather().contains( TEST_TEMP ) );
     }
 
     public void test_saveDataAndReturnData_async() throws Exception {
@@ -58,7 +58,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
 
         // THEN
         ( (SimpleSerializerObjectPersister< ? >) dataPersistenceManager ).awaitForSaveAsyncTermination( 500, TimeUnit.MILLISECONDS );
-        assertTrue( weatherReturned.getCurren_weather().contains( TEST_TEMP ) );
+        assertTrue( weatherReturned.getListWeather().contains( TEST_TEMP ) );
     }
 
     public void test_loadDataFromCache_no_expiracy() throws Exception {
@@ -71,7 +71,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         Weather weatherReturned = dataPersistenceManager.loadDataFromCache( FILE_NAME, DurationInMillis.ALWAYS );
 
         // THEN
-        assertTrue( weatherReturned.getCurren_weather().contains( TEST_TEMP ) );
+        assertTrue( weatherReturned.getListWeather().contains( TEST_TEMP ) );
     }
 
     public void test_loadDataFromCache_not_expired() throws Exception {
@@ -84,7 +84,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         Weather weatherReturned = dataPersistenceManager.loadDataFromCache( FILE_NAME, DurationInMillis.ONE_SECOND );
 
         // THEN
-        assertTrue( weatherReturned.getCurren_weather().contains( TEST_TEMP ) );
+        assertTrue( weatherReturned.getListWeather().contains( TEST_TEMP ) );
     }
 
     public void test_loadDataFromCache_expired() throws Exception {
@@ -106,9 +106,9 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         Weather weather = new Weather();
         List< Curren_weather > currents = new ArrayList< Curren_weather >();
         currents.add( TEST_TEMP );
-        weather.setCurren_weather( currents );
+        weather.setListWeather( currents );
         List< Forecast > forecasts = new ArrayList< Forecast >();
-        weather.setForecast( forecasts );
+        weather.setListForecast( forecasts );
         return weather;
     }
 }

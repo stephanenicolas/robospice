@@ -2,11 +2,15 @@ package com.octo.android.robospice.persistence.ormlite;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,9 +18,11 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.stmt.DeleteBuilder;
-import com.j256.ormlite.stmt.PreparedDelete;
+import com.j256.ormlite.dao.LazyForeignCollection;
+import com.j256.ormlite.field.DatabaseFieldConfig;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 /**
  * Helper class which creates/updates our database and provides the DAOs.
@@ -88,7 +94,34 @@ public class RoboSpiceDatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public < T, ID > T queryForIdFromDatabase( ID id, Class< T > modelObjectClass ) throws SQLException {
         Dao< T, ID > dao = getDao( modelObjectClass );
-        return dao.queryForId( id );
+        T result = dao.queryForId( id );
+
+        loadFully( modelObjectClass, result );
+        return result;
+    }
+
+    private < T > void loadFully( Class< T > clazz, T object ) {
+        for ( Field field : clazz.getDeclaredFields() ) {
+            ForeignCollectionField annotation = field.getAnnotation( ForeignCollectionField.class );
+            if ( annotation != null ) {
+                Method getMethod = DatabaseFieldConfig.findGetMethod( field, true );
+                Collection collectionInObject;
+                try {
+                    collectionInObject = (Collection< ? >) getMethod.invoke( object );
+                    // lazy collection are not loaded from database, so we load them
+                    if ( collectionInObject instanceof LazyForeignCollection ) {
+                        ( (LazyForeignCollection) collectionInObject ).refreshCollection();
+                    }
+                    ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
+                    Class itemInListClass = (Class) stringListType.getActualTypeArguments()[ 0 ];
+                    for ( Object o : collectionInObject ) {
+                        loadFully( itemInListClass, o );
+                    }
+                } catch ( Exception e ) {
+                    Ln.d( e, "Unable to find a getter method for field %s", field.getName() );
+                }
+            }
+        }
     }
 
     public CacheEntry queryCacheKeyForIdFromDatabase( String id ) throws SQLException {
@@ -102,10 +135,24 @@ public class RoboSpiceDatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public < T > void clearTableFromDataBase( Class< T > modelObjectClass ) throws SQLException {
-        Dao< T, ? > objectDao = getDao( modelObjectClass );
-        DeleteBuilder< T, ? > deleteBuilder = objectDao.deleteBuilder();
-        PreparedDelete< T > allObjectDelete = deleteBuilder.prepare();
-        objectDao.delete( allObjectDelete );
+        try {
+            clearTable( modelObjectClass );
+        } catch ( Exception ex ) {
+            Ln.d( ex, "An exception occurred when cleaning table" );
+        }
+    }
+
+    private < T > void clearTable( Class< T > clazz ) throws SQLException {
+        for ( Field field : clazz.getDeclaredFields() ) {
+            ForeignCollectionField annotation = field.getAnnotation( ForeignCollectionField.class );
+            if ( annotation != null ) {
+                ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
+                Class< ? > itemInListClass = (Class< ? >) stringListType.getActualTypeArguments()[ 0 ];
+                clearTable( itemInListClass );
+            }
+        }
+        TableUtils.dropTable( getConnectionSource(), clazz, true );
+        TableUtils.createTableIfNotExists( getConnectionSource(), clazz );
     }
 
     public < T > void deleteFromDataBase( Collection< T > objectList, Class< T > modelObjectClass ) throws SQLException {

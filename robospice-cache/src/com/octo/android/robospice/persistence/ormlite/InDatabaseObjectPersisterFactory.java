@@ -62,6 +62,12 @@ public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
         DatabaseTableConfig< DATA > childDatabaseTableConfig = DatabaseTableConfig.fromClass( databaseHelper.getConnectionSource(), clazz );
         for ( FieldType childFieldType : childDatabaseTableConfig.getFieldTypes( null ) ) {
             if ( childFieldType.isId() ) {
+                if ( childFieldType.getType().equals( int.class ) ) {
+                    return Integer.class;
+                }
+                if ( childFieldType.getType().equals( long.class ) ) {
+                    return Long.class;
+                }
                 return childFieldType.getType();
             }
         }

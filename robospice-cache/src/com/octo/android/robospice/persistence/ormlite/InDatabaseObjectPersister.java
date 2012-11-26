@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import roboguice.util.temp.Ln;
 import android.app.Application;
@@ -56,13 +57,10 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
 
     @Override
     public T loadDataFromCache( Object cacheKey, long maxTimeInCache ) throws CacheLoadingException {
-        if ( !( cacheKey instanceof String ) ) {
-            throw new IllegalArgumentException( "cacheKey must be a String" );
-        }
         T result = null;
 
         try {
-            CacheEntry cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase( (String) cacheKey );
+            CacheEntry cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase( String.valueOf( cacheKey ) );
             if ( cacheEntry == null ) {
                 return null;
             }
@@ -86,19 +84,23 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
             dao.callBatchTasks( new Callable< Void >() {
                 @Override
                 public Void call() throws Exception {
-                    databaseHelper.createOrUpdateInDatabase( data, getHandledClass() );
-                    saveAllForeignObjectsToCache( data );
-                    Object id = null;
-                    @SuppressWarnings("unchecked")
-                    DatabaseTableConfig< T > childDatabaseTableConfig = (DatabaseTableConfig< T >) DatabaseTableConfig.fromClass(
-                            databaseHelper.getConnectionSource(), data.getClass() );
-                    for ( FieldType childFieldType : childDatabaseTableConfig.getFieldTypes( null ) ) {
-                        if ( childFieldType.isId() ) {
-                            id = childFieldType.extractJavaFieldValue( data );
+                    try {
+                        databaseHelper.createOrUpdateInDatabase( data, getHandledClass() );
+                        saveAllForeignObjectsToCache( data );
+                        Object id = null;
+                        @SuppressWarnings("unchecked")
+                        DatabaseTableConfig< T > childDatabaseTableConfig = (DatabaseTableConfig< T >) DatabaseTableConfig.fromClass(
+                                databaseHelper.getConnectionSource(), data.getClass() );
+                        for ( FieldType childFieldType : childDatabaseTableConfig.getFieldTypes( null ) ) {
+                            if ( childFieldType.isId() ) {
+                                id = childFieldType.extractJavaFieldValue( data );
+                            }
                         }
+                        CacheEntry cacheEntry = new CacheEntry( String.valueOf( cacheKey ), System.currentTimeMillis(), id );
+                        databaseHelper.createOrUpdateCacheEntryInDatabase( cacheEntry );
+                    } catch ( Exception e ) {
+                        Ln.d( e, "Exception occured during saveDataToCacheAndReturnData" );
                     }
-                    CacheEntry cacheEntry = new CacheEntry( (String) cacheKey, System.currentTimeMillis(), id );
-                    databaseHelper.createOrUpdateCacheEntryInDatabase( cacheEntry );
                     return null;
                 }
             } );
@@ -224,4 +226,11 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
         // TODO Auto-generated method stub
         return null;
     }
+
+    /** for testing purpose only. Overriding allows to regive package level visibility. */
+    @Override
+    protected void awaitForSaveAsyncTermination( long time, TimeUnit timeUnit ) throws InterruptedException {
+        super.awaitForSaveAsyncTermination( time, timeUnit );
+    }
+
 }
