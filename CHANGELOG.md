@@ -24,7 +24,7 @@ as this would create a memory leak. Thx to Cyril Mottier.
 * Added network state test.
 * Added multiple object persister test.
 
-Version 1.1.1 (
+Version 1.1.1 ( released ?)
 -------------
 
 Bug fix :

@@ -188,6 +188,42 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue( mockRequestListener.isComplete() );
     }
 
+    public void testAddRequest_when_request_is_cancelled_and_new_one_relaunched_with_same_key() throws CacheLoadingException, CacheSavingException,
+            InterruptedException {
+        // given
+        CachedSpiceRequestStub< String > stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
+
+        RequestListenerWithProgressStub< String > mockRequestListener = new RequestListenerWithProgressStub< String >();
+        Set< RequestListener< ? >> requestListenerSet = new HashSet< RequestListener< ? >>();
+        requestListenerSet.add( mockRequestListener );
+
+        EasyMock.expect( mockCacheManager.loadDataFromCache( EasyMock.eq( TEST_CLASS ), EasyMock.eq( TEST_CACHE_KEY ), EasyMock.eq( TEST_DURATION ) ) )
+                .andReturn( null );
+        EasyMock.expect( mockCacheManager.saveDataToCacheAndReturnData( EasyMock.eq( TEST_RETURNED_DATA ), EasyMock.eq( TEST_CACHE_KEY ) ) ).andReturn(
+                TEST_RETURNED_DATA );
+        EasyMock.replay( mockCacheManager );
+
+        // when
+        requestProcessorUnderTest.addRequest( stubRequest, requestListenerSet );
+        stubRequest.cancel();
+        mockRequestListener.await( REQUEST_COMPLETION_TIME_OUT );
+        stubRequest = createSuccessfulRequest( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA );
+        mockRequestListener = new RequestListenerWithProgressStub< String >();
+        requestListenerSet.clear();
+        requestListenerSet.add( mockRequestListener );
+
+        requestProcessorUnderTest.addRequest( stubRequest, requestListenerSet );
+
+        mockRequestListener.await( REQUEST_COMPLETION_TIME_OUT );
+
+        // then
+        EasyMock.verify( mockCacheManager );
+        assertTrue( stubRequest.isLoadDataFromNetworkCalled() );
+        assertTrue( mockRequestListener.isExecutedInUIThread() );
+        assertTrue( mockRequestListener.isSuccessful() );
+        assertTrue( mockRequestListener.isComplete() );
+    }
+
     // ============================================================================================
     // TESTING WITH FAIL ON ERROR = true
     // ============================================================================================

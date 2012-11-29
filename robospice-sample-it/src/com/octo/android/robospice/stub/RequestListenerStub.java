@@ -11,12 +11,12 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 public class RequestListenerStub< T > implements RequestListener< T > {
 
-    private Boolean isSuccessful = null;
-    private boolean isExecutedInUIThread = false;
+    protected Boolean isSuccessful = null;
+    protected boolean isExecutedInUIThread = false;
 
-    private ReentrantLock lock = new ReentrantLock();
-    private Condition requestFinishedCondition = lock.newCondition();
-    private Exception exception;
+    protected ReentrantLock lock = new ReentrantLock();
+    protected Condition requestFinishedCondition = lock.newCondition();
+    protected Exception exception;
 
     @Override
     public void onRequestFailure( SpiceException exception ) {
