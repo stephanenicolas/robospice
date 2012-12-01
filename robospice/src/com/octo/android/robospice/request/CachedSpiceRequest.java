@@ -3,6 +3,7 @@ package com.octo.android.robospice.request;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
+import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
@@ -73,6 +74,11 @@ public class CachedSpiceRequest< RESULT > extends SpiceRequest< RESULT > {
     @Override
     public void setRequestProgressListener( RequestProgressListener requestProgressListener ) {
         spiceRequest.setRequestProgressListener( requestProgressListener );
+    }
+
+    @Override
+    public void setRequestCancellationListener( RequestCancellationListener requestCancellationListener ) {
+        spiceRequest.setRequestCancellationListener( requestCancellationListener );
     }
 
     @Override

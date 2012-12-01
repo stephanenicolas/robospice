@@ -5,6 +5,7 @@ import java.util.concurrent.Future;
 
 import android.content.Context;
 
+import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
@@ -27,6 +28,7 @@ public abstract class SpiceRequest< RESULT > {
     private RequestProgressListener requestProgressListener;
     private boolean isAggregatable = true;
     private RequestProgress progress = new RequestProgress( RequestStatus.PENDING );
+    private RequestCancellationListener requestCancellationListener;
 
     public SpiceRequest( Class< RESULT > clazz ) {
         checkInnerClassDeclarationToPreventMemoryLeak();
@@ -49,9 +51,14 @@ public abstract class SpiceRequest< RESULT > {
 
     public void cancel() {
         this.isCanceled = true;
-        /*
-         * if ( future != null ) { future.cancel( true ); }
-         */
+
+        if ( future != null ) {
+            future.cancel( true );
+        }
+
+        if ( this.requestCancellationListener != null ) {
+            this.requestCancellationListener.onRequestCancelled();
+        }
     }
 
     /* package private */void setStatus( RequestStatus status ) {
@@ -94,5 +101,9 @@ public abstract class SpiceRequest< RESULT > {
         this.progress.setStatus( RequestStatus.LOADING_FROM_NETWORK );
         this.progress.setProgress( progress );
         publishProgress();
+    }
+
+    public void setRequestCancellationListener( RequestCancellationListener requestCancellationListener ) {
+        this.requestCancellationListener = requestCancellationListener;
     }
 }

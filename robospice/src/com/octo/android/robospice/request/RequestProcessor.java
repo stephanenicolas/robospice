@@ -28,6 +28,7 @@ import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
@@ -109,7 +110,7 @@ public class RequestProcessor {
     // ============================================================================================
     // PUBLIC
     // ============================================================================================
-    public void addRequest( final CachedSpiceRequest< ? > request, Set< RequestListener< ? >> listRequestListener ) {
+    public void addRequest( final CachedSpiceRequest< ? > request, final Set< RequestListener< ? >> listRequestListener ) {
         Ln.d( "Adding request to queue " + hashCode() + ": " + request + " size is " + mapRequestToRequestListener.size() );
 
         if ( request.isCancelled() ) {
@@ -141,6 +142,15 @@ public class RequestProcessor {
             return;
         }
 
+        RequestCancellationListener requestCancellationListener = new RequestCancellationListener() {
+
+            public void onRequestCancelled() {
+                mapRequestToRequestListener.remove( request );
+                notifyListenersOfRequestCancellation( request, listRequestListener );
+            }
+        };
+        request.setRequestCancellationListener( requestCancellationListener );
+
         Future< ? > future = executorService.submit( new Runnable() {
             public void run() {
                 processRequest( request );
@@ -151,17 +161,16 @@ public class RequestProcessor {
 
     protected < T > void processRequest( final CachedSpiceRequest< T > request ) {
 
-        if ( !request.isProcessable() ) {
-            mapRequestToRequestListener.remove( request );
-            notifyOfRequestProcessed( request );
-            return;
-        }
-
         Ln.d( "Processing request : " + request );
 
         T result = null;
         final Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
         mapRequestToRequestListener.remove( request );
+
+        if ( !request.isProcessable() ) {
+            notifyOfRequestProcessed( request );
+            return;
+        }
 
         // add a progress listener to the request to be notified of progress during load data from network
         RequestProgressListener requestProgressListener = new RequestProgressListener() {
@@ -195,10 +204,9 @@ public class RequestProcessor {
             }
         }
 
-        if ( request.isCancelled() ) {
-            notifyListenersOfRequestCancellation( request, listeners );
-            return;
-        }
+        /*
+         * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
+         */
 
         if ( result == null ) {
             // if result is not in cache, load data from network
@@ -209,10 +217,9 @@ public class RequestProcessor {
                 return;
             }
 
-            if ( request.isCancelled() ) {
-                notifyListenersOfRequestCancellation( request, listeners );
-                return;
-            }
+            /*
+             * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
+             */
 
             // network is ok, load data from network
             try {
@@ -226,19 +233,17 @@ public class RequestProcessor {
                  * requestListeners, (T) null ) ); return; }
                  */
             } catch ( Exception e ) {
-                if ( request.isCancelled() ) {
-                    notifyListenersOfRequestCancellation( request, listeners );
-                    return;
-                }
+                /*
+                 * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
+                 */
                 Ln.e( e, "An exception occured during request network execution :" + e.getMessage() );
                 notifyListenersOfRequestFailure( request, listeners, new NetworkException( "Exception occured during invocation of web service.", e ) );
                 return;
             }
 
-            if ( request.isCancelled() ) {
-                notifyListenersOfRequestCancellation( request, listeners );
-                return;
-            }
+            /*
+             * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
+             */
 
             if ( result != null && request.getRequestCacheKey() != null ) {
                 // request worked and result is not null, save it to cache
