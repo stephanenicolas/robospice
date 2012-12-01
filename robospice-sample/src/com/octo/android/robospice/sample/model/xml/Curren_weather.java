@@ -102,8 +102,14 @@ public class Curren_weather {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ( humidity == null ? 0 : humidity.hashCode() );
+        result = prime * result + id;
+        result = prime * result + ( pressure == null ? 0 : pressure.hashCode() );
         result = prime * result + ( temp == null ? 0 : temp.hashCode() );
         result = prime * result + ( temp_unit == null ? 0 : temp_unit.hashCode() );
+        result = prime * result + ( weather_code == null ? 0 : weather_code.hashCode() );
+        result = prime * result + ( weather_text == null ? 0 : weather_text.hashCode() );
+        result = prime * result + ( wind == null ? 0 : wind.hashCode() );
         return result;
     }
 
@@ -119,6 +125,23 @@ public class Curren_weather {
             return false;
         }
         Curren_weather other = (Curren_weather) obj;
+        if ( humidity == null ) {
+            if ( other.humidity != null ) {
+                return false;
+            }
+        } else if ( !humidity.equals( other.humidity ) ) {
+            return false;
+        }
+        if ( id != other.id ) {
+            return false;
+        }
+        if ( pressure == null ) {
+            if ( other.pressure != null ) {
+                return false;
+            }
+        } else if ( !pressure.equals( other.pressure ) ) {
+            return false;
+        }
         if ( temp == null ) {
             if ( other.temp != null ) {
                 return false;
@@ -131,6 +154,27 @@ public class Curren_weather {
                 return false;
             }
         } else if ( !temp_unit.equals( other.temp_unit ) ) {
+            return false;
+        }
+        if ( weather_code == null ) {
+            if ( other.weather_code != null ) {
+                return false;
+            }
+        } else if ( !weather_code.equals( other.weather_code ) ) {
+            return false;
+        }
+        if ( weather_text == null ) {
+            if ( other.weather_text != null ) {
+                return false;
+            }
+        } else if ( !weather_text.equals( other.weather_text ) ) {
+            return false;
+        }
+        if ( wind == null ) {
+            if ( other.wind != null ) {
+                return false;
+            }
+        } else if ( !wind.equals( other.wind ) ) {
             return false;
         }
         return true;

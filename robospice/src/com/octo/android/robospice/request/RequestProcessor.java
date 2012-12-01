@@ -152,6 +152,7 @@ public class RequestProcessor {
     protected < T > void processRequest( final CachedSpiceRequest< T > request ) {
 
         if ( !request.isProcessable() ) {
+            mapRequestToRequestListener.remove( request );
             notifyOfRequestProcessed( request );
             return;
         }

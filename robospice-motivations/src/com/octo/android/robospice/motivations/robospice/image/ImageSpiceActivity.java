@@ -119,14 +119,16 @@ public class ImageSpiceActivity extends BaseActivity {
         File cacheFile = new File( getCacheDir(), "earth.jpg" );
         imageRequest = new BigBinaryRequest( "http://earthobservatory.nasa.gov/blogs/elegantfigures/files/2011/10/globe_west_2048.jpg", cacheFile );
         spiceManager.execute( imageRequest, EARTH_IMAGE_CACHE_KEY, DurationInMillis.NEVER, new ImageRequestListener() );
-        Intent intent = SpiceNotificationService.createIntent( this, ImageSpiceNotificationService.class, TweeterJsonSpringAndroidSpiceService.class, 70, InputStream.class,
-                EARTH_IMAGE_CACHE_KEY, false );
+        Intent intent = SpiceNotificationService.createIntent( this, ImageSpiceNotificationService.class, TweeterJsonSpringAndroidSpiceService.class, 70,
+                InputStream.class, EARTH_IMAGE_CACHE_KEY, false );
         startService( intent );
     }
 
     @Override
     public void stopDemo() {
-        spiceManager.cancel( InputStream.class, EARTH_IMAGE_CACHE_KEY );
+        if ( imageRequest != null ) {
+            imageRequest.cancel();
+        }
     }
 
     private void setImageVisible( boolean visible ) {

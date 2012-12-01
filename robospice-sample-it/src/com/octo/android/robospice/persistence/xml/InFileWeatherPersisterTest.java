@@ -12,7 +12,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 import com.octo.android.robospice.sample.model.xml.Curren_weather;
-import com.octo.android.robospice.sample.model.xml.Forecast;
 import com.octo.android.robospice.sample.model.xml.Weather;
 import com.octo.android.robospice.sample.model.xml.Wind;
 
@@ -20,6 +19,7 @@ import com.octo.android.robospice.sample.model.xml.Wind;
 public class InFileWeatherPersisterTest extends InstrumentationTestCase {
     private InFileObjectPersister< Weather > dataPersistenceManager;
     private static final Curren_weather TEST_TEMP = new Curren_weather();
+    private static final Curren_weather TEST_TEMP2 = new Curren_weather();
 
     @Override
     protected void setUp() throws Exception {
@@ -30,6 +30,15 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         TEST_TEMP.setTemp( "28" );
         TEST_TEMP.setTemp_unit( "C" );
         TEST_TEMP.setWind( new Wind() );
+        TEST_TEMP2.setTemp( "30" );
+        TEST_TEMP2.setTemp_unit( "C" );
+        TEST_TEMP2.setWind( new Wind() );
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        dataPersistenceManager.removeAllDataFromCache();
+        super.tearDown();
     }
 
     public void test_canHandleClientRequestStatus() {
@@ -39,7 +48,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_saveDataAndReturnData() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather();
+        Weather weatherRequestStatus = buildWeather( TEST_TEMP );
 
         // WHEN
         Weather weatherReturned = dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, "weather.xml" );
@@ -50,7 +59,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_saveDataAndReturnData_async() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather();
+        Weather weatherRequestStatus = buildWeather( TEST_TEMP );
 
         // WHEN
         dataPersistenceManager.setAsyncSaveEnabled( true );
@@ -63,7 +72,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_loadDataFromCache_no_expiracy() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather();
+        Weather weatherRequestStatus = buildWeather( TEST_TEMP );
         final String FILE_NAME = "toto";
         dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, FILE_NAME );
 
@@ -76,7 +85,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_loadDataFromCache_not_expired() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather();
+        Weather weatherRequestStatus = buildWeather( TEST_TEMP );
         final String FILE_NAME = "toto";
         dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, FILE_NAME );
 
@@ -89,7 +98,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_loadDataFromCache_expired() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather();
+        Weather weatherRequestStatus = buildWeather( TEST_TEMP );
         final String FILE_NAME = "toto";
         dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, FILE_NAME );
         File cachedFile = ( (SimpleSerializerObjectPersister< ? >) dataPersistenceManager ).getCacheFile( FILE_NAME );
@@ -102,13 +111,80 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         assertNull( weatherReturned );
     }
 
-    private Weather buildWeather() {
+    public void test_loadAllDataFromCache_with_one_request_in_cache() throws Exception {
+        // GIVEN
+        Weather weatherRequestStatus = buildWeather( TEST_TEMP );
+        final String FILE_NAME = "toto";
+        dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, FILE_NAME );
+
+        // WHEN
+        List< Weather > listWeatherResult = dataPersistenceManager.loadAllDataFromCache();
+
+        // THEN
+        assertNotNull( listWeatherResult );
+        assertEquals( 1, listWeatherResult.size() );
+        assertEquals( weatherRequestStatus, listWeatherResult.get( 0 ) );
+    }
+
+    public void test_loadAllDataFromCache_with_two_requests_in_cache() throws Exception {
+        // GIVEN
+        Weather weatherRequestStatus = buildWeather( TEST_TEMP );
+        final String FILE_NAME = "toto";
+        dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, FILE_NAME );
+
+        Weather weatherRequestStatus2 = buildWeather( TEST_TEMP2 );
+        final String FILE_NAME2 = "tutu";
+        dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus2, FILE_NAME2 );
+
+        // WHEN
+        List< Weather > listWeatherResult = dataPersistenceManager.loadAllDataFromCache();
+
+        // THEN
+        assertNotNull( listWeatherResult );
+        assertEquals( 2, listWeatherResult.size() );
+        assertTrue( listWeatherResult.contains( weatherRequestStatus ) );
+        assertTrue( listWeatherResult.contains( weatherRequestStatus2 ) );
+    }
+
+    public void test_loadAllDataFromCache_with_no_requests_in_cache() throws Exception {
+        // GIVEN
+
+        // WHEN
+        List< Weather > listWeatherResult = dataPersistenceManager.loadAllDataFromCache();
+
+        // THEN
+        assertNotNull( listWeatherResult );
+        assertTrue( listWeatherResult.isEmpty() );
+    }
+
+    public void test_removeDataFromCache_when_two_requests_in_cache_and_one_removed() throws Exception {
+        // GIVEN
+        Weather weatherRequestStatus = buildWeather( TEST_TEMP );
+        final String FILE_NAME = "toto";
+        dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus, FILE_NAME );
+
+        Weather weatherRequestStatus2 = buildWeather( TEST_TEMP2 );
+        final String FILE_NAME2 = "tutu";
+        dataPersistenceManager.saveDataToCacheAndReturnData( weatherRequestStatus2, FILE_NAME2 );
+
+        dataPersistenceManager.removeDataFromCache( FILE_NAME2 );
+
+        // WHEN
+        List< Weather > listWeatherResult = dataPersistenceManager.loadAllDataFromCache();
+
+        // THEN
+        assertNotNull( listWeatherResult );
+        assertEquals( 1, listWeatherResult.size() );
+        assertTrue( listWeatherResult.contains( weatherRequestStatus ) );
+        assertFalse( listWeatherResult.contains( weatherRequestStatus2 ) );
+    }
+
+    private Weather buildWeather( Curren_weather curren_weather ) {
         Weather weather = new Weather();
         List< Curren_weather > currents = new ArrayList< Curren_weather >();
-        currents.add( TEST_TEMP );
+        currents.add( curren_weather );
         weather.setListWeather( currents );
-        List< Forecast > forecasts = new ArrayList< Forecast >();
-        weather.setListForecast( forecasts );
+        weather.setListForecast( null );
         return weather;
     }
 }

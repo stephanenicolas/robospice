@@ -3,7 +3,6 @@ package com.octo.android.robospice.persistence.ormlite;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,8 +17,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.dao.LazyForeignCollection;
-import com.j256.ormlite.field.DatabaseFieldConfig;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -96,32 +93,7 @@ public class RoboSpiceDatabaseHelper extends OrmLiteSqliteOpenHelper {
         Dao< T, ID > dao = getDao( modelObjectClass );
         T result = dao.queryForId( id );
 
-        loadFully( modelObjectClass, result );
         return result;
-    }
-
-    private < T > void loadFully( Class< T > clazz, T object ) {
-        for ( Field field : clazz.getDeclaredFields() ) {
-            ForeignCollectionField annotation = field.getAnnotation( ForeignCollectionField.class );
-            if ( annotation != null ) {
-                Method getMethod = DatabaseFieldConfig.findGetMethod( field, true );
-                Collection collectionInObject;
-                try {
-                    collectionInObject = (Collection< ? >) getMethod.invoke( object );
-                    // lazy collection are not loaded from database, so we load them
-                    if ( collectionInObject instanceof LazyForeignCollection ) {
-                        ( (LazyForeignCollection) collectionInObject ).refreshCollection();
-                    }
-                    ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
-                    Class itemInListClass = (Class) stringListType.getActualTypeArguments()[ 0 ];
-                    for ( Object o : collectionInObject ) {
-                        loadFully( itemInListClass, o );
-                    }
-                } catch ( Exception e ) {
-                    Ln.d( e, "Unable to find a getter method for field %s", field.getName() );
-                }
-            }
-        }
     }
 
     public CacheEntry queryCacheKeyForIdFromDatabase( String id ) throws SQLException {

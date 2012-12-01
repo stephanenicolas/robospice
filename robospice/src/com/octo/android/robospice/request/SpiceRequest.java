@@ -49,6 +49,9 @@ public abstract class SpiceRequest< RESULT > {
 
     public void cancel() {
         this.isCanceled = true;
+        /*
+         * if ( future != null ) { future.cancel( true ); }
+         */
     }
 
     /* package private */void setStatus( RequestStatus status ) {

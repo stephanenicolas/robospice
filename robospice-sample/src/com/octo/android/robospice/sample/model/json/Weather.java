@@ -30,6 +30,44 @@ public class Weather {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( curren_weather == null ? 0 : curren_weather.hashCode() );
+        result = prime * result + ( forecast == null ? 0 : forecast.hashCode() );
+        return result;
+    }
+
+    @Override
+    public boolean equals( Object obj ) {
+        if ( this == obj ) {
+            return true;
+        }
+        if ( obj == null ) {
+            return false;
+        }
+        if ( getClass() != obj.getClass() ) {
+            return false;
+        }
+        Weather other = (Weather) obj;
+        if ( curren_weather == null ) {
+            if ( other.curren_weather != null ) {
+                return false;
+            }
+        } else if ( !curren_weather.equals( other.curren_weather ) ) {
+            return false;
+        }
+        if ( forecast == null ) {
+            if ( other.forecast != null ) {
+                return false;
+            }
+        } else if ( !forecast.equals( other.forecast ) ) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Weather [curren_weather=" + curren_weather + ", forecast=" + forecast + "]";
     }

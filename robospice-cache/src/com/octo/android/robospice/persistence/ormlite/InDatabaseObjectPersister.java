@@ -24,6 +24,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.TableUtils;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
@@ -96,7 +97,7 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
                                 id = childFieldType.extractJavaFieldValue( data );
                             }
                         }
-                        CacheEntry cacheEntry = new CacheEntry( String.valueOf( cacheKey ), System.currentTimeMillis(), id );
+                        CacheEntry cacheEntry = new CacheEntry( String.valueOf( cacheKey ), System.currentTimeMillis(), data.getClass(), id );
                         databaseHelper.createOrUpdateCacheEntryInDatabase( cacheEntry );
                     } catch ( Exception e ) {
                         Ln.d( e, "Exception occured during saveDataToCacheAndReturnData" );
@@ -203,28 +204,62 @@ public class InDatabaseObjectPersister< T, ID > extends ObjectPersister< T > {
 
     @Override
     public boolean removeDataFromCache( Object cacheKey ) {
-        return false;
+        try {
+            String id = cacheKey.toString();
+            CacheEntry cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase( id );
+            if ( cacheEntry == null ) {
+                return false;
+            }
+            Class< ? > clazz = Class.forName( cacheEntry.getResultClassName() );
+            databaseHelper.deleteByIdFromDataBase( cacheEntry.getResultId(), clazz );
+            databaseHelper.deleteFromDataBase( cacheEntry, CacheEntry.class );
+            return true;
+        } catch ( SQLException e ) {
+            Ln.d( e );
+            return false;
+        } catch ( ClassNotFoundException e ) {
+            Ln.d( e );
+            return false;
+        }
     }
 
     @Override
     public void removeAllDataFromCache() {
         try {
             databaseHelper.clearTableFromDataBase( getHandledClass() );
+            databaseHelper.clearTableFromDataBase( CacheEntry.class );
         } catch ( SQLException e ) {
-            Ln.e( e, "SQL Error" );
+            Ln.d( e, "SQL Error" );
         }
     }
 
     @Override
     public List< T > loadAllDataFromCache() throws CacheLoadingException {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            List< CacheEntry > listCacheEntry = databaseHelper.queryForAllFromDatabase( CacheEntry.class );
+            List< T > listObjectInCache = new ArrayList< T >();
+            for ( CacheEntry cacheEntry : listCacheEntry ) {
+                listObjectInCache.add( loadDataFromCache( cacheEntry.getCacheKey(), DurationInMillis.ALWAYS ) );
+            }
+            return listObjectInCache;
+        } catch ( SQLException e ) {
+            Ln.d( e );
+            return null;
+        }
     }
 
     @Override
     public List< Object > getAllCacheKeys() {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            List< CacheEntry > listCacheEntry = databaseHelper.queryForAllFromDatabase( CacheEntry.class );
+            List< Object > listCacheKey = new ArrayList< Object >();
+            for ( CacheEntry cacheEntry : listCacheEntry ) {
+                listCacheKey.add( cacheEntry.getCacheKey() );
+            }
+            return listCacheKey;
+        } catch ( SQLException e ) {
+            return null;
+        }
     }
 
     /** for testing purpose only. Overriding allows to regive package level visibility. */

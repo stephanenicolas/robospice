@@ -338,7 +338,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         requestProcessorUnderTest.dontNotifyRequestListenersForRequest( stubRequest, requestListenerSet );
         requestProcessorUnderTest.addRequest( stubRequest2, requestListenerSet2 );
 
-        stubRequest.await( WAIT_BEFORE_REQUEST_EXECUTION + REQUEST_COMPLETION_TIME_OUT );
+        stubRequest.await( REQUEST_COMPLETION_TIME_OUT );
         requestListenerStub2.await( REQUEST_COMPLETION_TIME_OUT );
 
         // test
@@ -374,6 +374,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // when
         requestProcessorUnderTest.addRequest( stubRequest, requestListenerSet );
         requestProcessorUnderTest.addRequest( stubRequest2, requestListenerSet2 );
+        requestListenerStub.await( REQUEST_COMPLETION_TIME_OUT );
         requestListenerStub2.await( REQUEST_COMPLETION_TIME_OUT );
 
         // test

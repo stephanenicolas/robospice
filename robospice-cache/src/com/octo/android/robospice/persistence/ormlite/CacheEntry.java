@@ -9,6 +9,8 @@ public class CacheEntry {
     @DatabaseField(id = true)
     private String cacheKey;
     @DatabaseField
+    private String resultClassName;
+    @DatabaseField
     private long timestamp;
 
     @DatabaseField
@@ -30,9 +32,10 @@ public class CacheEntry {
 
     }
 
-    public CacheEntry( String cacheKey, long timestamp, Object resultId ) {
+    public CacheEntry( String cacheKey, long timestamp, Class< ? > resultClass, Object resultId ) {
         this.cacheKey = cacheKey;
         this.timestamp = timestamp;
+        this.resultClassName = resultClass.getName();
         fillResultId( resultId );
     }
 
@@ -69,6 +72,14 @@ public class CacheEntry {
 
     public void setTimestamp( long timestamp ) {
         this.timestamp = timestamp;
+    }
+
+    public void setResultClassName( String resultClassName ) {
+        this.resultClassName = resultClassName;
+    }
+
+    public String getResultClassName() {
+        return resultClassName;
     }
 
     public Object getResultId() {

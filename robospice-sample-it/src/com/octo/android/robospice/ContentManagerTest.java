@@ -85,8 +85,8 @@ public class ContentManagerTest extends InstrumentationTestCase {
 
     /*
      * public void test_executeContentRequest_based_on_asynctask() throws InterruptedException { // when
-     * spiceManager.start( getInstrumentation().getContext() ); AsyncTaskStub< Void, Void, String > asyncTaskStub =
-     * new AsyncTaskStub< Void, Void, String >(); RequestListenerStub< String > requestListenerStub = new
+     * spiceManager.start( getInstrumentation().getContext() ); AsyncTaskStub< Void, Void, String > asyncTaskStub = new
+     * AsyncTaskStub< Void, Void, String >(); RequestListenerStub< String > requestListenerStub = new
      * RequestListenerStub< String >();
      * 
      * // when spiceManager.execute( asyncTaskStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub );
@@ -174,8 +174,9 @@ public class ContentManagerTest extends InstrumentationTestCase {
         contentRequestStub2.await( REQUEST_COMPLETION_TIME_OUT );
 
         // test
-        assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
-        assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
+        // no guarantee on that
+        // assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
+        // assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
         assertNull( requestListenerStub.isSuccessful() );
         assertFalse( requestListenerStub2.isSuccessful() );
     }
@@ -198,8 +199,9 @@ public class ContentManagerTest extends InstrumentationTestCase {
         contentRequestStub2.await( REQUEST_COMPLETION_TIME_OUT );
 
         // test
-        assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
-        assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
+        // no guarantee on that
+        // assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
+        // assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
 
         assertNull( requestListenerStub.isSuccessful() );
         assertNull( requestListenerStub2.isSuccessful() );
