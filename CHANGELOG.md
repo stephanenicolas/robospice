@@ -4,13 +4,19 @@ Release notes for RoboSpice
 Version 1.3.0 (december 2012)
 -------------
 
-TO BE RELEASED
-* Added Google Http Client support via the robospice-google-http-client-module
-* Dependency conflicts solved : upgraded Guava, excluded xpp3 dependency, updated jackson version
+* Added Google Http Java Client support via the robospice-google-http-client-module
+* Added Google Http Java Client persistence module for Json (Xml support doesn't provide a generator and can't be added : see issue http://code.google.com/p/google-http-java-client/issues/detail?id=171&thanks=171&ts=1354436504)
+* Dependency conflicts solved : excluded xpp3 dependency, updated jackson version
 * Spring Android module classes have been renamed to make room for other REST clients implementations.
-* test ormlite module
-* JVA removed guava dependency
-* TODO test getAllDataFromCache on persisters
+* Jerome Van Der Linden removed guava dependency, introduced Apache Commons dependency. 
+* Added tests for getAllDataFromCache on persisters
+* Added test for ormlite module
+* Solved listener notification bug. Thx to Vincent Lemeunier 
+* Refactored request cancelation mechanism. Thx to Philippe Prados for help with handlers.
+* Added tests for request cancelation mechanism.
+* RoboSpice reached the milestone of 103 tests. This is also a QA release.
+* TODO add documentation on Wiki pages to use spring android and google http client module
+* TODO add documentation on Wiki pages for Advanced RoboSpice usages.
 
 Version 1.2.0 (november 12 2012)
 -------------
