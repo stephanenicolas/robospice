@@ -23,7 +23,7 @@ import com.octo.android.robospice.motivations.loader.LoaderWithProgressDemoActiv
 import com.octo.android.robospice.motivations.loader.TwitterLoaderActivity;
 import com.octo.android.robospice.motivations.roboguice.RoboAsyncTaskDemoActivity;
 import com.octo.android.robospice.motivations.robospice.image.ImageSpiceActivity;
-import com.octo.android.robospice.motivations.robospice.tweeter.googlehttpclient.TweeterJsonGoogleHttpClientSpiceActivity;
+import com.octo.android.robospice.motivations.robospice.tweeter.googlehttpjavaclient.TweeterJsonGoogleHttpClientSpiceActivity;
 import com.octo.android.robospice.motivations.robospice.tweeter.springandroid.TweeterJsonSpringAndroidSpiceActivity;
 import com.octo.android.robospice.motivations.robospice.tweeter.xml.TweeterXmlSpiceActivity;
 

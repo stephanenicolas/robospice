@@ -1,4 +1,4 @@
-package com.octo.android.robospice.motivations.robospice.tweeter.googlehttpclient;
+package com.octo.android.robospice.motivations.robospice.tweeter.googlehttpjavaclient;
 
 import android.util.Log;
 

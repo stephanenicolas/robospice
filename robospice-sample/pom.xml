@@ -18,6 +18,26 @@
 			<artifactId>android</artifactId>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<exclusions>
+		    	<exclusion>
+		      		<groupId>xpp3</groupId>
+		      		<artifactId>xpp3</artifactId>
+	    		</exclusion>
+  			</exclusions>			
+		</dependency>		
+        <dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson</artifactId>
+			<exclusions>
+		    	<exclusion>
+		      		<groupId>xpp3</groupId>
+		      		<artifactId>xpp3</artifactId>
+	    		</exclusion>
+  			</exclusions>		
+  		</dependency>		
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
