@@ -598,11 +598,9 @@ public class SpiceManager implements Runnable {
             // listening for cancellation.
             // we must duplicate the list as each call to cancel will, by a listener of request processing
             // remove the request from our list.
-            synchronized ( mapPendingRequestToRequestListener ) {
-                List< CachedSpiceRequest< ? >> listDuplicate = new ArrayList< CachedSpiceRequest< ? > >( mapPendingRequestToRequestListener.keySet() );
-                for ( CachedSpiceRequest< ? > cachedContentRequest : listDuplicate ) {
-                    cachedContentRequest.cancel();
-                }
+            List< CachedSpiceRequest< ? >> listDuplicate = new ArrayList< CachedSpiceRequest< ? > >( mapPendingRequestToRequestListener.keySet() );
+            for ( CachedSpiceRequest< ? > cachedContentRequest : listDuplicate ) {
+                cachedContentRequest.cancel();
             }
         } finally {
             lockSendRequestsToService.unlock();
@@ -788,13 +786,8 @@ public class SpiceManager implements Runnable {
     /** Called when a request has been processed by the {@link SpiceService}. */
     private class RequestRemoverContentServiceListener implements SpiceServiceServiceListener {
         public void onRequestProcessed( CachedSpiceRequest< ? > contentRequest ) {
-            try {
-                lockSendRequestsToService.lock();
-                synchronized ( mapPendingRequestToRequestListener ) {
-                    mapPendingRequestToRequestListener.remove( contentRequest );
-                }
-            } finally {
-                lockSendRequestsToService.unlock();
+            synchronized ( mapPendingRequestToRequestListener ) {
+                mapPendingRequestToRequestListener.remove( contentRequest );
             }
         }
     }

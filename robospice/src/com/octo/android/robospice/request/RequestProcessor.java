@@ -201,6 +201,8 @@ public class RequestProcessor {
                     notifyListenersOfRequestFailure( request, listeners, e );
                     return;
                 }
+                cacheManager.removeDataFromCache( request.getResultType(), request.getRequestCacheKey() );
+                Ln.d( e, "Cache file deleted." );
             }
         }
 
@@ -263,6 +265,8 @@ public class RequestProcessor {
                         // network
                         notifyListenersOfRequestSuccess( request, listeners, result );
                     }
+                    cacheManager.removeDataFromCache( request.getResultType(), request.getRequestCacheKey() );
+                    Ln.d( e, "Cache file deleted." );
                 }
             } else {
                 // result can't be saved to cache but we reached that point after a success of load data from network
