@@ -136,12 +136,6 @@ public class SpiceManager implements Runnable {
         if ( runner != null ) {
             throw new IllegalStateException( "Already started." );
         } else {
-            checkServiceIsProperlyDeclaredInAndroidManifest( context );
-            // start the service it is not started yet.
-            if ( !SpiceService.isStarted() ) {
-                Intent intent = new Intent( context, contentServiceClass );
-                context.startService( intent );
-            }
 
             // start the binding to the service
             runner = new Thread( this );
@@ -162,6 +156,13 @@ public class SpiceManager implements Runnable {
     }
 
     public void run() {
+        checkServiceIsProperlyDeclaredInAndroidManifest( context.get() );
+        // start the service it is not started yet.
+        if ( !SpiceService.isStarted() ) {
+            Intent intent = new Intent( context.get(), contentServiceClass );
+            context.get().startService( intent );
+        }
+
         bindToService( context.get() );
 
         try {
@@ -562,14 +563,26 @@ public class SpiceManager implements Runnable {
      * @param request
      *            the request to cancel
      */
-    public void cancel( SpiceRequest< ? > request ) {
-        request.cancel();
+    public void cancel( final SpiceRequest< ? > request ) {
+        executorService.execute( new Runnable() {
+            public void run() {
+                request.cancel();
+            }
+        } );
     }
 
     /**
      * Cancel all requests
      */
     public void cancelAllRequests() {
+        executorService.execute( new Runnable() {
+            public void run() {
+                cancelAllRequestsInternal();
+            }
+        } );
+    }
+
+    private void cancelAllRequestsInternal() {
         try {
             lockSendRequestsToService.lock();
             // cancel each request that to be sent to service, and keep
