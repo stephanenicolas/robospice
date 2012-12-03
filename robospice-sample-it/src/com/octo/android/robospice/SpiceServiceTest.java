@@ -9,9 +9,9 @@ import com.octo.android.robospice.sample.SampleJsonPersistenceRestContentService
 
 //Thanks to http://stackoverflow.com/questions/2300029/servicetestcaset-getservice
 @SmallTest
-public class ContentServiceTest extends ServiceTestCase< SampleJsonPersistenceRestContentService > {
+public class SpiceServiceTest extends ServiceTestCase< SampleJsonPersistenceRestContentService > {
 
-    public ContentServiceTest() {
+    public SpiceServiceTest() {
         super( SampleJsonPersistenceRestContentService.class );
     }
 

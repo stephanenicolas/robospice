@@ -1,6 +1,7 @@
 package com.octo.android.robospice;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
@@ -581,10 +582,12 @@ public class SpiceManager implements Runnable {
             }
 
             // cancel each request that has been sent to service, and keep
-            // listening for
-            // cancellation.
+            // listening for cancellation.
+            // we must duplicate the list as each call to cancel will, by a listener of request processing
+            // remove the request from our list.
             synchronized ( mapPendingRequestToRequestListener ) {
-                for ( CachedSpiceRequest< ? > cachedContentRequest : mapPendingRequestToRequestListener.keySet() ) {
+                List< CachedSpiceRequest< ? >> listDuplicate = new ArrayList< CachedSpiceRequest< ? > >( mapPendingRequestToRequestListener.keySet() );
+                for ( CachedSpiceRequest< ? > cachedContentRequest : listDuplicate ) {
                     cachedContentRequest.cancel();
                 }
             }
@@ -686,15 +689,17 @@ public class SpiceManager implements Runnable {
     }
 
     private < T > void addRequestListenerToListOfRequestListeners( CachedSpiceRequest< T > cachedContentRequest, RequestListener< T > requestListener ) {
-        Set< RequestListener< ? >> listeners = mapRequestToLaunchToRequestListener.get( cachedContentRequest );
-        if ( listeners == null ) {
-            listeners = new HashSet< RequestListener< ? >>();
-            this.mapRequestToLaunchToRequestListener.put( cachedContentRequest, listeners );
+        synchronized ( mapRequestToLaunchToRequestListener ) {
+            Set< RequestListener< ? >> listeners = mapRequestToLaunchToRequestListener.get( cachedContentRequest );
+            if ( listeners == null ) {
+                listeners = new HashSet< RequestListener< ? >>();
+                this.mapRequestToLaunchToRequestListener.put( cachedContentRequest, listeners );
+            }
+            if ( !listeners.contains( requestListener ) ) {
+                listeners.add( requestListener );
+            }
         }
 
-        if ( !listeners.contains( requestListener ) ) {
-            listeners.add( requestListener );
-        }
     }
 
     // -------------------------------
@@ -714,7 +719,7 @@ public class SpiceManager implements Runnable {
                     stringBuilder.append( "[SpiceManager : " );
 
                     stringBuilder.append( "Requests to be launched : \n" );
-                    dumpMap( stringBuilder, mapPendingRequestToRequestListener );
+                    dumpMap( stringBuilder, mapRequestToLaunchToRequestListener );
 
                     stringBuilder.append( "Pending requests : \n" );
                     dumpMap( stringBuilder, mapPendingRequestToRequestListener );
@@ -772,7 +777,9 @@ public class SpiceManager implements Runnable {
         public void onRequestProcessed( CachedSpiceRequest< ? > contentRequest ) {
             try {
                 lockSendRequestsToService.lock();
-                mapPendingRequestToRequestListener.remove( contentRequest );
+                synchronized ( mapPendingRequestToRequestListener ) {
+                    mapPendingRequestToRequestListener.remove( contentRequest );
+                }
             } finally {
                 lockSendRequestsToService.unlock();
             }

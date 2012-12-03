@@ -2,6 +2,7 @@ package com.octo.android.robospice;
 
 import android.test.InstrumentationTestCase;
 
+import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
@@ -10,8 +11,9 @@ import com.octo.android.robospice.stub.ContentRequestFailingStub;
 import com.octo.android.robospice.stub.ContentRequestStub;
 import com.octo.android.robospice.stub.ContentRequestSucceedingStub;
 import com.octo.android.robospice.stub.RequestListenerStub;
+import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 
-public class ContentManagerTest extends InstrumentationTestCase {
+public class SpiceManagerTest extends InstrumentationTestCase {
 
     private final static Class< String > TEST_CLASS = String.class;
     private final static String TEST_CACHE_KEY = "12345";
@@ -139,22 +141,31 @@ public class ContentManagerTest extends InstrumentationTestCase {
         assertTrue( contentRequestStub.isCancelled() );
     }
 
-    public void testCancelAllRequests() {
+    public void testCancelAllRequests() throws InterruptedException {
         // given
         spiceManager.start( getInstrumentation().getTargetContext() );
         ContentRequestStub< String > contentRequestStub = new ContentRequestFailingStub< String >( TEST_CLASS );
         ContentRequestStub< String > contentRequestStub2 = new ContentRequestFailingStub< String >( TEST_CLASS );
-        RequestListenerStub< String > requestListenerStub = new RequestListenerStub< String >();
-        RequestListenerStub< String > requestListenerStub2 = new RequestListenerStub< String >();
+        RequestListenerWithProgressStub< String > requestListenerStub = new RequestListenerWithProgressStub< String >();
+        RequestListenerWithProgressStub< String > requestListenerStub2 = new RequestListenerWithProgressStub< String >();
 
         // when
         spiceManager.execute( contentRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub );
         spiceManager.execute( contentRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2 );
         spiceManager.cancelAllRequests();
 
+        contentRequestStub.await( WAIT_BEFORE_EXECUTING_REQUEST + REQUEST_COMPLETION_TIME_OUT );
+        contentRequestStub2.await( REQUEST_COMPLETION_TIME_OUT );
+
         // test
         assertTrue( contentRequestStub.isCancelled() );
         assertTrue( contentRequestStub2.isCancelled() );
+        assertFalse( requestListenerStub.isSuccessful() );
+        assertFalse( requestListenerStub2.isSuccessful() );
+        assertTrue( requestListenerStub.isComplete() );
+        assertTrue( requestListenerStub2.isComplete() );
+        assertTrue( requestListenerStub.getReceivedException() instanceof RequestCancelledException );
+        assertTrue( requestListenerStub2.getReceivedException() instanceof RequestCancelledException );
     }
 
     public void test_dontNotifyRequestListenersForRequest() throws InterruptedException {
