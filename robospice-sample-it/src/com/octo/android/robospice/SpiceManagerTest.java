@@ -15,28 +15,6 @@ import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 
 public class SpiceManagerTest extends InstrumentationTestCase {
 
-    private final class SpiceManagerUnderTest extends SpiceManager {
-        private Exception ex;
-
-        private SpiceManagerUnderTest( Class< ? extends SpiceService > contentServiceClass ) {
-            super( contentServiceClass );
-        }
-
-        @Override
-        public void run() {
-            try {
-                super.run();
-            } catch ( Exception ex ) {
-                this.ex = ex;
-            }
-        }
-
-        public Exception getException() throws InterruptedException {
-            runner.join();
-            return ex;
-        }
-    }
-
     private final static Class< String > TEST_CLASS = String.class;
     private final static String TEST_CACHE_KEY = "12345";
     private final static String TEST_CACHE_KEY2 = "123456";
@@ -100,19 +78,6 @@ public class SpiceManagerTest extends InstrumentationTestCase {
             assertTrue( true );
         }
     }
-
-    /*
-     * public void test_executeContentRequest_based_on_asynctask() throws InterruptedException { // when
-     * spiceManager.start( getInstrumentation().getContext() ); AsyncTaskStub< Void, Void, String > asyncTaskStub = new
-     * AsyncTaskStub< Void, Void, String >(); RequestListenerStub< String > requestListenerStub = new
-     * RequestListenerStub< String >();
-     * 
-     * // when spiceManager.execute( asyncTaskStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub );
-     * requestListenerStub.await( REQUEST_COMPLETION_TIME_OUT );
-     * 
-     * // test assertTrue( asyncTaskStub.isLoadDataFromNetworkCalled() ); assertTrue(
-     * requestListenerStub.isExecutedInUIThread() ); assertTrue( requestListenerStub.isSuccessful() ); }
-     */
 
     public void test_executeContentRequest_when_request_succeeds() throws InterruptedException {
         // when
@@ -250,6 +215,32 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         assertNull( requestListenerStub.isSuccessful() );
         assertNull( requestListenerStub2.isSuccessful() );
+    }
+
+    /**
+     * Class under test. Just a wrapper to get any exception that can occur in the spicemanager's thread. Inspired by
+     * http://stackoverflow.com/questions/2596493/junit-assert-in-thread-throws-exception/13712829#13712829
+     */
+    private final class SpiceManagerUnderTest extends SpiceManager {
+        private Exception ex;
+
+        private SpiceManagerUnderTest( Class< ? extends SpiceService > contentServiceClass ) {
+            super( contentServiceClass );
+        }
+
+        @Override
+        public void run() {
+            try {
+                super.run();
+            } catch ( Exception ex ) {
+                this.ex = ex;
+            }
+        }
+
+        public Exception getException() throws InterruptedException {
+            runner.join();
+            return ex;
+        }
     }
 
 }
