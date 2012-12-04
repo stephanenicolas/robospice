@@ -15,6 +15,28 @@ import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 
 public class SpiceManagerTest extends InstrumentationTestCase {
 
+    private final class SpiceManagerUnderTest extends SpiceManager {
+        private Exception ex;
+
+        private SpiceManagerUnderTest( Class< ? extends SpiceService > contentServiceClass ) {
+            super( contentServiceClass );
+        }
+
+        @Override
+        public void run() {
+            try {
+                super.run();
+            } catch ( Exception ex ) {
+                this.ex = ex;
+            }
+        }
+
+        public Exception getException() throws InterruptedException {
+            runner.join();
+            return ex;
+        }
+    }
+
     private final static Class< String > TEST_CLASS = String.class;
     private final static String TEST_CACHE_KEY = "12345";
     private final static String TEST_CACHE_KEY2 = "123456";
@@ -24,12 +46,12 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     private static final long REQUEST_COMPLETION_TIME_OUT = 1000;
     private static final long CONTENT_MANAGER_WAIT_TIMEOUT = 500;
 
-    private SpiceManager spiceManager;
+    private SpiceManagerUnderTest spiceManager;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        spiceManager = new SpiceManager( SampleJsonPersistenceRestContentService.class );
+        spiceManager = new SpiceManagerUnderTest( SampleJsonPersistenceRestContentService.class );
     }
 
     @Override
@@ -55,18 +77,12 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         }
     }
 
-    public void test_executeContentRequest_shouldFailIfStartedFromContextWithNoService() {
+    public void test_executeContentRequest_shouldFailIfStartedFromContextWithNoService() throws InterruptedException {
         // given
 
         // when
-        try {
-            spiceManager.start( getInstrumentation().getContext() );
-            // then
-            fail();
-        } catch ( Exception ex ) {
-            // then
-            assertTrue( true );
-        }
+        spiceManager.start( getInstrumentation().getContext() );
+        assertNotNull( spiceManager.getException() );
     }
 
     public void test_executeContentRequest_shouldFailIfStopped() throws InterruptedException {
@@ -130,12 +146,13 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertFalse( requestListenerStub.isSuccessful() );
     }
 
-    public void testCancel() {
+    public void testCancel() throws InterruptedException {
         // given
         ContentRequestStub< String > contentRequestStub = new ContentRequestSucceedingStub< String >( String.class, TEST_RETURNED_DATA );
         spiceManager.start( getInstrumentation().getTargetContext() );
         // when
         spiceManager.cancel( contentRequestStub );
+        Thread.sleep( REQUEST_COMPLETION_TIME_OUT );
 
         // test
         assertTrue( contentRequestStub.isCancelled() );
@@ -166,6 +183,23 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertTrue( requestListenerStub2.isComplete() );
         assertTrue( requestListenerStub.getReceivedException() instanceof RequestCancelledException );
         assertTrue( requestListenerStub2.getReceivedException() instanceof RequestCancelledException );
+    }
+
+    public void addListenerIfPending_receives_no_events() throws InterruptedException {
+        // given
+        spiceManager.start( getInstrumentation().getTargetContext() );
+        ContentRequestStub< String > contentRequestStub = new ContentRequestFailingStub< String >( TEST_CLASS );
+        RequestListenerWithProgressStub< String > requestListenerStub = new RequestListenerWithProgressStub< String >();
+
+        // when
+        spiceManager.addListenerIfPending( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub );
+
+        contentRequestStub.await( WAIT_BEFORE_EXECUTING_REQUEST + REQUEST_COMPLETION_TIME_OUT );
+
+        // test
+        assertNull( requestListenerStub.isSuccessful() );
+        assertFalse( requestListenerStub.isComplete() );
+        assertNull( requestListenerStub.getReceivedException() );
     }
 
     public void test_dontNotifyRequestListenersForRequest() throws InterruptedException {

@@ -135,7 +135,9 @@ public class RequestProcessor {
             }
 
             listRequestListenerForThisRequest.addAll( listRequestListener );
-            notifyListenersOfRequestProgress( request, listRequestListener, request.getProgress() );
+            if ( request.isProcessable() ) {
+                notifyListenersOfRequestProgress( request, listRequestListener, request.getProgress() );
+            }
         }
 
         if ( aggregated ) {

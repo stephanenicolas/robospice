@@ -100,7 +100,7 @@ public class SpiceManager implements Runnable {
     private ReentrantLock lockSendRequestsToService = new ReentrantLock();
 
     /** Thread running runnable code. */
-    private Thread runner;
+    protected Thread runner;
 
     /** Reacts to service processing of requests. */
     private RequestRemoverContentServiceListener removerContentServiceListener = new RequestRemoverContentServiceListener();
@@ -906,6 +906,7 @@ public class SpiceManager implements Runnable {
     private void checkServiceIsProperlyDeclaredInAndroidManifest( Context context ) {
         Intent intentCheck = new Intent( context, contentServiceClass );
         if ( context.getPackageManager().queryIntentServices( intentCheck, 0 ).isEmpty() ) {
+            shouldStop();
             throw new RuntimeException( "Impossible to start content manager as no service of class : " + contentServiceClass.getName()
                     + " is registered in AndroidManifest.xml file !" );
         }
