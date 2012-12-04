@@ -474,6 +474,9 @@ public class SpiceManager implements Runnable {
             for ( CachedSpiceRequest< ? > cachedContentRequest : mapPendingRequestToRequestListener.keySet() ) {
                 if ( match( cachedContentRequest, request ) ) {
                     waitForServiceToBeBound();
+                    if ( spiceService == null ) {
+                        return;
+                    }
                     final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedContentRequest );
                     spiceService.dontNotifyRequestListenersForRequest( cachedContentRequest, setRequestListeners );
                     mapPendingRequestToRequestListener.remove( cachedContentRequest );
@@ -526,6 +529,9 @@ public class SpiceManager implements Runnable {
         synchronized ( mapPendingRequestToRequestListener ) {
             if ( !mapPendingRequestToRequestListener.isEmpty() ) {
                 waitForServiceToBeBound();
+                if ( spiceService == null ) {
+                    return;
+                }
             }
             for ( CachedSpiceRequest< ? > cachedContentRequest : mapPendingRequestToRequestListener.keySet() ) {
                 final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedContentRequest );
@@ -622,6 +628,9 @@ public class SpiceManager implements Runnable {
             public void run() {
                 try {
                     waitForServiceToBeBound();
+                    if ( spiceService == null ) {
+                        return;
+                    }
                     spiceService.removeDataFromCache( clazz, cacheKey );
                 } catch ( InterruptedException e ) {
                     Ln.e( e, "Interrupted while waiting for acquiring service." );
@@ -635,6 +644,9 @@ public class SpiceManager implements Runnable {
 
             public List< Object > call() throws Exception {
                 waitForServiceToBeBound();
+                if ( spiceService == null ) {
+                    return new ArrayList< Object >();
+                }
                 return spiceService.getAllCacheKeys( clazz );
             }
         } );
@@ -645,6 +657,9 @@ public class SpiceManager implements Runnable {
 
             public List< T > call() throws Exception {
                 waitForServiceToBeBound();
+                if ( spiceService == null ) {
+                    return new ArrayList< T >();
+                }
                 return spiceService.loadAllDataFromCache( clazz );
             }
         } );
@@ -655,6 +670,9 @@ public class SpiceManager implements Runnable {
 
             public T call() throws Exception {
                 waitForServiceToBeBound();
+                if ( spiceService == null ) {
+                    return null;
+                }
                 return spiceService.getDataFromCache( clazz, cacheKey );
             }
         } );
@@ -670,6 +688,9 @@ public class SpiceManager implements Runnable {
             public void run() {
                 try {
                     waitForServiceToBeBound();
+                    if ( spiceService == null ) {
+                        return;
+                    }
                     spiceService.removeAllDataFromCache();
                 } catch ( InterruptedException e ) {
                     Ln.e( e, "Interrupted while waiting for acquiring service." );
@@ -691,6 +712,9 @@ public class SpiceManager implements Runnable {
             public void run() {
                 try {
                     waitForServiceToBeBound();
+                    if ( spiceService == null ) {
+                        return;
+                    }
                     spiceService.setFailOnCacheError( failOnCacheError );
                 } catch ( InterruptedException e ) {
                     Ln.e( e, "Interrupted while waiting for acquiring service." );
@@ -738,6 +762,9 @@ public class SpiceManager implements Runnable {
                     stringBuilder.append( ']' );
 
                     waitForServiceToBeBound();
+                    if ( spiceService == null ) {
+                        return;
+                    }
                     spiceService.dumpState();
                 } catch ( InterruptedException e ) {
                     Ln.e( e, "Interrupted while waiting for acquiring service." );
