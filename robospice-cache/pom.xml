@@ -95,7 +95,10 @@
 							<goal>jar</goal>
 						</goals>
 						<configuration>
-							<noindex>private</noindex>
+							<links>
+								<link>http://commons.apache.org/lang/api</link>
+								<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+							</links>
 							<nohelp>true</nohelp>
 						</configuration>
 					</execution>

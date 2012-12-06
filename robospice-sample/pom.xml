@@ -27,7 +27,15 @@
 		      		<artifactId>xpp3</artifactId>
 	    		</exclusion>
   			</exclusions>			
-		</dependency>		
+		</dependency>	
+		<!-- http://stackoverflow.com/questions/5591811/ignoring-innerclasses-attribute-warning-is-killing-eclipse -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+					
         <dependency>
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client-jackson</artifactId>
