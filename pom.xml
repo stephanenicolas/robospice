@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Sonatype config to publish on Maven Central -->
@@ -23,8 +24,8 @@
 		<connection>scm:git:ssh://git@github.com/octo-online/robospice.git</connection>
 		<url>git:ssh://git@github.com/octo-online/robospice.git</url>
 		<developerConnection>scm:git:ssh://git@github.com/octo-online/robospice.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<licenses>
 		<license>
@@ -106,6 +107,18 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
 	</properties>
+
+	<!--  TODO : remove this when android maven plugin 3.4.2 is out -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>oss.sonatype.org-jayway-snapshots</id>
+			<name>Jayway OpenSource SNAPSHOTs on Sonatype.org</name>
+			<url>http://oss.sonatype.org/content/repositories/jayway-snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<dependencyManagement>
 		<dependencies>
@@ -244,11 +257,11 @@
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>2.7</version>
 					<configuration>
-					<links>
-						<link>http://commons.apache.org/lang/api</link>
-						<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-					</links>
-				</configuration>
+						<links>
+							<link>http://commons.apache.org/lang/api</link>
+							<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+						</links>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
