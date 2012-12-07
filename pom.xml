@@ -92,7 +92,7 @@
 		<android-platform.version>14</android-platform.version>
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
-		<android-maven-plugin.version>3.4.1</android-maven-plugin.version>
+		<android-maven-plugin.version>3.4.2-SNAPSHOT</android-maven-plugin.version>
 		<simplexmlserializer.version>2.6.6</simplexmlserializer.version>
 		<gson.version>2.2.2</gson.version>
 		<jackson.version>1.9.9</jackson.version>
