@@ -82,6 +82,8 @@
 		<module>robospice-google-http-client</module>
 		<!-- sample -->
 		<module>robospice-sample</module>
+		<!-- sample offline requests-->
+		<module>robospice-sample-offline-request</module>
 		<!-- tests -->
 		<module>robospice-sample-it</module>
 		<!-- motivations -->

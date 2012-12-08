@@ -155,7 +155,12 @@ public class RequestProcessor {
 
         Future< ? > future = executorService.submit( new Runnable() {
             public void run() {
-                processRequest( request );
+                try {
+                    processRequest( request );
+                } catch ( Throwable t ) {
+                    Ln.d( t, "An unexpected error occured when processsing request %s", request.toString() );
+
+                }
             }
         } );
         request.setFuture( future );
