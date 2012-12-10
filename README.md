@@ -14,6 +14,9 @@ For non-Maven developers, follow [this guide](https://github.com/octo-online/rob
 Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki) and [Javadocs](http://octo-online.github.com/robospice/apidocs/index.html).
 
+RoboSpice is now [under Continuous Integration on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/). Thanks CloudBees !
+
+
 Main features of RoboSpice
 --------------------------
 
@@ -43,6 +46,7 @@ You can also find the apk of the RoboSpice Motivations app in the [download sect
 
 Read the [RoboSpice starter guide](https://github.com/octo-online/robospice/wiki) to learn more.
 
+RoboSpice now proposes [a sample](https://play.google.com/store/apps/details?id=com.octo.android.robospice.sample.offline#?t=W251bGwsMSwxLDIxMiwiY29tLm9jdG8uYW5kcm9pZC5yb2Jvc3BpY2Uuc2FtcGxlLm9mZmxpbmUiXQ..) to illustrate how to use it for non-network related requests (offline).
 
 A projet initiated by Octo Technology 
 -------------------------------------
