@@ -12,7 +12,7 @@
         android:targetSdkVersion="16" />
 
     <application
-        android:icon="@drawable/icon"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity android:name=".SampleOfflineActivity" >
             <intent-filter>
