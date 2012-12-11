@@ -71,6 +71,11 @@
 		</mailingList>
 	</mailingLists>
 
+	<ciManagement>
+		<system>continuum</system>
+		<url>https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/</url>
+	</ciManagement>
+
 	<modules>
 		<!-- persistence -->
 		<module>robospice-cache</module>
@@ -82,7 +87,7 @@
 		<module>robospice-google-http-client</module>
 		<!-- sample -->
 		<module>robospice-sample</module>
-		<!-- sample offline requests-->
+		<!-- sample offline requests -->
 		<module>robospice-sample-offline-request</module>
 		<!-- tests -->
 		<module>robospice-sample-it</module>
@@ -110,7 +115,7 @@
 		<github.global.server>github</github.global.server>
 	</properties>
 
-	<!--  TODO : remove this when android maven plugin 3.4.2 is out -->
+	<!-- TODO : remove this when android maven plugin 3.4.2 is out -->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>oss.sonatype.org-jayway-snapshots</id>

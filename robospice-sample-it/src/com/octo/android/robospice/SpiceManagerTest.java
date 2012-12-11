@@ -10,6 +10,7 @@ import com.octo.android.robospice.sample.SampleJsonPersistenceRestContentService
 import com.octo.android.robospice.stub.ContentRequestFailingStub;
 import com.octo.android.robospice.stub.ContentRequestStub;
 import com.octo.android.robospice.stub.ContentRequestSucceedingStub;
+import com.octo.android.robospice.stub.ContentRequestWaitingStub;
 import com.octo.android.robospice.stub.RequestListenerStub;
 import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 
@@ -91,8 +92,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         // test
         assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
-        assertTrue( requestListenerStub.isExecutedInUIThread() );
         assertTrue( requestListenerStub.isSuccessful() );
+        assertTrue( requestListenerStub.isExecutedInUIThread() );
     }
 
     public void test_executeContentRequest_when_request_fails() throws InterruptedException {
@@ -126,8 +127,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void testCancelAllRequests() throws InterruptedException {
         // given
         spiceManager.start( getInstrumentation().getTargetContext() );
-        ContentRequestStub< String > contentRequestStub = new ContentRequestFailingStub< String >( TEST_CLASS );
-        ContentRequestStub< String > contentRequestStub2 = new ContentRequestFailingStub< String >( TEST_CLASS );
+        ContentRequestStub< String > contentRequestStub = new ContentRequestFailingStub< String >( TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST );
+        ContentRequestStub< String > contentRequestStub2 = new ContentRequestFailingStub< String >( TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST );
         RequestListenerWithProgressStub< String > requestListenerStub = new RequestListenerWithProgressStub< String >();
         RequestListenerWithProgressStub< String > requestListenerStub2 = new RequestListenerWithProgressStub< String >();
 
@@ -136,16 +137,16 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.execute( contentRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2 );
         spiceManager.cancelAllRequests();
 
-        contentRequestStub.await( WAIT_BEFORE_EXECUTING_REQUEST + REQUEST_COMPLETION_TIME_OUT );
+        contentRequestStub.await( REQUEST_COMPLETION_TIME_OUT );
         contentRequestStub2.await( REQUEST_COMPLETION_TIME_OUT );
 
         // test
         assertTrue( contentRequestStub.isCancelled() );
         assertTrue( contentRequestStub2.isCancelled() );
-        assertFalse( requestListenerStub.isSuccessful() );
-        assertFalse( requestListenerStub2.isSuccessful() );
         assertTrue( requestListenerStub.isComplete() );
         assertTrue( requestListenerStub2.isComplete() );
+        assertFalse( requestListenerStub.isSuccessful() );
+        assertFalse( requestListenerStub2.isSuccessful() );
         assertTrue( requestListenerStub.getReceivedException() instanceof RequestCancelledException );
         assertTrue( requestListenerStub2.getReceivedException() instanceof RequestCancelledException );
     }
@@ -165,6 +166,58 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertNull( requestListenerStub.isSuccessful() );
         assertFalse( requestListenerStub.isComplete() );
         assertNull( requestListenerStub.getReceivedException() );
+    }
+
+    public void test_ShouldStopStopsRequests() throws InterruptedException {
+        // given
+        spiceManager.start( getInstrumentation().getTargetContext() );
+        ContentRequestStub< String > contentRequestStub = new ContentRequestFailingStub< String >( TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST );
+        ContentRequestStub< String > contentRequestStub2 = new ContentRequestFailingStub< String >( TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST );
+        RequestListenerStub< String > requestListenerStub = new RequestListenerStub< String >();
+        RequestListenerStub< String > requestListenerStub2 = new RequestListenerStub< String >();
+
+        // when
+        spiceManager.execute( contentRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub );
+        spiceManager.execute( contentRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2 );
+        spiceManager.shouldStop();
+
+        contentRequestStub.await( WAIT_BEFORE_EXECUTING_REQUEST + REQUEST_COMPLETION_TIME_OUT );
+        contentRequestStub2.await( WAIT_BEFORE_EXECUTING_REQUEST + REQUEST_COMPLETION_TIME_OUT );
+
+        // test
+        // no guarantee on that
+        // assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
+        // assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
+        assertNull( requestListenerStub.isSuccessful() );
+        assertNull( requestListenerStub2.isSuccessful() );
+    }
+
+    public void test_ShouldStopStopsRequests_dont_notify_listeners_after_requests_are_executed() throws InterruptedException {
+        // given
+        spiceManager.start( getInstrumentation().getTargetContext() );
+        ContentRequestWaitingStub< String > contentRequestStub = new ContentRequestWaitingStub< String >( TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST );
+        ContentRequestWaitingStub< String > contentRequestStub2 = new ContentRequestWaitingStub< String >( TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST );
+        RequestListenerStub< String > requestListenerStub = new RequestListenerStub< String >();
+        RequestListenerStub< String > requestListenerStub2 = new RequestListenerStub< String >();
+
+        // when
+        spiceManager.execute( contentRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub );
+        spiceManager.execute( contentRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2 );
+
+        // wait for requests begin to be executed
+        contentRequestStub.await( REQUEST_COMPLETION_TIME_OUT );
+        contentRequestStub2.await( REQUEST_COMPLETION_TIME_OUT );
+        // stop before
+        spiceManager.shouldStop();
+
+        requestListenerStub.await( REQUEST_COMPLETION_TIME_OUT );
+        requestListenerStub2.await( REQUEST_COMPLETION_TIME_OUT );
+
+        // test
+        assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
+        assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
+        assertNull( requestListenerStub.isSuccessful() );
+        assertNull( requestListenerStub2.isSuccessful() );
     }
 
     public void test_dontNotifyRequestListenersForRequest() throws InterruptedException {

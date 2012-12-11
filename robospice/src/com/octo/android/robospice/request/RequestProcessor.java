@@ -172,7 +172,6 @@ public class RequestProcessor {
 
         T result = null;
         final Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
-        mapRequestToRequestListener.remove( request );
 
         if ( !request.isProcessable() ) {
             notifyOfRequestProcessed( request );
@@ -187,6 +186,7 @@ public class RequestProcessor {
         };
         request.setRequestProgressListener( requestProgressListener );
 
+        // TODO remove this
         if ( request.isCancelled() ) {
             notifyListenersOfRequestCancellation( request, listeners );
             return;
@@ -199,13 +199,13 @@ public class RequestProcessor {
                 request.setStatus( RequestStatus.READING_FROM_CACHE );
                 result = loadDataFromCache( request.getResultType(), request.getRequestCacheKey(), request.getCacheDuration() );
                 if ( result != null ) {
-                    notifyListenersOfRequestSuccess( request, listeners, result );
+                    notifyListenersOfRequestSuccess( request, result );
                     return;
                 }
             } catch ( CacheLoadingException e ) {
                 Ln.d( e, "Cache file could not be read." );
                 if ( failOnCacheError ) {
-                    notifyListenersOfRequestFailure( request, listeners, e );
+                    notifyListenersOfRequestFailure( request, e );
                     return;
                 }
                 cacheManager.removeDataFromCache( request.getResultType(), request.getRequestCacheKey() );
@@ -222,7 +222,7 @@ public class RequestProcessor {
             Ln.d( "Cache content not available or expired or disabled" );
             if ( !isNetworkAvailable( applicationContext ) ) {
                 Ln.e( "Network is down." );
-                notifyListenersOfRequestFailure( request, listeners, new NoNetworkException() );
+                notifyListenersOfRequestFailure( request, new NoNetworkException() );
                 return;
             }
 
@@ -246,7 +246,7 @@ public class RequestProcessor {
                  * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
                  */
                 Ln.e( e, "An exception occured during request network execution :" + e.getMessage() );
-                notifyListenersOfRequestFailure( request, listeners, new NetworkException( "Exception occured during invocation of web service.", e ) );
+                notifyListenersOfRequestFailure( request, new NetworkException( "Exception occured during invocation of web service.", e ) );
                 return;
             }
 
@@ -260,24 +260,24 @@ public class RequestProcessor {
                     Ln.d( "Start caching content..." );
                     request.setStatus( RequestStatus.WRITING_TO_CACHE );
                     result = saveDataToCacheAndReturnData( result, request.getRequestCacheKey() );
-                    notifyListenersOfRequestSuccess( request, listeners, result );
+                    notifyListenersOfRequestSuccess( request, result );
                     return;
                 } catch ( CacheSavingException e ) {
                     Ln.d( "An exception occured during service execution :" + e.getMessage(), e );
                     if ( failOnCacheError ) {
-                        notifyListenersOfRequestFailure( request, listeners, e );
+                        notifyListenersOfRequestFailure( request, e );
                         return;
                     } else {
                         // result can't be saved to cache but we reached that point after a success of load data from
                         // network
-                        notifyListenersOfRequestSuccess( request, listeners, result );
+                        notifyListenersOfRequestSuccess( request, result );
                     }
                     cacheManager.removeDataFromCache( request.getResultType(), request.getRequestCacheKey() );
                     Ln.d( e, "Cache file deleted." );
                 }
             } else {
                 // result can't be saved to cache but we reached that point after a success of load data from network
-                notifyListenersOfRequestSuccess( request, listeners, result );
+                notifyListenersOfRequestSuccess( request, result );
                 return;
             }
         }
@@ -303,14 +303,16 @@ public class RequestProcessor {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private < T > void notifyListenersOfRequestSuccess( CachedSpiceRequest< T > request, Set< RequestListener< ? >> listeners, T result ) {
+    private < T > void notifyListenersOfRequestSuccess( CachedSpiceRequest< T > request, T result ) {
+        final Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
         notifyListenersOfRequestProgress( request, listeners, RequestStatus.COMPLETE );
         post( new ResultRunnable( listeners, result ), request.getRequestCacheKey() );
         notifyOfRequestProcessed( request );
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private < T > void notifyListenersOfRequestFailure( CachedSpiceRequest< T > request, Set< RequestListener< ? >> listeners, SpiceException e ) {
+    private < T > void notifyListenersOfRequestFailure( CachedSpiceRequest< T > request, SpiceException e ) {
+        final Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
         notifyListenersOfRequestProgress( request, listeners, RequestStatus.COMPLETE );
         post( new ResultRunnable( listeners, e ), request.getRequestCacheKey() );
         notifyOfRequestProcessed( request );
@@ -336,8 +338,11 @@ public class RequestProcessor {
      */
     public void dontNotifyRequestListenersForRequest( CachedSpiceRequest< ? > request, Collection< RequestListener< ? >> listRequestListener ) {
         handlerResponse.removeCallbacksAndMessages( request.getRequestCacheKey() );
+        // Ouh that hurts, Release 1.3.0 fails, it doesn't have any request in map any more
+        // TODO
         Set< RequestListener< ? >> setRequestListener = mapRequestToRequestListener.get( request );
         if ( setRequestListener != null && listRequestListener != null ) {
+            Ln.d( "Removing listeners of request : " + request.toString() + " : " + setRequestListener.size() );
             setRequestListener.removeAll( listRequestListener );
         }
     }
@@ -488,6 +493,7 @@ public class RequestProcessor {
 
     protected void notifyOfRequestProcessed( CachedSpiceRequest< ? > request ) {
         Ln.v( "Removing %s  size is %d", request, mapRequestToRequestListener.size() );
+        mapRequestToRequestListener.remove( request );
 
         checkAllRequestComplete();
         synchronized ( contentServiceListenerSet ) {

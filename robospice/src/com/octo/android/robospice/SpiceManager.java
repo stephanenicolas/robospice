@@ -168,15 +168,15 @@ public class SpiceManager implements Runnable {
         try {
             waitForServiceToBeBound();
             while ( !isStopped ) {
-                CachedSpiceRequest< ? > restRequest = requestQueue.take();
+                CachedSpiceRequest< ? > spiceRequest = requestQueue.take();
                 try {
                     lockSendRequestsToService.lock();
-                    if ( restRequest != null ) {
-                        Set< RequestListener< ? >> listRequestListener = mapRequestToLaunchToRequestListener.get( restRequest );
-                        mapRequestToLaunchToRequestListener.remove( restRequest );
-                        mapPendingRequestToRequestListener.put( restRequest, listRequestListener );
-                        Ln.d( "Sending request to service : " + restRequest.getClass().getSimpleName() );
-                        spiceService.addRequest( restRequest, listRequestListener );
+                    if ( spiceRequest != null ) {
+                        Set< RequestListener< ? >> listRequestListener = mapRequestToLaunchToRequestListener.get( spiceRequest );
+                        mapRequestToLaunchToRequestListener.remove( spiceRequest );
+                        mapPendingRequestToRequestListener.put( spiceRequest, listRequestListener );
+                        Ln.d( "Sending request to service : " + spiceRequest.getClass().getSimpleName() );
+                        spiceService.addRequest( spiceRequest, listRequestListener );
                     }
                 } finally {
                     lockSendRequestsToService.unlock();
@@ -528,16 +528,17 @@ public class SpiceManager implements Runnable {
     private void removeListenersOfAllPendingCachedRequests() throws InterruptedException {
         synchronized ( mapPendingRequestToRequestListener ) {
             if ( !mapPendingRequestToRequestListener.isEmpty() ) {
-                waitForServiceToBeBound();
                 if ( spiceService == null ) {
                     return;
                 }
+                for ( CachedSpiceRequest< ? > cachedContentRequest : mapPendingRequestToRequestListener.keySet() ) {
+
+                    final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedContentRequest );
+                    Ln.d( "Removing listeners of request : " + cachedContentRequest.toString() + " : " + setRequestListeners.size() );
+                    spiceService.dontNotifyRequestListenersForRequest( cachedContentRequest, setRequestListeners );
+                }
+                mapPendingRequestToRequestListener.clear();
             }
-            for ( CachedSpiceRequest< ? > cachedContentRequest : mapPendingRequestToRequestListener.keySet() ) {
-                final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedContentRequest );
-                spiceService.dontNotifyRequestListenersForRequest( cachedContentRequest, setRequestListeners );
-            }
-            mapPendingRequestToRequestListener.clear();
             Ln.v( "Cleared listeners of all pending requests" );
         }
     }
