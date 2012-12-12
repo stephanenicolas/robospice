@@ -153,17 +153,23 @@ public class RequestProcessor {
         };
         request.setRequestCancellationListener( requestCancellationListener );
 
-        Future< ? > future = executorService.submit( new Runnable() {
-            public void run() {
-                try {
-                    processRequest( request );
-                } catch ( Throwable t ) {
-                    Ln.d( t, "An unexpected error occured when processsing request %s", request.toString() );
+        if ( request.isCancelled() ) {
+            notifyListenersOfRequestCancellation( request, listRequestListener );
+            return;
+        } else {
 
+            Future< ? > future = executorService.submit( new Runnable() {
+                public void run() {
+                    try {
+                        processRequest( request );
+                    } catch ( Throwable t ) {
+                        Ln.d( t, "An unexpected error occured when processsing request %s", request.toString() );
+
+                    }
                 }
-            }
-        } );
-        request.setFuture( future );
+            } );
+            request.setFuture( future );
+        }
     }
 
     protected < T > void processRequest( final CachedSpiceRequest< T > request ) {
@@ -171,8 +177,6 @@ public class RequestProcessor {
         Ln.d( "Processing request : " + request );
 
         T result = null;
-        final Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
-
         if ( !request.isProcessable() ) {
             notifyOfRequestProcessed( request );
             return;
@@ -181,16 +185,16 @@ public class RequestProcessor {
         // add a progress listener to the request to be notified of progress during load data from network
         RequestProgressListener requestProgressListener = new RequestProgressListener() {
             public void onRequestProgressUpdate( RequestProgress progress ) {
+                Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
                 notifyListenersOfRequestProgress( request, listeners, progress );
             }
         };
         request.setRequestProgressListener( requestProgressListener );
 
         // TODO remove this
-        if ( request.isCancelled() ) {
-            notifyListenersOfRequestCancellation( request, listeners );
-            return;
-        }
+        /*
+         * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
+         */
 
         if ( request.getRequestCacheKey() != null ) {
             // First, search data in cache
@@ -213,10 +217,6 @@ public class RequestProcessor {
             }
         }
 
-        /*
-         * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
-         */
-
         if ( result == null ) {
             // if result is not in cache, load data from network
             Ln.d( "Cache content not available or expired or disabled" );
@@ -226,33 +226,17 @@ public class RequestProcessor {
                 return;
             }
 
-            /*
-             * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
-             */
-
             // network is ok, load data from network
             try {
                 Ln.d( "Calling netwok request." );
                 request.setStatus( RequestStatus.LOADING_FROM_NETWORK );
                 result = request.loadDataFromNetwork();
                 Ln.d( "Network request call ended." );
-                /*
-                 * if ( result == null ) { Ln.d( "Unable to get web service result : " + request.getResultType() );
-                 * fireCacheContentRequestProcessed( request ); handlerResponse.post( new ResultRunnable(
-                 * requestListeners, (T) null ) ); return; }
-                 */
             } catch ( Exception e ) {
-                /*
-                 * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
-                 */
                 Ln.e( e, "An exception occured during request network execution :" + e.getMessage() );
                 notifyListenersOfRequestFailure( request, new NetworkException( "Exception occured during invocation of web service.", e ) );
                 return;
             }
-
-            /*
-             * if ( request.isCancelled() ) { notifyListenersOfRequestCancellation( request, listeners ); return; }
-             */
 
             if ( result != null && request.getRequestCacheKey() != null ) {
                 // request worked and result is not null, save it to cache
