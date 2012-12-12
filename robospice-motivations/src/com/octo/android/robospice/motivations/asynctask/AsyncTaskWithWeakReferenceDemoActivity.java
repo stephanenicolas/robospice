@@ -13,7 +13,7 @@ import com.octo.android.robospice.motivations.common.DemoActivity;
  * Based on http://stackoverflow.com/questions/3357477/is-asynctask-really-conceptually
  * -flawed-or-am-i-just-missing-something
  * 
- * @author stephanenicolas
+ * @author sni
  * 
  */
 public class AsyncTaskWithWeakReferenceDemoActivity extends DemoActivity {

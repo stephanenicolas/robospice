@@ -30,7 +30,7 @@ import com.octo.android.robospice.motivations.robospice.tweeter.xml.TweeterXmlSp
 /**
  * Main menu. Presents all tested ways to execute an asynchronous job.
  * 
- * @author stephanenicolas
+ * @author sni
  * 
  */
 // SOF references :

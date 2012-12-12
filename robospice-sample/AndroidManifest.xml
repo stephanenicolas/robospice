@@ -11,10 +11,12 @@
     <uses-sdk
         android:minSdkVersion="4"
         android:targetSdkVersion="16" />
-    
+
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
+        <uses-library android:name="android.test.runner" />
+
         <activity android:name=".SampleContentActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,11 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity android:name=".TestActivity" />
 
-        <service android:name=".SampleJsonPersistenceRestContentService" android:exported="false"/>
-        <service android:name=".SampleOrmlitePersistenceRestContentService" android:exported="false"/>
+        <service
+            android:name=".SampleJsonPersistenceRestContentService"
+            android:exported="false" />
+        <service
+            android:name=".SampleOrmlitePersistenceRestContentService"
+            android:exported="false" />
     </application>
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.octo.android.robospice.sample" />
 
 </manifest>

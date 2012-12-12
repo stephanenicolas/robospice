@@ -11,7 +11,7 @@ import com.octo.android.robospice.motivations.common.DemoActivity;
  * Basic asynchronous job implementation demo class. It presents usage of a simple {@link AsyncTask}. It will display
  * progress of the task.
  * 
- * @author stephanenicolas
+ * @author sni
  * 
  */
 public class AsyncTaskAsInnerClassDemoActivity extends DemoActivity {
@@ -54,7 +54,7 @@ public class AsyncTaskAsInnerClassDemoActivity extends DemoActivity {
      * those activities will get garbage collected by the android system. If you don't understand why activities must
      * die, please refer to the activity life cycle of the {@link Activity} documentation.
      * 
-     * @author stephanenicolas
+     * @author sni
      * 
      */
     public class AsyncTaskCounter extends AsyncTask< Void, Integer, Void > {

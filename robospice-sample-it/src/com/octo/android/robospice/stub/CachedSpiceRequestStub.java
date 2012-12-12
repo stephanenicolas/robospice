@@ -2,18 +2,44 @@ package com.octo.android.robospice.stub;
 
 import com.octo.android.robospice.request.CachedSpiceRequest;
 
-public class CachedSpiceRequestStub<T> extends CachedSpiceRequest<T> {
+/**
+ * A {@link CachedSpiceRequest} that is state-testable. Wraps a {@link SpiceRequestStub}.
+ * 
+ * @author sni
+ * 
+ * @param <T>
+ *            the type of the result of the request.
+ */
+public class CachedSpiceRequestStub< T > extends CachedSpiceRequest< T > {
 
-	public CachedSpiceRequestStub(ContentRequestStub<T> contentRequest, String requestCacheKey, long cacheDuration) {
-		super(contentRequest, requestCacheKey, cacheDuration);
-	}
+    /**
+     * Builds a {@link CachedSpiceRequestStub}.
+     * 
+     * @param contentRequest
+     *            the wrapped {@link SpiceRequestStub}.
+     * @param requestCacheKey
+     *            the cachekey that identifies this {@link CachedSpiceRequestStub}
+     * @param cacheDuration
+     *            the expiry delay of potential cache content. If content is expired, data is loaded from network.
+     */
+    public CachedSpiceRequestStub( SpiceRequestStub< T > contentRequest, String requestCacheKey, long cacheDuration ) {
+        super( contentRequest, requestCacheKey, cacheDuration );
+    }
 
-	public boolean isLoadDataFromNetworkCalled() {
-		return ((ContentRequestStub<?>) getContentRequest()).isLoadDataFromNetworkCalled();
-	}
+    /**
+     * @see {@link SpiceRequestStub#isLoadDataFromNetworkCalled()}.
+     * @return
+     */
+    public boolean isLoadDataFromNetworkCalled() {
+        return ( (SpiceRequestStub< ? >) getContentRequest() ).isLoadDataFromNetworkCalled();
+    }
 
-	public void await(long millisecond) throws InterruptedException {
-		((ContentRequestStub<?>) getContentRequest()).await(millisecond);
-	}
-
+    /**
+     * @see {@link SpiceRequestStub#awaitForLoadDataFromNetworkIsCalled(long)}.
+     * @param millisecond
+     * @throws InterruptedException
+     */
+    public void await( long millisecond ) throws InterruptedException {
+        ( (SpiceRequestStub< ? >) getContentRequest() ).awaitForLoadDataFromNetworkIsCalled( millisecond );
+    }
 }

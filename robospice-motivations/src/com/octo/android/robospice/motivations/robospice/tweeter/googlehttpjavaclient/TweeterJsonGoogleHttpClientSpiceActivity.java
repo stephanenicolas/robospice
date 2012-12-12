@@ -29,7 +29,7 @@ import com.octo.android.robospice.request.listener.RequestProgressListener;
 /**
  * A simple ListActivity that display Tweets that contain the word Android in them.
  * 
- * @author stephanenicolas
+ * @author sni
  * 
  */
 @ContentView(R.layout.activity_tweet_demo)

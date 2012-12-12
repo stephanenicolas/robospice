@@ -3,7 +3,7 @@ package com.octo.android.robospice.persistence;
 /**
  * This interface defines the common behavior of all elements inside the CacheManager bus.
  * 
- * @author stephanenicolas
+ * @author sni
  * 
  */
 public interface Persister {

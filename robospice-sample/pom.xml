@@ -18,6 +18,11 @@
 			<artifactId>android</artifactId>
 			<scope>provided</scope>
 		</dependency>
+                <dependency>
+                        <groupId>com.google.android</groupId>
+                        <artifactId>android-test</artifactId>
+                        <scope>provided</scope>
+                </dependency>
         <dependency>
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client</artifactId>

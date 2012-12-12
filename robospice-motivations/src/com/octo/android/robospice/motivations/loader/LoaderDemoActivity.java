@@ -12,7 +12,7 @@ import com.octo.android.robospice.motivations.common.DemoFragmentActivity;
 /**
  * Based on http://stackoverflow.com/questions/9077212/update-progressbar-from- asynctaskloader
  * 
- * @author stephanenicolas
+ * @author sni
  * 
  */
 public class LoaderDemoActivity extends DemoFragmentActivity implements LoaderCallbacks< Void > {

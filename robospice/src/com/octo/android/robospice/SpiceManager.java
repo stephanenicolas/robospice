@@ -534,8 +534,10 @@ public class SpiceManager implements Runnable {
                 for ( CachedSpiceRequest< ? > cachedContentRequest : mapPendingRequestToRequestListener.keySet() ) {
 
                     final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedContentRequest );
-                    Ln.d( "Removing listeners of request : " + cachedContentRequest.toString() + " : " + setRequestListeners.size() );
-                    spiceService.dontNotifyRequestListenersForRequest( cachedContentRequest, setRequestListeners );
+                    if ( setRequestListeners != null ) {
+                        Ln.d( "Removing listeners of request : " + cachedContentRequest.toString() + " : " + setRequestListeners.size() );
+                        spiceService.dontNotifyRequestListenersForRequest( cachedContentRequest, setRequestListeners );
+                    }
                 }
                 mapPendingRequestToRequestListener.clear();
             }

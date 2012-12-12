@@ -13,7 +13,7 @@ import com.octo.android.robospice.motivations.common.DemoActivity;
  * progress of the task.
  * 
  * 
- * @author stephanenicolas
+ * @author sni
  * 
  */
 public class RoboAsyncTaskDemoActivity extends DemoActivity {

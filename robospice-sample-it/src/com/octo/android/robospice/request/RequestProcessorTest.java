@@ -19,9 +19,9 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.stub.CachedSpiceRequestStub;
-import com.octo.android.robospice.stub.ContentRequestFailingStub;
-import com.octo.android.robospice.stub.ContentRequestStub;
-import com.octo.android.robospice.stub.ContentRequestSucceedingStub;
+import com.octo.android.robospice.stub.SpiceRequestFailingStub;
+import com.octo.android.robospice.stub.SpiceRequestStub;
+import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
 import com.octo.android.robospice.stub.RequestListenerStub;
 import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 
@@ -475,18 +475,18 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // ============================================================================================
 
     private < T > CachedSpiceRequestStub< T > createSuccessfulRequest( Class< T > clazz, String cacheKey, long maxTimeInCache, T returnedData ) {
-        ContentRequestStub< T > stubContentRequest = new ContentRequestSucceedingStub< T >( clazz, returnedData );
+        SpiceRequestStub< T > stubContentRequest = new SpiceRequestSucceedingStub< T >( clazz, returnedData );
         return new CachedSpiceRequestStub< T >( stubContentRequest, cacheKey, maxTimeInCache );
     }
 
     private < T > CachedSpiceRequestStub< T > createSuccessfulRequest( Class< T > clazz, String cacheKey, long maxTimeInCache, T returnedData,
             long waitBeforeExecution ) {
-        ContentRequestStub< T > stubContentRequest = new ContentRequestSucceedingStub< T >( clazz, returnedData, waitBeforeExecution );
+        SpiceRequestStub< T > stubContentRequest = new SpiceRequestSucceedingStub< T >( clazz, returnedData, waitBeforeExecution );
         return new CachedSpiceRequestStub< T >( stubContentRequest, cacheKey, maxTimeInCache );
     }
 
     private < T > CachedSpiceRequestStub< T > createFailedRequest( Class< T > clazz, String cacheKey, long maxTimeInCache ) {
-        ContentRequestStub< T > stubContentRequest = new ContentRequestFailingStub< T >( clazz );
+        SpiceRequestStub< T > stubContentRequest = new SpiceRequestFailingStub< T >( clazz );
         return new CachedSpiceRequestStub< T >( stubContentRequest, cacheKey, maxTimeInCache );
     }
 
