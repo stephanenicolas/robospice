@@ -1,6 +1,19 @@
 Release notes for RoboSpice
 ===========================
 
+Version 1.3.2 (december 2012)
+-------------
+
+* Riccardo Ciavoti joined the team. 
+* enhanced cancel mechanism
+* enhanced core testing. We really need to separate tests and samples now.
+
+
+Version 1.3.1 (december 2012)
+-------------
+
+* Bug fix release, listeners where not detached properly
+
 Version 1.3.0 (december 2012)
 -------------
 
