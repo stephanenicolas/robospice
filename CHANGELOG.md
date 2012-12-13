@@ -1,13 +1,14 @@
 Release notes for RoboSpice
 ===========================
 
-Version 1.3.2 (december 2012)
+Version 1.3.2 (to be released )
 -------------
 
 * Riccardo Ciavoti joined the team. 
 * enhanced cancel mechanism
 * enhanced core testing. We really need to separate tests and samples now.
-
+* TODO add documentation on Wiki pages to use spring android and google http client module
+* TODO add documentation on Wiki pages for Advanced RoboSpice usages.
 
 Version 1.3.1 (december 2012)
 -------------
@@ -28,8 +29,7 @@ Version 1.3.0 (december 2012)
 * Refactored request cancelation mechanism. Thx to Philippe Prados for help with handlers.
 * Added tests for request cancelation mechanism.
 * RoboSpice reached the milestone of 103 tests. This is also a QA release.
-* TODO add documentation on Wiki pages to use spring android and google http client module
-* TODO add documentation on Wiki pages for Advanced RoboSpice usages.
+
 
 Version 1.2.0 (november 12 2012)
 -------------
