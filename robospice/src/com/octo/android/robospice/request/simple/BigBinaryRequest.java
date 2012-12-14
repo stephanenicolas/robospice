@@ -33,6 +33,9 @@ public class BigBinaryRequest extends BinaryRequest {
         readBytes( inputStream, new ProgressByteProcessor( fileOutputStream, contentLength ) );
         IOUtils.closeQuietly( fileOutputStream );
         return new FileInputStream( cacheFile );
+    }
 
+    public File getCacheFile() {
+        return cacheFile;
     }
 }
