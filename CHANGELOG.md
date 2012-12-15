@@ -7,8 +7,12 @@ Version 1.3.2 (to be released )
 * Riccardo Ciovati joined the team.
 * enhanced cancel mechanism
 * enhanced core testing. We really need to separate tests and samples now.
+* added documentation on Wiki pages for Advanced RoboSpice usages and FAQ
+* minor bugs solved in persistence module
+* CacheKey is now of type Object and not String anymore. Thx to Fernando Franco Gíraldez for his pull request.
+* TODO separate tests and redesign modules
 * TODO add documentation on Wiki pages to use spring android and google http client module
-* TODO add documentation on Wiki pages for Advanced RoboSpice usages.
+
 
 Version 1.3.1 (december 2012)
 -------------
