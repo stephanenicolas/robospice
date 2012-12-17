@@ -116,8 +116,8 @@ public class ImageSpiceActivity extends BaseActivity {
     @Override
     public void startDemo() {
 
-        File cacheFile = new File( getCacheDir(), "image.jpg" );
-        imageRequest = new BigBinaryRequest( "https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.jpg", cacheFile );
+        File cacheFile = new File( getCacheDir(), "earth.jpg" );
+        imageRequest = new BigBinaryRequest( "http://earthobservatory.nasa.gov/blogs/elegantfigures/files/2011/10/globe_west_2048.jpg", cacheFile );
         spiceManager.execute( imageRequest, EARTH_IMAGE_CACHE_KEY, DurationInMillis.NEVER, new ImageRequestListener() );
         Intent intent = SpiceNotificationService.createIntent( this, ImageSpiceNotificationService.class, TweeterJsonSpringAndroidSpiceService.class, 70,
                 InputStream.class, EARTH_IMAGE_CACHE_KEY, false );
