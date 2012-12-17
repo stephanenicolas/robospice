@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Sonatype config to publish on Maven Central -->
@@ -16,7 +17,7 @@
 	<name>Robospice - Parent</name>
 	<description>RoboSpice is a modular android library that eases the development of Data-Driven Android applications.</description>
 	<url>https://github.com/octo-online/robospice</url>
-        <inceptionYear>2012</inceptionYear>
+	<inceptionYear>2012</inceptionYear>
 
 	<scm>
 		<connection>scm:git:ssh://git@github.com/octo-online/robospice.git</connection>
@@ -75,27 +76,30 @@
 	</mailingLists>
 
 	<ciManagement>
-		<system>continuum</system>
+		<system>jenkins</system>
 		<url>https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/</url>
 	</ciManagement>
 
 	<modules>
 		<!-- persistence -->
-		<module>robospice-cache</module>
+		<module>robospice-cache-parent</module>
 		<!-- core library -->
-		<module>robospice</module>
-		<!-- spring android -->
-		<module>robospice-spring-android</module>
-		<!-- google http client android -->
-		<module>robospice-google-http-client</module>
-		<!-- sample -->
-		<module>robospice-sample</module>
-		<!-- sample offline requests -->
-		<module>robospice-sample-offline-request</module>
-		<!-- tests -->
-		<module>robospice-sample-it</module>
-		<!-- motivations -->
-		<module>robospice-motivations</module>
+		<module>robospice-core-parent</module>
+		
+                <!-- extensions -->
+		<module>extensions/robospice-spring-android-parent</module>
+		<module>extensions/robospice-google-http-client-parent</module>
+		<module>extensions/robospice-ormlite-parent</module>
+		
+                <!-- samples -->
+		<!-- old one : to remove after transition to new maven structure is complete : <module>samples/robospice-sample</module> -->
+		<!-- old one : to remove after transition to new maven structure is complete : <module>samples/robospice-sample-it</module> -->
+		<module>samples/robospice-sample-core</module>
+		<module>samples/robospice-sample-core-offline</module>
+                <module>samples/robospice-sample-spring-android</module>
+                <module>samples/robospice-sample-google-http-client</module>
+                <module>samples/robospice-sample-ormlite</module>
+		<module>samples/robospice-motivations</module>
 	</modules>
 
 	<properties>
@@ -116,6 +120,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
 	<!-- TODO : remove this when android maven plugin 3.4.2 is out -->
@@ -377,6 +382,9 @@
 					<value>true</value>
 				</property>
 			</activation>
+			<properties>
+				<maven.javadoc.skip>false</maven.javadoc.skip>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>

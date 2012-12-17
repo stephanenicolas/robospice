@@ -1,9 +1,0 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="10dip"
-    android:paddingLeft="15dip"
-    android:paddingTop="10dip"
-    android:drawablePadding="7dp"
-    android:textAppearance="?android:attr/textAppearanceMedium" />
