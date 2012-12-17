@@ -13,6 +13,10 @@
 */gen/
 */out/
 
+samples/*/bin/
+samples/*/gen/
+samples/*/out/
+
 # Local configuration file (sdk path, etc)
 local.properties
 release.properties
