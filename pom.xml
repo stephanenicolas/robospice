@@ -99,6 +99,7 @@
                 <module>samples/robospice-sample-spring-android</module>
                 <module>samples/robospice-sample-google-http-client</module>
                 <module>samples/robospice-sample-ormlite</module>
+                <!-- uncomment when retrofit is published on maven <module>samples/robospice-sample-retrofit</module>-->
 		<module>samples/robospice-motivations</module>
 	</modules>
 
