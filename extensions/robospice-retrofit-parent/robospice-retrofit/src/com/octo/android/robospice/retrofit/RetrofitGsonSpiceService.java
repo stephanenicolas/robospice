@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFactory;
 
-public abstract class RetrofitGsonSpiceService extends RetrofitSpiceService {
+public class RetrofitGsonSpiceService extends RetrofitSpiceService {
 
     private Converter converter = new GsonConverter( new Gson() );
 

@@ -3,6 +3,7 @@ package com.octo.android.robospice.sample.retrofit;
 import android.app.Activity;
 
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.retrofit.RetrofitGsonSpiceService;
 
 /**
  * This class is the base class of all activities of the sample project. This class offers all subclasses an easy access
@@ -15,7 +16,7 @@ import com.octo.android.robospice.SpiceManager;
  * 
  */
 public abstract class BaseSampleSpiceActivity extends Activity {
-    private SpiceManager spiceManager = new SpiceManager( SampleSpiceService.class );
+    private SpiceManager spiceManager = new SpiceManager( RetrofitGsonSpiceService.class );
 
     @Override
     protected void onStart() {
