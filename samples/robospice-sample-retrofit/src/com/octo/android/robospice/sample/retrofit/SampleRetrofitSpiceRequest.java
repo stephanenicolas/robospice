@@ -6,6 +6,7 @@ import retrofit.http.GET;
 import retrofit.http.Server;
 import roboguice.util.temp.Ln;
 
+import com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest;
 import com.octo.android.robospice.sample.retrofit.model.ListTweet;
 
 public class SampleRetrofitSpiceRequest extends RetrofitSpiceRequest< ListTweet > {
