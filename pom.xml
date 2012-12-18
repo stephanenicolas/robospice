@@ -85,20 +85,20 @@
 		<module>robospice-cache-parent</module>
 		<!-- core library -->
 		<module>robospice-core-parent</module>
-		
-                <!-- extensions -->
+
+		<!-- extensions -->
 		<module>extensions/robospice-spring-android-parent</module>
 		<module>extensions/robospice-google-http-client-parent</module>
 		<module>extensions/robospice-ormlite-parent</module>
 		<!-- uncomment when retrofit is published on maven <module>extensions/robospice-retrofit-parent</module> -->
-		
-                <!-- samples -->
+
+		<!-- samples -->
 		<module>samples/robospice-sample-core</module>
 		<module>samples/robospice-sample-core-offline</module>
-                <module>samples/robospice-sample-spring-android</module>
-                <module>samples/robospice-sample-google-http-client</module>
-                <module>samples/robospice-sample-ormlite</module>
-                <!-- uncomment when retrofit is published on maven <module>samples/robospice-sample-retrofit</module>-->
+		<module>samples/robospice-sample-spring-android</module>
+		<module>samples/robospice-sample-google-http-client</module>
+		<module>samples/robospice-sample-ormlite</module>
+		<!-- uncomment when retrofit is published on maven <module>samples/robospice-sample-retrofit</module> -->
 		<module>samples/robospice-motivations</module>
 	</modules>
 
@@ -247,6 +247,17 @@
 				<groupId>com.google.http-client</groupId>
 				<artifactId>google-http-client-gson</artifactId>
 				<version>${google.http.client.version}</version>
+			</dependency>
+			<!-- http://stackoverflow.com/questions/5591811/ignoring-innerclasses-attribute-warning-is-killing-eclipse -->
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.mockwebserver</groupId>
+				<artifactId>mockwebserver</artifactId>
+				<version>20121111</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

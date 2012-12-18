@@ -45,14 +45,12 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- Dependencies for testing -->
 		<dependency>
 			<groupId>com.google.mockwebserver</groupId>
 			<artifactId>mockwebserver</artifactId>
-			<version>20121111</version>
 		</dependency>
 	</dependencies>
 
