@@ -34,16 +34,6 @@
 		<dependency>
 			<groupId>org.simpleframework</groupId>
 			<artifactId>simple-xml</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>xpp3</groupId>
-					<artifactId>xpp3</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>stax</groupId>
-					<artifactId>stax-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<!-- Dependency when using jacson -->
 		<dependency>
@@ -64,7 +54,6 @@
 		<dependency>
 			<groupId>com.google.mockwebserver</groupId>
 			<artifactId>mockwebserver</artifactId>
-			<version>20121111</version>
 		</dependency>
 	</dependencies>
 

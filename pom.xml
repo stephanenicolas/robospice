@@ -108,9 +108,6 @@
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
 		<android-maven-plugin.version>3.4.2-SNAPSHOT</android-maven-plugin.version>
-		<simplexmlserializer.version>2.6.6</simplexmlserializer.version>
-		<gson.version>2.2.2</gson.version>
-		<jackson.version>1.9.9</jackson.version>
 		<ormlite.version>4.41</ormlite.version>
 		<notificationcompat2.version>1.1.2</notificationcompat2.version>
 		<actionbarsherlock.version>4.2.0</actionbarsherlock.version>
@@ -195,22 +192,6 @@
 				<groupId>com.jakewharton</groupId>
 				<artifactId>notificationcompat2</artifactId>
 				<version>${notificationcompat2.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
-				<version>${jackson.version}</version>
-				<optional>true</optional>
-			</dependency>
-			<dependency>
-				<groupId>org.simpleframework</groupId>
-				<artifactId>simple-xml</artifactId>
-				<version>${simplexmlserializer.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>${gson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.j256.ormlite</groupId>
