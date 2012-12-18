@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.octo.android.robospice.googlehttpclient.test;
+package com.octo.android.robospice.retrofit.test;
 
 public final class R {
     public static final class attr {

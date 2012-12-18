@@ -1,12 +1,7 @@
-package com.octo.android.robospice.googlehttpclient.test.model;
-
-import com.google.api.client.util.Key;
+package com.octo.android.robospice.retrofit.test.model;
 
 public class WeatherResult {
-    @Key
     private Weather weather;
-
-    @Key
     private int id = 1;
 
     public Weather getWeather() {

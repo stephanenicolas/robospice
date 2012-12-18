@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.octo.android.robospice.googlehttpclient.test"
+    package="com.octo.android.robospice.retrofit.test"
     android:versionCode="1"
     android:versionName="0.0.1-SNAPSHOT" >
 
@@ -18,12 +18,12 @@
         <uses-library android:name="android.test.runner" />
 
         <service
-            android:name=".GoogleHttpClientSpiceTestService"
+            android:name=".RetrofitSpiceTestService"
             android:exported="false" />
     </application>
     
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="com.octo.android.robospice.googlehttpclient.test" />
+        android:targetPackage="com.octo.android.robospice.retrofit.test" />
 
 </manifest>

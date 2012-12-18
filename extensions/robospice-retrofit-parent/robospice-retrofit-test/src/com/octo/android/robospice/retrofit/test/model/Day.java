@@ -1,15 +1,10 @@
-package com.octo.android.robospice.googlehttpclient.test.model;
+package com.octo.android.robospice.retrofit.test.model;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
-
 public class Day {
-    @Key
     private String weather_code;
-    @Key
     private String weather_text;
-    @Key
     private List< Wind > wind;
 
     public String getWeather_code() {

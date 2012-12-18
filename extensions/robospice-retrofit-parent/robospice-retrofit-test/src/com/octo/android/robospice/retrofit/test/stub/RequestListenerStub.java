@@ -1,4 +1,4 @@
-package com.octo.android.robospice.googlehttpclient.test.stub;
+package com.octo.android.robospice.retrofit.test.stub;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;

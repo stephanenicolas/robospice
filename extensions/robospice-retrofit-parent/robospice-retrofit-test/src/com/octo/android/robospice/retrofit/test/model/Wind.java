@@ -1,13 +1,8 @@
-package com.octo.android.robospice.googlehttpclient.test.model;
-
-import com.google.api.client.util.Key;
+package com.octo.android.robospice.retrofit.test.model;
 
 public class Wind {
-    @Key
     private String dir;
-    @Key
     private String speed;
-    @Key
     private String wind_unit;
 
     public String getDir() {

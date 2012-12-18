@@ -24,55 +24,11 @@
 			<artifactId>android-test</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Dependencies when using Jackson 1 -->
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-jackson</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>xpp3</groupId>
-					<artifactId>xpp3</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>stax</groupId>
-					<artifactId>stax-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- Dependencies when using Jackson 2 -->
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-jackson2</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>xpp3</groupId>
-					<artifactId>xpp3</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>stax</groupId>
-					<artifactId>stax-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- Dependencies when using gson -->
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-gson</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>xpp3</groupId>
-					<artifactId>xpp3</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>stax</groupId>
-					<artifactId>stax-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+		
 		<!-- Common Google Http Java Client Module Dependency Dependencies -->
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
-			<artifactId>robospice-google-http-client</artifactId>
+			<artifactId>robospice-retrofit</artifactId>
 			<version>${project.version}</version>
 			<exclusions>
 				<exclusion>

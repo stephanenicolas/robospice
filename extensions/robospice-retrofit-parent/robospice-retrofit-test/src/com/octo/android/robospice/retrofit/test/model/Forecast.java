@@ -1,21 +1,13 @@
-package com.octo.android.robospice.googlehttpclient.test.model;
+package com.octo.android.robospice.retrofit.test.model;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
-
 public class Forecast {
-    @Key
     private String date;
-    @Key
     private List< Day > day;
-    @Key
     private String day_max_temp;
-    @Key
     private List< Day > night;
-    @Key
     private String night_min_temp;
-    @Key
     private String temp_unit;
 
     public String getDate() {

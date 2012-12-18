@@ -1,4 +1,4 @@
-package com.octo.android.robospice.persistence.googlehttpclient.json;
+package com.octo.android.robospice.persistence.retrofit;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,13 +9,11 @@ import android.app.Application;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.octo.android.robospice.googlehttpclient.test.model.Curren_weather;
-import com.octo.android.robospice.googlehttpclient.test.model.Weather;
-import com.octo.android.robospice.googlehttpclient.test.model.WeatherResult;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
-import com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersister;
-import com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersisterFactory;
+import com.octo.android.robospice.retrofit.test.model.Curren_weather;
+import com.octo.android.robospice.retrofit.test.model.Weather;
+import com.octo.android.robospice.retrofit.test.model.WeatherResult;
 
 @SmallTest
 public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTestCase {
@@ -28,11 +26,11 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
     protected void setUp() throws Exception {
         super.setUp();
         Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
-        JsonObjectPersisterFactory factory = getJsonObjectPersisterFactory( application );
+        RetrofitObjectPersisterFactory factory = getRetrofitObjectPersisterFactory( application );
         inFileObjectPersister = factory.createObjectPersister( WeatherResult.class );
     }
 
-    protected abstract JsonObjectPersisterFactory getJsonObjectPersisterFactory( Application application );
+    protected abstract RetrofitObjectPersisterFactory getRetrofitObjectPersisterFactory( Application application );
 
     @Override
     protected void tearDown() throws Exception {
@@ -65,7 +63,7 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         WeatherResult weatherReturned = inFileObjectPersister.saveDataToCacheAndReturnData( weatherRequestStatus, "weather.json" );
 
         // THEN
-        ( (JsonObjectPersister< ? >) inFileObjectPersister ).awaitForSaveAsyncTermination( 500, TimeUnit.MILLISECONDS );
+        ( (RetrofitObjectPersister< ? >) inFileObjectPersister ).awaitForSaveAsyncTermination( 500, TimeUnit.MILLISECONDS );
         assertEquals( TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get( 0 ).getTemp() );
     }
 
@@ -100,7 +98,7 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         WeatherResult weatherRequestStatus = buildWeather( TEST_TEMP2, TEST_TEMP_UNIT );
         final String FILE_NAME = "toto";
         inFileObjectPersister.saveDataToCacheAndReturnData( weatherRequestStatus, FILE_NAME );
-        File cachedFile = ( (JsonObjectPersister< ? >) inFileObjectPersister ).getCacheFile( FILE_NAME );
+        File cachedFile = ( (RetrofitObjectPersister< ? >) inFileObjectPersister ).getCacheFile( FILE_NAME );
         cachedFile.setLastModified( System.currentTimeMillis() - 5 * DurationInMillis.ONE_SECOND );
 
         // WHEN
