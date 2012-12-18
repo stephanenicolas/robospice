@@ -1,17 +1,18 @@
 Release notes for RoboSpice
 ===========================
 
-Version 1.3.2 (to be released )
+Version 1.4.0 (to be released )
 -------------
 
 * Riccardo Ciovati joined the team.
+* completely reviewed maven structure. Introduction of an easier extension mechanism and simpler samples. Thx to pommedeterresauté
+* added retrofit module with tests and sample
 * enhanced cancel mechanism
 * enhanced core testing. We really need to separate tests and samples now.
 * added documentation on Wiki pages for Advanced RoboSpice usages and FAQ
 * minor bugs solved in persistence module
 * CacheKey is now of type Object and not String anymore. Thx to Fernando Franco Gíraldez for his pull request.
-* TODO separate tests and redesign modules
-* TODO add documentation on Wiki pages to use spring android and google http client module
+* TODO add documentation on Wiki pages to use spring android, ormlite, retrofit and google http client module
 
 
 Version 1.3.1 (december 2012)
