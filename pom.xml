@@ -108,11 +108,6 @@
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
 		<android-maven-plugin.version>3.4.2-SNAPSHOT</android-maven-plugin.version>
-		<ormlite.version>4.41</ormlite.version>
-		<notificationcompat2.version>1.1.2</notificationcompat2.version>
-		<actionbarsherlock.version>4.2.0</actionbarsherlock.version>
-		<roboguice.version>2.0</roboguice.version>
-		<robosherlock.version>1.4</robosherlock.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
@@ -152,11 +147,6 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>com.google.android</groupId>
-				<artifactId>support-v4</artifactId>
-				<version>${android-support.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.10</version>
@@ -172,38 +162,6 @@
 				<artifactId>commons-io</artifactId>
 				<version>1.3.2</version>
 			</dependency>
-			<dependency>
-				<groupId>com.actionbarsherlock</groupId>
-				<artifactId>actionbarsherlock</artifactId>
-				<version>${actionbarsherlock.version}</version>
-				<type>apklib</type>
-			</dependency>
-			<dependency>
-				<groupId>com.github.rtyley</groupId>
-				<artifactId>roboguice-sherlock</artifactId>
-				<version>${robosherlock.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.roboguice</groupId>
-				<artifactId>roboguice</artifactId>
-				<version>${roboguice.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.jakewharton</groupId>
-				<artifactId>notificationcompat2</artifactId>
-				<version>${notificationcompat2.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.j256.ormlite</groupId>
-				<artifactId>ormlite-core</artifactId>
-				<version>${ormlite.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.j256.ormlite</groupId>
-				<artifactId>ormlite-android</artifactId>
-				<version>${ormlite.version}</version>
-			</dependency>
-
 			<!-- http://stackoverflow.com/questions/5591811/ignoring-innerclasses-attribute-warning-is-killing-eclipse -->
 			<dependency>
 				<groupId>commons-logging</groupId>
