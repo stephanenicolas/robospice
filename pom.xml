@@ -116,7 +116,6 @@
 		<actionbarsherlock.version>4.2.0</actionbarsherlock.version>
 		<roboguice.version>2.0</roboguice.version>
 		<robosherlock.version>1.4</robosherlock.version>
-		<google.http.client.version>1.12.0-beta</google.http.client.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
@@ -223,31 +222,7 @@
 				<artifactId>ormlite-android</artifactId>
 				<version>${ormlite.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.google.http-client</groupId>
-				<artifactId>google-http-client</artifactId>
-				<version>${google.http.client.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.http-client</groupId>
-				<artifactId>google-http-client-android</artifactId>
-				<version>${google.http.client.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.http-client</groupId>
-				<artifactId>google-http-client-jackson</artifactId>
-				<version>${google.http.client.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.http-client</groupId>
-				<artifactId>google-http-client-jackson2</artifactId>
-				<version>${google.http.client.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.http-client</groupId>
-				<artifactId>google-http-client-gson</artifactId>
-				<version>${google.http.client.version}</version>
-			</dependency>
+
 			<!-- http://stackoverflow.com/questions/5591811/ignoring-innerclasses-attribute-warning-is-killing-eclipse -->
 			<dependency>
 				<groupId>commons-logging</groupId>

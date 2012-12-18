@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -11,6 +12,10 @@
 	<artifactId>robospice-motivations</artifactId>
 	<packaging>apk</packaging>
 	<name>RoboSpice Motivations - Demo app</name>
+
+	<properties>
+		<google.http.client.version>1.12.0-beta</google.http.client.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -53,7 +58,7 @@
 			<artifactId>robospice-ormlite</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice-spring-android</artifactId>
@@ -82,7 +87,6 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -112,6 +116,7 @@
 		<dependency>
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client-jackson</artifactId>
+			<version>${google.http.client.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>xpp3</groupId>
