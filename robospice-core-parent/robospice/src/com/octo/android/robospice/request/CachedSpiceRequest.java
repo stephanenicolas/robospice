@@ -15,11 +15,11 @@ public class CachedSpiceRequest< RESULT > extends SpiceRequest< RESULT > {
     private SpiceRequest< RESULT > spiceRequest;
     private boolean isProcessable = true;
 
-    public CachedSpiceRequest( SpiceRequest< RESULT > contentRequest, Object requestCacheKey, long cacheDuration ) {
-        super( contentRequest.getResultType() );
+    public CachedSpiceRequest( SpiceRequest< RESULT > spiceRequest, Object requestCacheKey, long cacheDuration ) {
+        super( spiceRequest.getResultType() );
         this.requestCacheKey = requestCacheKey;
         this.cacheDuration = cacheDuration;
-        this.spiceRequest = contentRequest;
+        this.spiceRequest = spiceRequest;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class CachedSpiceRequest< RESULT > extends SpiceRequest< RESULT > {
         return cacheDuration;
     }
 
-    public SpiceRequest< RESULT > getContentRequest() {
+    public SpiceRequest< RESULT > getSpiceRequest() {
         return spiceRequest;
     }
 

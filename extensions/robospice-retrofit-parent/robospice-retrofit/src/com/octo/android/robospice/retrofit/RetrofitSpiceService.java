@@ -23,8 +23,8 @@ public abstract class RetrofitSpiceService extends SpiceService {
 
     @Override
     public void addRequest( CachedSpiceRequest< ? > request, Set< RequestListener< ? >> listRequestListener ) {
-        if ( request.getContentRequest() instanceof RetrofitSpiceRequest ) {
-            ( (RetrofitSpiceRequest< ? >) request.getContentRequest() ).setRestAdapterBuilder( restAdapterBuilder );
+        if ( request.getSpiceRequest() instanceof RetrofitSpiceRequest ) {
+            ( (RetrofitSpiceRequest< ? >) request.getSpiceRequest() ).setRestAdapterBuilder( restAdapterBuilder );
         }
         super.addRequest( request, listRequestListener );
     }

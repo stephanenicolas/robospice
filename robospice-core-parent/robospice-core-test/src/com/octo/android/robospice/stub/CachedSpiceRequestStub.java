@@ -31,7 +31,7 @@ public class CachedSpiceRequestStub< T > extends CachedSpiceRequest< T > {
      * @return
      */
     public boolean isLoadDataFromNetworkCalled() {
-        return ( (SpiceRequestStub< ? >) getContentRequest() ).isLoadDataFromNetworkCalled();
+        return ( (SpiceRequestStub< ? >) getSpiceRequest() ).isLoadDataFromNetworkCalled();
     }
 
     /**
@@ -40,6 +40,6 @@ public class CachedSpiceRequestStub< T > extends CachedSpiceRequest< T > {
      * @throws InterruptedException
      */
     public void await( long millisecond ) throws InterruptedException {
-        ( (SpiceRequestStub< ? >) getContentRequest() ).awaitForLoadDataFromNetworkIsCalled( millisecond );
+        ( (SpiceRequestStub< ? >) getSpiceRequest() ).awaitForLoadDataFromNetworkIsCalled( millisecond );
     }
 }

@@ -26,6 +26,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import com.octo.android.robospice.SpiceService.SpiceServiceBinder;
+import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.request.CachedSpiceRequest;
@@ -56,7 +57,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 public class SpiceManager implements Runnable {
 
     /** The class of the {@link SpiceService} to bind to. */
-    private Class< ? extends SpiceService > contentServiceClass;
+    private Class< ? extends SpiceService > spiceServiceClass;
 
     /** A reference on the {@link SpiceService} obtained by local binding. */
     private SpiceService spiceService;
@@ -103,7 +104,7 @@ public class SpiceManager implements Runnable {
     protected Thread runner;
 
     /** Reacts to service processing of requests. */
-    private RequestRemoverContentServiceListener removerContentServiceListener = new RequestRemoverContentServiceListener();
+    private RequestRemoverSpiceServiceListener removerSpiceServiceListener = new RequestRemoverSpiceServiceListener();
 
     /** Whether or not we are unbinding (to prevent unbinding twice. */
     public boolean isUnbinding = false;
@@ -117,11 +118,11 @@ public class SpiceManager implements Runnable {
      * 
      * This method will check if the service to bind to has been properly declared in AndroidManifest.
      * 
-     * @param contentServiceClass
+     * @param spiceServiceClass
      *            the service class to bind to.
      */
-    public SpiceManager( Class< ? extends SpiceService > contentServiceClass ) {
-        this.contentServiceClass = contentServiceClass;
+    public SpiceManager( Class< ? extends SpiceService > spiceServiceClass ) {
+        this.spiceServiceClass = spiceServiceClass;
     }
 
     /**
@@ -142,7 +143,7 @@ public class SpiceManager implements Runnable {
             isStopped = false;
             runner.start();
 
-            Ln.d( "Content manager started." );
+            Ln.d( "SpiceManager started." );
         }
     }
 
@@ -160,7 +161,7 @@ public class SpiceManager implements Runnable {
         checkServiceIsProperlyDeclaredInAndroidManifest( context.get() );
         // start the service it is not started yet.
         if ( !SpiceService.isStarted() ) {
-            Intent intent = new Intent( context.get(), contentServiceClass );
+            Intent intent = new Intent( context.get(), spiceServiceClass );
             context.get().startService( intent );
         }
 
@@ -201,7 +202,7 @@ public class SpiceManager implements Runnable {
         if ( this.runner == null ) {
             throw new IllegalStateException( "Not started yet" );
         }
-        Ln.d( "Content manager stopping." );
+        Ln.d( "SpiceManager stopping." );
         dontNotifyAnyRequestListenersInternal();
         isUnbinding = false;
         unbindFromService( context.get() );
@@ -210,7 +211,7 @@ public class SpiceManager implements Runnable {
         this.runner.interrupt();
         this.runner = null;
         this.context.clear();
-        Ln.d( "Content manager stopped." );
+        Ln.d( "SpiceManager stopped." );
     }
 
     /**
@@ -229,7 +230,7 @@ public class SpiceManager implements Runnable {
             throw new IllegalStateException( "Not started yet" );
         }
 
-        Ln.d( "Content manager stopping. Joining" );
+        Ln.d( "SpiceManager stopping. Joining" );
         dontNotifyAnyRequestListenersInternal();
         unbindFromService( context.get() );
         this.isStopped = true;
@@ -237,7 +238,7 @@ public class SpiceManager implements Runnable {
         this.runner.join( timeOut );
         this.runner = null;
         this.context.clear();
-        Ln.d( "Content manager stopped." );
+        Ln.d( "SpiceManager stopped." );
     }
 
     // ============================================================================================
@@ -260,7 +261,8 @@ public class SpiceManager implements Runnable {
      *            the listener to notify when the request will finish. If nothing is found in cache, listeners will
      *            receive a null result on their {@link RequestListener#onRequestSuccess(Object)} method. If something
      *            is found in cache, they will receive it in this method. If an error occurs, they will be notified via
-     *            their {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
+     *            their
+     *            {@link RequestListener#onRequestFailure(com.octo.android.robospice.persistence.exception.SpiceException)}
      *            method.
      */
     public < T > void getFromCache( Class< T > clazz, String requestCacheKey, long cacheDuration, RequestListener< T > requestListener ) {
@@ -276,8 +278,8 @@ public class SpiceManager implements Runnable {
                 return false;
             }
         };
-        CachedSpiceRequest< T > cachedContentRequest = new CachedSpiceRequest< T >( request, requestCacheKey, cacheDuration );
-        execute( cachedContentRequest, requestListener );
+        CachedSpiceRequest< T > cachedSpiceRequest = new CachedSpiceRequest< T >( request, requestCacheKey, cacheDuration );
+        execute( cachedSpiceRequest, requestListener );
     }
 
     /**
@@ -294,7 +296,8 @@ public class SpiceManager implements Runnable {
      *            the listener to notify when the request will finish. If nothing is found in cache, listeners will
      *            receive a null result on their {@link RequestListener#onRequestSuccess(Object)} method. If something
      *            is found in cache, they will receive it in this method. If an error occurs, they will be notified via
-     *            their {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
+     *            their
+     *            {@link RequestListener#onRequestFailure(com.octo.android.robospice.persistence.exception.SpiceException)}
      *            method.
      */
     public < T > void addListenerIfPending( Class< T > clazz, String requestCacheKey, long cacheDuration, RequestListener< T > requestListener ) {
@@ -305,9 +308,9 @@ public class SpiceManager implements Runnable {
                 return null;
             }
         };
-        CachedSpiceRequest< T > cachedContentRequest = new CachedSpiceRequest< T >( request, requestCacheKey, cacheDuration );
-        cachedContentRequest.setProcessable( false );
-        execute( cachedContentRequest, requestListener );
+        CachedSpiceRequest< T > cachedSpiceRequest = new CachedSpiceRequest< T >( request, requestCacheKey, cacheDuration );
+        cachedSpiceRequest.setProcessable( false );
+        execute( cachedSpiceRequest, requestListener );
     }
 
     /**
@@ -319,8 +322,8 @@ public class SpiceManager implements Runnable {
      *            the listener to notify when the request will finish.
      */
     public < T > void execute( SpiceRequest< T > request, RequestListener< T > requestListener ) {
-        CachedSpiceRequest< T > cachedContentRequest = new CachedSpiceRequest< T >( request, null, DurationInMillis.ALWAYS );
-        execute( cachedContentRequest, requestListener );
+        CachedSpiceRequest< T > cachedSpiceRequest = new CachedSpiceRequest< T >( request, null, DurationInMillis.ALWAYS );
+        execute( cachedSpiceRequest, requestListener );
     }
 
     /**
@@ -337,40 +340,33 @@ public class SpiceManager implements Runnable {
      *            the listener to notify when the request will finish
      */
     public < T > void execute( SpiceRequest< T > request, Object requestCacheKey, long cacheDuration, RequestListener< T > requestListener ) {
-        CachedSpiceRequest< T > cachedContentRequest = new CachedSpiceRequest< T >( request, requestCacheKey, cacheDuration );
-        execute( cachedContentRequest, requestListener );
+        CachedSpiceRequest< T > cachedSpiceRequest = new CachedSpiceRequest< T >( request, requestCacheKey, cacheDuration );
+        execute( cachedSpiceRequest, requestListener );
     }
 
     /**
      * Execute a request, put the result in cache and register listeners to notify when request is finished.
      * 
-     * @param request
+     * @param cachedSpiceRequest
      *            the request to execute. {@link CachedSpiceRequest} is a wrapper of {@link SpiceRequest} that contains
      *            cache key and cache duration
      * @param requestListener
      *            the listener to notify when the request will finish
      */
-    public < T > void execute( CachedSpiceRequest< T > cachedContentRequest, RequestListener< T > requestListener ) {
-        addRequestListenerToListOfRequestListeners( cachedContentRequest, requestListener );
-        this.requestQueue.add( cachedContentRequest );
+    public < T > void execute( CachedSpiceRequest< T > cachedSpiceRequest, RequestListener< T > requestListener ) {
+        addRequestListenerToListOfRequestListeners( cachedSpiceRequest, requestListener );
+        this.requestQueue.add( cachedSpiceRequest );
     }
 
     /**
-     * Add listener to a pending request if it exists. If no such request exists, this method does nothing. If a request
-     * identified by clazz and requestCacheKey, it will receive an additional listener.
+     * Cancel a pending request if it exists. If no such request exists, this method does nothing. If a request
+     * identified by clazz and requestCacheKey exisits, it will be cancelled and its associated listeners will get
+     * notified.
      * 
      * @param clazz
      *            the class of the result of the pending request to look for.
      * @param requestCacheKey
-     *            the key used to store and retrieve the result of the request in the cache
-     * @param cacheDuration
-     *            the time in millisecond to keep cache alive (see {@link DurationInMillis})
-     * @param requestListener
-     *            the listener to notify when the request will finish. If nothing is found in cache, listeners will
-     *            receive a null result on their {@link RequestListener#onRequestSuccess(Object)} method. If something
-     *            is found in cache, they will receive it in this method. If an error occurs, they will be notified via
-     *            their {@link RequestListener#onRequestFailure(com.octo.android.robospice.exception.SpiceException)}
-     *            method.
+     *            the cache key associated to the request's results.
      */
     public < T > void cancel( Class< T > clazz, String requestCacheKey ) {
         SpiceRequest< T > request = new SpiceRequest< T >( clazz ) {
@@ -380,10 +376,10 @@ public class SpiceManager implements Runnable {
                 return null;
             }
         };
-        CachedSpiceRequest< T > cachedContentRequest = new CachedSpiceRequest< T >( request, requestCacheKey, DurationInMillis.NEVER );
-        cachedContentRequest.setProcessable( false );
-        cachedContentRequest.cancel();
-        execute( cachedContentRequest, null );
+        CachedSpiceRequest< T > cachedSpiceRequest = new CachedSpiceRequest< T >( request, requestCacheKey, DurationInMillis.NEVER );
+        cachedSpiceRequest.setProcessable( false );
+        cachedSpiceRequest.cancel();
+        execute( cachedSpiceRequest, null );
     }
 
     // ============================================================================================
@@ -452,9 +448,9 @@ public class SpiceManager implements Runnable {
      */
     private boolean removeListenersOfCachedRequestToLaunch( final SpiceRequest< ? > request ) {
         synchronized ( mapRequestToLaunchToRequestListener ) {
-            for ( CachedSpiceRequest< ? > cachedContentRequest : mapRequestToLaunchToRequestListener.keySet() ) {
-                if ( match( cachedContentRequest, request ) ) {
-                    final Set< RequestListener< ? >> setRequestListeners = mapRequestToLaunchToRequestListener.get( cachedContentRequest );
+            for ( CachedSpiceRequest< ? > cachedSpiceRequest : mapRequestToLaunchToRequestListener.keySet() ) {
+                if ( match( cachedSpiceRequest, request ) ) {
+                    final Set< RequestListener< ? >> setRequestListeners = mapRequestToLaunchToRequestListener.get( cachedSpiceRequest );
                     setRequestListeners.clear();
                     return true;
                 }
@@ -473,15 +469,15 @@ public class SpiceManager implements Runnable {
      */
     private void removeListenersOfPendingCachedRequest( final SpiceRequest< ? > request ) throws InterruptedException {
         synchronized ( mapPendingRequestToRequestListener ) {
-            for ( CachedSpiceRequest< ? > cachedContentRequest : mapPendingRequestToRequestListener.keySet() ) {
-                if ( match( cachedContentRequest, request ) ) {
+            for ( CachedSpiceRequest< ? > cachedSpiceRequest : mapPendingRequestToRequestListener.keySet() ) {
+                if ( match( cachedSpiceRequest, request ) ) {
                     waitForServiceToBeBound();
                     if ( spiceService == null ) {
                         return;
                     }
-                    final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedContentRequest );
-                    spiceService.dontNotifyRequestListenersForRequest( cachedContentRequest, setRequestListeners );
-                    mapPendingRequestToRequestListener.remove( cachedContentRequest );
+                    final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedSpiceRequest );
+                    spiceService.dontNotifyRequestListenersForRequest( cachedSpiceRequest, setRequestListeners );
+                    mapPendingRequestToRequestListener.remove( cachedSpiceRequest );
                     break;
                 }
             }
@@ -534,12 +530,12 @@ public class SpiceManager implements Runnable {
                 if ( spiceService == null ) {
                     return;
                 }
-                for ( CachedSpiceRequest< ? > cachedContentRequest : mapPendingRequestToRequestListener.keySet() ) {
+                for ( CachedSpiceRequest< ? > cachedSpiceRequest : mapPendingRequestToRequestListener.keySet() ) {
 
-                    final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedContentRequest );
+                    final Set< RequestListener< ? >> setRequestListeners = mapPendingRequestToRequestListener.get( cachedSpiceRequest );
                     if ( setRequestListeners != null ) {
-                        Ln.d( "Removing listeners of request : " + cachedContentRequest.toString() + " : " + setRequestListeners.size() );
-                        spiceService.dontNotifyRequestListenersForRequest( cachedContentRequest, setRequestListeners );
+                        Ln.d( "Removing listeners of request : " + cachedSpiceRequest.toString() + " : " + setRequestListeners.size() );
+                        spiceService.dontNotifyRequestListenersForRequest( cachedSpiceRequest, setRequestListeners );
                     }
                 }
                 mapPendingRequestToRequestListener.clear();
@@ -551,17 +547,17 @@ public class SpiceManager implements Runnable {
     /**
      * Wether or not a given {@link CachedSpiceRequest} matches a {@link SpiceRequest}.
      * 
-     * @param cachedContentRequest
+     * @param cachedSpiceRequest
      *            the request know by the {@link SpiceManager}.
-     * @param contentRequest
+     * @param spiceRequest
      *            the request that we wish to remove notification for.
      * @return true if {@link CachedSpiceRequest} matches contentRequest.
      */
-    private boolean match( CachedSpiceRequest< ? > cachedContentRequest, SpiceRequest< ? > contentRequest ) {
-        if ( contentRequest instanceof CachedSpiceRequest ) {
-            return contentRequest == cachedContentRequest;
+    private boolean match( CachedSpiceRequest< ? > cachedSpiceRequest, SpiceRequest< ? > spiceRequest ) {
+        if ( spiceRequest instanceof CachedSpiceRequest ) {
+            return spiceRequest == cachedSpiceRequest;
         } else {
-            return cachedContentRequest.getContentRequest() == contentRequest;
+            return cachedSpiceRequest.getSpiceRequest() == spiceRequest;
         }
     }
 
@@ -603,8 +599,8 @@ public class SpiceManager implements Runnable {
             // listening for
             // cancellation.
             synchronized ( mapRequestToLaunchToRequestListener ) {
-                for ( CachedSpiceRequest< ? > cachedContentRequest : mapRequestToLaunchToRequestListener.keySet() ) {
-                    cachedContentRequest.cancel();
+                for ( CachedSpiceRequest< ? > cachedSpiceRequest : mapRequestToLaunchToRequestListener.keySet() ) {
+                    cachedSpiceRequest.cancel();
                 }
             }
 
@@ -613,8 +609,8 @@ public class SpiceManager implements Runnable {
             // we must duplicate the list as each call to cancel will, by a listener of request processing
             // remove the request from our list.
             List< CachedSpiceRequest< ? >> listDuplicate = new ArrayList< CachedSpiceRequest< ? > >( mapPendingRequestToRequestListener.keySet() );
-            for ( CachedSpiceRequest< ? > cachedContentRequest : listDuplicate ) {
-                cachedContentRequest.cancel();
+            for ( CachedSpiceRequest< ? > cachedSpiceRequest : listDuplicate ) {
+                cachedSpiceRequest.cancel();
             }
         } finally {
             lockSendRequestsToService.unlock();
@@ -670,7 +666,6 @@ public class SpiceManager implements Runnable {
      *            the Type of data you want to remove from cache
      * @param cacheKey
      *            the key of the object in cache
-     * @return true if the data has been deleted from cache
      */
     public < T > void removeDataFromCache( final Class< T > clazz, final Object cacheKey ) {
         executorService.execute( new Runnable() {
@@ -694,10 +689,7 @@ public class SpiceManager implements Runnable {
      * Remove some specific content from cache
      * 
      * @param clazz
-     *            the Type of data you want to remove from cache
-     * @param cacheKey
-     *            the key of the object in cache
-     * @return true if the data has been deleted from cache
+     *            the type of data you want to remove from cache.
      */
     public < T > void removeDataFromCache( final Class< T > clazz ) {
         executorService.execute( new Runnable() {
@@ -764,12 +756,12 @@ public class SpiceManager implements Runnable {
         } );
     }
 
-    private < T > void addRequestListenerToListOfRequestListeners( CachedSpiceRequest< T > cachedContentRequest, RequestListener< T > requestListener ) {
+    private < T > void addRequestListenerToListOfRequestListeners( CachedSpiceRequest< T > cachedSpiceRequest, RequestListener< T > requestListener ) {
         synchronized ( mapRequestToLaunchToRequestListener ) {
-            Set< RequestListener< ? >> listeners = mapRequestToLaunchToRequestListener.get( cachedContentRequest );
+            Set< RequestListener< ? >> listeners = mapRequestToLaunchToRequestListener.get( cachedSpiceRequest );
             if ( listeners == null ) {
                 listeners = new HashSet< RequestListener< ? >>();
-                this.mapRequestToLaunchToRequestListener.put( cachedContentRequest, listeners );
+                this.mapRequestToLaunchToRequestListener.put( cachedSpiceRequest, listeners );
             }
             if ( !listeners.contains( requestListener ) ) {
                 listeners.add( requestListener );
@@ -830,7 +822,7 @@ public class SpiceManager implements Runnable {
                 lockAcquireService.lock();
 
                 spiceService = ( (SpiceServiceBinder) service ).getSpiceService();
-                spiceService.addContentServiceListener( new RequestRemoverContentServiceListener() );
+                spiceService.addSpiceServiceListener( new RequestRemoverSpiceServiceListener() );
                 Ln.d( "Bound to service : " + spiceService.getClass().getSimpleName() );
                 conditionServiceBound.signalAll();
             } finally {
@@ -855,11 +847,11 @@ public class SpiceManager implements Runnable {
     }
 
     /** Called when a request has been processed by the {@link SpiceService}. */
-    private class RequestRemoverContentServiceListener implements SpiceServiceServiceListener {
+    private class RequestRemoverSpiceServiceListener implements SpiceServiceServiceListener {
         @Override
-        public void onRequestProcessed( CachedSpiceRequest< ? > contentRequest ) {
+        public void onRequestProcessed( CachedSpiceRequest< ? > cachedSpiceRequest ) {
             synchronized ( mapPendingRequestToRequestListener ) {
-                mapPendingRequestToRequestListener.remove( contentRequest );
+                mapPendingRequestToRequestListener.remove( cachedSpiceRequest );
             }
         }
     }
@@ -876,7 +868,7 @@ public class SpiceManager implements Runnable {
             lockAcquireService.lock();
 
             if ( spiceService == null ) {
-                Intent intentService = new Intent( context, contentServiceClass );
+                Intent intentService = new Intent( context, spiceServiceClass );
                 Ln.v( "Binding to service." );
                 spiceServiceConnection = new SpiceServiceConnection();
                 context.getApplicationContext().bindService( intentService, spiceServiceConnection, Context.BIND_AUTO_CREATE );
@@ -896,7 +888,7 @@ public class SpiceManager implements Runnable {
             lockAcquireService.lock();
             if ( spiceService != null && !isUnbinding ) {
                 isUnbinding = true;
-                spiceService.removeContentServiceListener( removerContentServiceListener );
+                spiceService.removeSpiceServiceListener( removerSpiceServiceListener );
                 Ln.v( "Unbinding from service." );
                 context.getApplicationContext().unbindService( this.spiceServiceConnection );
                 Ln.d( "Unbound from service : " + spiceService.getClass().getSimpleName() );
@@ -949,10 +941,10 @@ public class SpiceManager implements Runnable {
     }
 
     private void checkServiceIsProperlyDeclaredInAndroidManifest( Context context ) {
-        Intent intentCheck = new Intent( context, contentServiceClass );
+        Intent intentCheck = new Intent( context, spiceServiceClass );
         if ( context.getPackageManager().queryIntentServices( intentCheck, 0 ).isEmpty() ) {
             shouldStop();
-            throw new RuntimeException( "Impossible to start content manager as no service of class : " + contentServiceClass.getName()
+            throw new RuntimeException( "Impossible to start SpiceManager as no service of class : " + spiceServiceClass.getName()
                     + " is registered in AndroidManifest.xml file !" );
         }
     }

@@ -70,10 +70,9 @@ public abstract class SpiceService extends Service {
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
+
     /**
-     * Basic constructor
-     * 
-     * @param name
+     * Default constructor.
      */
     public SpiceService() {
         mSpiceServiceBinder = new SpiceServiceBinder( this );
@@ -94,7 +93,7 @@ public abstract class SpiceService extends Service {
         notification = createDefaultNotification();
         startForeground( notification );
 
-        Ln.d( "Content Service instance created." );
+        Ln.d( "SpiceService instance created." );
     }
 
     @Override
@@ -137,6 +136,7 @@ public abstract class SpiceService extends Service {
         } else {
             executorService = Executors.newFixedThreadPool( threadCount, new ThreadFactory() {
 
+                @Override
                 public Thread newThread( Runnable r ) {
                     return new Thread( r );
                 }
@@ -153,7 +153,7 @@ public abstract class SpiceService extends Service {
 
     @Override
     public void onDestroy() {
-        Ln.d( "Content Service instance destroyed." );
+        Ln.d( "SpiceService instance destroyed." );
         super.onDestroy();
         isStarted = false;
     }
@@ -232,6 +232,7 @@ public abstract class SpiceService extends Service {
     }
 
     private final class SelfStopperRequestProcessorListener implements RequestProcessorListener {
+        @Override
         public void allRequestComplete() {
             currentPendingRequestCount = 0;
             stopIfNotBoundAndHasNoPendingRequests();
@@ -254,12 +255,12 @@ public abstract class SpiceService extends Service {
         Ln.v( requestProcessor.toString() );
     }
 
-    public void addContentServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
-        requestProcessor.addContentServiceListener( spiceServiceServiceListener );
+    public void addSpiceServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
+        requestProcessor.addSpiceServiceListener( spiceServiceServiceListener );
     }
 
-    public void removeContentServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
-        requestProcessor.removeContentServiceListener( spiceServiceServiceListener );
+    public void removeSpiceServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
+        requestProcessor.removeSpiceServiceListener( spiceServiceServiceListener );
     }
 
     private void stopIfNotBoundAndHasNoPendingRequests() {

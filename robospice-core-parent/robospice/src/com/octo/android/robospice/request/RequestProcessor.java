@@ -63,7 +63,7 @@ public class RequestProcessor {
 
     private boolean failOnCacheError;
 
-    private Set< SpiceServiceServiceListener > contentServiceListenerSet;
+    private Set< SpiceServiceServiceListener > spiceServiceListenerSet;
 
     private RequestProcessorListener requestProcessorListener;
 
@@ -95,16 +95,10 @@ public class RequestProcessor {
         this.networkStateChecker = networkStateChecker;
 
         handlerResponse = new Handler( Looper.getMainLooper() );
-        contentServiceListenerSet = Collections.synchronizedSet( new HashSet< SpiceServiceServiceListener >() );
+        spiceServiceListenerSet = Collections.synchronizedSet( new HashSet< SpiceServiceServiceListener >() );
         this.executorService = executorService;
 
-        if ( !hasNetworkPermission( context ) ) {
-            throw new SecurityException( "Application doesn\'t declare <uses-permission android:name=\"android.permission.INTERNET\" />" );
-        }
-
-        if ( !hasNetworkStatePermission( context ) ) {
-            throw new SecurityException( "Application doesn\'t declare <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />" );
-        }
+        this.networkStateChecker.checkPermissions( context );
     }
 
     // ============================================================================================
@@ -114,9 +108,9 @@ public class RequestProcessor {
         Ln.d( "Adding request to queue " + hashCode() + ": " + request + " size is " + mapRequestToRequestListener.size() );
 
         if ( request.isCancelled() ) {
-            for ( CachedSpiceRequest< ? > cachedContentRequest : mapRequestToRequestListener.keySet() ) {
-                if ( cachedContentRequest.equals( request ) ) {
-                    cachedContentRequest.cancel();
+            for ( CachedSpiceRequest< ? > cachedSpiceRequest : mapRequestToRequestListener.keySet() ) {
+                if ( cachedSpiceRequest.equals( request ) ) {
+                    cachedSpiceRequest.cancel();
                     return;
                 }
             }
@@ -146,6 +140,7 @@ public class RequestProcessor {
 
         RequestCancellationListener requestCancellationListener = new RequestCancellationListener() {
 
+            @Override
             public void onRequestCancelled() {
                 mapRequestToRequestListener.remove( request );
                 notifyListenersOfRequestCancellation( request, listRequestListener );
@@ -160,6 +155,7 @@ public class RequestProcessor {
         } else {
 
             Future< ? > future = executorService.submit( new Runnable() {
+                @Override
                 public void run() {
                     try {
                         processRequest( request );
@@ -185,6 +181,7 @@ public class RequestProcessor {
 
         // add a progress listener to the request to be notified of progress during load data from network
         RequestProgressListener requestProgressListener = new RequestProgressListener() {
+            @Override
             public void onRequestProgressUpdate( RequestProgress progress ) {
                 Set< RequestListener< ? >> listeners = mapRequestToRequestListener.get( request );
                 notifyListenersOfRequestProgress( request, listeners, progress );
@@ -332,8 +329,8 @@ public class RequestProcessor {
         return networkStateChecker.isNetworkAvailable( context );
     }
 
-    public static boolean hasNetworkStatePermission( Context context ) {
-        return context.getPackageManager().checkPermission( "android.permission.ACCESS_NETWORK_STATE", context.getPackageName() ) == PackageManager.PERMISSION_GRANTED;
+    public void checkPermissions( Context context ) {
+        networkStateChecker.checkPermissions( context );
     }
 
     public static boolean hasNetworkPermission( Context context ) {
@@ -381,6 +378,7 @@ public class RequestProcessor {
             this.listeners = listeners;
         }
 
+        @Override
         public void run() {
 
             if ( listeners == null ) {
@@ -413,6 +411,7 @@ public class RequestProcessor {
             this.listeners = listeners;
         }
 
+        @Override
         public void run() {
             if ( listeners == null ) {
                 return;
@@ -461,12 +460,12 @@ public class RequestProcessor {
         return stringBuilder.toString();
     }
 
-    public void addContentServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
-        this.contentServiceListenerSet.add( spiceServiceServiceListener );
+    public void addSpiceServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
+        this.spiceServiceListenerSet.add( spiceServiceServiceListener );
     }
 
-    public void removeContentServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
-        this.contentServiceListenerSet.add( spiceServiceServiceListener );
+    public void removeSpiceServiceListener( SpiceServiceServiceListener spiceServiceServiceListener ) {
+        this.spiceServiceListenerSet.add( spiceServiceServiceListener );
     }
 
     protected void notifyOfRequestProcessed( CachedSpiceRequest< ? > request ) {
@@ -474,8 +473,8 @@ public class RequestProcessor {
         mapRequestToRequestListener.remove( request );
 
         checkAllRequestComplete();
-        synchronized ( contentServiceListenerSet ) {
-            for ( SpiceServiceServiceListener spiceServiceServiceListener : contentServiceListenerSet ) {
+        synchronized ( spiceServiceListenerSet ) {
+            for ( SpiceServiceServiceListener spiceServiceServiceListener : spiceServiceListenerSet ) {
                 spiceServiceServiceListener.onRequestProcessed( request );
             }
         }

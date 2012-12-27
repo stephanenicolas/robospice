@@ -36,8 +36,8 @@ public abstract class GoogleHttpClientSpiceService extends SpiceService {
 
     @Override
     public void addRequest( CachedSpiceRequest< ? > request, Set< RequestListener< ? >> listRequestListener ) {
-        if ( request.getContentRequest() instanceof GoogleHttpClientSpiceRequest ) {
-            ( (GoogleHttpClientSpiceRequest< ? >) request.getContentRequest() ).setHttpRequestFactory( httpRequestFactory );
+        if ( request.getSpiceRequest() instanceof GoogleHttpClientSpiceRequest ) {
+            ( (GoogleHttpClientSpiceRequest< ? >) request.getSpiceRequest() ).setHttpRequestFactory( httpRequestFactory );
         }
         super.addRequest( request, listRequestListener );
     }

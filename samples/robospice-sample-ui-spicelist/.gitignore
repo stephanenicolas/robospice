@@ -1,0 +1,20 @@
+# Eclipse
+.settings
+bin/
+
+# Maven
+target/
+
+# Android
+gen/
+gen*/
+out/
+
+# IntelliJ
+.idea/
+*.iml
+*ipr
+*iws
+
+target/
+.DS_Store

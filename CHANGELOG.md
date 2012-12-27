@@ -6,12 +6,16 @@ Version 1.4.0 (to be released )
 
 * Riccardo Ciovati joined the team.
 * completely reviewed maven structure. Introduction of an easier extension mechanism and simpler samples. Thx to pommedeterresauté
+* added removeAllDataFromCache overload in spice manager : thx to Kaan Meralan
 * added retrofit module with tests and sample
 * enhanced cancel mechanism
 * enhanced core testing. We really need to separate tests and samples now.
 * added documentation on Wiki pages for Advanced RoboSpice usages and FAQ
 * minor bugs solved in persistence module
 * CacheKey is now of type Object and not String anymore. Thx to Fernando Franco Gíraldez for his pull request.
+* Added dedicated services to each module. They provide all configuration out of the box for processing web services and caching.
+* Enhanced NetworkStateChecker interface in order to refine permission checking and allow real processing of request that
+are not related to networking.
 * TODO add documentation on Wiki pages to use spring android, ormlite, retrofit and google http client module
 
 

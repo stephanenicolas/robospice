@@ -23,14 +23,25 @@ public abstract class ObjectPersisterFactory implements Persister {
     private List< Class< ? >> listHandledClasses;
 
     /**
+     * Creates an {@link ObjectPersisterFactory} given an Android application. As no list of handled classes is
+     * specified, it will act has if it can handle all classes.
      * 
      * @param application
      *            the android context needed to access android file system or databases to store.
      */
     public ObjectPersisterFactory( Application application ) {
-        this.mApplication = application;
+        this( application, null );
     }
 
+    /**
+     * Creates an {@link ObjectPersisterFactory} given an Android application and a list of handled classes.
+     * 
+     * @param application
+     *            the android context needed to access android file system or databases to store.
+     * @param listHandledClasses
+     *            the list of classes that is handled by the factory. The factory will try to produce an
+     *            {@link ObjectPersister} for each element of the list.
+     */
     public ObjectPersisterFactory( Application application, List< Class< ? >> listHandledClasses ) {
         this.mApplication = application;
         this.listHandledClasses = listHandledClasses;
@@ -65,14 +76,33 @@ public abstract class ObjectPersisterFactory implements Persister {
      */
     public abstract < DATA > ObjectPersister< DATA > createObjectPersister( Class< DATA > clazz );
 
+    /**
+     * Set whether this {@link ObjectPersisterFactory} will set the {@link ObjectPersister} instances it produces to
+     * save data asynchronously or not.
+     * 
+     * @param isAsyncSaveEnabled
+     *            whether or not data will be saved asynchronously by {@link ObjectPersister} instances produced by this
+     *            factory.
+     */
     public void setAsyncSaveEnabled( boolean isAsyncSaveEnabled ) {
         this.isAsyncSaveEnabled = isAsyncSaveEnabled;
     }
 
+    /**
+     * Indicates whether this {@link ObjectPersisterFactory} will set the {@link ObjectPersister} instances it produces
+     * to save data asynchronously or not.
+     * 
+     * @return true if the {@link ObjectPersister} instances it produces to save data asynchronously. False otherwise.
+     */
     public boolean isAsyncSaveEnabled() {
         return isAsyncSaveEnabled;
     }
 
+    /**
+     * Return the list of classes persisted by this factory.
+     * 
+     * @return the list of classes persisted by this factory.
+     */
     protected List< Class< ? >> getListHandledClasses() {
         return listHandledClasses;
     }

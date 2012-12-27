@@ -10,7 +10,7 @@
  * </ul>
  * 
  * @startuml
- * abstract class ContentActivity {
+ * abstract class SpiceActivity {
  *   - SpiceManager
  *   - List<request>
  * }
@@ -28,7 +28,7 @@
  * }
  * 
  * SpiceService -left- SpiceRequest : execute
- * ContentActivity -left- SpiceManager 
+ * SpiceActivity -left- SpiceManager 
  * SpiceManager -left- SpiceService: bind \n unbind \n submit requests
  * 
  * abstract class CachedSpiceRequest<T> extends SpiceRequest {
@@ -60,3 +60,4 @@
  * @enduml
  */
 package com.octo.android.robospice;
+

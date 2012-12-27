@@ -17,7 +17,7 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
  * 
  * @author sni
  * 
- * @param <DATA>
+ * @param <T>
  *            the class of the objects this {@link ObjectPersister} can persist/unpersist.
  */
 public abstract class ObjectPersister< T > implements Persister {

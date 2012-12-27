@@ -34,6 +34,11 @@ public class SpiceTestService extends SpiceService {
             public boolean isNetworkAvailable( Context context ) {
                 return true;
             }
+
+            @Override
+            public void checkPermissions( Context context ) {
+                // do nothing
+            }
         };
     }
 

@@ -32,8 +32,8 @@ public abstract class SpringAndroidSpiceService extends SpiceService {
 
     @Override
     public void addRequest( CachedSpiceRequest< ? > request, Set< RequestListener< ? >> listRequestListener ) {
-        if ( request.getContentRequest() instanceof SpringAndroidSpiceRequest ) {
-            ( (SpringAndroidSpiceRequest< ? >) request.getContentRequest() ).setRestTemplate( restTemplate );
+        if ( request.getSpiceRequest() instanceof SpringAndroidSpiceRequest ) {
+            ( (SpringAndroidSpiceRequest< ? >) request.getSpiceRequest() ).setRestTemplate( restTemplate );
         }
         super.addRequest( request, listRequestListener );
     }

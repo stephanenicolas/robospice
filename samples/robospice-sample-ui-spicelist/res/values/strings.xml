@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">RoboSpice SpiceList Sample</string>
+    <string name="loading_please_wait">Loading Tweets &#8230; </string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+</resources>

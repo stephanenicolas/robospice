@@ -6,8 +6,6 @@ public class Curren_weather {
 
     private int id;
 
-    private Weather weather;
-
     @Element(required = false)
     private String humidity;
     @Element(required = false)

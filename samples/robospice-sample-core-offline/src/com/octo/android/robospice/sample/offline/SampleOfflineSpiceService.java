@@ -7,15 +7,17 @@ import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
 
+/**
+ * A simple service that allows offline requests to be executed.
+ * 
+ * @author sni
+ * 
+ */
 public class SampleOfflineSpiceService extends SpiceService {
 
     @Override
     public CacheManager createCacheManager( Application application ) {
-        CacheManager cacheManager = new CacheManager();
-
-        // init
-
-        return cacheManager;
+        return new CacheManager();
     }
 
     @Override
@@ -25,6 +27,11 @@ public class SampleOfflineSpiceService extends SpiceService {
             @Override
             public boolean isNetworkAvailable( Context context ) {
                 return true;
+            }
+
+            @Override
+            public void checkPermissions( Context context ) {
+                // do nothing
             }
         };
     }

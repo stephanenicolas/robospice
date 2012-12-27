@@ -90,6 +90,7 @@
 		<module>extensions/robospice-spring-android-parent</module>
 		<module>extensions/robospice-google-http-client-parent</module>
 		<module>extensions/robospice-ormlite-parent</module>
+		<module>extensions/robospice-ui-spicelist-parent</module>
 		<!-- uncomment when retrofit is published on maven <module>extensions/robospice-retrofit-parent</module> -->
 
 		<!-- samples -->
@@ -98,6 +99,7 @@
 		<module>samples/robospice-sample-spring-android</module>
 		<module>samples/robospice-sample-google-http-client</module>
 		<module>samples/robospice-sample-ormlite</module>
+		<module>samples/robospice-sample-ui-spicelist</module>
 		<!-- uncomment when retrofit is published on maven <module>samples/robospice-sample-retrofit</module> -->
 	</modules>
 
@@ -110,7 +112,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
+		<maven.javadoc.skip>false</maven.javadoc.skip>
 	</properties>
 
 	<!-- TODO : remove this when android maven plugin 3.4.2 is out -->
@@ -169,6 +171,31 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+			    <!-- http://stackoverflow.com/questions/13040788/how-to-elimate-the-maven-enforcer-plugin-goal-enforce-is-ignored-by-m2e-wa -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-enforcer-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>enforce</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 					<artifactId>android-maven-plugin</artifactId>

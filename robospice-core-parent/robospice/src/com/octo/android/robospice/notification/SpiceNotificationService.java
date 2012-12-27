@@ -28,16 +28,16 @@ public abstract class SpiceNotificationService extends Service {
     private Class< ? > requestClass;
     private String requestCacheKey;
     private boolean foreground;
-    private Class< ? extends SpiceService > contentServiceClass;
+    private Class< ? extends SpiceService > spiceServiceClass;
 
     private NotificationManager notificationManager;
     private SpiceManager spiceManager;
 
-    public static Intent createIntent( Context context, Class< ? extends SpiceNotificationService > clazz,
-            Class< ? extends SpiceService > contentServiceClass, int notificationId, Class< ? > requestResultType, String cacheKey, boolean foreground ) {
+    public static Intent createIntent( Context context, Class< ? extends SpiceNotificationService > clazz, Class< ? extends SpiceService > spiceServiceClass,
+            int notificationId, Class< ? > requestResultType, String cacheKey, boolean foreground ) {
         Intent intent = new Intent( context, clazz );
         intent.putExtra( BUNDLE_KEY_NOTIFICATION_ID, notificationId );
-        intent.putExtra( BUNDLE_KEY_SERVICE_CLASS, contentServiceClass );
+        intent.putExtra( BUNDLE_KEY_SERVICE_CLASS, spiceServiceClass );
         intent.putExtra( BUNDLE_KEY_REQUEST_CLASS, requestResultType );
         intent.putExtra( BUNDLE_KEY_REQUEST_CACHE_KEY, cacheKey );
         intent.putExtra( BUNDLE_KEY_FOREGROUND, foreground );
@@ -56,10 +56,10 @@ public abstract class SpiceNotificationService extends Service {
         notificationId = intent.getIntExtra( BUNDLE_KEY_NOTIFICATION_ID, 70 );
         requestClass = (Class< ? >) intent.getSerializableExtra( BUNDLE_KEY_REQUEST_CLASS );
         requestCacheKey = intent.getStringExtra( BUNDLE_KEY_REQUEST_CACHE_KEY );
-        contentServiceClass = (Class< ? extends SpiceService >) intent.getSerializableExtra( BUNDLE_KEY_SERVICE_CLASS );
+        spiceServiceClass = (Class< ? extends SpiceService >) intent.getSerializableExtra( BUNDLE_KEY_SERVICE_CLASS );
         foreground = intent.getBooleanExtra( BUNDLE_KEY_FOREGROUND, true );
 
-        spiceManager = new SpiceManager( contentServiceClass );
+        spiceManager = new SpiceManager( spiceServiceClass );
         notificationManager = (NotificationManager) getSystemService( NOTIFICATION_SERVICE );
         spiceManager.start( this );
         spiceManager.addListenerIfPending( requestClass, requestCacheKey, DurationInMillis.ALWAYS, new NotificationRequestListener() );
@@ -87,18 +87,21 @@ public abstract class SpiceNotificationService extends Service {
 
     private class NotificationRequestListener< T > implements RequestListener< T >, RequestProgressListener {
 
+        @Override
         public void onRequestFailure( SpiceException arg0 ) {
             Notification notification = onCreateNotificationForRequestFailure( arg0 );
             notificationManager.notify( notificationId, notification );
             stopSelf();
         }
 
+        @Override
         public void onRequestSuccess( T result ) {
             Notification notification = onCreateNotificationForRequestSuccess();
             notificationManager.notify( notificationId, notification );
             stopSelf();
         }
 
+        @Override
         public void onRequestProgressUpdate( RequestProgress progress ) {
             Notification notification = onCreateNotificationForRequestProgress( progress );
             notificationManager.notify( notificationId, notification );

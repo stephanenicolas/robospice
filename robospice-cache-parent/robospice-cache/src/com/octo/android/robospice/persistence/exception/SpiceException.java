@@ -1,7 +1,7 @@
 package com.octo.android.robospice.persistence.exception;
 
 /**
- * Super class of all exceptions in the framework.
+ * Super class of all exceptions in RoboSpice.
  * 
  * @author sni
  * 

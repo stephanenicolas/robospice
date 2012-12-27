@@ -24,7 +24,7 @@ public class SampleSpiceActivity extends BaseSampleSpiceActivity {
 
     private TextView mLoremTextView;
 
-    private SampleGoogleHttpClientSpiceRequest weatherRequest;
+    private SampleSpiceRequest weatherRequest;
 
     // ============================================================================================
     // ACTIVITY LIFE CYCLE
@@ -38,7 +38,7 @@ public class SampleSpiceActivity extends BaseSampleSpiceActivity {
 
         mLoremTextView = (TextView) findViewById( R.id.textview_lorem_ipsum );
 
-        weatherRequest = new SampleGoogleHttpClientSpiceRequest( "75000" );
+        weatherRequest = new SampleSpiceRequest( "75000" );
     }
 
     @Override

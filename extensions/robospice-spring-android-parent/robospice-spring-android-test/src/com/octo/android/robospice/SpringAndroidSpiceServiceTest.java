@@ -45,13 +45,13 @@ public class SpringAndroidSpiceServiceTest extends ServiceTestCase< SpringAndroi
     public void test_addRequest_injects_request_factory() throws InterruptedException {
         // given
         spiceManager.start( getContext() );
-        SpringAndroidSpiceRequestStub googleHttpClientSpiceRequest = new SpringAndroidSpiceRequestStub( Weather.class );
+        SpringAndroidSpiceRequestStub springAndroidSpiceRequest = new SpringAndroidSpiceRequestStub( Weather.class );
 
         // when
-        spiceManager.execute( googleHttpClientSpiceRequest, new RequestListenerStub< Weather >() );
-        googleHttpClientSpiceRequest.await( REQUEST_COMPLETION_TIMEOUT );
+        spiceManager.execute( springAndroidSpiceRequest, new RequestListenerStub< Weather >() );
+        springAndroidSpiceRequest.await( REQUEST_COMPLETION_TIMEOUT );
 
         // test
-        assertNotNull( googleHttpClientSpiceRequest.getRestTemplate() );
+        assertNotNull( springAndroidSpiceRequest.getRestTemplate() );
     }
 }

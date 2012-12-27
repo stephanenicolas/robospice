@@ -30,7 +30,7 @@ public class SpiceActivity extends Activity {
         super.onStop();
     }
 
-    public SpiceManager getContentManager() {
+    public SpiceManager getSpiceManager() {
         return spiceManager;
     }
 }

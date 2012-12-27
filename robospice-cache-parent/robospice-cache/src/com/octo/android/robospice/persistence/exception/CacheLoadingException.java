@@ -4,8 +4,6 @@ package com.octo.android.robospice.persistence.exception;
  * Exception thrown when a problem occurs while loading data from cache. Those exceptions are not thrown by default in
  * the framework.
  * 
- * @see ContentManager#setFailOnCacheError(boolean)
- * @see ContentService#setFailOnCacheError(boolean)
  * @author sni
  * 
  */

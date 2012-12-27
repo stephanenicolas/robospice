@@ -19,11 +19,11 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.stub.CachedSpiceRequestStub;
+import com.octo.android.robospice.stub.RequestListenerStub;
+import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 import com.octo.android.robospice.stub.SpiceRequestFailingStub;
 import com.octo.android.robospice.stub.SpiceRequestStub;
 import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
-import com.octo.android.robospice.stub.RequestListenerStub;
-import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 
 @SmallTest
 public class RequestProcessorTest extends InstrumentationTestCase {
@@ -501,6 +501,11 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         @Override
         public boolean isNetworkAvailable( Context context ) {
             return networkAvailable;
+        }
+
+        @Override
+        public void checkPermissions( Context context ) {
+            // do nothing
         }
     }
 }

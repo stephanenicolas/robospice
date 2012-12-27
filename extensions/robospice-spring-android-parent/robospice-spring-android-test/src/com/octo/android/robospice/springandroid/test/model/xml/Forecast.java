@@ -9,8 +9,6 @@ public class Forecast {
 
     private int id;
 
-    private Weather weather;
-
     @Element
     private String date;
     @ElementList(inline = true)

@@ -38,7 +38,6 @@
 		<dependency>
 			<groupId>com.google.mockwebserver</groupId>
 			<artifactId>mockwebserver</artifactId>
-			<version>20121111</version>
 		</dependency>
 	</dependencies>
 
