@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +38,7 @@ import com.octo.android.robospice.request.simple.BigBinaryRequest;
  * All you have to do is to Override {@link #createRequest(Object)} to define a request for each object in the list that
  * is associated an image to display. Also please note that in your
  * {@link #getView(int, android.view.View, android.view.ViewGroup)} method, you must call
- * {@link #update(Object, SpiceListItemView)} in order for your {@link SpiceListItemView} to be updated automagically.
+ * {@link #updateListItemViewAsynchronously(Object, SpiceListItemView)} in order for your {@link SpiceListItemView} to be updated automagically.
  * 
  * @author sni
  * 
@@ -59,16 +60,24 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
     /** Contains all images that have been added recently to the list. They will be animated when first displayed. */
     private Set< Object > freshDrawableSet = new HashSet< Object >();
     /** The default drawable to display during image loading from the network. */
-    private Drawable defaultUserDrawable;
+    private Drawable defaultDrawable;
 
     // ----------------------------
     // --- CONSTRUCTOR
     // ----------------------------
 
-    public SpiceArrayAdapter( Context context, BigBinarySpiceManager spiceManagerBinary ) {
-        super( context, 0 );
+    public SpiceArrayAdapter( Context context, BigBinarySpiceManager spiceManagerBinary, List< T > objects ) {
+        super( context, 0, objects );
         this.spiceManagerBinary = spiceManagerBinary;
-        defaultUserDrawable = context.getResources().getDrawable( android.R.drawable.picture_frame );
+        defaultDrawable = context.getResources().getDrawable( android.R.drawable.picture_frame );
+    }
+
+    public SpiceArrayAdapter( Context context, BigBinarySpiceManager spiceManagerBinary ) {
+        this( context, spiceManagerBinary, new ArrayList< T >() );
+    }
+
+    public SpiceArrayAdapter( Context context, BigBinarySpiceManager spiceManagerBinary, T[] objects ) {
+        this( context, spiceManagerBinary, Arrays.asList( objects ) );
     }
 
     // ----------------------------
@@ -76,7 +85,7 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
     // ----------------------------
 
     public void setDefaultUserDrawable( Drawable defaultUserDrawable ) {
-        this.defaultUserDrawable = defaultUserDrawable;
+        this.defaultDrawable = defaultUserDrawable;
     }
 
     /* package-private */void setNetworkFetchingAllowed( boolean isNetworkFetchingAllowed ) {
@@ -98,7 +107,7 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
      * @param view
      *            the {@link SpiceListItemView} that displays an image to represent data.
      */
-    protected void update( T data, SpiceListItemView< T > view ) {
+    protected void updateListItemViewAsynchronously( T data, SpiceListItemView< T > view ) {
         if ( !registered( view ) ) {
             addSpiceListItemView( view );
         }
@@ -131,7 +140,8 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
         return false;
     }
 
-    private void loadBitmapAsynchronously( Object octo, ImageView thumbImageView, String tempThumbnailImageFileName ) {
+    // protected for testing purposes
+    protected void loadBitmapAsynchronously( T octo, ImageView thumbImageView, String tempThumbnailImageFileName ) {
         if ( thumbImageView.getTag() != null && thumbImageView.getTag().equals( tempThumbnailImageFileName ) ) {
             return;
         }
@@ -224,11 +234,11 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
     private class OctoImageRequestListener implements RequestListener< InputStream > {
 
         private SpiceListItemView< T > spiceListItemView;
-        private Object octo;
+        private T octo;
         private ImageView thumbImageView;
         private String imageFileName;
 
-        public OctoImageRequestListener( Object octo, SpiceListItemView< T > spiceListItemView, String imageFileName ) {
+        public OctoImageRequestListener( T octo, SpiceListItemView< T > spiceListItemView, String imageFileName ) {
             this.octo = octo;
             this.spiceListItemView = spiceListItemView;
             this.thumbImageView = spiceListItemView.getImageView();
@@ -238,7 +248,7 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
         @Override
         public void onRequestFailure( SpiceException spiceException ) {
             Ln.e( SpiceListItemView.class.getName(), "Unable to retrive image", spiceException );
-            thumbImageView.setImageDrawable( defaultUserDrawable );
+            thumbImageView.setImageDrawable( defaultDrawable );
         }
 
         @Override
@@ -247,14 +257,12 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
             if ( this.octo.equals( spiceListItemView.getData() ) ) {
                 loadBitmapAsynchronously( octo, thumbImageView, imageFileName );
             }
-
         }
-
     }
 
     protected class ThumbnailAsynTask extends AsyncTask< Object, Void, Boolean > {
 
-        private Object octo;
+        private T octo;
         private SpiceListItemView< T > spiceListItemView;
         private String tempThumbnailImageFileName = "";
         private BigBinaryRequest request;
@@ -266,7 +274,7 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
         @SuppressWarnings("unchecked")
         @Override
         protected Boolean doInBackground( Object... params ) {
-            octo = params[ 0 ];
+            octo = (T) params[ 0 ];
             spiceListItemView = (SpiceListItemView< T >) params[ 1 ];
 
             File tempThumbnailImageFile = request.getCacheFile();
@@ -288,7 +296,7 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
             if ( isImageAvailableInCache ) {
                 loadBitmapAsynchronously( octo, spiceListItemView.getImageView(), tempThumbnailImageFileName );
             } else {
-                spiceListItemView.getImageView().setImageDrawable( defaultUserDrawable );
+                spiceListItemView.getImageView().setImageDrawable( defaultDrawable );
             }
         }
     }
@@ -296,10 +304,10 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
     private class BitmapWorkerTask extends AsyncTask< String, Void, Bitmap > {
         private final WeakReference< ImageView > imageViewReference;
         String fileName = "";
-        private Object data;
+        private T data;
         private Animation animation;
 
-        public BitmapWorkerTask( ImageView imageView, Object data ) {
+        public BitmapWorkerTask( ImageView imageView, T data ) {
             // Use a WeakReference to ensure the ImageView can be garbage
             // collected
             imageViewReference = new WeakReference< ImageView >( imageView );

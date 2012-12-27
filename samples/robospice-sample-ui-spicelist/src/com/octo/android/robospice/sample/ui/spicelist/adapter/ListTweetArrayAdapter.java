@@ -26,32 +26,24 @@ import com.octo.android.robospice.spicelist.SpiceListItemView;
  */
 public class ListTweetArrayAdapter extends SpiceArrayAdapter< Tweet > {
 
-    private ListTweets tweets;
-
     // --------------------------------------------------------------------------------------------
     // CONSTRUCTOR
     // --------------------------------------------------------------------------------------------
 
     public ListTweetArrayAdapter( Context context, BigBinarySpiceManager spiceManagerBinary, ListTweets tweets ) {
-        super( context, spiceManagerBinary );
-        this.tweets = tweets;
+        super( context, spiceManagerBinary, tweets.getResults() );
     }
 
     // --------------------------------------------------------------------------------------------
     // ArrayAdapter implementation
     // --------------------------------------------------------------------------------------------
 
-    @Override
-    public int getCount() {
-        return tweets.getResults().size();
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public View getView( int position, View convertView, ViewGroup parent ) {
         View view;
 
-        Tweet currentItem = tweets.getResults().get( position );
+        Tweet currentItem = getItem( position );
         if ( convertView != null ) {
             view = convertView;
         } else {
@@ -60,7 +52,7 @@ public class ListTweetArrayAdapter extends SpiceArrayAdapter< Tweet > {
         ( (TweetListItemView) view ).updateView( currentItem );
         // this is the most important line. It will update views automatically
         // ----------------------------------------
-        update( currentItem, (SpiceListItemView< Tweet >) view );
+        updateListItemViewAsynchronously( currentItem, (SpiceListItemView< Tweet >) view );
         // ----------------------------------------
         return view;
     }

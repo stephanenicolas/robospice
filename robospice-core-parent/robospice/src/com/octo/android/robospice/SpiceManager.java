@@ -290,8 +290,6 @@ public class SpiceManager implements Runnable {
      *            the class of the result of the pending request to look for.
      * @param requestCacheKey
      *            the key used to store and retrieve the result of the request in the cache
-     * @param cacheDuration
-     *            the time in millisecond to keep cache alive (see {@link DurationInMillis})
      * @param requestListener
      *            the listener to notify when the request will finish. If nothing is found in cache, listeners will
      *            receive a null result on their {@link RequestListener#onRequestSuccess(Object)} method. If something
@@ -300,7 +298,7 @@ public class SpiceManager implements Runnable {
      *            {@link RequestListener#onRequestFailure(com.octo.android.robospice.persistence.exception.SpiceException)}
      *            method.
      */
-    public < T > void addListenerIfPending( Class< T > clazz, String requestCacheKey, long cacheDuration, RequestListener< T > requestListener ) {
+    public < T > void addListenerIfPending( Class< T > clazz, String requestCacheKey, RequestListener< T > requestListener ) {
         SpiceRequest< T > request = new SpiceRequest< T >( clazz ) {
 
             @Override
@@ -308,7 +306,7 @@ public class SpiceManager implements Runnable {
                 return null;
             }
         };
-        CachedSpiceRequest< T > cachedSpiceRequest = new CachedSpiceRequest< T >( request, requestCacheKey, cacheDuration );
+        CachedSpiceRequest< T > cachedSpiceRequest = new CachedSpiceRequest< T >( request, requestCacheKey, DurationInMillis.NEVER );
         cachedSpiceRequest.setProcessable( false );
         execute( cachedSpiceRequest, requestListener );
     }

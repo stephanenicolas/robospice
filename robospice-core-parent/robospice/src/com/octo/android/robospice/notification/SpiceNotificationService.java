@@ -9,7 +9,6 @@ import android.os.IBinder;
 
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.SpiceService;
-import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
@@ -62,7 +61,7 @@ public abstract class SpiceNotificationService extends Service {
         spiceManager = new SpiceManager( spiceServiceClass );
         notificationManager = (NotificationManager) getSystemService( NOTIFICATION_SERVICE );
         spiceManager.start( this );
-        spiceManager.addListenerIfPending( requestClass, requestCacheKey, DurationInMillis.ALWAYS, new NotificationRequestListener() );
+        spiceManager.addListenerIfPending( requestClass, requestCacheKey, new NotificationRequestListener() );
 
         if ( foreground ) {
             startForeground( startId, onCreateForegroundNotification() );

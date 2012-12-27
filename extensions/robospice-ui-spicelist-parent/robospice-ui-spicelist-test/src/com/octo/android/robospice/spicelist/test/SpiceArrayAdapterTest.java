@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.io.IOUtils;
 
@@ -28,6 +31,8 @@ import com.octo.android.robospice.spicelist.SpiceArrayAdapter;
 import com.octo.android.robospice.spicelist.SpiceListItemView;
 
 public class SpiceArrayAdapterTest extends InstrumentationTestCase {
+
+    private static final int ADAPTER_UPDATE_TIME_OUT = 3000;
 
     private File cacheFile;
 
@@ -83,19 +88,21 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     }
 
     // I have 3 views on my adapter, name, number and photo
-    public void testGetView() throws NotFoundException, IOException, InterruptedException {
+    public void testGetView_fills_list_item_view_with_data_and_executes_request() throws NotFoundException, IOException, InterruptedException {
         // given;
         byte[] data = IOUtils.toByteArray( getInstrumentation().getContext().getResources().openRawResource( R.raw.binary ) );
         mockWebServer.enqueue( new MockResponse().setBody( data ) );
         mockWebServer.play();
 
+        // when
         View view = adapter.getView( 0, null, null );
+        adapter.await( ADAPTER_UPDATE_TIME_OUT );
+        assertTrue( adapter.isLoadBitmapHasBeenCalled() );
 
+        // then
         TextView nameView = (TextView) view.findViewById( R.id.user_name_textview );
         ImageView photoView = (ImageView) view.findViewById( R.id.thumbnail_imageview );
 
-        // On this part you will have to test it with your own views/data
-        // then
         assertNotNull( "View is null. ", view );
         assertNotNull( "Name TextView is null. ", nameView );
         assertNotNull( "Photo ImageView is null. ", photoView );
@@ -103,7 +110,6 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         assertEquals( "Names doesn't match.", data1.foo, nameView.getText() );
 
         // could we get notified of this request ?
-        Thread.sleep( 5000 );
         assertEquals( 1, mockWebServer.getRequestCount() );
         RecordedRequest first = mockWebServer.takeRequest();
         assertEquals( "GET /" + data1.imageUrl + " HTTP/1.1", first.getRequestLine() );
@@ -121,26 +127,17 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
 
     private class SpiceArrayAdapterUnderTest extends SpiceArrayAdapter< DataUnderTest > {
 
-        private List< DataUnderTest > data;
+        private ReentrantLock reentrantLock = new ReentrantLock();
+        private Condition loadBitmapHasBeenCalledCondition = reentrantLock.newCondition();
+        private boolean loadBitmapHasBeenCalled = false;
 
         public SpiceArrayAdapterUnderTest( Context context, BigBinarySpiceManager spiceManagerBinary, List< DataUnderTest > data ) {
-            super( context, spiceManagerBinary );
-            this.data = data;
+            super( context, spiceManagerBinary, data );
         }
 
         @Override
         public BigBinaryRequest createRequest( DataUnderTest data ) {
             return new BigBinaryRequest( mockWebServer.getUrl( "/" + data.imageUrl ).toString(), cacheFile );
-        }
-
-        @Override
-        public int getCount() {
-            return data.size();
-        }
-
-        @Override
-        public DataUnderTest getItem( int position ) {
-            return data.get( position );
         }
 
         @SuppressWarnings("unchecked")
@@ -152,24 +149,53 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
             if ( convertView != null ) {
                 view = convertView;
             } else {
-                view = new StubbedView( getContext() );
+                view = new ListItemViewStub( getContext() );
             }
-            ( (StubbedView) view ).setDataUnderTest( currentData );
+            ( (ListItemViewStub) view ).setDataUnderTest( currentData );
             // this is the most important line. It will update views automatically
             // ----------------------------------------
-            update( currentData, (SpiceListItemView< DataUnderTest >) view );
+            updateListItemViewAsynchronously( currentData, (SpiceListItemView< DataUnderTest >) view );
             // ----------------------------------------
             return view;
         }
+
+        // ----------------------------------------------------
+        // ----- Block Test thread until drawable is refreshed.
+        // ----------------------------------------------------
+
+        @Override
+        protected void loadBitmapAsynchronously( DataUnderTest octo, ImageView thumbImageView, String tempThumbnailImageFileName ) {
+            super.loadBitmapAsynchronously( octo, thumbImageView, tempThumbnailImageFileName );
+            reentrantLock.lock();
+            try {
+                loadBitmapHasBeenCalled = true;
+                loadBitmapHasBeenCalledCondition.signal();
+            } finally {
+                reentrantLock.unlock();
+            }
+        }
+
+        public void await( long millisecond ) throws InterruptedException {
+            reentrantLock.lock();
+            try {
+                loadBitmapHasBeenCalledCondition.await( millisecond, TimeUnit.MILLISECONDS );
+            } finally {
+                reentrantLock.unlock();
+            }
+        }
+
+        public boolean isLoadBitmapHasBeenCalled() {
+            return loadBitmapHasBeenCalled;
+        }
     }
 
-    private class StubbedView extends RelativeLayout implements SpiceListItemView< DataUnderTest > {
+    private class ListItemViewStub extends RelativeLayout implements SpiceListItemView< DataUnderTest > {
 
         private DataUnderTest dataUnderTest;
         private TextView userNameTextView;
         private ImageView thumbImageView;
 
-        public StubbedView( Context context ) {
+        public ListItemViewStub( Context context ) {
             super( context );
             LayoutInflater.from( context ).inflate( R.layout.view_cell_tweet, this );
 

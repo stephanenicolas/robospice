@@ -163,7 +163,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         RequestListenerWithProgressStub< String > requestListenerStub = new RequestListenerWithProgressStub< String >();
 
         // when
-        spiceManager.addListenerIfPending( TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub );
+        spiceManager.addListenerIfPending( TEST_CLASS, TEST_CACHE_KEY, requestListenerStub );
 
         contentRequestStub.awaitForLoadDataFromNetworkIsCalled( WAIT_BEFORE_EXECUTING_REQUEST + REQUEST_COMPLETION_TIME_OUT );
 
