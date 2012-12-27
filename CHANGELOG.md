@@ -16,6 +16,7 @@ Version 1.4.0 (to be released )
 * Added dedicated services to each module. They provide all configuration out of the box for processing web services and caching.
 * Enhanced NetworkStateChecker interface in order to refine permission checking and allow real processing of request that
 are not related to networking.
+* Added first UI module in RoboSpice to create ListViews using RoboSpice.
 * TODO add documentation on Wiki pages to use spring android, ormlite, retrofit and google http client module
 
 
