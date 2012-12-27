@@ -1,6 +1,7 @@
-com.octo.android.robospice.persistence
-com.octo.android.robospice.persistence.binary
-com.octo.android.robospice.persistence.exception
-com.octo.android.robospice.persistence.file
-com.octo.android.robospice.persistence.string
-roboguice.util.temp
+com.octo.android.robospice
+com.octo.android.robospice.exception
+com.octo.android.robospice.networkstate
+com.octo.android.robospice.notification
+com.octo.android.robospice.request
+com.octo.android.robospice.request.listener
+com.octo.android.robospice.request.simple
