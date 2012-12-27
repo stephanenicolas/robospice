@@ -26,10 +26,10 @@
 	</modules>
 
 	<properties>
-		<spring-android.version>1.0.0.RELEASE</spring-android.version>
-		<simplexmlserializer.version>2.6.6</simplexmlserializer.version>
+		<spring-android.version>1.0.1.RELEASE</spring-android.version>
+		<simplexmlserializer.version>2.6.9</simplexmlserializer.version>
 		<gson.version>2.2.2</gson.version>
-		<jackson.version>1.9.9</jackson.version>
+		<jackson.version>1.9.11</jackson.version>
 	</properties>
 
 	<dependencyManagement>
