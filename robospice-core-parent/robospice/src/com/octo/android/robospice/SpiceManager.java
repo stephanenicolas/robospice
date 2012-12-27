@@ -621,33 +621,6 @@ public class SpiceManager implements Runnable {
         }
     }
 
-    /**
-     * Remove some specific content from cache
-     * 
-     * @param clazz
-     *            the Type of data you want to remove from cache
-     * @param cacheKey
-     *            the key of the object in cache
-     * @return true if the data has been deleted from cache
-     */
-    public < T > void removeDataFromCache( final Class< T > clazz, final Object cacheKey ) {
-        executorService.execute( new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    waitForServiceToBeBound();
-                    if ( spiceService == null ) {
-                        return;
-                    }
-                    spiceService.removeDataFromCache( clazz, cacheKey );
-                } catch ( InterruptedException e ) {
-                    Ln.e( e, "Interrupted while waiting for acquiring service." );
-                }
-            }
-        } );
-    }
-
     public < T > Future< List< Object >> getAllCacheKeys( final Class< T > clazz ) {
         return executorService.submit( new Callable< List< Object > >() {
 
@@ -686,6 +659,60 @@ public class SpiceManager implements Runnable {
                     return null;
                 }
                 return spiceService.getDataFromCache( clazz, cacheKey );
+            }
+        } );
+    }
+
+    /**
+     * Remove some specific content from cache
+     * 
+     * @param clazz
+     *            the Type of data you want to remove from cache
+     * @param cacheKey
+     *            the key of the object in cache
+     * @return true if the data has been deleted from cache
+     */
+    public < T > void removeDataFromCache( final Class< T > clazz, final Object cacheKey ) {
+        executorService.execute( new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    waitForServiceToBeBound();
+                    if ( spiceService == null ) {
+                        return;
+                    }
+                    spiceService.removeDataFromCache( clazz, cacheKey );
+                } catch ( InterruptedException e ) {
+                    Ln.e( e, "Interrupted while waiting for acquiring service." );
+                }
+            }
+        } );
+    }
+
+    /**
+     * Remove some specific content from cache
+     * 
+     * @param clazz
+     *            the Type of data you want to remove from cache
+     * @param cacheKey
+     *            the key of the object in cache
+     * @return true if the data has been deleted from cache
+     */
+    public < T > void removeDataFromCache( final Class< T > clazz ) {
+        executorService.execute( new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    waitForServiceToBeBound();
+                    if ( spiceService == null ) {
+                        return;
+                    }
+                    spiceService.removeAllDataFromCache( clazz );
+                } catch ( InterruptedException e ) {
+                    Ln.e( e, "Interrupted while waiting for acquiring service." );
+                }
             }
         } );
     }

@@ -21,7 +21,6 @@
             android:name=".SpringAndroidTestService"
             android:exported="false" />
     </application>
-
     
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
