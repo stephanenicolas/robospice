@@ -1,1 +1,6 @@
-com.octo.android.robospice.spicelist
+com.octo.android.robospice.sample.ui.spicelist
+com.octo.android.robospice.sample.ui.spicelist.activity
+com.octo.android.robospice.sample.ui.spicelist.adapter
+com.octo.android.robospice.sample.ui.spicelist.model
+com.octo.android.robospice.sample.ui.spicelist.network
+com.octo.android.robospice.sample.ui.spicelist.view
