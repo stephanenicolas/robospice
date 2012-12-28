@@ -103,7 +103,7 @@ public class ImageSpiceActivity extends BaseActivity {
         super.onStart();
         spiceManager.start( this );
 
-        spiceManager.addListenerIfPending( InputStream.class, EARTH_IMAGE_CACHE_KEY, DurationInMillis.ALWAYS, new ImageRequestListener() );
+        spiceManager.addListenerIfPending( InputStream.class, EARTH_IMAGE_CACHE_KEY, new ImageRequestListener() );
         spiceManager.getFromCache( InputStream.class, EARTH_IMAGE_CACHE_KEY, DurationInMillis.ALWAYS, new ImageRequestListener() );
     }
 

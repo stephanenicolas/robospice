@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-google-http-client-test</artifactId>
 	<packaging>apk</packaging>
-	<name>Robospice - Google Http Java Client Module tests</name>
+	<name>Robospice - Extension Google Http Java Client Module tests</name>
 
 	<dependencies>
 		<dependency>

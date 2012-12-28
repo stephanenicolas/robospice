@@ -12,7 +12,7 @@
 
 	<artifactId>robospice-sample-ui-spicelist</artifactId>
 	<packaging>apk</packaging>
-	<name>Robospice - SpiceList + SpringAndroid</name>
+	<name>Robospice - Sample SpiceList + SpringAndroid</name>
 	<description>A simple sample that demonstrates how to use the UI SpiceList module of RoboSpice. As it is only a UI extension, we will combine it with SpringAndroid for REST requests.</description>
 
 	<properties>

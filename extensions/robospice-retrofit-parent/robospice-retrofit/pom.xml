@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-retrofit</artifactId>
 	<packaging>jar</packaging>
-	<name>Robospice - Retrofit Module</name>
+	<name>Robospice - Extension Retrofit Module</name>
 
 	<properties>
 		<platform.version>2.1.2</platform.version>

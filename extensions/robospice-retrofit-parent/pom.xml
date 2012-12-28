@@ -15,7 +15,7 @@
 	<artifactId>robospice-retrofit-parent</artifactId>
 	<version>1.3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Robospice - Retrofit Module Parent</name>
+	<name>Robospice - Extension Retrofit Module Parent</name>
 	<description>RoboSpice Retrofit module parent</description>
 
 	<modules>

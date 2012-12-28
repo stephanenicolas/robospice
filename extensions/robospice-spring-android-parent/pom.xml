@@ -15,7 +15,7 @@
 	<artifactId>robospice-spring-android-parent</artifactId>
 	<version>1.3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Robospice - Spring Android Module Parent</name>
+	<name>Robospice - Extension Spring Android Module Parent</name>
 	<description>RoboSpice Spring Android module parent</description>
 
 	<modules>

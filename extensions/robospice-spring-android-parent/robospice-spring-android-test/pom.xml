@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-spring-android-test</artifactId>
 	<packaging>apk</packaging>
-	<name>Robospice - Spring Android Module tests</name>
+	<name>Robospice - Extension Spring Android Module tests</name>
 
 	<dependencies>
 		<dependency>

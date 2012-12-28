@@ -10,7 +10,7 @@
 
 	<artifactId>robospice</artifactId>
 	<packaging>jar</packaging>
-	<name>Robospice - Library</name>
+	<name>Robospice - Core</name>
 
 	<dependencies>
 		<dependency>

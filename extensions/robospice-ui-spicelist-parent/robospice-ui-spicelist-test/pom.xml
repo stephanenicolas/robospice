@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-ui-spicelist-test</artifactId>
 	<packaging>apk</packaging>
-	<name>Robospice - UI SpiceList Module tests</name>
+	<name>Robospice - Extension UI SpiceList Module tests</name>
 
 	<dependencies>
 		<dependency>

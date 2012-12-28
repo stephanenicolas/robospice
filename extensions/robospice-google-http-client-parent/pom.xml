@@ -15,8 +15,8 @@
 	<artifactId>robospice-google-http-client-parent</artifactId>
 	<version>1.3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Robospice - Google Http Java Client Module Parent</name>
-	<description>RoboSpice Google Http Java Client module parent</description>
+	<name>Robospice - Extension Google Http Java Client Module Parent</name>
+	<description>RoboSpice Extension Google Http Java Client module parent</description>
 
 	<modules>
 		<!-- library -->

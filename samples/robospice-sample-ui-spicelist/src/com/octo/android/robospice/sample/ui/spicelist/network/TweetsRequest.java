@@ -20,7 +20,7 @@ public class TweetsRequest extends SpringAndroidSpiceRequest< ListTweets > {
         // With Uri.Builder class we can build our url is a safe manner
         Uri.Builder uriBuilder = Uri.parse( "http://search.twitter.com/search.json" ).buildUpon();
         uriBuilder.appendQueryParameter( "q", keyword );
-        uriBuilder.appendQueryParameter( "rpp", "20" );
+        uriBuilder.appendQueryParameter( "rpp", "100" );
         uriBuilder.appendQueryParameter( "lang", "en" );
 
         String url = uriBuilder.build().toString();

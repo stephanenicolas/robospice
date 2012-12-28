@@ -15,7 +15,7 @@
 	<artifactId>robospice-ui-spicelist-parent</artifactId>
 	<version>1.3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Robospice - UI SpiceList Parent</name>
+	<name>Robospice - Extension UI SpiceList Parent</name>
 	<description>RoboSpice UI SpiceList module parent</description>
 
 	<modules>

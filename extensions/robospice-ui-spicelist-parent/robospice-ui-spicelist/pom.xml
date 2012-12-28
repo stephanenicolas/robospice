@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-ui-spicelist</artifactId>
 	<packaging>jar</packaging>
-	<name>Robospice - UI SpiceList Module</name>
+	<name>Robospice - Extension UI SpiceList Module</name>
 
 	<properties>
 		<platform.version>2.1.2</platform.version>

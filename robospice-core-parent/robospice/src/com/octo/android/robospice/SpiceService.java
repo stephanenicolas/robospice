@@ -146,6 +146,7 @@ public abstract class SpiceService extends Service {
     }
 
     public static Notification createDefaultNotification() {
+        @SuppressWarnings("deprecation")
         Notification note = new Notification( 0, null, System.currentTimeMillis() );
         note.flags |= Notification.FLAG_NO_CLEAR;
         return note;

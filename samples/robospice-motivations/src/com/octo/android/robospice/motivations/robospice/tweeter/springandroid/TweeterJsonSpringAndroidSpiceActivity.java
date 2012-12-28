@@ -86,7 +86,7 @@ public class TweeterJsonSpringAndroidSpiceActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         spiceManager.start( this );
-        spiceManager.addListenerIfPending( ListTweets.class, JSON_CACHE_KEY, DurationInMillis.ALWAYS, new TweetRequestListener() );
+        spiceManager.addListenerIfPending( ListTweets.class, JSON_CACHE_KEY, new TweetRequestListener() );
         spiceManager.getFromCache( ListTweets.class, JSON_CACHE_KEY, DurationInMillis.ALWAYS, new TweetRequestListener() );
     }
 

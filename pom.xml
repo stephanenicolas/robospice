@@ -112,7 +112,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
-		<maven.javadoc.skip>false</maven.javadoc.skip>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
 	<!-- TODO : remove this when android maven plugin 3.4.2 is out -->

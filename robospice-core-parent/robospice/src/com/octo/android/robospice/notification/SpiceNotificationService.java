@@ -48,7 +48,7 @@ public abstract class SpiceNotificationService extends Service {
         return null;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
     @Override
     public final void onStart( Intent intent, int startId ) {
         super.onStart( intent, startId );

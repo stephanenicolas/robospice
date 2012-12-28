@@ -86,7 +86,7 @@ public class TweeterXmlSpiceActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         spiceManager.start( this );
-        spiceManager.addListenerIfPending( Feed.class, XML_CACHE_KEY, DurationInMillis.ALWAYS, new TweetRequestListener() );
+        spiceManager.addListenerIfPending( Feed.class, XML_CACHE_KEY, new TweetRequestListener() );
         spiceManager.getFromCache( Feed.class, XML_CACHE_KEY, DurationInMillis.ALWAYS, new TweetRequestListener() );
     }
 

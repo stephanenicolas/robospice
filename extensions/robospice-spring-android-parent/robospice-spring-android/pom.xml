@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-spring-android</artifactId>
 	<packaging>jar</packaging>
-	<name>Robospice - Spring Android Module</name>
+	<name>Robospice - Extension Spring Android Module</name>
 
 	<properties>
 		<platform.version>2.1.2</platform.version>

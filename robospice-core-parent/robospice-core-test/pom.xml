@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-core-test</artifactId>
 	<packaging>apk</packaging>
-	<name>Robospice - Library Module tests</name>
+	<name>Robospice - Core Module tests</name>
 
 	<dependencies>
 		<dependency>

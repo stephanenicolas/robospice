@@ -11,7 +11,7 @@
 
 	<artifactId>robospice-ormlite-test</artifactId>
 	<packaging>apk</packaging>
-	<name>Robospice - ORMLite Module tests</name>
+	<name>Robospice - Extension ORMLite Module tests</name>
 
 	<dependencies>
 		<dependency>

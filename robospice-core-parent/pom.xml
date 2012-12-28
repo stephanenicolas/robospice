@@ -13,8 +13,8 @@
 	<artifactId>robospice-core-parent</artifactId>
 	<version>1.3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Robospice - Library Module Parent</name>
-	<description>RoboSpice library module parent</description>
+	<name>Robospice - Core Module Parent</name>
+	<description>RoboSpice core module parent</description>
 
 	<modules>
 		<!-- library -->
