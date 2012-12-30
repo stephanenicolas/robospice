@@ -41,6 +41,7 @@
 			<groupId>org.simpleframework</groupId>
 			<artifactId>simple-xml</artifactId>
 			<version>${simplexmlserializer.version}</version>
+			<!-- must be re-declared -->
 			<exclusions>
 				<exclusion>
 					<groupId>xpp3</groupId>
