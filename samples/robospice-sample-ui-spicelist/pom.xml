@@ -73,4 +73,54 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>ant</id>
+			<build>
+				<plugins>
+					<!-- This configuration is only meant to provide compatibility for ant 
+						users -->
+					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>2.5</version>
+						<configuration>
+							<filesets>
+								<fileset>
+									<directory>${project.basedir}/libs-for-ant</directory>
+									<includes>
+										<include>*.jar</include>
+									</includes>
+									<followSymlinks>false</followSymlinks>
+								</fileset>
+							</filesets>
+						</configuration>
+					</plugin>
+					<!-- This configuration is only meant to provide compatibility for ant 
+						users -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.6</version>
+						<executions>
+							<execution>
+								<id>copy-dependencies</id>
+								<phase>package</phase>
+								<goals>
+									<goal>copy-dependencies</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.basedir}/libs-for-ant</outputDirectory>
+									<overWriteReleases>true</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+									<overWriteIfNewer>true</overWriteIfNewer>
+									<excludeArtifactIds>xpp3,httpclient,httpcore,android,xmlParserAPIs,opengl-api</excludeArtifactIds>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
