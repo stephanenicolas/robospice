@@ -1,8 +1,0 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
-    style="?android:attr/listSeparatorTextViewStyle"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="2dip"
-    android:paddingLeft="5dip"
-    android:paddingTop="2dip" />
