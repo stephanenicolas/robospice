@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Sonatype config to publish on Maven Central -->
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+	<groupId>com.octo.android.robospice</groupId>
+	<artifactId>robospice-samples-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Robospice - Parent of all samples</name>
+	<description>Only for building all samples</description>
+	<url>https://github.com/octo-online/robospice</url>
+	<inceptionYear>2013</inceptionYear>
+
+	<scm>
+		<connection>scm:git:ssh://git@github.com/octo-online/robospice.git</connection>
+		<url>git:ssh://git@github.com/octo-online/robospice.git</url>
+		<developerConnection>scm:git:ssh://git@github.com/octo-online/robospice.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<issueManagement>
+		<system>Github Issue Tracker</system>
+		<url>https://github.com/octo-online/robospice/issues</url>
+	</issueManagement>
+
+	<developers>
+		<developer>
+			<id>SNI</id>
+			<name>Stéphane Nicolas</name>
+			<email>snicolas@octo.com</email>
+		</developer>
+		<developer>
+			<id>VDL</id>
+			<name>Jérôme Van Der Linden</name>
+			<email>jvanderlinden@octo.com</email>
+		</developer>
+		<developer>
+			<id>MWA</id>
+			<name>Maxence Walbrou</name>
+			<email>mwalbrou@octo.com</email>
+		</developer>
+		<developer>
+			<id>MHA</id>
+			<name>Mathieu Hausherr</name>
+			<email>mhausherr@octo.com</email>
+		</developer>
+		<developer>
+			<id>RCI</id>
+			<name>Riccardo Ciovati</name>
+			<email>rciovati@gmail.com</email>
+		</developer>
+	</developers>
+
+	<mailingLists>
+		<mailingList>
+			<name>RoboSpice Forum/Mailinglist</name>
+			<post>http://groups.google.com/group/robospice</post>
+			<subscribe>http://groups.google.com/group/robospice/subscribe</subscribe>
+			<unsubscribe>https://groups.google.com/group/robospice/subscribe</unsubscribe>
+		</mailingList>
+	</mailingLists>
+
+	<ciManagement>
+		<system>jenkins</system>
+		<url>https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/</url>
+	</ciManagement>
+
+	<modules>
+		<module>robospice-sample-core</module>
+		<module>robospice-sample-core-offline</module>
+		<module>robospice-sample-spring-android</module>
+		<module>robospice-sample-google-http-client</module>
+		<module>robospice-sample-ormlite</module>
+		<module>robospice-sample-ui-spicelist</module>
+		<!-- uncomment when retrofit is published on maven <module>robospice-sample-retrofit</module> -->
+	</modules>
+
+</project>
