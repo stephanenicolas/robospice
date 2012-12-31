@@ -3,33 +3,42 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.octo.android.robospice</groupId>
-		<artifactId>robospice-spring-android-parent</artifactId>
-		<version>1.3.2-SNAPSHOT</version>
-		<relativePath>../../extensions/robospice-spring-android-parent</relativePath>
-	</parent>
-
+	<groupId>com.octo.android.robospice</groupId>
 	<artifactId>robospice-sample-spring-android</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>apk</packaging>
 	<name>Robospice - Sample Spring Android</name>
 	<description>A simple sample that demonstrates how to use the Spring Android module of RoboSpice.</description>
+
+	<properties>
+		<android.version>4.1.1.4</android.version>
+		<robospice.spring.android.version>1.3.2-SNAPSHOT</robospice.spring.android.version>
+		<spring.android.jackson.version>1.9.11</spring.android.jackson.version>
+		<commons.logging.version>1.1.1</commons.logging.version>
+		<android-maven-plugin.version>3.5.0</android-maven-plugin.version>
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+		<maven-dependency-plugin.version>2.6</maven-dependency-plugin.version>				
+	</properties>
+
 
 	<dependencies>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
+			<version>${android.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice-spring-android</artifactId>
-			<version>${project.version}</version>
+			<version>${robospice.spring.android.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-		</dependency>		
+			<version>${spring.android.jackson.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -38,6 +47,7 @@
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
+				<version>${android-maven-plugin.version}</version>
 				<configuration>
 					<androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
 					<assetsDirectory>${project.basedir}/assets</assetsDirectory>
@@ -53,6 +63,7 @@
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -60,7 +71,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<profiles>
 		<profile>
 			<id>ant</id>
@@ -70,7 +81,7 @@
 						users -->
 					<plugin>
 						<artifactId>maven-clean-plugin</artifactId>
-						<version>2.5</version>
+						<version>${maven-clean-plugin}</version>
 						<configuration>
 							<filesets>
 								<fileset>
@@ -88,7 +99,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
-						<version>2.6</version>
+						<version>${maven-dependency-plugin}</version>
 						<executions>
 							<execution>
 								<id>copy-dependencies</id>
@@ -109,5 +120,5 @@
 				</plugins>
 			</build>
 		</profile>
-	</profiles>	
+	</profiles>
 </project>

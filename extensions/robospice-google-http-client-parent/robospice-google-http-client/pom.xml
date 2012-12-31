@@ -28,7 +28,14 @@
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice</artifactId>
 			<version>${project.version}</version>
-			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-android</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.google.http-client</groupId>
@@ -44,14 +51,6 @@
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client-gson</artifactId>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-android</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client</artifactId>
 		</dependency>
 	</dependencies>
 

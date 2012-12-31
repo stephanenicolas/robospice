@@ -35,16 +35,37 @@
 				<groupId>com.google.http-client</groupId>
 				<artifactId>google-http-client</artifactId>
 				<version>${google.http.client.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>xpp3</groupId>
+						<artifactId>xpp3</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>stax</groupId>
+						<artifactId>stax-api</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.google.http-client</groupId>
 				<artifactId>google-http-client-android</artifactId>
 				<version>${google.http.client.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>xpp3</groupId>
+						<artifactId>xpp3</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>stax</groupId>
+						<artifactId>stax-api</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.google.http-client</groupId>
 				<artifactId>google-http-client-jackson</artifactId>
 				<version>${google.http.client.version}</version>
+				<optional>true</optional>
 				<exclusions>
 					<exclusion>
 						<groupId>xpp3</groupId>
@@ -60,6 +81,7 @@
 				<groupId>com.google.http-client</groupId>
 				<artifactId>google-http-client-jackson2</artifactId>
 				<version>${google.http.client.version}</version>
+				<optional>true</optional>
 				<exclusions>
 					<exclusion>
 						<groupId>xpp3</groupId>
@@ -75,6 +97,7 @@
 				<groupId>com.google.http-client</groupId>
 				<artifactId>google-http-client-gson</artifactId>
 				<version>${google.http.client.version}</version>
+				<optional>true</optional>
 				<exclusions>
 					<exclusion>
 						<groupId>xpp3</groupId>

@@ -24,7 +24,7 @@
 			<artifactId>android-test</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Common Google Http Java Client Module Dependency Dependencies -->
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
@@ -78,6 +78,12 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>

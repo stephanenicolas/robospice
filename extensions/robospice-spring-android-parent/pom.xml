@@ -38,16 +38,19 @@
 				<groupId>org.springframework.android</groupId>
 				<artifactId>spring-android-rest-template</artifactId>
 				<version>${spring-android.version}</version>
+				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
 				<version>${jackson.version}</version>
+				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<groupId>org.simpleframework</groupId>
 				<artifactId>simple-xml</artifactId>
 				<version>${simplexmlserializer.version}</version>
+				<optional>true</optional>
 				<exclusions>
 					<exclusion>
 						<groupId>xpp3</groupId>

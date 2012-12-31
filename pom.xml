@@ -92,15 +92,6 @@
 		<module>extensions/robospice-ormlite-parent</module>
 		<module>extensions/robospice-ui-spicelist-parent</module>
 		<!-- uncomment when retrofit is published on maven <module>extensions/robospice-retrofit-parent</module> -->
-
-		<!-- samples -->
-		<module>samples/robospice-sample-core</module>
-		<module>samples/robospice-sample-core-offline</module>
-		<module>samples/robospice-sample-spring-android</module>
-		<module>samples/robospice-sample-google-http-client</module>
-		<module>samples/robospice-sample-ormlite</module>
-		<module>samples/robospice-sample-ui-spicelist</module>
-		<!-- uncomment when retrofit is published on maven <module>samples/robospice-sample-retrofit</module> -->
 	</modules>
 
 	<properties>
@@ -112,7 +103,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
-		<maven.javadoc.skip>false</maven.javadoc.skip>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
 	<!-- TODO : remove this when android maven plugin 3.4.2 is out -->
