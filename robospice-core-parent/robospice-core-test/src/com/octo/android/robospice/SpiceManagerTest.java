@@ -191,8 +191,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         // test
         // no guarantee on that
-        // assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
-        // assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
+        assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
+        assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
         assertNull( requestListenerStub.isSuccessful() );
         assertNull( requestListenerStub2.isSuccessful() );
     }
