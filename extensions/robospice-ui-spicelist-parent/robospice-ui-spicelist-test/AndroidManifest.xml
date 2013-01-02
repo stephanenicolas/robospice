@@ -13,12 +13,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
+        android:allowBackup="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <uses-library android:name="android.test.runner" />
 
         <service
-            android:name="com.octo.android.robospice.spicelist.BigBinarySpiceService"
+            android:name="com.octo.android.robospice.spicelist.test.TestBigBinarySpiceService"
             android:exported="false" />
     </application>
     

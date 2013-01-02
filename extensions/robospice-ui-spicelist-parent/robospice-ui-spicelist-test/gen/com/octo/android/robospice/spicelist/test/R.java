@@ -26,6 +26,7 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050001;
+        public static final int content_picture=0x7f050006;
         public static final int hello=0x7f050000;
         public static final int textview_image=0x7f050005;
         public static final int textview_json=0x7f050003;

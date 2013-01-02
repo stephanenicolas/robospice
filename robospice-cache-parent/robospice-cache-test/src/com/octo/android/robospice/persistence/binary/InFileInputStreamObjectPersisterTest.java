@@ -63,7 +63,9 @@ public class InFileInputStreamObjectPersisterTest extends InstrumentationTestCas
 
     public void testLoadDataFromCache_no_expiracy() throws Exception {
         File cachedFile = inputStreamCacheManager.getCacheFile( TEST_CACHE_KEY );
-        IOUtils.write( "coucou", new FileOutputStream( cachedFile ) );
+        FileOutputStream fileOutputStream = new FileOutputStream( cachedFile );
+        IOUtils.write( "coucou", fileOutputStream );
+        IOUtils.closeQuietly( fileOutputStream );
 
         InputStream inputStream = inputStreamCacheManager.loadDataFromCache( TEST_CACHE_KEY, DurationInMillis.ALWAYS );
         byte[] actual = IOUtils.toByteArray( inputStream );

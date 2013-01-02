@@ -21,23 +21,33 @@ public class CacheManagerTest extends AndroidTestCase {
         cacheManager = new CacheManager();
     }
 
-    public void testEmptyDataPersistenceManager() {
+    public void testGetObjectPersister_fails_to_return_a_persister_when_no_persister_is_registered() {
+        // given
+
         try {
+            // when
             cacheManager.getObjectPersister( Object.class );
             fail( "No data class persistence manager should have been found as none had been registered" );
         } catch ( Exception ex ) {
+            // then
             assertTrue( true );
         }
     }
 
-    public void testRegisterDataClassPersistenceManager() {
+    public void testGetObjectPersister_returns_a_persister_when_one_persister_is_registered() {
+        // given
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();
         cacheManager.addPersister( mockStringPersistenceManager );
+
+        // when
         ObjectPersister< ? > actual = cacheManager.getObjectPersister( String.class );
+
+        // then
         assertEquals( mockStringPersistenceManager, actual );
     }
 
-    public void testGetDataClassPersistenceManager_returns_CacheManagerBusElement_in_order() {
+    public void testGetObjectPersister_returns_persister_in_order_when_two_persisters_are_registered() {
+        // given
         // register a data class persistence manager first
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();
         cacheManager.addPersister( mockStringPersistenceManager );
@@ -46,11 +56,15 @@ public class CacheManagerTest extends AndroidTestCase {
         MockStringPersistenceManager mockDataClassPersistenceManager2 = new MockStringPersistenceManager();
         cacheManager.addPersister( mockDataClassPersistenceManager2 );
 
+        // when
         ObjectPersister< ? > actual = cacheManager.getObjectPersister( String.class );
+
+        // then
         assertEquals( mockStringPersistenceManager, actual );
     }
 
-    public void testUnRegisterDataClassPersistenceManager() {
+    public void testGetObjectPersister_returns_no_persister_when_persister_has_been_unregistered() {
+        // given
         // register a data class persistence manager first
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();
         cacheManager.addPersister( mockStringPersistenceManager );
@@ -62,37 +76,50 @@ public class CacheManagerTest extends AndroidTestCase {
 
         // no persistence manager should be found any more
         try {
+            // when
             cacheManager.getObjectPersister( String.class );
             fail( "No data class persistence manager should have been found as none had been registered" );
         } catch ( Exception ex ) {
+            // then
             assertTrue( true );
         }
     }
 
-    public void testRegister2DataClassPersistenceManagerAndRemoveOne() {
+    public void testGetObjectPersister_returns_no_persister_when_two_were_added_and_goog_persister_has_been_unregistered() {
+        // given
         // register 2 data class persistence manager first
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();
         cacheManager.addPersister( mockStringPersistenceManager );
         MockIntegerPersistenceManager mockIntegerPersistenceManager = new MockIntegerPersistenceManager();
         cacheManager.addPersister( mockIntegerPersistenceManager );
-        ObjectPersister< ? > actual = cacheManager.getObjectPersister( String.class );
-        assertEquals( mockStringPersistenceManager, actual );
-        actual = cacheManager.getObjectPersister( Integer.class );
-        assertEquals( mockIntegerPersistenceManager, actual );
 
+        // when
+        ObjectPersister< ? > persisterString = cacheManager.getObjectPersister( String.class );
+        ObjectPersister< ? > persisterInteger = cacheManager.getObjectPersister( Integer.class );
+
+        // then
+        assertEquals( mockStringPersistenceManager, persisterString );
+        assertEquals( mockIntegerPersistenceManager, persisterInteger );
+
+        // given
         // unregister it
         cacheManager.removePersister( mockStringPersistenceManager );
 
         // no persistence manager should be found any more
         try {
+            // when
             cacheManager.getObjectPersister( String.class );
             fail( "No data class persistence manager should have been found as none had been registered" );
         } catch ( Exception ex ) {
+            // then
             assertTrue( true );
         }
 
-        actual = cacheManager.getObjectPersister( Integer.class );
-        assertEquals( mockIntegerPersistenceManager, actual );
+        // when
+        persisterInteger = cacheManager.getObjectPersister( Integer.class );
+
+        // then
+        assertEquals( mockIntegerPersistenceManager, persisterInteger );
     }
 
     private class MockStringPersistenceManager extends ObjectPersister< String > {

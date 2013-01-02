@@ -38,7 +38,8 @@ import com.octo.android.robospice.request.simple.BigBinaryRequest;
  * All you have to do is to Override {@link #createRequest(Object)} to define a request for each object in the list that
  * is associated an image to display. Also please note that in your
  * {@link #getView(int, android.view.View, android.view.ViewGroup)} method, you must call
- * {@link #updateListItemViewAsynchronously(Object, SpiceListItemView)} in order for your {@link SpiceListItemView} to be updated automagically.
+ * {@link #updateListItemViewAsynchronously(Object, SpiceListItemView)} in order for your {@link SpiceListItemView} to
+ * be updated automagically.
  * 
  * @author sni
  * 
@@ -53,7 +54,7 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
      * A {@link SpiceManager} that will be used to fetch binaries. It's lifecycle has to be managed at the context level
      * (usually fragment or activity).
      */
-    private BigBinarySpiceManager spiceManagerBinary;
+    private SpiceManager spiceManagerBinary;
     /** List of event listeners to get notified of network fetching allowed changes. */
     private List< NetworkFetchingAuthorizationStateChangeAdapter > networkFetchingAuthorizationStateChangeListenerList = Collections
             .synchronizedList( new ArrayList< NetworkFetchingAuthorizationStateChangeAdapter >() );
@@ -78,6 +79,15 @@ public abstract class SpiceArrayAdapter< T > extends ArrayAdapter< T > {
 
     public SpiceArrayAdapter( Context context, BigBinarySpiceManager spiceManagerBinary, T[] objects ) {
         this( context, spiceManagerBinary, Arrays.asList( objects ) );
+    }
+
+    /**
+     * Used for testing only.
+     */
+    protected SpiceArrayAdapter( Context context, SpiceManager spiceManagerBinary, List< T > objects ) {
+        super( context, 0, objects );
+        this.spiceManagerBinary = spiceManagerBinary;
+        defaultDrawable = context.getResources().getDrawable( android.R.drawable.picture_frame );
     }
 
     // ----------------------------

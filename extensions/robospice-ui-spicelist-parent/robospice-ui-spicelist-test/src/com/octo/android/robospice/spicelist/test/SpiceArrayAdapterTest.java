@@ -25,8 +25,8 @@ import android.widget.TextView;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
+import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.request.simple.BigBinaryRequest;
-import com.octo.android.robospice.spicelist.BigBinarySpiceManager;
 import com.octo.android.robospice.spicelist.SpiceArrayAdapter;
 import com.octo.android.robospice.spicelist.SpiceListItemView;
 
@@ -39,7 +39,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     private MockWebServer mockWebServer;
 
     private SpiceArrayAdapterUnderTest adapter;
-    private BigBinarySpiceManager spiceManager;
+    private BigBinarySpiceManagerUnderTest spiceManager;
     private DataUnderTest data1;
     private DataUnderTest data2;
     private ArrayList< DataUnderTest > data;
@@ -51,7 +51,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         cacheFile.delete();
         mockWebServer = new MockWebServer();
 
-        spiceManager = new BigBinarySpiceManager();
+        spiceManager = new BigBinarySpiceManagerUnderTest();
         spiceManager.start( getInstrumentation().getTargetContext() );
 
         data = new ArrayList< DataUnderTest >();
@@ -131,7 +131,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         private Condition loadBitmapHasBeenCalledCondition = reentrantLock.newCondition();
         private boolean loadBitmapHasBeenCalled = false;
 
-        public SpiceArrayAdapterUnderTest( Context context, BigBinarySpiceManager spiceManagerBinary, List< DataUnderTest > data ) {
+        public SpiceArrayAdapterUnderTest( Context context, SpiceManager spiceManagerBinary, List< DataUnderTest > data ) {
             super( context, spiceManagerBinary, data );
         }
 
@@ -217,7 +217,16 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         public ImageView getImageView() {
             return thumbImageView;
         }
-
     }
 
+    /**
+     * Used for testing only so that we can add a custom Service that works offline for testing.
+     * 
+     */
+    private class BigBinarySpiceManagerUnderTest extends SpiceManager {
+
+        public BigBinarySpiceManagerUnderTest() {
+            super( TestBigBinarySpiceService.class );
+        }
+    }
 }
