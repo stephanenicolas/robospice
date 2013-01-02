@@ -14,9 +14,9 @@ jarlist.cache
 */gen/
 */out/
 
-samples/*/bin/
-samples/*/gen/
-samples/*/out/
+extensions/**/bin/
+extensions/**/gen/
+extensions/**/out/
 
 # Local configuration file (sdk path, etc)
 local.properties

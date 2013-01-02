@@ -17,6 +17,7 @@ Version 1.4.0 (to be released )
 * Enhanced NetworkStateChecker interface in order to refine permission checking and allow real processing of request that
 are not related to networking.
 * Added first UI module in RoboSpice to create ListViews using RoboSpice.
+* Thx to Alessio Bianchi for finding a bug in GsonObjectPersister
 * TODO add documentation on Wiki pages to use spring android, ormlite, retrofit and google http client module
 
 

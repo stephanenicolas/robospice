@@ -196,6 +196,7 @@ public class RequestProcessor {
                 request.setStatus( RequestStatus.READING_FROM_CACHE );
                 result = loadDataFromCache( request.getResultType(), request.getRequestCacheKey(), request.getCacheDuration() );
                 if ( result != null ) {
+                    Ln.d( "Request loaded from cache : " + request + " result=" + result );
                     notifyListenersOfRequestSuccess( request, result );
                     return;
                 }
