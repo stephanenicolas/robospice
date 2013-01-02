@@ -10,13 +10,9 @@
 jarlist.cache
 
 # generated files
-*/bin/
-*/gen/
-*/out/
-
-extensions/**/bin/
-extensions/**/gen/
-extensions/**/out/
+bin/
+gen/
+out/
 
 # Local configuration file (sdk path, etc)
 local.properties
