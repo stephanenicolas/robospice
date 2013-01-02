@@ -176,8 +176,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_shouldStop_stops_requests_immediatly() throws InterruptedException {
         // given
         spiceManager.start( getInstrumentation().getTargetContext() );
-        SpiceRequestStub< String > contentRequestStub = new SpiceRequestFailingStub< String >( TEST_CLASS );
-        SpiceRequestStub< String > contentRequestStub2 = new SpiceRequestFailingStub< String >( TEST_CLASS );
+        SpiceRequestStub< String > contentRequestStub = new SpiceRequestFailingStub< String >( TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST );
+        SpiceRequestStub< String > contentRequestStub2 = new SpiceRequestFailingStub< String >( TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST );
         RequestListenerStub< String > requestListenerStub = new RequestListenerStub< String >();
         RequestListenerStub< String > requestListenerStub2 = new RequestListenerStub< String >();
 
