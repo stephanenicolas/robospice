@@ -88,3 +88,9 @@ License
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 	See the License for the specific language governing permissions and
 	limitations under the License.
+	
+Alternatives to RoboSpice 
+-------------------------
+
+* [DataDroid](http://www.datadroidlib.com/2012/12/datadroid-v2-is-available)
+* [REST Provider](https://github.com/novoda/RESTProvider)
