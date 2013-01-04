@@ -204,6 +204,7 @@ public final class Ln {
         }
 
         public static Config getConfig() {
+
                 return config;
         }
 
