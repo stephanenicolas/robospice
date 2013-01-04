@@ -14,6 +14,7 @@ jarlist.cache
 */gen/
 */out/
 
+extensions/**/target/
 extensions/**/bin/
 extensions/**/gen/
 extensions/**/out/

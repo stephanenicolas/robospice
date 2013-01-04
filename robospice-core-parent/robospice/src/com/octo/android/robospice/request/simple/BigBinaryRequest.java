@@ -10,32 +10,35 @@ import java.io.OutputStream;
 import org.apache.commons.io.IOUtils;
 
 /**
- * Downloads big images in size. All data is passed to the listener using file system. This class is meant to help
- * download big images. If you wish to download smaller documents, you would be better using {@link SmallBinaryRequest}.
- * 
+ * Downloads big images in size. All data is passed to the listener using file
+ * system. This class is meant to help download big images. If you wish to
+ * download smaller documents, you would be better using
+ * {@link SmallBinaryRequest}.
  * @author sni & jva
- * 
  */
 public class BigBinaryRequest extends BinaryRequest {
 
-    protected File cacheFile;
+        protected File cacheFile;
 
-    public BigBinaryRequest( String url, File cacheFile ) {
-        super( url );
-        this.cacheFile = cacheFile;
-    }
+        public BigBinaryRequest(final String url, final File cacheFile) {
+                super(url);
+                this.cacheFile = cacheFile;
+        }
 
-    @Override
-    public InputStream processStream( int contentLength, InputStream inputStream ) throws IOException {
-        // touch
-        cacheFile.setLastModified( System.currentTimeMillis() );
-        OutputStream fileOutputStream = new FileOutputStream( cacheFile );
-        readBytes( inputStream, new ProgressByteProcessor( fileOutputStream, contentLength ) );
-        IOUtils.closeQuietly( fileOutputStream );
-        return new FileInputStream( cacheFile );
-    }
+        @Override
+        public InputStream processStream(final int contentLength,
+                        final InputStream inputStream) throws IOException {
+                // touch
+                cacheFile.setLastModified(System.currentTimeMillis());
+                final OutputStream fileOutputStream = new FileOutputStream(
+                                cacheFile);
+                readBytes(inputStream, new ProgressByteProcessor(
+                                fileOutputStream, contentLength));
+                IOUtils.closeQuietly(fileOutputStream);
+                return new FileInputStream(cacheFile);
+        }
 
-    public File getCacheFile() {
-        return cacheFile;
-    }
+        public File getCacheFile() {
+                return cacheFile;
+        }
 }

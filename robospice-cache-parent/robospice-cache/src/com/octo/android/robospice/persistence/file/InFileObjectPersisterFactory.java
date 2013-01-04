@@ -8,28 +8,31 @@ import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.ObjectPersisterFactory;
 
 /**
- * A factory that will create {@link ObjectPersister} instances will that saves/loads data in a file.
- * 
+ * A factory that will create {@link ObjectPersister} instances will that
+ * saves/loads data in a file.
  * @author sni
- * 
  * @param <T>
- *            the class of the data to load/save.
+ *                the class of the data to load/save.
  */
-public abstract class InFileObjectPersisterFactory extends ObjectPersisterFactory {
+public abstract class InFileObjectPersisterFactory extends
+                ObjectPersisterFactory {
 
-    public InFileObjectPersisterFactory( Application application ) {
-        super( application );
-    }
+        public InFileObjectPersisterFactory(Application application) {
+                super(application);
+        }
 
-    public InFileObjectPersisterFactory( Application application, List< Class< ? >> listHandledClasses ) {
-        super( application, listHandledClasses );
-    }
+        public InFileObjectPersisterFactory(Application application,
+                        List<Class<?>> listHandledClasses) {
+                super(application, listHandledClasses);
+        }
 
-    @Override
-    public abstract < T > InFileObjectPersister< T > createObjectPersister( Class< T > clazz );
+        @Override
+        public abstract <T> InFileObjectPersister<T> createObjectPersister(
+                        Class<T> clazz);
 
-    protected String getCachePrefix() {
-        return getClass().getSimpleName() + InFileObjectPersister.CACHE_PREFIX_END;
-    }
+        protected String getCachePrefix() {
+                return getClass().getSimpleName()
+                                + InFileObjectPersister.CACHE_PREFIX_END;
+        }
 
 }

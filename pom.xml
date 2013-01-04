@@ -162,7 +162,7 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-			    <!-- http://stackoverflow.com/questions/13040788/how-to-elimate-the-maven-enforcer-plugin-goal-enforce-is-ignored-by-m2e-wa -->
+				<!-- http://stackoverflow.com/questions/13040788/how-to-elimate-the-maven-enforcer-plugin-goal-enforce-is-ignored-by-m2e-wa -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -253,6 +253,16 @@
 					</executions>
 				</plugin>
 
+				<plugin>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.9.1</version>
+					<configuration>
+						<!-- we are using the Sun Standard code style from the Maven Checkstyle 
+							Plugin -->
+						<configLocation>robospice_checks.xml</configLocation>
+						<enableRulesSummary>false</enableRulesSummary>
+					</configuration>
+				</plugin>
 				<!-- deploy javadoc and maven site to github -->
 				<plugin>
 					<groupId>com.github.github</groupId>
@@ -342,5 +352,14 @@
 		</profile>
 	</profiles>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.9.1</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 </project>
