@@ -8,10 +8,10 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
  */
 public class NoNetworkException extends SpiceException {
 
-        private static final long serialVersionUID = 5365883691014039322L;
+    private static final long serialVersionUID = 5365883691014039322L;
 
-        public NoNetworkException() {
-                super("Network is not available");
-        }
+    public NoNetworkException() {
+        super("Network is not available");
+    }
 
 }

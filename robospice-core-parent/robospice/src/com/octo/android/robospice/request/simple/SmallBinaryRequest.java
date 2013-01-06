@@ -14,19 +14,18 @@ import java.io.InputStream;
  */
 public class SmallBinaryRequest extends BinaryRequest {
 
-        public SmallBinaryRequest(final String url) {
-                super(url);
-        }
+    public SmallBinaryRequest(final String url) {
+        super(url);
+    }
 
-        @Override
-        public InputStream processStream(final int contentLength,
-                        final InputStream inputStream) throws IOException {
-                final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                readBytes(inputStream, new ProgressByteProcessor(bos,
-                                contentLength));
+    @Override
+    public InputStream processStream(final int contentLength,
+        final InputStream inputStream) throws IOException {
+        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        readBytes(inputStream, new ProgressByteProcessor(bos, contentLength));
 
-                final byte[] bytes = bos.toByteArray();
-                return new ByteArrayInputStream(bytes);
-        }
+        final byte[] bytes = bos.toByteArray();
+        return new ByteArrayInputStream(bytes);
+    }
 
 }

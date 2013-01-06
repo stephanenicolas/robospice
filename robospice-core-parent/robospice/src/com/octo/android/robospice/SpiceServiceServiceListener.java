@@ -8,5 +8,5 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
  * @author sni
  */
 public interface SpiceServiceServiceListener {
-        void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest);
+    void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest);
 }

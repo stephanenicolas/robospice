@@ -18,27 +18,26 @@ import org.apache.commons.io.IOUtils;
  */
 public class BigBinaryRequest extends BinaryRequest {
 
-        protected File cacheFile;
+    protected File cacheFile;
 
-        public BigBinaryRequest(final String url, final File cacheFile) {
-                super(url);
-                this.cacheFile = cacheFile;
-        }
+    public BigBinaryRequest(final String url, final File cacheFile) {
+        super(url);
+        this.cacheFile = cacheFile;
+    }
 
-        @Override
-        public InputStream processStream(final int contentLength,
-                        final InputStream inputStream) throws IOException {
-                // touch
-                cacheFile.setLastModified(System.currentTimeMillis());
-                final OutputStream fileOutputStream = new FileOutputStream(
-                                cacheFile);
-                readBytes(inputStream, new ProgressByteProcessor(
-                                fileOutputStream, contentLength));
-                IOUtils.closeQuietly(fileOutputStream);
-                return new FileInputStream(cacheFile);
-        }
+    @Override
+    public InputStream processStream(final int contentLength,
+        final InputStream inputStream) throws IOException {
+        // touch
+        cacheFile.setLastModified(System.currentTimeMillis());
+        final OutputStream fileOutputStream = new FileOutputStream(cacheFile);
+        readBytes(inputStream, new ProgressByteProcessor(fileOutputStream,
+            contentLength));
+        IOUtils.closeQuietly(fileOutputStream);
+        return new FileInputStream(cacheFile);
+    }
 
-        public File getCacheFile() {
-                return cacheFile;
-        }
+    public File getCacheFile() {
+        return cacheFile;
+    }
 }

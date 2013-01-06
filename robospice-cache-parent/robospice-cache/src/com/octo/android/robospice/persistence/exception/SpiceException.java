@@ -6,18 +6,18 @@ package com.octo.android.robospice.persistence.exception;
  */
 public class SpiceException extends Exception {
 
-        private static final long serialVersionUID = 4494147890739338461L;
+    private static final long serialVersionUID = 4494147890739338461L;
 
-        public SpiceException(String detailMessage) {
-                super(detailMessage);
-        }
+    public SpiceException(String detailMessage) {
+        super(detailMessage);
+    }
 
-        public SpiceException(String detailMessage, Throwable throwable) {
-                super(detailMessage, throwable);
-        }
+    public SpiceException(String detailMessage, Throwable throwable) {
+        super(detailMessage, throwable);
+    }
 
-        public SpiceException(Throwable throwable) {
-                super(throwable);
-        }
+    public SpiceException(Throwable throwable) {
+        super(throwable);
+    }
 
 }

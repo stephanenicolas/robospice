@@ -7,18 +7,18 @@ package com.octo.android.robospice.persistence.exception;
  */
 public class CacheLoadingException extends SpiceException {
 
-        private static final long serialVersionUID = -1821941621446511524L;
+    private static final long serialVersionUID = -1821941621446511524L;
 
-        public CacheLoadingException(String detailMessage) {
-                super(detailMessage);
-        }
+    public CacheLoadingException(String detailMessage) {
+        super(detailMessage);
+    }
 
-        public CacheLoadingException(String detailMessage, Throwable throwable) {
-                super(detailMessage, throwable);
-        }
+    public CacheLoadingException(String detailMessage, Throwable throwable) {
+        super(detailMessage, throwable);
+    }
 
-        public CacheLoadingException(Throwable throwable) {
-                super(throwable);
-        }
+    public CacheLoadingException(Throwable throwable) {
+        super(throwable);
+    }
 
 }

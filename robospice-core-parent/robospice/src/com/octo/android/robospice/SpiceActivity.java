@@ -14,22 +14,22 @@ import android.app.Activity;
  */
 public class SpiceActivity extends Activity {
 
-        private final SpiceManager spiceManager = new SpiceManager(
-                        SpiceService.class);
+    private final SpiceManager spiceManager = new SpiceManager(
+        SpiceService.class);
 
-        @Override
-        protected void onStart() {
-                spiceManager.start(this);
-                super.onStart();
-        }
+    @Override
+    protected void onStart() {
+        spiceManager.start(this);
+        super.onStart();
+    }
 
-        @Override
-        protected void onStop() {
-                spiceManager.shouldStop();
-                super.onStop();
-        }
+    @Override
+    protected void onStop() {
+        spiceManager.shouldStop();
+        super.onStop();
+    }
 
-        public SpiceManager getSpiceManager() {
-                return spiceManager;
-        }
+    public SpiceManager getSpiceManager() {
+        return spiceManager;
+    }
 }

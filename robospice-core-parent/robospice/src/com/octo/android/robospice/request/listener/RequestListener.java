@@ -11,7 +11,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
  */
 public interface RequestListener<RESULT> {
 
-        void onRequestFailure(SpiceException spiceException);
+    void onRequestFailure(SpiceException spiceException);
 
-        void onRequestSuccess(RESULT result);
+    void onRequestSuccess(RESULT result);
 }

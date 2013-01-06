@@ -14,34 +14,34 @@ import com.octo.android.robospice.request.SpiceRequest;
 
 public class SimpleTextRequest extends SpiceRequest<String> {
 
-        private final String url;
+    private final String url;
 
-        public SimpleTextRequest(final String url) {
-                super(String.class);
-                this.url = url;
-        }
+    public SimpleTextRequest(final String url) {
+        super(String.class);
+        this.url = url;
+    }
 
-        // can't use activity here or any non serializable field
-        // will be invoked in remote service
-        @Override
-        public final String loadDataFromNetwork() throws Exception {
-                try {
-                        Ln.d("Call web service " + url);
-                        return IOUtils.toString(new InputStreamReader(new URL(
-                                        url).openStream(), CharEncoding.UTF_8));
-                } catch (final MalformedURLException e) {
-                        Ln.e(e, "Unable to create URL");
-                        return null;
-                } catch (final IOException e) {
-                        Ln.e(e, "Unable to download content");
-                        return null;
-                }
+    // can't use activity here or any non serializable field
+    // will be invoked in remote service
+    @Override
+    public final String loadDataFromNetwork() throws Exception {
+        try {
+            Ln.d("Call web service " + url);
+            return IOUtils.toString(new InputStreamReader(new URL(url)
+                .openStream(), CharEncoding.UTF_8));
+        } catch (final MalformedURLException e) {
+            Ln.e(e, "Unable to create URL");
+            return null;
+        } catch (final IOException e) {
+            Ln.e(e, "Unable to download content");
+            return null;
         }
+    }
 
-        // can't use activity here or any non serializable field
-        // will be invoked in remote service
-        protected final String getUrl() {
-                return this.url;
-        }
+    // can't use activity here or any non serializable field
+    // will be invoked in remote service
+    protected final String getUrl() {
+        return this.url;
+    }
 
 }

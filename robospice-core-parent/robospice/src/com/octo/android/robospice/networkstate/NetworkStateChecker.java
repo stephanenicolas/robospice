@@ -13,21 +13,21 @@ import com.octo.android.robospice.request.RequestProcessor;
  * @author sni
  */
 public interface NetworkStateChecker {
-        /**
-         * Determine whether network is available or not.
-         * @param context
-         *                the context from which network state is accessed.
-         * @return a boolean indicating if network is considered to be available
-         *         or not.
-         */
-        boolean isNetworkAvailable(Context context);
+    /**
+     * Determine whether network is available or not.
+     * @param context
+     *            the context from which network state is accessed.
+     * @return a boolean indicating if network is considered to be available or
+     *         not.
+     */
+    boolean isNetworkAvailable(Context context);
 
-        /**
-         * Check if all permissions necessary to determine network state and use
-         * network are granted to a given context.
-         * @param context
-         *                the context that will be checked to see if it has all
-         *                required permissions.
-         */
-        void checkPermissions(Context context);
+    /**
+     * Check if all permissions necessary to determine network state and use
+     * network are granted to a given context.
+     * @param context
+     *            the context that will be checked to see if it has all required
+     *            permissions.
+     */
+    void checkPermissions(Context context);
 }
