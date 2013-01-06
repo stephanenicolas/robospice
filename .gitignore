@@ -29,8 +29,8 @@ release.properties
 .DS_Store
 
 #Intelli J project files
-.idea/
-.iml
+*.idea/
+*.iml
 
 #Maven project files
 target/

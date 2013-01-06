@@ -84,6 +84,11 @@ public abstract class SpiceService extends Service {
         isStarted = true;
 
         cacheManager = createCacheManager(getApplication());
+        if (cacheManager == null) {
+            throw new IllegalArgumentException(
+                "createCacheManager() can't create a null cacheManager");
+        }
+
         final ExecutorService executorService = getExecutorService();
         final NetworkStateChecker networkStateChecker = getNetworkStateChecker();
 
