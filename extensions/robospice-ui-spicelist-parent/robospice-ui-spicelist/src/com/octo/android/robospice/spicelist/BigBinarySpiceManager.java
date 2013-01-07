@@ -5,7 +5,7 @@ import com.octo.android.robospice.SpiceManager;
 public class BigBinarySpiceManager extends SpiceManager {
 
     public BigBinarySpiceManager() {
-        super( BigBinarySpiceService.class );
+        super(BigBinarySpiceService.class);
     }
 
 }

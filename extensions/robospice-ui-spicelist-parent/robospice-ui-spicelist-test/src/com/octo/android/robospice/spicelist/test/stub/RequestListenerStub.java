@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-public class RequestListenerStub< T > implements RequestListener< T > {
+public class RequestListenerStub<T> implements RequestListener<T> {
 
     protected Boolean isSuccessful = null;
 
@@ -16,7 +16,7 @@ public class RequestListenerStub< T > implements RequestListener< T > {
     protected Exception exception;
 
     @Override
-    public void onRequestFailure( SpiceException exception ) {
+    public void onRequestFailure(SpiceException exception) {
         lock.lock();
         try {
             isSuccessful = false;
@@ -28,7 +28,7 @@ public class RequestListenerStub< T > implements RequestListener< T > {
     }
 
     @Override
-    public void onRequestSuccess( T arg0 ) {
+    public void onRequestSuccess(T arg0) {
         lock.lock();
         try {
             isSuccessful = true;
@@ -46,10 +46,10 @@ public class RequestListenerStub< T > implements RequestListener< T > {
         return exception;
     }
 
-    public void await( long millisecond ) throws InterruptedException {
+    public void await(long millisecond) throws InterruptedException {
         lock.lock();
         try {
-            requestFinishedCondition.await( millisecond, TimeUnit.MILLISECONDS );
+            requestFinishedCondition.await(millisecond, TimeUnit.MILLISECONDS);
         } finally {
             lock.unlock();
         }

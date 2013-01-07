@@ -12,12 +12,12 @@ public class TestBigBinarySpiceService extends BigBinarySpiceService {
         return new NetworkStateChecker() {
 
             @Override
-            public boolean isNetworkAvailable( Context context ) {
+            public boolean isNetworkAvailable(Context context) {
                 return true;
             }
 
             @Override
-            public void checkPermissions( Context context ) {
+            public void checkPermissions(Context context) {
             }
         };
     }
