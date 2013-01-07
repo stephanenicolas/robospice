@@ -32,28 +32,29 @@ public class CacheEntry {
 
     }
 
-    public CacheEntry( String cacheKey, long timestamp, Class< ? > resultClass, Object resultId ) {
+    public CacheEntry(String cacheKey, long timestamp, Class<?> resultClass,
+        Object resultId) {
         this.cacheKey = cacheKey;
         this.timestamp = timestamp;
         this.resultClassName = resultClass.getName();
-        fillResultId( resultId );
+        fillResultId(resultId);
     }
 
-    private void fillResultId( Object id ) {
+    private void fillResultId(Object id) {
 
-        if ( id instanceof String ) {
+        if (id instanceof String) {
             resultIdString = (String) id;
-        } else if ( id instanceof Character ) {
+        } else if (id instanceof Character) {
             resultIdChar = (Character) id;
-        } else if ( id instanceof Byte ) {
+        } else if (id instanceof Byte) {
             resultIdByte = (Byte) id;
-        } else if ( id instanceof Short ) {
+        } else if (id instanceof Short) {
             resultIdShort = (Short) id;
-        } else if ( id instanceof Integer ) {
+        } else if (id instanceof Integer) {
             resultIdInteger = (Integer) id;
-        } else if ( id instanceof Float ) {
+        } else if (id instanceof Float) {
             resultIdFloat = (Float) id;
-        } else if ( id instanceof Double ) {
+        } else if (id instanceof Double) {
             resultIdDouble = (Double) id;
         }
     }
@@ -62,7 +63,7 @@ public class CacheEntry {
         return cacheKey;
     }
 
-    public void setCacheKey( String cacheKey ) {
+    public void setCacheKey(String cacheKey) {
         this.cacheKey = cacheKey;
     }
 
@@ -70,11 +71,11 @@ public class CacheEntry {
         return timestamp;
     }
 
-    public void setTimestamp( long timestamp ) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public void setResultClassName( String resultClassName ) {
+    public void setResultClassName(String resultClassName) {
         this.resultClassName = resultClassName;
     }
 
@@ -84,23 +85,23 @@ public class CacheEntry {
 
     public Object getResultId() {
 
-        if ( resultIdByte != null ) {
+        if (resultIdByte != null) {
             return resultIdByte;
-        } else if ( resultIdChar != null ) {
+        } else if (resultIdChar != null) {
             return resultIdChar;
-        } else if ( resultIdDouble != null ) {
+        } else if (resultIdDouble != null) {
             return resultIdChar;
-        } else if ( resultIdFloat != null ) {
+        } else if (resultIdFloat != null) {
             return resultIdFloat;
-        } else if ( resultIdInteger != null ) {
+        } else if (resultIdInteger != null) {
             return resultIdInteger;
-        } else if ( resultIdShort != null ) {
+        } else if (resultIdShort != null) {
             return resultIdShort;
-        } else if ( resultIdString != null ) {
+        } else if (resultIdString != null) {
             return resultIdString;
         }
 
-        throw new RuntimeException( "Cache entry has no result id." );
+        throw new RuntimeException("Cache entry has no result id.");
 
     }
 }
