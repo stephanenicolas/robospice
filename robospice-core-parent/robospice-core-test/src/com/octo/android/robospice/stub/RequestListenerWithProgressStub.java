@@ -5,18 +5,19 @@ import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
-public class RequestListenerWithProgressStub< T > extends RequestListenerStub< T > implements RequestProgressListener {
+public class RequestListenerWithProgressStub<T> extends RequestListenerStub<T>
+    implements RequestProgressListener {
 
     private boolean isComplete;
 
     @Override
-    public void onRequestFailure( SpiceException exception ) {
+    public void onRequestFailure(SpiceException exception) {
         lock.lock();
         try {
             checkIsExectuedInUIThread();
             isSuccessful = false;
             this.exception = exception;
-            if ( isComplete ) {
+            if (isComplete) {
                 requestFinishedCondition.signal();
             }
         } finally {
@@ -25,12 +26,12 @@ public class RequestListenerWithProgressStub< T > extends RequestListenerStub< T
     }
 
     @Override
-    public void onRequestSuccess( T arg0 ) {
+    public void onRequestSuccess(T arg0) {
         lock.lock();
         try {
             checkIsExectuedInUIThread();
             isSuccessful = true;
-            if ( isComplete ) {
+            if (isComplete) {
                 requestFinishedCondition.signal();
             }
         } finally {
@@ -39,12 +40,12 @@ public class RequestListenerWithProgressStub< T > extends RequestListenerStub< T
     }
 
     @Override
-    public void onRequestProgressUpdate( RequestProgress progress ) {
+    public void onRequestProgressUpdate(RequestProgress progress) {
         lock.lock();
         try {
-            if ( progress.getStatus() == RequestStatus.COMPLETE ) {
+            if (progress.getStatus() == RequestStatus.COMPLETE) {
                 isComplete = true;
-                if ( isSuccessful != null ) {
+                if (isSuccessful != null) {
                     requestFinishedCondition.signal();
                 }
             }

@@ -13,10 +13,9 @@ import com.octo.android.robospice.core.test.R;
 import com.octo.android.robospice.request.simple.SmallBinaryRequest;
 
 /**
- * This test is a good example of how easy it is to test RoboSpice requests. Test is synchronous.
- * 
+ * This test is a good example of how easy it is to test RoboSpice requests.
+ * Test is synchronous.
  * @author sni
- * 
  */
 @LargeTest
 public class SmallBinaryRequestTest extends InstrumentationTestCase {
@@ -35,17 +34,21 @@ public class SmallBinaryRequestTest extends InstrumentationTestCase {
         super.tearDown();
     }
 
-    public void test_loadDataFromNetwork_returns_a_small_binary() throws Exception {
+    public void test_loadDataFromNetwork_returns_a_small_binary()
+        throws Exception {
         // given;
-        byte[] data = IOUtils.toByteArray( getInstrumentation().getContext().getResources().openRawResource( R.raw.binary ) );
-        mockWebServer.enqueue( new MockResponse().setBody( data ) );
+        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext()
+            .getResources().openRawResource(R.raw.binary));
+        mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
         // when
-        SmallBinaryRequest binaryRequest = new SmallBinaryRequest( mockWebServer.getUrl( "/" ).toString() );
+        SmallBinaryRequest binaryRequest = new SmallBinaryRequest(mockWebServer
+            .getUrl("/").toString());
         InputStream binaryReturned = binaryRequest.loadDataFromNetwork();
 
         // then
-        assertTrue( IOUtils.contentEquals( binaryReturned, getInstrumentation().getContext().getResources().openRawResource( R.raw.binary ) ) );
+        assertTrue(IOUtils.contentEquals(binaryReturned, getInstrumentation()
+            .getContext().getResources().openRawResource(R.raw.binary)));
     }
 }

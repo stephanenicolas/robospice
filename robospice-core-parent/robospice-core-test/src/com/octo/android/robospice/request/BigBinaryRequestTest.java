@@ -15,10 +15,9 @@ import com.octo.android.robospice.core.test.R;
 import com.octo.android.robospice.request.simple.BigBinaryRequest;
 
 /**
- * This test is a good example of how easy it is to test RoboSpice requests. Test is synchronous.
- * 
+ * This test is a good example of how easy it is to test RoboSpice requests.
+ * Test is synchronous.
  * @author sni
- * 
  */
 @LargeTest
 public class BigBinaryRequestTest extends InstrumentationTestCase {
@@ -30,7 +29,8 @@ public class BigBinaryRequestTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mockWebServer = new MockWebServer();
-        cacheFile = new File( getInstrumentation().getContext().getCacheDir(), "test" );
+        cacheFile = new File(getInstrumentation().getContext().getCacheDir(),
+            "test");
         cacheFile.delete();
     }
 
@@ -43,16 +43,20 @@ public class BigBinaryRequestTest extends InstrumentationTestCase {
 
     public void test_loadDataFromNetwork_returns_a_binary() throws Exception {
         // given;
-        byte[] data = IOUtils.toByteArray( getInstrumentation().getContext().getResources().openRawResource( R.raw.binary ) );
-        mockWebServer.enqueue( new MockResponse().setBody( data ) );
+        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext()
+            .getResources().openRawResource(R.raw.binary));
+        mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
-        BigBinaryRequest binaryRequest = new BigBinaryRequest( mockWebServer.getUrl( "/" ).toString(), cacheFile );
+        BigBinaryRequest binaryRequest = new BigBinaryRequest(mockWebServer
+            .getUrl("/").toString(), cacheFile);
         InputStream binaryReturned = binaryRequest.loadDataFromNetwork();
-        InputStream cacheInputStream = new FileInputStream( cacheFile );
+        InputStream cacheInputStream = new FileInputStream(cacheFile);
 
         // then
-        assertTrue( IOUtils.contentEquals( binaryReturned, getInstrumentation().getContext().getResources().openRawResource( R.raw.binary ) ) );
-        assertTrue( IOUtils.contentEquals( cacheInputStream, getInstrumentation().getContext().getResources().openRawResource( R.raw.binary ) ) );
+        assertTrue(IOUtils.contentEquals(binaryReturned, getInstrumentation()
+            .getContext().getResources().openRawResource(R.raw.binary)));
+        assertTrue(IOUtils.contentEquals(cacheInputStream, getInstrumentation()
+            .getContext().getResources().openRawResource(R.raw.binary)));
     }
 }

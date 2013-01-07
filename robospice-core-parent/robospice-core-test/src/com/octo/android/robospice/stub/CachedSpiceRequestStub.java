@@ -3,27 +3,28 @@ package com.octo.android.robospice.stub;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 
 /**
- * A {@link CachedSpiceRequest} that is state-testable. Wraps a {@link SpiceRequestStub}.
- * 
+ * A {@link CachedSpiceRequest} that is state-testable. Wraps a
+ * {@link SpiceRequestStub}.
  * @author sni
- * 
  * @param <T>
  *            the type of the result of the request.
  */
-public class CachedSpiceRequestStub< T > extends CachedSpiceRequest< T > {
+public class CachedSpiceRequestStub<T> extends CachedSpiceRequest<T> {
 
     /**
      * Builds a {@link CachedSpiceRequestStub}.
-     * 
      * @param contentRequest
      *            the wrapped {@link SpiceRequestStub}.
      * @param requestCacheKey
-     *            the cachekey that identifies this {@link CachedSpiceRequestStub}
+     *            the cachekey that identifies this
+     *            {@link CachedSpiceRequestStub}
      * @param cacheDuration
-     *            the expiry delay of potential cache content. If content is expired, data is loaded from network.
+     *            the expiry delay of potential cache content. If content is
+     *            expired, data is loaded from network.
      */
-    public CachedSpiceRequestStub( SpiceRequestStub< T > contentRequest, String requestCacheKey, long cacheDuration ) {
-        super( contentRequest, requestCacheKey, cacheDuration );
+    public CachedSpiceRequestStub(SpiceRequestStub<T> contentRequest,
+        String requestCacheKey, long cacheDuration) {
+        super(contentRequest, requestCacheKey, cacheDuration);
     }
 
     /**
@@ -31,7 +32,8 @@ public class CachedSpiceRequestStub< T > extends CachedSpiceRequest< T > {
      * @return
      */
     public boolean isLoadDataFromNetworkCalled() {
-        return ( (SpiceRequestStub< ? >) getSpiceRequest() ).isLoadDataFromNetworkCalled();
+        return ((SpiceRequestStub<?>) getSpiceRequest())
+            .isLoadDataFromNetworkCalled();
     }
 
     /**
@@ -39,7 +41,8 @@ public class CachedSpiceRequestStub< T > extends CachedSpiceRequest< T > {
      * @param millisecond
      * @throws InterruptedException
      */
-    public void await( long millisecond ) throws InterruptedException {
-        ( (SpiceRequestStub< ? >) getSpiceRequest() ).awaitForLoadDataFromNetworkIsCalled( millisecond );
+    public void await(long millisecond) throws InterruptedException {
+        ((SpiceRequestStub<?>) getSpiceRequest())
+            .awaitForLoadDataFromNetworkIsCalled(millisecond);
     }
 }

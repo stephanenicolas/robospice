@@ -9,20 +9,20 @@ import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.stub.StringPersisterStub;
 
 /**
- * Only used to test RoboSpice. Will not rely on network state. Multi-threaded spice service.
- * 
+ * Only used to test RoboSpice. Will not rely on network state. Multi-threaded
+ * spice service.
  * @author sni
- * 
  */
 public class SpiceTestService extends SpiceService {
 
     private static final int TEST_THREAD_COUNT = 3;
 
     @Override
-    public CacheManager createCacheManager( Application application ) {
+    public CacheManager createCacheManager(Application application) {
         CacheManager cacheManager = new CacheManager();
-        StringPersisterStub stringPersisterStub = new StringPersisterStub( application );
-        cacheManager.addPersister( stringPersisterStub );
+        StringPersisterStub stringPersisterStub = new StringPersisterStub(
+            application);
+        cacheManager.addPersister(stringPersisterStub);
         return cacheManager;
     }
 
@@ -31,12 +31,12 @@ public class SpiceTestService extends SpiceService {
         return new NetworkStateChecker() {
 
             @Override
-            public boolean isNetworkAvailable( Context context ) {
+            public boolean isNetworkAvailable(Context context) {
                 return true;
             }
 
             @Override
-            public void checkPermissions( Context context ) {
+            public void checkPermissions(Context context) {
                 // do nothing
             }
         };
