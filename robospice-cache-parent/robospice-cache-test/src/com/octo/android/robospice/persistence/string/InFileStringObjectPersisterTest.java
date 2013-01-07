@@ -18,71 +18,93 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 @MediumTest
 public class InFileStringObjectPersisterTest extends InstrumentationTestCase {
 
-	private static final String TEST_CACHE_KEY = "TEST_CACHE_KEY";
+    private static final int FIVE_HUNDRED = 500;
 
-	private InFileStringObjectPersister inFileStringObjectPersister;
+    private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
-		inFileStringObjectPersister = new InFileStringObjectPersister(application);
-	}
+    private static final String TEST_CACHE_KEY = "TEST_CACHE_KEY";
 
-	public void testSaveDataToCacheAndReturnData() throws Exception {
-		inFileStringObjectPersister.saveDataToCacheAndReturnData("coucou", TEST_CACHE_KEY);
+    private InFileStringObjectPersister inFileStringObjectPersister;
 
-		File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
-		assertTrue(cachedFile.exists());
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        Application application = (Application) getInstrumentation()
+            .getTargetContext().getApplicationContext();
+        inFileStringObjectPersister = new InFileStringObjectPersister(
+            application);
+    }
 
-		@SuppressWarnings("unchecked")
-		List<String> actual = IOUtils.readLines(new FileInputStream(cachedFile), CharEncoding.UTF_8);
-		assertEquals(1, actual.size());
-		assertEquals("coucou", actual.get(0));
-	}
+    public void testSaveDataToCacheAndReturnData() throws Exception {
+        inFileStringObjectPersister.saveDataToCacheAndReturnData("coucou",
+            TEST_CACHE_KEY);
 
-	public void testSaveDataToCacheAndReturnData_async() throws Exception {
-		inFileStringObjectPersister.setAsyncSaveEnabled(true);
-		inFileStringObjectPersister.saveDataToCacheAndReturnData("coucou", TEST_CACHE_KEY);
+        File cachedFile = inFileStringObjectPersister
+            .getCacheFile(TEST_CACHE_KEY);
+        assertTrue(cachedFile.exists());
 
-		inFileStringObjectPersister.awaitForSaveAsyncTermination(500, TimeUnit.MILLISECONDS);
-		File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
-		assertTrue(cachedFile.exists());
+        @SuppressWarnings("unchecked")
+        List<String> actual = IOUtils.readLines(
+            new FileInputStream(cachedFile), CharEncoding.UTF_8);
+        assertEquals(1, actual.size());
+        assertEquals("coucou", actual.get(0));
+    }
 
-		@SuppressWarnings("unchecked")
-		List<String> actual = IOUtils.readLines(new FileInputStream(cachedFile), CharEncoding.UTF_8);
-		assertEquals(1, actual.size());
-		assertEquals("coucou", actual.get(0));
-	}
+    public void testSaveDataToCacheAndReturnData_async() throws Exception {
+        inFileStringObjectPersister.setAsyncSaveEnabled(true);
+        inFileStringObjectPersister.saveDataToCacheAndReturnData("coucou",
+            TEST_CACHE_KEY);
 
-	public void testLoadDataFromCache_no_expiracy() throws Exception {
-		File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
-		IOUtils.write("coucou", new FileOutputStream(cachedFile), CharEncoding.UTF_8);
+        inFileStringObjectPersister.awaitForSaveAsyncTermination(FIVE_HUNDRED,
+            TimeUnit.MILLISECONDS);
+        File cachedFile = inFileStringObjectPersister
+            .getCacheFile(TEST_CACHE_KEY);
+        assertTrue(cachedFile.exists());
 
-		String actual = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
-		assertEquals("coucou", actual);
-	}
+        @SuppressWarnings("unchecked")
+        List<String> actual = IOUtils.readLines(
+            new FileInputStream(cachedFile), CharEncoding.UTF_8);
+        assertEquals(1, actual.size());
+        assertEquals("coucou", actual.get(0));
+    }
 
-	public void testLoadDataFromCache_not_expired() throws Exception {
-		File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
-		IOUtils.write("coucou", new FileOutputStream(cachedFile), CharEncoding.UTF_8);
+    public void testLoadDataFromCache_no_expiracy() throws Exception {
+        File cachedFile = inFileStringObjectPersister
+            .getCacheFile(TEST_CACHE_KEY);
+        IOUtils.write("coucou", new FileOutputStream(cachedFile),
+            CharEncoding.UTF_8);
 
-		String actual = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
-		assertEquals("coucou", actual);
-	}
+        String actual = inFileStringObjectPersister.loadDataFromCache(
+            TEST_CACHE_KEY, DurationInMillis.ALWAYS);
+        assertEquals("coucou", actual);
+    }
 
-	public void testLoadDataFromCache_expired() throws Exception {
-		File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
-		IOUtils.write("coucou", new FileOutputStream(cachedFile), CharEncoding.UTF_8);
-		cachedFile.setLastModified(System.currentTimeMillis() - 5 * DurationInMillis.ONE_SECOND);
+    public void testLoadDataFromCache_not_expired() throws Exception {
+        File cachedFile = inFileStringObjectPersister
+            .getCacheFile(TEST_CACHE_KEY);
+        IOUtils.write("coucou", new FileOutputStream(cachedFile),
+            CharEncoding.UTF_8);
 
-		String actual = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
-		assertNull(actual);
-	}
+        String actual = inFileStringObjectPersister.loadDataFromCache(
+            TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
+        assertEquals("coucou", actual);
+    }
 
-	@Override
-	protected void tearDown() throws Exception {
-		inFileStringObjectPersister.removeAllDataFromCache();
-	}
+    public void testLoadDataFromCache_expired() throws Exception {
+        File cachedFile = inFileStringObjectPersister
+            .getCacheFile(TEST_CACHE_KEY);
+        IOUtils.write("coucou", new FileOutputStream(cachedFile),
+            CharEncoding.UTF_8);
+        cachedFile.setLastModified(System.currentTimeMillis() - FIVE_SECONDS);
+
+        String actual = inFileStringObjectPersister.loadDataFromCache(
+            TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
+        assertNull(actual);
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        inFileStringObjectPersister.removeAllDataFromCache();
+    }
 
 }
