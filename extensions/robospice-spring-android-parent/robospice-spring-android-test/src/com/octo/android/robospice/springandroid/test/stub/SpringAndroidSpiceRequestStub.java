@@ -7,12 +7,14 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 import com.octo.android.robospice.springandroid.test.model.json.Weather;
 
-public class SpringAndroidSpiceRequestStub extends SpringAndroidSpiceRequest< Weather > {
+public class SpringAndroidSpiceRequestStub extends
+    SpringAndroidSpiceRequest<Weather> {
     private ReentrantLock reentrantLock = new ReentrantLock();
-    private Condition loadDataFromNetworkHasBeenExecuted = reentrantLock.newCondition();
+    private Condition loadDataFromNetworkHasBeenExecuted = reentrantLock
+        .newCondition();
 
-    public SpringAndroidSpiceRequestStub( Class< Weather > clazz ) {
-        super( clazz );
+    public SpringAndroidSpiceRequestStub(Class<Weather> clazz) {
+        super(clazz);
     }
 
     @Override
@@ -26,10 +28,11 @@ public class SpringAndroidSpiceRequestStub extends SpringAndroidSpiceRequest< We
         return new Weather();
     }
 
-    public void await( long timeout ) throws InterruptedException {
+    public void await(long timeout) throws InterruptedException {
         try {
             reentrantLock.lock();
-            loadDataFromNetworkHasBeenExecuted.await( timeout, TimeUnit.MILLISECONDS );
+            loadDataFromNetworkHasBeenExecuted.await(timeout,
+                TimeUnit.MILLISECONDS);
         } finally {
             reentrantLock.unlock();
         }

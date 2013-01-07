@@ -7,9 +7,9 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Forecast {
     private String date;
-    private List< Day > day;
+    private List<Day> day;
     private String day_max_temp;
-    private List< Day > night;
+    private List<Day> night;
     private String night_min_temp;
     private String temp_unit;
 
@@ -17,15 +17,15 @@ public class Forecast {
         return this.date;
     }
 
-    public void setDate( String date ) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public List< Day > getDay() {
+    public List<Day> getDay() {
         return this.day;
     }
 
-    public void setDay( List< Day > day ) {
+    public void setDay(List<Day> day) {
         this.day = day;
     }
 
@@ -33,15 +33,15 @@ public class Forecast {
         return this.day_max_temp;
     }
 
-    public void setDay_max_temp( String day_max_temp ) {
+    public void setDay_max_temp(String day_max_temp) {
         this.day_max_temp = day_max_temp;
     }
 
-    public List< Day > getNight() {
+    public List<Day> getNight() {
         return this.night;
     }
 
-    public void setNight( List< Day > night ) {
+    public void setNight(List<Day> night) {
         this.night = night;
     }
 
@@ -49,7 +49,7 @@ public class Forecast {
         return this.night_min_temp;
     }
 
-    public void setNight_min_temp( String night_min_temp ) {
+    public void setNight_min_temp(String night_min_temp) {
         this.night_min_temp = night_min_temp;
     }
 
@@ -57,7 +57,7 @@ public class Forecast {
         return this.temp_unit;
     }
 
-    public void setTemp_unit( String temp_unit ) {
+    public void setTemp_unit(String temp_unit) {
         this.temp_unit = temp_unit;
     }
 
@@ -65,67 +65,70 @@ public class Forecast {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( date == null ? 0 : date.hashCode() );
-        result = prime * result + ( day == null ? 0 : day.hashCode() );
-        result = prime * result + ( day_max_temp == null ? 0 : day_max_temp.hashCode() );
-        result = prime * result + ( night == null ? 0 : night.hashCode() );
-        result = prime * result + ( night_min_temp == null ? 0 : night_min_temp.hashCode() );
-        result = prime * result + ( temp_unit == null ? 0 : temp_unit.hashCode() );
+        result = prime * result + (date == null ? 0 : date.hashCode());
+        result = prime * result + (day == null ? 0 : day.hashCode());
+        result = prime * result
+            + (day_max_temp == null ? 0 : day_max_temp.hashCode());
+        result = prime * result + (night == null ? 0 : night.hashCode());
+        result = prime * result
+            + (night_min_temp == null ? 0 : night_min_temp.hashCode());
+        result = prime * result
+            + (temp_unit == null ? 0 : temp_unit.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals( Object obj ) {
-        if ( this == obj ) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if ( obj == null ) {
+        if (obj == null) {
             return false;
         }
-        if ( getClass() != obj.getClass() ) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         Forecast other = (Forecast) obj;
-        if ( date == null ) {
-            if ( other.date != null ) {
+        if (date == null) {
+            if (other.date != null) {
                 return false;
             }
-        } else if ( !date.equals( other.date ) ) {
+        } else if (!date.equals(other.date)) {
             return false;
         }
-        if ( day == null ) {
-            if ( other.day != null ) {
+        if (day == null) {
+            if (other.day != null) {
                 return false;
             }
-        } else if ( !day.equals( other.day ) ) {
+        } else if (!day.equals(other.day)) {
             return false;
         }
-        if ( day_max_temp == null ) {
-            if ( other.day_max_temp != null ) {
+        if (day_max_temp == null) {
+            if (other.day_max_temp != null) {
                 return false;
             }
-        } else if ( !day_max_temp.equals( other.day_max_temp ) ) {
+        } else if (!day_max_temp.equals(other.day_max_temp)) {
             return false;
         }
-        if ( night == null ) {
-            if ( other.night != null ) {
+        if (night == null) {
+            if (other.night != null) {
                 return false;
             }
-        } else if ( !night.equals( other.night ) ) {
+        } else if (!night.equals(other.night)) {
             return false;
         }
-        if ( night_min_temp == null ) {
-            if ( other.night_min_temp != null ) {
+        if (night_min_temp == null) {
+            if (other.night_min_temp != null) {
                 return false;
             }
-        } else if ( !night_min_temp.equals( other.night_min_temp ) ) {
+        } else if (!night_min_temp.equals(other.night_min_temp)) {
             return false;
         }
-        if ( temp_unit == null ) {
-            if ( other.temp_unit != null ) {
+        if (temp_unit == null) {
+            if (other.temp_unit != null) {
                 return false;
             }
-        } else if ( !temp_unit.equals( other.temp_unit ) ) {
+        } else if (!temp_unit.equals(other.temp_unit)) {
             return false;
         }
         return true;
@@ -133,8 +136,9 @@ public class Forecast {
 
     @Override
     public String toString() {
-        return "Forecast [date=" + date + ", day=" + day + ", day_max_temp=" + day_max_temp + ", night=" + night + ", night_min_temp=" + night_min_temp
-                + ", temp_unit=" + temp_unit + "]";
+        return "Forecast [date=" + date + ", day=" + day + ", day_max_temp="
+            + day_max_temp + ", night=" + night + ", night_min_temp="
+            + night_min_temp + ", temp_unit=" + temp_unit + "]";
     }
 
 }

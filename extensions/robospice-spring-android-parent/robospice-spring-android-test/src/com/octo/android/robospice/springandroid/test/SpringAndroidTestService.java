@@ -11,10 +11,11 @@ import com.octo.android.robospice.persistence.springandroid.json.jackson.Jackson
 public class SpringAndroidTestService extends SpringAndroidSpiceService {
 
     @Override
-    public CacheManager createCacheManager( Application application ) {
+    public CacheManager createCacheManager(Application application) {
         CacheManager cacheManager = new CacheManager();
-        JacksonObjectPersisterFactory jacksonObjectPersisterFactory = new JacksonObjectPersisterFactory( application );
-        cacheManager.addPersister( jacksonObjectPersisterFactory );
+        JacksonObjectPersisterFactory jacksonObjectPersisterFactory = new JacksonObjectPersisterFactory(
+            application);
+        cacheManager.addPersister(jacksonObjectPersisterFactory);
         return cacheManager;
     }
 

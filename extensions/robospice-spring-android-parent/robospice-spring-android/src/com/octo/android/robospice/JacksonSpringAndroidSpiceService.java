@@ -11,16 +11,17 @@ import android.app.Application;
 import com.octo.android.robospice.persistence.CacheManager;
 
 /**
- * A {@link SpringAndroidSpiceService} dedicated to json web services via Jackson. Provides caching.
- * 
+ * A {@link SpringAndroidSpiceService} dedicated to json web services via
+ * Jackson. Provides caching.
  * @author sni
- * 
  */
 public class JacksonSpringAndroidSpiceService extends SpringAndroidSpiceService {
     @Override
-    public CacheManager createCacheManager( Application application ) {
+    public CacheManager createCacheManager(Application application) {
         CacheManager cacheManager = new CacheManager();
-        cacheManager.addPersister( new com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory( application ) );
+        cacheManager
+            .addPersister(new com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory(
+                application));
         return cacheManager;
     }
 
@@ -30,10 +31,11 @@ public class JacksonSpringAndroidSpiceService extends SpringAndroidSpiceService 
 
         // web services support json responses
         MappingJacksonHttpMessageConverter jsonConverter = new MappingJacksonHttpMessageConverter();
-        final List< HttpMessageConverter< ? >> listHttpMessageConverters = restTemplate.getMessageConverters();
+        final List<HttpMessageConverter<?>> listHttpMessageConverters = restTemplate
+            .getMessageConverters();
 
-        listHttpMessageConverters.add( jsonConverter );
-        restTemplate.setMessageConverters( listHttpMessageConverters );
+        listHttpMessageConverters.add(jsonConverter);
+        restTemplate.setMessageConverters(listHttpMessageConverters);
         return restTemplate;
     }
 }

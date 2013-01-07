@@ -6,19 +6,20 @@ import roboguice.util.temp.Ln;
 
 import com.octo.android.robospice.request.SpiceRequest;
 
-public abstract class SpringAndroidSpiceRequest< RESULT > extends SpiceRequest< RESULT > {
+public abstract class SpringAndroidSpiceRequest<RESULT> extends
+    SpiceRequest<RESULT> {
 
     private RestTemplate restTemplate;
 
-    public SpringAndroidSpiceRequest( Class< RESULT > clazz ) {
-        super( clazz );
+    public SpringAndroidSpiceRequest(Class<RESULT> clazz) {
+        super(clazz);
     }
 
     public RestTemplate getRestTemplate() {
         return restTemplate;
     }
 
-    public void setRestTemplate( RestTemplate restTemplate ) {
+    public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -32,7 +33,9 @@ public abstract class SpringAndroidSpiceRequest< RESULT > extends SpiceRequest< 
      */
     public void cancel() {
         super.cancel();
-        Ln.w( SpringAndroidSpiceRequest.class.getName(), "Cancel can't be invoked directly on " + SpringAndroidSpiceRequest.class.getName()
-                + " requests. You must call SpiceManager.cancelAllRequests()." );
+        Ln.w(SpringAndroidSpiceRequest.class.getName(),
+            "Cancel can't be invoked directly on "
+                + SpringAndroidSpiceRequest.class.getName()
+                + " requests. You must call SpiceManager.cancelAllRequests().");
     }
 }

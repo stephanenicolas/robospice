@@ -70,15 +70,30 @@
 		<!-- See http://checkstyle.sf.net/config_naming.html -->
 		<module name="ConstantName" />
 		<module name="LocalFinalVariableName" />
-		<module name="LocalVariableName" />
-		<module name="MemberName" />
+		<module name="LocalVariableName">
+			<!-- this must be removed soon... no underscore in variable's name -->
+			<property name="format" value="^[a-z]([_a-zA-Z0-9]+)*$"/>
+ 		</module>
+		<module name="MemberName">
+			<!-- this must be removed soon... no underscore in member's name -->
+			<property name="format" value="^[a-z]([_a-zA-Z0-9]+)*$"/>
+ 		</module>
 		<module name="MethodName">
+			<!-- we have some undercores in test method names -->
   			<property name="format" value="^[a-z]([_a-zA-Z0-9]+)*$"/>
  		</module>
 		<module name="PackageName" />
-		<module name="ParameterName" />
+		<module name="ParameterName">
+			<!-- this must be removed soon... no underscore in parameters's name -->
+			<property name="format" value="^[a-z]([_a-zA-Z0-9]+)*$"/>
+ 		</module>
 		<module name="StaticVariableName" />
-		<module name="TypeName" />
+		<module name="TypeName">
+			<!-- this must be removed soon... no underscore in type's name -->
+			<property name="format" value="^[A-Z][_a-zA-Z0-9]*$"/>
+ 		</module>
+
+		
 
 
 		<!-- Checks for imports -->
