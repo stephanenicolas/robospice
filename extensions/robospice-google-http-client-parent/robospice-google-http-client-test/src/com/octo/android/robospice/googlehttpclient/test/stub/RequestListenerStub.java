@@ -9,7 +9,7 @@ import android.os.Looper;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-public class RequestListenerStub< T > implements RequestListener< T > {
+public class RequestListenerStub<T> implements RequestListener<T> {
 
     protected Boolean isSuccessful = null;
     protected boolean isExecutedInUIThread = false;
@@ -19,7 +19,7 @@ public class RequestListenerStub< T > implements RequestListener< T > {
     protected Exception exception;
 
     @Override
-    public void onRequestFailure( SpiceException exception ) {
+    public void onRequestFailure(SpiceException exception) {
         lock.lock();
         try {
             checkIsExectuedInUIThread();
@@ -32,7 +32,7 @@ public class RequestListenerStub< T > implements RequestListener< T > {
     }
 
     @Override
-    public void onRequestSuccess( T arg0 ) {
+    public void onRequestSuccess(T arg0) {
         lock.lock();
         try {
             checkIsExectuedInUIThread();
@@ -44,7 +44,8 @@ public class RequestListenerStub< T > implements RequestListener< T > {
     }
 
     protected void checkIsExectuedInUIThread() {
-        if ( Looper.myLooper() != null && Looper.myLooper() == Looper.getMainLooper() ) {
+        if (Looper.myLooper() != null
+            && Looper.myLooper() == Looper.getMainLooper()) {
             isExecutedInUIThread = true;
         }
     }
@@ -61,10 +62,10 @@ public class RequestListenerStub< T > implements RequestListener< T > {
         return isExecutedInUIThread;
     }
 
-    public void await( long millisecond ) throws InterruptedException {
+    public void await(long millisecond) throws InterruptedException {
         lock.lock();
         try {
-            requestFinishedCondition.await( millisecond, TimeUnit.MILLISECONDS );
+            requestFinishedCondition.await(millisecond, TimeUnit.MILLISECONDS);
         } finally {
             lock.unlock();
         }

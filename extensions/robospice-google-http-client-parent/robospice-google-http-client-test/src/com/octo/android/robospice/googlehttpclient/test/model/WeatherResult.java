@@ -13,7 +13,7 @@ public class WeatherResult {
         return this.weather;
     }
 
-    public void setWeather( Weather weather ) {
+    public void setWeather(Weather weather) {
         this.weather = weather;
     }
 
@@ -22,30 +22,30 @@ public class WeatherResult {
         final int prime = 31;
         int result = 1;
         result = prime * result + id;
-        result = prime * result + ( weather == null ? 0 : weather.hashCode() );
+        result = prime * result + (weather == null ? 0 : weather.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals( Object obj ) {
-        if ( this == obj ) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if ( obj == null ) {
+        if (obj == null) {
             return false;
         }
-        if ( getClass() != obj.getClass() ) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         WeatherResult other = (WeatherResult) obj;
-        if ( id != other.id ) {
+        if (id != other.id) {
             return false;
         }
-        if ( weather == null ) {
-            if ( other.weather != null ) {
+        if (weather == null) {
+            if (other.weather != null) {
                 return false;
             }
-        } else if ( !weather.equals( other.weather ) ) {
+        } else if (!weather.equals(other.weather)) {
             return false;
         }
         return true;

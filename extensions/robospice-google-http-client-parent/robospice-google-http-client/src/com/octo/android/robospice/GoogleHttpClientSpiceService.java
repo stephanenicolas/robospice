@@ -10,14 +10,13 @@ import com.octo.android.robospice.request.googlehttpclient.GoogleHttpClientSpice
 import com.octo.android.robospice.request.listener.RequestListener;
 
 /**
- * This class offers a {@link SpiceService} that injects a {@link HttpRequestFactory} from Google Http Client into every
- * {@link GoogleHttpClientSpiceRequest} it has to execute.
- * 
- * Developpers can override {@link #createRequestFactory()} in addition to the usual
- * {@link #createCacheManager(android.app.Application)} methods to create a {@link HttpRequestFactory} and configure it.
- * 
+ * This class offers a {@link SpiceService} that injects a
+ * {@link HttpRequestFactory} from Google Http Client into every
+ * {@link GoogleHttpClientSpiceRequest} it has to execute. Developpers can
+ * override {@link #createRequestFactory()} in addition to the usual
+ * {@link #createCacheManager(android.app.Application)} methods to create a
+ * {@link HttpRequestFactory} and configure it.
  * @author sni
- * 
  */
 public abstract class GoogleHttpClientSpiceService extends SpiceService {
 
@@ -35,11 +34,13 @@ public abstract class GoogleHttpClientSpiceService extends SpiceService {
     }
 
     @Override
-    public void addRequest( CachedSpiceRequest< ? > request, Set< RequestListener< ? >> listRequestListener ) {
-        if ( request.getSpiceRequest() instanceof GoogleHttpClientSpiceRequest ) {
-            ( (GoogleHttpClientSpiceRequest< ? >) request.getSpiceRequest() ).setHttpRequestFactory( httpRequestFactory );
+    public void addRequest(CachedSpiceRequest<?> request,
+        Set<RequestListener<?>> listRequestListener) {
+        if (request.getSpiceRequest() instanceof GoogleHttpClientSpiceRequest) {
+            ((GoogleHttpClientSpiceRequest<?>) request.getSpiceRequest())
+                .setHttpRequestFactory(httpRequestFactory);
         }
-        super.addRequest( request, listRequestListener );
+        super.addRequest(request, listRequestListener);
     }
 
 }

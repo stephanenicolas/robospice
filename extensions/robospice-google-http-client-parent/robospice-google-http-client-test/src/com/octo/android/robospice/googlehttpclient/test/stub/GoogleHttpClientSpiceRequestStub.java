@@ -7,12 +7,14 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.octo.android.robospice.googlehttpclient.test.model.Weather;
 import com.octo.android.robospice.request.googlehttpclient.GoogleHttpClientSpiceRequest;
 
-public class GoogleHttpClientSpiceRequestStub extends GoogleHttpClientSpiceRequest< Weather > {
+public class GoogleHttpClientSpiceRequestStub extends
+    GoogleHttpClientSpiceRequest<Weather> {
     private ReentrantLock reentrantLock = new ReentrantLock();
-    private Condition loadDataFromNetworkHasBeenExecuted = reentrantLock.newCondition();
+    private Condition loadDataFromNetworkHasBeenExecuted = reentrantLock
+        .newCondition();
 
-    public GoogleHttpClientSpiceRequestStub( Class< Weather > clazz ) {
-        super( clazz );
+    public GoogleHttpClientSpiceRequestStub(Class<Weather> clazz) {
+        super(clazz);
     }
 
     @Override
@@ -26,10 +28,11 @@ public class GoogleHttpClientSpiceRequestStub extends GoogleHttpClientSpiceReque
         return new Weather();
     }
 
-    public void await( long timeout ) throws InterruptedException {
+    public void await(long timeout) throws InterruptedException {
         try {
             reentrantLock.lock();
-            loadDataFromNetworkHasBeenExecuted.await( timeout, TimeUnit.MILLISECONDS );
+            loadDataFromNetworkHasBeenExecuted.await(timeout,
+                TimeUnit.MILLISECONDS);
         } finally {
             reentrantLock.unlock();
         }

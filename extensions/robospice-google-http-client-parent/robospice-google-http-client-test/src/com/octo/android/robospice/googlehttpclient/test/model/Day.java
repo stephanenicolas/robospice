@@ -10,13 +10,13 @@ public class Day {
     @Key
     private String weather_text;
     @Key
-    private List< Wind > wind;
+    private List<Wind> wind;
 
     public String getWeather_code() {
         return this.weather_code;
     }
 
-    public void setWeather_code( String weather_code ) {
+    public void setWeather_code(String weather_code) {
         this.weather_code = weather_code;
     }
 
@@ -24,21 +24,22 @@ public class Day {
         return this.weather_text;
     }
 
-    public void setWeather_text( String weather_text ) {
+    public void setWeather_text(String weather_text) {
         this.weather_text = weather_text;
     }
 
-    public List< Wind > getWind() {
+    public List<Wind> getWind() {
         return this.wind;
     }
 
-    public void setWind( List< Wind > wind ) {
+    public void setWind(List<Wind> wind) {
         this.wind = wind;
     }
 
     @Override
     public String toString() {
-        return "Day [weather_code=" + weather_code + ", weather_text=" + weather_text + ", wind=" + wind + "]";
+        return "Day [weather_code=" + weather_code + ", weather_text="
+            + weather_text + ", wind=" + wind + "]";
     }
 
 }
