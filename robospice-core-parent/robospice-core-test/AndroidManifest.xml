@@ -28,10 +28,6 @@
 
     </application>
 
-    <service
-        android:name=".GoogleHttpClientSpiceTestService"
-        android:exported="false" />
-
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.octo.android.robospice.core.test" />
