@@ -253,6 +253,10 @@ public final class Ln {
         }
 
     }
+    
+    public static void setPrint(Print print) {
+        Ln.print = print;
+    }
 
     /** Default implementation logs to android.util.Log */
     public static class Print {
