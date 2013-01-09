@@ -2,7 +2,6 @@ package com.octo.android.robospice.persistence.ormlite;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import android.app.Application;
 import android.test.InstrumentationTestCase;
@@ -19,7 +18,6 @@ import com.octo.android.robospice.persistence.ObjectPersister;
 
 @SmallTest
 public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
-    private static final int SAVE_TIMEOUT = 1000;
     private ObjectPersister<Weather> dataPersistenceManager;
     private static final Curren_weather TEST_TEMP = new Curren_weather();
     private static final Curren_weather TEST_TEMP2 = new Curren_weather();
@@ -77,21 +75,6 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
             .saveDataToCacheAndReturnData(weatherRequestStatus, 1);
 
         // THEN
-        assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));
-    }
-
-    public void test_saveDataAndReturnData_async() throws Exception {
-        // GIVEN
-        Weather weatherRequestStatus = buildWeather(CACHE_KEY, TEST_TEMP);
-
-        // WHEN
-        dataPersistenceManager.setAsyncSaveEnabled(true);
-        Weather weatherReturned = dataPersistenceManager
-            .saveDataToCacheAndReturnData(weatherRequestStatus, 1);
-
-        // THEN
-        assertFalse(((InDatabaseObjectPersister<?, ?>) dataPersistenceManager)
-            .awaitForSaveAsyncTermination(SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));
     }
 

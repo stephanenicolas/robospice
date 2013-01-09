@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 
@@ -44,12 +43,5 @@ public final class InFileBigInputStreamObjectPersister extends
             throw new IllegalStateException(
                 "Asynchronous saving operation not supported.");
         }
-    }
-
-    @Override
-    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
-        throws InterruptedException {
-        throw new IllegalStateException(
-            "Asynchronous saving operation not supported. Not possible to invoke this method neither.");
     }
 }

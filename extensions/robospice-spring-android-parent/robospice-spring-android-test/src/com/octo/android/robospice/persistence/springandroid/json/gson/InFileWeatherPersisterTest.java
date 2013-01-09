@@ -3,7 +3,6 @@ package com.octo.android.robospice.persistence.springandroid.json.gson;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import android.app.Application;
 import android.test.InstrumentationTestCase;
@@ -59,23 +58,6 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
             .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
 
         // THEN
-        assertEquals(TEST_TEMP, weatherReturned.getWeather()
-            .getCurren_weather().get(0).getTemp());
-    }
-
-    public void test_saveDataAndReturnData_async() throws Exception {
-        // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
-            TEST_TEMP_UNIT);
-
-        // WHEN
-        dataPersistenceManager.setAsyncSaveEnabled(true);
-        WeatherResult weatherReturned = dataPersistenceManager
-            .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
-
-        // THEN
-        assertTrue(((GsonObjectPersister<?>) dataPersistenceManager)
-            .awaitForSaveAsyncTermination(SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         assertEquals(TEST_TEMP, weatherReturned.getWeather()
             .getCurren_weather().get(0).getTemp());
     }

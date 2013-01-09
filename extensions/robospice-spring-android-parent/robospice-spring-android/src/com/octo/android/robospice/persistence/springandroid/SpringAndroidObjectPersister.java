@@ -1,15 +1,13 @@
-package com.octo.android.robospice.persistence.retrofit;
+package com.octo.android.robospice.persistence.springandroid;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.CharEncoding;
+import org.apache.commons.lang3.StringUtils;
 
-import retrofit.http.Converter;
-import retrofit.io.TypedBytes;
 import roboguice.util.temp.Ln;
 import android.app.Application;
 
@@ -17,23 +15,21 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
-public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
+public abstract class SpringAndroidObjectPersister<T> extends
+    InFileObjectPersister<T> {
 
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================
-
-    private final Converter converter;
 
     private String mFactoryPrefix;
 
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-    public RetrofitObjectPersister(Application application, Class<T> clazz,
-        String factoryPrefix, Converter converter) {
+    public SpringAndroidObjectPersister(Application application,
+        Class<T> clazz, String factoryPrefix) {
         super(application, clazz);
-        this.converter = converter;
         this.mFactoryPrefix = factoryPrefix;
     }
 
@@ -46,10 +42,11 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
         return mFactoryPrefix + super.getCachePrefix();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public final T loadDataFromCache(Object cacheKey,
-        long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
+    public T loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry)
+        throws CacheLoadingException {
+        T result = null;
+        String resultJson = null;
 
         File file = getCacheFile(cacheKey);
         if (file.exists()) {
@@ -57,15 +54,24 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
             if (maxTimeInCacheBeforeExpiry == 0
                 || timeInCache <= maxTimeInCacheBeforeExpiry) {
                 try {
-                    byte[] body = IOUtils.toByteArray(new FileReader(
-                        getCacheFile(cacheKey)), "utf-8");
-                    return (T) converter.to(body, getHandledClass());
+                    resultJson = FileUtils.readFileToString(file,
+                        CharEncoding.UTF_8);
+
+                    // finally transform json in object
+                    if (!StringUtils.isEmpty(resultJson)) {
+                        result = deserializeData(resultJson);
+                        return result;
+                    }
+                    throw new CacheLoadingException(
+                        "Unable to restore cache content : cache file is empty");
                 } catch (FileNotFoundException e) {
                     // Should not occur (we test before if file exists)
                     // Do not throw, file is not cached
                     Ln.w("file " + file.getAbsolutePath() + " does not exists",
                         e);
                     return null;
+                } catch (CacheLoadingException e) {
+                    throw e;
                 } catch (Exception e) {
                     throw new CacheLoadingException(e);
                 }
@@ -77,6 +83,9 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
         Ln.v("file " + file.getAbsolutePath() + " does not exists");
         return null;
     }
+
+    protected abstract T deserializeData(String json)
+        throws CacheLoadingException;
 
     @Override
     public T saveDataToCacheAndReturnData(final T data, final Object cacheKey)
@@ -110,18 +119,6 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
         return data;
     }
 
-    private void saveData(T data, Object cacheKey) throws IOException,
-        CacheSavingException {
-        // transform the content in json to store it in the cache
-        TypedBytes typedBytes = converter.from(data);
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(getCacheFile(cacheKey));
-            typedBytes.writeTo(out);
-        } finally {
-            if (out != null) {
-                out.close();
-            }
-        }
-    }
+    protected abstract void saveData(T data, Object cacheKey)
+        throws IOException, CacheSavingException;
 }

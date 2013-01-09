@@ -3,7 +3,6 @@ package com.octo.android.robospice.persistence.googlehttpclient.json;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import android.app.Application;
 import android.test.InstrumentationTestCase;
@@ -13,19 +12,17 @@ import com.octo.android.robospice.googlehttpclient.test.model.Curren_weather;
 import com.octo.android.robospice.googlehttpclient.test.model.Weather;
 import com.octo.android.robospice.googlehttpclient.test.model.WeatherResult;
 import com.octo.android.robospice.persistence.DurationInMillis;
-import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 @SmallTest
 public abstract class JsonObjectPersisterFactoryTest extends
     InstrumentationTestCase {
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
-    private static final int SAVE_TIMEOUT = 1000;
     private static final String TEST_TEMP_UNIT = "C";
     private static final String TEST_TEMP = "28";
     private static final String TEST_TEMP2 = "30";
     private static final String FILE_NAME = "toto";
     private static final String FILE_NAME2 = "tutu";
-    private InFileObjectPersister<WeatherResult> inFileObjectPersister;
+    private JsonObjectPersister<WeatherResult> inFileObjectPersister;
 
     @Override
     protected void setUp() throws Exception {
@@ -62,23 +59,6 @@ public abstract class JsonObjectPersisterFactoryTest extends
             .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
 
         // THEN
-        assertEquals(TEST_TEMP, weatherReturned.getWeather()
-            .getCurren_weather().get(0).getTemp());
-    }
-
-    public void test_saveDataAndReturnData_async() throws Exception {
-        // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
-            TEST_TEMP_UNIT);
-
-        // WHEN
-        inFileObjectPersister.setAsyncSaveEnabled(true);
-        WeatherResult weatherReturned = inFileObjectPersister
-            .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
-
-        // THEN
-        assertTrue(((JsonObjectPersister<?>) inFileObjectPersister)
-            .awaitForSaveAsyncTermination(SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         assertEquals(TEST_TEMP, weatherReturned.getWeather()
             .getCurren_weather().get(0).getTemp());
     }
@@ -124,8 +104,7 @@ public abstract class JsonObjectPersisterFactoryTest extends
 
         inFileObjectPersister.saveDataToCacheAndReturnData(
             weatherRequestStatus, FILE_NAME);
-        File cachedFile = ((JsonObjectPersister<?>) inFileObjectPersister)
-            .getCacheFile(FILE_NAME);
+        File cachedFile = inFileObjectPersister.getCacheFile(FILE_NAME);
         cachedFile.setLastModified(System.currentTimeMillis() - FIVE_SECONDS);
 
         // WHEN
@@ -232,4 +211,5 @@ public abstract class JsonObjectPersisterFactoryTest extends
         weatherRequestStatus.setWeather(weather);
         return weatherRequestStatus;
     }
+
 }

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.CharEncoding;
@@ -17,8 +16,6 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 
 @MediumTest
 public class InFileStringObjectPersisterTest extends InstrumentationTestCase {
-
-    private static final int SAVE_TIMEOUT = 1000;
 
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
 
@@ -39,24 +36,6 @@ public class InFileStringObjectPersisterTest extends InstrumentationTestCase {
         inFileStringObjectPersister.saveDataToCacheAndReturnData("coucou",
             TEST_CACHE_KEY);
 
-        File cachedFile = inFileStringObjectPersister
-            .getCacheFile(TEST_CACHE_KEY);
-        assertTrue(cachedFile.exists());
-
-        @SuppressWarnings("unchecked")
-        List<String> actual = IOUtils.readLines(
-            new FileInputStream(cachedFile), CharEncoding.UTF_8);
-        assertEquals(1, actual.size());
-        assertEquals("coucou", actual.get(0));
-    }
-
-    public void testSaveDataToCacheAndReturnData_async() throws Exception {
-        inFileStringObjectPersister.setAsyncSaveEnabled(true);
-        inFileStringObjectPersister.saveDataToCacheAndReturnData("coucou",
-            TEST_CACHE_KEY);
-
-        assertTrue(inFileStringObjectPersister.awaitForSaveAsyncTermination(SAVE_TIMEOUT,
-            TimeUnit.MILLISECONDS));
         File cachedFile = inFileStringObjectPersister
             .getCacheFile(TEST_CACHE_KEY);
         assertTrue(cachedFile.exists());

@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Application;
 
 import com.google.api.client.json.JsonFactory;
-import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 import com.octo.android.robospice.persistence.file.InFileObjectPersisterFactory;
 
 public abstract class JsonObjectPersisterFactory extends
@@ -26,9 +25,9 @@ public abstract class JsonObjectPersisterFactory extends
     }
 
     @Override
-    public <DATA> InFileObjectPersister<DATA> createObjectPersister(
+    public <DATA> JsonObjectPersister<DATA> createObjectPersister(
         Class<DATA> clazz) {
-        InFileObjectPersister<DATA> inFileObjectPersister = new JsonObjectPersister<DATA>(
+        JsonObjectPersister<DATA> inFileObjectPersister = new JsonObjectPersister<DATA>(
             getApplication(), clazz, getCachePrefix(), jsonFactory);
         inFileObjectPersister.setAsyncSaveEnabled(isAsyncSaveEnabled());
         return inFileObjectPersister;

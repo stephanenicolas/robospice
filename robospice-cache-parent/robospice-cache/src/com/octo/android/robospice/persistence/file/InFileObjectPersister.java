@@ -85,7 +85,7 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
         return getClass().getSimpleName() + CACHE_PREFIX_END;
     }
 
-    protected File getCacheFile(Object cacheKey) {
+    public File getCacheFile(Object cacheKey) {
         return new File(getCacheFolder(), getCachePrefix()
             + cacheKey.toString());
     }

@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import roboguice.util.temp.Ln;
 import android.app.Application;
@@ -85,7 +84,7 @@ public final class JsonObjectPersister<T> extends InFileObjectPersister<T> {
         throws CacheSavingException {
 
         try {
-            if (isAsyncSaveEnabled) {
+            if (isAsyncSaveEnabled()) {
                 Thread t = new Thread() {
                     @Override
                     public void run() {
@@ -97,14 +96,6 @@ public final class JsonObjectPersister<T> extends InFileObjectPersister<T> {
                         } catch (CacheSavingException e) {
                             Ln.e(e, "An error occured on saving request "
                                 + cacheKey + " data asynchronously");
-                        } finally {
-                            // notify that saving is finished for test purpose
-                            lock.lock();
-                            try {
-                                condition.signal();
-                            } finally {
-                                lock.unlock();
-                            }
                         }
                     };
                 };
@@ -128,25 +119,6 @@ public final class JsonObjectPersister<T> extends InFileObjectPersister<T> {
         jsonGenerator.serialize(data);
         jsonGenerator.flush();
         jsonGenerator.close();
-    }
-
-    /**
-     * for testing purpose only. Overriding allows to regive package level
-     * visibility.
-     */
-    @Override
-    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
-        throws InterruptedException {
-        return super.awaitForSaveAsyncTermination(time, timeUnit);
-    }
-
-    /**
-     * for testing purpose only. Overriding allows to regive package level
-     * visibility.
-     */
-    @Override
-    protected File getCacheFile(Object cacheKey) {
-        return super.getCacheFile(cacheKey);
     }
 
 }

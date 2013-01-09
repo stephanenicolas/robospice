@@ -3,7 +3,6 @@ package com.octo.android.robospice.persistence.string;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.CharEncoding;
@@ -15,8 +14,7 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
-public final class InFileStringObjectPersister extends
-    InFileObjectPersister<String> {
+public class InFileStringObjectPersister extends InFileObjectPersister<String> {
 
     public InFileStringObjectPersister(Application application) {
         super(application, String.class);
@@ -59,7 +57,7 @@ public final class InFileStringObjectPersister extends
         final Object cacheKey) throws CacheSavingException {
         Ln.v("Saving String " + data + " into cacheKey = " + cacheKey);
         try {
-            if (isAsyncSaveEnabled) {
+            if (isAsyncSaveEnabled()) {
 
                 Thread t = new Thread() {
                     @Override
@@ -70,16 +68,6 @@ public final class InFileStringObjectPersister extends
                         } catch (IOException e) {
                             Ln.e(e, "An error occured on saving request "
                                 + cacheKey + " data asynchronously");
-                        } finally {
-                            // notify that saving is
-                            // finished for test
-                            // purpose
-                            lock.lock();
-                            try {
-                                condition.signal();
-                            } finally {
-                                lock.unlock();
-                            }
                         }
                     };
                 };
@@ -93,21 +81,4 @@ public final class InFileStringObjectPersister extends
         }
         return data;
     }
-
-    /**
-     * for testing purpose only. Overriding allows to regive package level
-     * visibility.
-     */
-    @Override
-    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
-        throws InterruptedException {
-        return super.awaitForSaveAsyncTermination(time, timeUnit);
-    }
-
-    /* Overriden to regive permission to package. Just for testing. */
-    @Override
-    protected File getCacheFile(Object cacheKey) {
-        return super.getCacheFile(cacheKey);
-    }
-
 }

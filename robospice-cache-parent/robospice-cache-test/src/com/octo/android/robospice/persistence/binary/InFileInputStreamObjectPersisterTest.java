@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 
@@ -42,24 +41,6 @@ public class InFileInputStreamObjectPersisterTest extends
         inputStreamCacheManager.saveDataToCacheAndReturnData(
             new ByteArrayInputStream("coucou".getBytes()), TEST_CACHE_KEY);
 
-        File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
-        assertTrue(cachedFile.exists());
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        FileInputStream input = new FileInputStream(cachedFile);
-        IOUtils.copy(input, bos);
-        IOUtils.closeQuietly(input);
-
-        assertTrue(Arrays.equals("coucou".getBytes(), bos.toByteArray()));
-    }
-
-    public void testSaveDataToCacheAndReturnData_async() throws Exception {
-        inputStreamCacheManager.setAsyncSaveEnabled(true);
-        inputStreamCacheManager.saveDataToCacheAndReturnData(
-            new ByteArrayInputStream("coucou".getBytes()), TEST_CACHE_KEY);
-
-        assertTrue(inputStreamCacheManager.awaitForSaveAsyncTermination(
-            SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
         assertTrue(cachedFile.exists());
 

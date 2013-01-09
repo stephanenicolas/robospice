@@ -3,7 +3,6 @@ package com.octo.android.robospice.persistence.springandroid.xml;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import android.app.Application;
 import android.test.InstrumentationTestCase;
@@ -62,21 +61,6 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
             .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.xml");
 
         // THEN
-        assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));
-    }
-
-    public void test_saveDataAndReturnData_async() throws Exception {
-        // GIVEN
-        Weather weatherRequestStatus = buildWeather(TEST_TEMP);
-
-        // WHEN
-        dataPersistenceManager.setAsyncSaveEnabled(true);
-        Weather weatherReturned = dataPersistenceManager
-            .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.xml");
-
-        // THEN
-        assertTrue(((SimpleSerializerObjectPersister<?>) dataPersistenceManager)
-            .awaitForSaveAsyncTermination(SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));
     }
 

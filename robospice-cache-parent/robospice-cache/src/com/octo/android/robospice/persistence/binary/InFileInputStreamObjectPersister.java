@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -61,7 +60,7 @@ public class InFileInputStreamObjectPersister extends
         try {
             byteArray = IOUtils.toByteArray(data);
 
-            if (isAsyncSaveEnabled) {
+            if (isAsyncSaveEnabled()) {
                 Thread t = new Thread() {
 
                     @Override
@@ -72,16 +71,6 @@ public class InFileInputStreamObjectPersister extends
                         } catch (IOException e) {
                             Ln.e(e, "An error occured on saving request "
                                 + cacheKey + " data asynchronously");
-                        } finally {
-                            // notify that saving is
-                            // finished for test
-                            // purpose
-                            lock.lock();
-                            try {
-                                condition.signal();
-                            } finally {
-                                lock.unlock();
-                            }
                         }
                     };
                 };
@@ -106,21 +95,4 @@ public class InFileInputStreamObjectPersister extends
             return false;
         }
     }
-
-    /**
-     * for testing purpose only. Overriding allows to regive package level
-     * visibility.
-     */
-    @Override
-    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
-        throws InterruptedException {
-        return super.awaitForSaveAsyncTermination(time, timeUnit);
-    }
-
-    /* Overriden to regive permission to package. Just for testing. */
-    @Override
-    protected File getCacheFile(Object cacheKey) {
-        return super.getCacheFile(cacheKey);
-    }
-
 }
