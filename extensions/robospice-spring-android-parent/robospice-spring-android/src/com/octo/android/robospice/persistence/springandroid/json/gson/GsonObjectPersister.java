@@ -94,7 +94,7 @@ public final class GsonObjectPersister<T> extends InFileObjectPersister<T> {
 
         try {
             if (isAsyncSaveEnabled) {
-                new Thread() {
+                Thread t = new Thread() {
                     @Override
                     public void run() {
                         try {
@@ -115,7 +115,8 @@ public final class GsonObjectPersister<T> extends InFileObjectPersister<T> {
                             }
                         }
                     };
-                }.start();
+                };
+                t.start();
             } else {
                 saveData(data, cacheKey);
             }

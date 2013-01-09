@@ -4,10 +4,10 @@ import retrofit.http.RestAdapter;
 
 import com.octo.android.robospice.request.SpiceRequest;
 
-public abstract class RetrofitSpiceRequest< T > extends SpiceRequest< T > {
+public abstract class RetrofitSpiceRequest<T> extends SpiceRequest<T> {
 
-    public RetrofitSpiceRequest( Class< T > clazz ) {
-        super( clazz );
+    public RetrofitSpiceRequest(Class<T> clazz) {
+        super(clazz);
     }
 
     private RestAdapter.Builder restAdapterBuilder;
@@ -16,7 +16,7 @@ public abstract class RetrofitSpiceRequest< T > extends SpiceRequest< T > {
         return restAdapterBuilder;
     }
 
-    public void setRestAdapterBuilder( RestAdapter.Builder restAdapterBuilder ) {
+    public void setRestAdapterBuilder(RestAdapter.Builder restAdapterBuilder) {
         this.restAdapterBuilder = restAdapterBuilder;
     }
 

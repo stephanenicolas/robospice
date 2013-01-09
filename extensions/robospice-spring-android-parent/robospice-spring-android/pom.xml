@@ -13,10 +13,6 @@
 	<packaging>jar</packaging>
 	<name>Robospice - Extension Spring Android Module</name>
 
-	<properties>
-		<platform.version>2.1.2</platform.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.google.android</groupId>
@@ -52,50 +48,31 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<optional>true</optional>
-		</dependency>		
+		</dependency>
 	</dependencies>
 
 	<build>
 		<sourceDirectory>src/</sourceDirectory>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadoc</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<links>
-								<link>http://commons.apache.org/lang/api</link>
-								<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-							</links>
-							<noindex>private</noindex>
-							<nohelp>true</nohelp>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-source</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.github.github</groupId>

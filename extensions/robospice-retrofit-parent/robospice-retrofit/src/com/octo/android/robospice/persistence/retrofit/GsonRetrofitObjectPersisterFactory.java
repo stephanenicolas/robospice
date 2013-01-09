@@ -7,16 +7,18 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 
-public class GsonRetrofitObjectPersisterFactory extends RetrofitObjectPersisterFactory {
+public class GsonRetrofitObjectPersisterFactory extends
+    RetrofitObjectPersisterFactory {
 
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-    public GsonRetrofitObjectPersisterFactory( Application application, List< Class< ? >> listHandledClasses ) {
-        super( application, new GsonConverter( new Gson() ), listHandledClasses );
+    public GsonRetrofitObjectPersisterFactory(Application application,
+        List<Class<?>> listHandledClasses) {
+        super(application, new GsonConverter(new Gson()), listHandledClasses);
     }
 
-    public GsonRetrofitObjectPersisterFactory( Application application ) {
-        super( application, new GsonConverter( new Gson() ) );
+    public GsonRetrofitObjectPersisterFactory(Application application) {
+        super(application, new GsonConverter(new Gson()));
     }
 }

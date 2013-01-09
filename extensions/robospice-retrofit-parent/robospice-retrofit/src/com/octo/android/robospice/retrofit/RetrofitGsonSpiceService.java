@@ -13,21 +13,22 @@ import com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFa
 
 public class RetrofitGsonSpiceService extends RetrofitSpiceService {
 
-    private Converter converter = new GsonConverter( new Gson() );
+    private Converter converter = new GsonConverter(new Gson());
 
     @Override
     public RestAdapter.Builder createRestAdapterBuilder() {
         RestAdapter.Builder restAdapter = new RestAdapter.Builder()//
-                .setClient( new DefaultHttpClient() )//
-                .setConverter( converter );
+            .setClient(new DefaultHttpClient())//
+            .setConverter(converter);
 
         return restAdapter;
     }
 
     @Override
-    public CacheManager createCacheManager( Application application ) {
+    public CacheManager createCacheManager(Application application) {
         CacheManager cacheManager = new CacheManager();
-        cacheManager.addPersister( new RetrofitObjectPersisterFactory( application, converter ) );
+        cacheManager.addPersister(new RetrofitObjectPersisterFactory(
+            application, converter));
         return cacheManager;
     }
 

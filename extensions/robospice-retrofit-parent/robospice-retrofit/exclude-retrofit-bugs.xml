@@ -1,0 +1,7 @@
+<FindBugsFilter>
+  <Match>
+    <!-- Those bugs belong to goole http java client as of version 0.13-->
+    <Bug code="Dm"/>
+  </Match>
+</FindBugsFilter>
+
