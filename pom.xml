@@ -210,6 +210,10 @@
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.3.2</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
 				</plugin>
 				<plugin>
 					<artifactId>maven-deploy-plugin</artifactId>
@@ -219,18 +223,35 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>2.7</version>
-					<configuration>
-						<links>
-							<link>http://commons.apache.org/lang/api</link>
-							<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-						</links>
-					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadoc</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+							<configuration>
+								<links>
+									<link>http://commons.apache.org/lang/api</link>
+									<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+								</links>
+								<nohelp>true</nohelp>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 				<!-- extra config -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>2.1.2</version>
+					<executions>
+						<execution>
+							<id>attach-source</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 
 				<!-- deploy artifacts to github for downloads -->
@@ -257,14 +278,34 @@
 				</plugin>
 
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>2.9.1</version>
 					<configuration>
-						<!-- we are using the Sun Standard code style from the Maven Checkstyle 
-							Plugin -->
 						<configLocation>robospice_checks.xml</configLocation>
 						<enableRulesSummary>false</enableRulesSummary>
 					</configuration>
+					<executions>
+						<execution>
+							<phase>process-sources</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>findbugs-maven-plugin</artifactId>
+					<version>2.5.2</version>
+					<executions>
+						<execution>
+							<phase>verify</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 				<!-- deploy javadoc and maven site to github -->
 				<plugin>
