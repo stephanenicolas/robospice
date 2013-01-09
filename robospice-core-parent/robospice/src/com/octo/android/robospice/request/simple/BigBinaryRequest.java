@@ -9,6 +9,8 @@ import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 
+import roboguice.util.temp.Ln;
+
 /**
  * Downloads big images in size. All data is passed to the listener using file
  * system. This class is meant to help download big images. If you wish to
@@ -29,7 +31,12 @@ public class BigBinaryRequest extends BinaryRequest {
     public InputStream processStream(final int contentLength,
         final InputStream inputStream) throws IOException {
         // touch
-        cacheFile.setLastModified(System.currentTimeMillis());
+        boolean isTouchedNow = cacheFile.setLastModified(System
+            .currentTimeMillis());
+        if (!isTouchedNow) {
+            Ln.d("Modification time of file %s could not be changed normally ",
+                cacheFile.getAbsolutePath());
+        }
         final OutputStream fileOutputStream = new FileOutputStream(cacheFile);
         readBytes(inputStream, new ProgressByteProcessor(fileOutputStream,
             contentLength));

@@ -46,8 +46,6 @@ public abstract class SpiceService extends Service {
     private static final int DEFAULT_THREAD_COUNT = 1;
     private static final boolean DEFAULT_FAIL_ON_CACHE_ERROR = false;
 
-    private static boolean isStarted;
-
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================
@@ -81,7 +79,6 @@ public abstract class SpiceService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        SpiceService.isStarted = true;
 
         cacheManager = createCacheManager(getApplication());
         if (cacheManager == null) {
@@ -166,13 +163,8 @@ public abstract class SpiceService extends Service {
 
     @Override
     public void onDestroy() {
-        SpiceService.isStarted = false;
         Ln.d("SpiceService instance destroyed.");
         super.onDestroy();
-    }
-
-    public static boolean isStarted() {
-        return isStarted;
     }
 
     // ============================================================================================

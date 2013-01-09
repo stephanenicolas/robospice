@@ -62,8 +62,8 @@ public class SpiceManager implements Runnable {
     /** {@link SpiceService} binder. */
     private SpiceServiceConnection spiceServiceConnection = new SpiceServiceConnection();
 
-    /** The context used to bind to the service from. */
-    private WeakReference<Context> context;
+    /** The contextWeakReference used to bind to the service from. */
+    private WeakReference<Context> contextWeakReference;
 
     /**
      * Whether or not {@link SpiceManager} is started. Must be volatile to
@@ -139,13 +139,13 @@ public class SpiceManager implements Runnable {
     /**
      * Start the {@link SpiceManager}. It will bind asynchronously to the
      * {@link SpiceService}.
-     * @param context
-     *            a context that will be used to bind to the service. Typically,
-     *            the Activity or Fragment that needs to interact with the
-     *            {@link SpiceService}.
+     * @param contextWeakReference
+     *            a contextWeakReference that will be used to bind to the
+     *            service. Typically, the Activity or Fragment that needs to
+     *            interact with the {@link SpiceService}.
      */
     public synchronized void start(final Context context) {
-        this.context = new WeakReference<Context>(context);
+        this.contextWeakReference = new WeakReference<Context>(context);
         if (runner != null) {
             throw new IllegalStateException("Already started.");
         } else {
@@ -169,19 +169,18 @@ public class SpiceManager implements Runnable {
 
     @Override
     public void run() {
-        checkServiceIsProperlyDeclaredInAndroidManifest(context.get());
+        checkServiceIsProperlyDeclaredInAndroidManifest(contextWeakReference
+            .get());
         // start the service it is not started yet.
-        if (!SpiceService.isStarted()) {
-            if (context.get() != null) {
-                final Intent intent = new Intent(context.get(),
-                    spiceServiceClass);
-                context.get().startService(intent);
-            } else {
-                Ln.d("Service was not started as Activity died prematurely");
-            }
+        Context context = contextWeakReference.get();
+        if (context != null) {
+            final Intent intent = new Intent(context, spiceServiceClass);
+            context.startService(intent);
+        } else {
+            Ln.d("Service was not started as Activity died prematurely");
         }
 
-        bindToService(context.get());
+        bindToService(contextWeakReference.get());
 
         try {
             waitForServiceToBeBound();
@@ -190,29 +189,32 @@ public class SpiceManager implements Runnable {
             }
             while (!isStopped) {
                 try {
-                    final CachedSpiceRequest<?> spiceRequest = requestQueue
-                        .take();
-                    lockSendRequestsToService.lock();
-                    if (spiceRequest != null) {
-                        final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener
-                            .remove(spiceRequest);
-                        mapPendingRequestToRequestListener.put(spiceRequest,
-                            listRequestListener);
-                        Ln.d("Sending request to service : "
-                            + spiceRequest.getClass().getSimpleName());
-                        spiceService.addRequest(spiceRequest,
-                            listRequestListener);
-                    }
-                } finally {
-                    if (lockSendRequestsToService.isLocked()) {
-                        lockSendRequestsToService.unlock();
-                    }
+                    sendRequestToService(requestQueue.take());
+                } catch (final InterruptedException ex) {
+                    Ln.d(ex, "Interrupted while waiting for new request.");
                 }
             }
         } catch (final InterruptedException e) {
             Ln.d(e, "Interrupted while waiting for acquiring service.");
         } finally {
-            unbindFromService(context.get());
+            unbindFromService(contextWeakReference.get());
+        }
+    }
+
+    private void sendRequestToService(final CachedSpiceRequest<?> spiceRequest) {
+        lockSendRequestsToService.lock();
+        try {
+            if (spiceRequest != null) {
+                final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener
+                    .remove(spiceRequest);
+                mapPendingRequestToRequestListener.put(spiceRequest,
+                    listRequestListener);
+                Ln.d("Sending request to service : "
+                    + spiceRequest.getClass().getSimpleName());
+                spiceService.addRequest(spiceRequest, listRequestListener);
+            }
+        } finally {
+            lockSendRequestsToService.unlock();
         }
     }
 
@@ -230,12 +232,12 @@ public class SpiceManager implements Runnable {
         Ln.d("SpiceManager stopping.");
         dontNotifyAnyRequestListenersInternal();
         isUnbinding = false;
-        unbindFromService(context.get());
+        unbindFromService(contextWeakReference.get());
         spiceServiceConnection = null;
         this.isStopped = true;
         this.runner.interrupt();
         this.runner = null;
-        this.context.clear();
+        this.contextWeakReference.clear();
         Ln.d("SpiceManager stopped.");
     }
 
@@ -256,12 +258,12 @@ public class SpiceManager implements Runnable {
 
         Ln.d("SpiceManager stopping. Joining");
         dontNotifyAnyRequestListenersInternal();
-        unbindFromService(context.get());
+        unbindFromService(contextWeakReference.get());
         this.isStopped = true;
         this.runner.interrupt();
         this.runner.join(timeOut);
         this.runner = null;
-        this.context.clear();
+        this.contextWeakReference.clear();
         Ln.d("SpiceManager stopped.");
     }
 
