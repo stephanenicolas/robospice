@@ -14,10 +14,10 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
 public class InFileObjectPersisterTest extends InstrumentationTestCase {
 
     InFileObjectPersister<Object> inFileObjectPersister;
-    
+
     private static final String TEST_CACHE_KEY = "TEST_CACHE_KEY";
     private static final String TEST_CACHE_KEY2 = "TEST_CACHE_KEY2";
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();

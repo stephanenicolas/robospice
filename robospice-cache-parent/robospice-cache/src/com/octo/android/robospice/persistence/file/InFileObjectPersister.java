@@ -74,9 +74,9 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
 
         boolean allDeleted = true;
         for (File cacheFile : cacheFileList) {
-            allDeleted = allDeleted || cacheFile.delete();
+            allDeleted = cacheFile.delete() && allDeleted;
         }
-        if (allDeleted) {
+        if (allDeleted || cacheFileList.length == 0) {
             Ln.d("Some file could not be deleted from cache.");
         }
     }
