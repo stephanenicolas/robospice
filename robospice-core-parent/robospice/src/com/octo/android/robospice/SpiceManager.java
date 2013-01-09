@@ -189,8 +189,9 @@ public class SpiceManager implements Runnable {
                 return;
             }
             while (!isStopped) {
-                final CachedSpiceRequest<?> spiceRequest = requestQueue.take();
                 try {
+                    final CachedSpiceRequest<?> spiceRequest = requestQueue
+                        .take();
                     lockSendRequestsToService.lock();
                     if (spiceRequest != null) {
                         final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener
@@ -203,7 +204,9 @@ public class SpiceManager implements Runnable {
                             listRequestListener);
                     }
                 } finally {
-                    lockSendRequestsToService.unlock();
+                    if (lockSendRequestsToService.isLocked()) {
+                        lockSendRequestsToService.unlock();
+                    }
                 }
             }
         } catch (final InterruptedException e) {
