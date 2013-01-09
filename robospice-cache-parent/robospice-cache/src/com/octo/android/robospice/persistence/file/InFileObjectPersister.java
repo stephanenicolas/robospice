@@ -6,6 +6,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -71,8 +72,12 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
             }
         });
 
+        boolean allDeleted = true;
         for (File cacheFile : cacheFileList) {
-            cacheFile.delete();
+            allDeleted = allDeleted || cacheFile.delete();
+        }
+        if (allDeleted) {
+            Ln.d("Some file could not be deleted from cache.");
         }
     }
 

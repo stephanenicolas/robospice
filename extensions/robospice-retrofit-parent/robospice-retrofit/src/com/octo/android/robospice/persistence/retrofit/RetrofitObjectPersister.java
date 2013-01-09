@@ -18,7 +18,7 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
-public class RetrofitObjectPersister< T > extends InFileObjectPersister< T > {
+public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
 
     // ============================================================================================
     // ATTRIBUTES
@@ -31,8 +31,9 @@ public class RetrofitObjectPersister< T > extends InFileObjectPersister< T > {
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-    public RetrofitObjectPersister( Application application, Class< T > clazz, String factoryPrefix, Converter converter ) {
-        super( application, clazz );
+    public RetrofitObjectPersister(Application application, Class<T> clazz,
+        String factoryPrefix, Converter converter) {
+        super(application, clazz);
         this.converter = converter;
         this.mFactoryPrefix = factoryPrefix;
     }
@@ -48,80 +49,107 @@ public class RetrofitObjectPersister< T > extends InFileObjectPersister< T > {
 
     @SuppressWarnings("unchecked")
     @Override
-    public final T loadDataFromCache( Object cacheKey, long maxTimeInCacheBeforeExpiry ) throws CacheLoadingException {
+    public final T loadDataFromCache(Object cacheKey,
+        long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
 
-        File file = getCacheFile( cacheKey );
-        if ( file.exists() ) {
+        File file = getCacheFile(cacheKey);
+        if (file.exists()) {
             long timeInCache = System.currentTimeMillis() - file.lastModified();
-            if ( maxTimeInCacheBeforeExpiry == 0 || timeInCache <= maxTimeInCacheBeforeExpiry ) {
+            if (maxTimeInCacheBeforeExpiry == 0
+                || timeInCache <= maxTimeInCacheBeforeExpiry) {
                 try {
-                    byte[] body = IOUtils.toByteArray( new FileReader( getCacheFile( cacheKey ) ) );
-                    return (T) converter.to( body, getHandledClass() );
-                } catch ( FileNotFoundException e ) {
+                    byte[] body = IOUtils.toByteArray(new FileReader(
+                        getCacheFile(cacheKey)), "utf-8");
+                    return (T) converter.to(body, getHandledClass());
+                } catch (FileNotFoundException e) {
                     // Should not occur (we test before if file exists)
                     // Do not throw, file is not cached
-                    Ln.w( "file " + file.getAbsolutePath() + " does not exists", e );
+                    Ln.w("file " + file.getAbsolutePath() + " does not exists",
+                        e);
                     return null;
-                } catch ( Exception e ) {
-                    throw new CacheLoadingException( e );
+                } catch (Exception e) {
+                    throw new CacheLoadingException(e);
                 }
             }
-            Ln.v( "Cache content is expired since " + ( maxTimeInCacheBeforeExpiry - timeInCache ) );
+            Ln.v("Cache content is expired since "
+                + (maxTimeInCacheBeforeExpiry - timeInCache));
             return null;
         }
-        Ln.v( "file " + file.getAbsolutePath() + " does not exists" );
+        Ln.v("file " + file.getAbsolutePath() + " does not exists");
         return null;
     }
 
     @Override
-    public T saveDataToCacheAndReturnData( final T data, final Object cacheKey ) throws CacheSavingException {
+    public T saveDataToCacheAndReturnData(final T data, final Object cacheKey)
+        throws CacheSavingException {
 
         try {
-            if ( isAsyncSaveEnabled ) {
+            if (isAsyncSaveEnabled) {
                 new Thread() {
                     @Override
                     public void run() {
                         try {
-                            saveData( data, cacheKey );
-                        } catch ( IOException e ) {
-                            Ln.e( e, "An error occured on saving request " + cacheKey + " data asynchronously" );
-                        } catch ( CacheSavingException e ) {
-                            Ln.e( e, "An error occured on saving request " + cacheKey + " data asynchronously" );
+                            saveData(data, cacheKey);
+                        } catch (IOException e) {
+                            Ln.e(e, "An error occured on saving request "
+                                + cacheKey + " data asynchronously");
+                        } catch (CacheSavingException e) {
+                            Ln.e(e, "An error occured on saving request "
+                                + cacheKey + " data asynchronously");
                         } finally {
                             // notify that saving is finished for test purpose
                             lock.lock();
-                            condition.signal();
-                            lock.unlock();
+                            try {
+                                condition.signal();
+                            } finally {
+                                lock.unlock();
+                            }
                         }
                     };
                 }.start();
             } else {
-                saveData( data, cacheKey );
+                saveData(data, cacheKey);
             }
-        } catch ( CacheSavingException e ) {
+        } catch (CacheSavingException e) {
             throw e;
-        } catch ( Exception e ) {
-            throw new CacheSavingException( e );
+        } catch (Exception e) {
+            throw new CacheSavingException(e);
         }
         return data;
     }
 
-    private void saveData( T data, Object cacheKey ) throws IOException, CacheSavingException {
+    private void saveData(T data, Object cacheKey) throws IOException,
+        CacheSavingException {
         // transform the content in json to store it in the cache
-        TypedBytes typedBytes = converter.from( data );
-        typedBytes.writeTo( new FileOutputStream( getCacheFile( cacheKey ) ) );
+        TypedBytes typedBytes = converter.from(data);
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(getCacheFile(cacheKey));
+            typedBytes.writeTo(out);
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
     }
 
-    /** for testing purpose only. Overriding allows to regive package level visibility. */
+    /**
+     * for testing purpose only. Overriding allows to regive package level
+     * visibility.
+     */
     @Override
-    protected void awaitForSaveAsyncTermination( long time, TimeUnit timeUnit ) throws InterruptedException {
-        super.awaitForSaveAsyncTermination( time, timeUnit );
+    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
+        throws InterruptedException {
+        return super.awaitForSaveAsyncTermination(time, timeUnit);
     }
 
-    /** for testing purpose only. Overriding allows to regive package level visibility. */
+    /**
+     * for testing purpose only. Overriding allows to regive package level
+     * visibility.
+     */
     @Override
-    protected File getCacheFile( Object cacheKey ) {
-        return super.getCacheFile( cacheKey );
+    protected File getCacheFile(Object cacheKey) {
+        return super.getCacheFile(cacheKey);
     }
 
 }

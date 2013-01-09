@@ -90,8 +90,8 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
             .saveDataToCacheAndReturnData(weatherRequestStatus, 1);
 
         // THEN
-        ((InDatabaseObjectPersister<?, ?>) dataPersistenceManager)
-            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS);
+        assertFalse(((InDatabaseObjectPersister<?, ?>) dataPersistenceManager)
+            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS));
         assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));
     }
 

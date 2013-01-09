@@ -17,8 +17,7 @@ import com.octo.android.robospice.springandroid.test.model.xml.Wind;
 
 @SmallTest
 public class InFileWeatherPersisterTest extends InstrumentationTestCase {
-    private static final long FIVE_SECONDS = 5
-        * DurationInMillis.ONE_SECOND;
+    private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
     private InFileObjectPersister<Weather> dataPersistenceManager;
     private static final int FIVE_HUNDRED = 500;
     private static final String FILE_NAME = "toto";
@@ -76,8 +75,8 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
             .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.xml");
 
         // THEN
-        ((SimpleSerializerObjectPersister<?>) dataPersistenceManager)
-            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS);
+        assertTrue(((SimpleSerializerObjectPersister<?>) dataPersistenceManager)
+            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS));
         assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));
     }
 
@@ -133,7 +132,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         throws Exception {
         // GIVEN
         Weather weatherRequestStatus = buildWeather(TEST_TEMP);
-        
+
         dataPersistenceManager.saveDataToCacheAndReturnData(
             weatherRequestStatus, FILE_NAME);
 

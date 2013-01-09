@@ -78,8 +78,8 @@ public abstract class JsonObjectPersisterFactoryTest extends
             .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
 
         // THEN
-        ((JsonObjectPersister<?>) inFileObjectPersister)
-            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS);
+        assertTrue(((JsonObjectPersister<?>) inFileObjectPersister)
+            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS));
         assertEquals(TEST_TEMP, weatherReturned.getWeather()
             .getCurren_weather().get(0).getTemp());
     }

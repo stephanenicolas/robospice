@@ -77,8 +77,11 @@ public class InFileInputStreamObjectPersister extends
                             // finished for test
                             // purpose
                             lock.lock();
-                            condition.signal();
-                            lock.unlock();
+                            try {
+                                condition.signal();
+                            } finally {
+                                lock.unlock();
+                            }
                         }
                     };
                 };
@@ -109,9 +112,9 @@ public class InFileInputStreamObjectPersister extends
      * visibility.
      */
     @Override
-    protected void awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
+    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
         throws InterruptedException {
-        super.awaitForSaveAsyncTermination(time, timeUnit);
+        return super.awaitForSaveAsyncTermination(time, timeUnit);
     }
 
     /* Overriden to regive permission to package. Just for testing. */

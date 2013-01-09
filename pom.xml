@@ -162,6 +162,7 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<!-- Eclipse config -->
 				<!-- http://stackoverflow.com/questions/13040788/how-to-elimate-the-maven-enforcer-plugin-goal-enforce-is-ignored-by-m2e-wa -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
@@ -200,6 +201,7 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
+				<!-- Android config -->
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 					<artifactId>android-maven-plugin</artifactId>
@@ -224,6 +226,7 @@
 						</links>
 					</configuration>
 				</plugin>
+				<!-- extra config -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
@@ -300,6 +303,11 @@
 								<artifactId>maven-javadoc-plugin</artifactId>
 								<version>2.7</version>
 							</plugin>
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>findbugs-maven-plugin</artifactId>
+								<version>2.3.2</version>
+							</plugin>
 						</reportPlugins>
 					</configuration>
 				</plugin>
@@ -359,11 +367,16 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.9.1</version>
 				<configuration>
-						<!-- we are using the Sun Standard code style from the Maven Checkstyle 
-							Plugin -->
+					<!-- we are using the Sun Standard code style from the Maven Checkstyle 
+						Plugin -->
 					<configLocation>robospice_checks.xml</configLocation>
 					<enableRulesSummary>false</enableRulesSummary>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.3.2</version>
 			</plugin>
 		</plugins>
 	</reporting>

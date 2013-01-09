@@ -433,7 +433,7 @@ public class RequestProcessor {
         return cacheManager.saveDataToCacheAndReturnData(data, cacheKey);
     }
 
-    private class ProgressRunnable implements Runnable {
+    private static class ProgressRunnable implements Runnable {
         private final RequestProgress progress;
         private final Set<RequestListener<?>> listeners;
 
@@ -462,7 +462,7 @@ public class RequestProcessor {
         }
     }
 
-    private class ResultRunnable<T> implements Runnable {
+    private static class ResultRunnable<T> implements Runnable {
 
         private SpiceException spiceException;
         private T result;

@@ -55,8 +55,8 @@ public class InFileStringObjectPersisterTest extends InstrumentationTestCase {
         inFileStringObjectPersister.saveDataToCacheAndReturnData("coucou",
             TEST_CACHE_KEY);
 
-        inFileStringObjectPersister.awaitForSaveAsyncTermination(FIVE_HUNDRED,
-            TimeUnit.MILLISECONDS);
+        assertTrue(inFileStringObjectPersister.awaitForSaveAsyncTermination(FIVE_HUNDRED,
+            TimeUnit.MILLISECONDS));
         File cachedFile = inFileStringObjectPersister
             .getCacheFile(TEST_CACHE_KEY);
         assertTrue(cachedFile.exists());

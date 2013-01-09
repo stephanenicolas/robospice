@@ -47,7 +47,7 @@ public final class InFileBigInputStreamObjectPersister extends
     }
 
     @Override
-    protected void awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
+    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
         throws InterruptedException {
         throw new IllegalStateException(
             "Asynchronous saving operation not supported. Not possible to invoke this method neither.");

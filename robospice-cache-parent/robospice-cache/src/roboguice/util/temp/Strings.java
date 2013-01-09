@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.security.InvalidParameterException;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -87,7 +88,7 @@ public final class Strings {
 
     public static String toString(InputStream input) {
         StringWriter sw = new StringWriter();
-        copy(new InputStreamReader(input), sw);
+        copy(new InputStreamReader(input, Charset.forName("UTF-8")), sw);
         return sw.toString();
     }
 
@@ -199,8 +200,8 @@ public final class Strings {
 
     public static String namedFormat(String str,
         Map<String, String> substitutions) {
-        for (String key : substitutions.keySet()) {
-            str = str.replace('$' + key, substitutions.get(key));
+        for (Map.Entry<String, String> entry : substitutions.entrySet()) {
+            str = str.replace('$' + entry.getKey(), entry.getValue());
         }
 
         return str;

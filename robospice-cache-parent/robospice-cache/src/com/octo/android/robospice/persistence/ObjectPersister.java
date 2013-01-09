@@ -83,10 +83,13 @@ public abstract class ObjectPersister<T> implements Persister {
         this.isAsyncSaveEnabled = isAsyncSaveEnabled;
     }
 
-    protected void awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
+    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
         throws InterruptedException {
         lock.lock();
-        condition.await(time, timeUnit);
-        lock.unlock();
+        try {
+            return condition.await(time, timeUnit);
+        } finally {
+            lock.unlock();
+        }
     }
 }

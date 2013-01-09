@@ -37,11 +37,11 @@ import com.octo.android.robospice.request.listener.RequestListener;
  * They are tied to activities and obtain a local binding to the
  * {@link SpiceService}. When binding occurs, the {@link SpiceManager} will send
  * commadnds to the {@link SpiceService}, to execute requests, clear cache,
- * prevent listeners from beeing called and so on. Basically, all features of
- * the {@link SpiceService} are accessible from the {@link SpiceManager}. It
- * acts as an asynchronous proxy : every call to a {@link SpiceService} method
- * is asynchronous and will occur as soon as possible when the
- * {@link SpiceManager} successfully binds to the service.
+ * prevent listeners from being called and so on. Basically, all features of the
+ * {@link SpiceService} are accessible from the {@link SpiceManager}. It acts as
+ * an asynchronous proxy : every call to a {@link SpiceService} method is
+ * asynchronous and will occur as soon as possible when the {@link SpiceManager}
+ * successfully binds to the service.
  * @author jva
  * @author sni
  * @author mwa
@@ -49,7 +49,8 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 /*
  * Note to maintainers : This class is quite complex and requires background
- * knowledge in multi-threading & local service binding in android.
+ * knowledge in multi-threading & local service binding in android. Thx to Henri
+ * Tremblay (from EasyMock) for his happy code review.
  */
 public class SpiceManager implements Runnable {
 
@@ -64,8 +65,11 @@ public class SpiceManager implements Runnable {
     /** The context used to bind to the service from. */
     private WeakReference<Context> context;
 
-    /** Wether or not {@link SpiceManager} is started. */
-    private boolean isStopped = true;
+    /**
+     * Whether or not {@link SpiceManager} is started. Must be volatile to
+     * ensure multi-thread consistency.
+     */
+    private volatile boolean isStopped = true;
 
     /** The queue of requests to be sent to the service. */
     private final BlockingQueue<CachedSpiceRequest<?>> requestQueue = new LinkedBlockingQueue<CachedSpiceRequest<?>>();
@@ -76,6 +80,7 @@ public class SpiceManager implements Runnable {
      */
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToLaunchToRequestListener = Collections
         .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
+
     /**
      * The list of all requests that have already been passed to the service.
      * All iterations must be synchronized.
@@ -87,7 +92,7 @@ public class SpiceManager implements Runnable {
         .newSingleThreadExecutor();
 
     /**
-     * Lock used to synchronize binding to / unbing from the
+     * Lock used to synchronize binding to / unbinding from the
      * {@link SpiceService}.
      */
     private final ReentrantLock lockAcquireService = new ReentrantLock();
@@ -110,8 +115,11 @@ public class SpiceManager implements Runnable {
     /** Reacts to service processing of requests. */
     private final RequestRemoverSpiceServiceListener removerSpiceServiceListener = new RequestRemoverSpiceServiceListener();
 
-    /** Whether or not we are unbinding (to prevent unbinding twice. */
-    private boolean isUnbinding = false;
+    /**
+     * Whether or not we are unbinding (to prevent unbinding twice. Must be
+     * volatile to ensure multi-thread consistency.
+     */
+    private volatile boolean isUnbinding = false;
 
     // ============================================================================================
     // THREAD BEHAVIOR
@@ -164,22 +172,28 @@ public class SpiceManager implements Runnable {
         checkServiceIsProperlyDeclaredInAndroidManifest(context.get());
         // start the service it is not started yet.
         if (!SpiceService.isStarted()) {
-            final Intent intent = new Intent(context.get(), spiceServiceClass);
-            context.get().startService(intent);
+            if (context.get() != null) {
+                final Intent intent = new Intent(context.get(),
+                    spiceServiceClass);
+                context.get().startService(intent);
+            } else {
+                Ln.d("Service was not started as Activity died prematurely");
+            }
         }
 
         bindToService(context.get());
 
         try {
             waitForServiceToBeBound();
+            if (spiceService == null) {
+                return;
+            }
             while (!isStopped) {
                 final CachedSpiceRequest<?> spiceRequest = requestQueue.take();
                 try {
                     lockSendRequestsToService.lock();
                     if (spiceRequest != null) {
                         final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener
-                            .get(spiceRequest);
-                        mapRequestToLaunchToRequestListener
                             .remove(spiceRequest);
                         mapPendingRequestToRequestListener.put(spiceRequest,
                             listRequestListener);
@@ -423,7 +437,7 @@ public class SpiceManager implements Runnable {
      * {@link SpiceService} if the request has already been sent to the service.
      * Otherwise, it will just remove listeners before passing the request to
      * the {@link SpiceService}. Calling this method doesn't prevent request
-     * from beeing executed (and put in cache) but will remove request's
+     * from being executed (and put in cache) but will remove request's
      * listeners notification.
      * @param request
      *            Request for which listeners are to unregistered.
@@ -441,8 +455,8 @@ public class SpiceManager implements Runnable {
     /**
      * Internal method to remove requests. If request has not been passed to the
      * {@link SpiceService} yet, all listeners are unregistered locally before
-     * beeing passed to the service. Otherwise, it will asynchronously ask to
-     * the {@link SpiceService} to remove the listeners of the request beeing
+     * being passed to the service. Otherwise, it will asynchronously ask to the
+     * {@link SpiceService} to remove the listeners of the request being
      * processed.
      * @param request
      *            Request for which listeners are to unregistered.
@@ -465,7 +479,7 @@ public class SpiceManager implements Runnable {
             }
 
         } catch (final InterruptedException e) {
-            e.printStackTrace();
+            Ln.e(e, "Interrupted while removing listeners.");
         } finally {
             lockSendRequestsToService.unlock();
         }
@@ -554,7 +568,7 @@ public class SpiceManager implements Runnable {
 
             removeListenersOfAllPendingCachedRequests();
         } catch (final InterruptedException e) {
-            e.printStackTrace();
+            Ln.e(e, "Interrupted while removing listeners.");
         } finally {
             lockSendRequestsToService.unlock();
         }
@@ -819,9 +833,7 @@ public class SpiceManager implements Runnable {
                 this.mapRequestToLaunchToRequestListener.put(
                     cachedSpiceRequest, listeners);
             }
-            if (!listeners.contains(requestListener)) {
-                listeners.add(requestListener);
-            }
+            listeners.add(requestListener);
         }
 
     }
@@ -838,8 +850,8 @@ public class SpiceManager implements Runnable {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
+                lockSendRequestsToService.lock();
                 try {
-                    lockSendRequestsToService.lock();
                     final StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("[SpiceManager : ");
 
@@ -875,9 +887,8 @@ public class SpiceManager implements Runnable {
         @Override
         public void onServiceConnected(final ComponentName name,
             final IBinder service) {
+            lockAcquireService.lock();
             try {
-                lockAcquireService.lock();
-
                 spiceService = ((SpiceServiceBinder) service).getSpiceService();
                 spiceService
                     .addSpiceServiceListener(new RequestRemoverSpiceServiceListener());
@@ -892,10 +903,9 @@ public class SpiceManager implements Runnable {
         /** Called only for unexpected unbinding. */
         @Override
         public void onServiceDisconnected(final ComponentName name) {
+            lockAcquireService.lock();
             try {
-                Ln.d("Unbound from service start");
-                lockAcquireService.lock();
-                Ln.d("Unbound from service : "
+                Ln.d("Unbound from service start : "
                     + spiceService.getClass().getSimpleName());
                 spiceService = null;
                 isUnbinding = false;

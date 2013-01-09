@@ -38,25 +38,25 @@ public final class Ln {
      * replaced by BaseConfig(ContextSingleton) during guice static injection
      * pass.
      */
-    protected static BaseConfig config = new BaseConfig();
+    private static final BaseConfig CONFIG = new BaseConfig();
 
     /**
      * print is initially set to Print(), then replaced by guice during static
      * injection pass. This allows overriding where the log message is delivered
      * to.
      */
-    protected static Print print = new Print();
+    private static Print print = new Print();
 
     private Ln() {
     }
 
     public static int v(Throwable t) {
-        return config.minimumLogLevel <= Log.VERBOSE ? print.println(
+        return CONFIG.minimumLogLevel <= Log.VERBOSE ? print.println(
             Log.VERBOSE, Log.getStackTraceString(t)) : 0;
     }
 
     public static int v(Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.VERBOSE) {
+        if (CONFIG.minimumLogLevel > Log.VERBOSE) {
             return 0;
         }
 
@@ -66,7 +66,7 @@ public final class Ln {
     }
 
     public static int v(Throwable throwable, Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.VERBOSE) {
+        if (CONFIG.minimumLogLevel > Log.VERBOSE) {
             return 0;
         }
 
@@ -77,12 +77,12 @@ public final class Ln {
     }
 
     public static int d(Throwable t) {
-        return config.minimumLogLevel <= Log.DEBUG ? print.println(Log.DEBUG,
+        return CONFIG.minimumLogLevel <= Log.DEBUG ? print.println(Log.DEBUG,
             Log.getStackTraceString(t)) : 0;
     }
 
     public static int d(Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.DEBUG) {
+        if (CONFIG.minimumLogLevel > Log.DEBUG) {
             return 0;
         }
 
@@ -92,7 +92,7 @@ public final class Ln {
     }
 
     public static int d(Throwable throwable, Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.DEBUG) {
+        if (CONFIG.minimumLogLevel > Log.DEBUG) {
             return 0;
         }
 
@@ -103,12 +103,12 @@ public final class Ln {
     }
 
     public static int i(Throwable t) {
-        return config.minimumLogLevel <= Log.INFO ? print.println(Log.INFO,
+        return CONFIG.minimumLogLevel <= Log.INFO ? print.println(Log.INFO,
             Log.getStackTraceString(t)) : 0;
     }
 
     public static int i(Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.INFO) {
+        if (CONFIG.minimumLogLevel > Log.INFO) {
             return 0;
         }
 
@@ -118,7 +118,7 @@ public final class Ln {
     }
 
     public static int i(Throwable throwable, Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.INFO) {
+        if (CONFIG.minimumLogLevel > Log.INFO) {
             return 0;
         }
 
@@ -129,12 +129,12 @@ public final class Ln {
     }
 
     public static int w(Throwable t) {
-        return config.minimumLogLevel <= Log.WARN ? print.println(Log.WARN,
+        return CONFIG.minimumLogLevel <= Log.WARN ? print.println(Log.WARN,
             Log.getStackTraceString(t)) : 0;
     }
 
     public static int w(Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.WARN) {
+        if (CONFIG.minimumLogLevel > Log.WARN) {
             return 0;
         }
 
@@ -144,7 +144,7 @@ public final class Ln {
     }
 
     public static int w(Throwable throwable, Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.WARN) {
+        if (CONFIG.minimumLogLevel > Log.WARN) {
             return 0;
         }
 
@@ -155,12 +155,12 @@ public final class Ln {
     }
 
     public static int e(Throwable t) {
-        return config.minimumLogLevel <= Log.ERROR ? print.println(Log.ERROR,
+        return CONFIG.minimumLogLevel <= Log.ERROR ? print.println(Log.ERROR,
             Log.getStackTraceString(t)) : 0;
     }
 
     public static int e(Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.ERROR) {
+        if (CONFIG.minimumLogLevel > Log.ERROR) {
             return 0;
         }
 
@@ -170,7 +170,7 @@ public final class Ln {
     }
 
     public static int e(Throwable throwable, Object s1, Object... args) {
-        if (config.minimumLogLevel > Log.ERROR) {
+        if (CONFIG.minimumLogLevel > Log.ERROR) {
             return 0;
         }
 
@@ -181,16 +181,16 @@ public final class Ln {
     }
 
     public static boolean isDebugEnabled() {
-        return config.minimumLogLevel <= Log.DEBUG;
+        return CONFIG.minimumLogLevel <= Log.DEBUG;
     }
 
     public static boolean isVerboseEnabled() {
-        return config.minimumLogLevel <= Log.VERBOSE;
+        return CONFIG.minimumLogLevel <= Log.VERBOSE;
     }
 
     public static Config getConfig() {
 
-        return config;
+        return CONFIG;
     }
 
     public interface Config {
@@ -253,7 +253,7 @@ public final class Ln {
         }
 
     }
-    
+
     public static void setPrint(Print print) {
         Ln.print = print;
     }
@@ -267,7 +267,7 @@ public final class Ln {
         }
 
         protected String processMessage(String msg) {
-            if (config.minimumLogLevel <= Log.DEBUG) {
+            if (CONFIG.minimumLogLevel <= Log.DEBUG) {
                 msg = String.format("%s %s %s", new SimpleDateFormat(
                     "HH:mm:ss.SSS").format(System.currentTimeMillis()), Thread
                     .currentThread().getName(), msg);
@@ -276,14 +276,14 @@ public final class Ln {
         }
 
         protected static String getScope() {
-            if (config.minimumLogLevel <= Log.DEBUG) {
+            if (CONFIG.minimumLogLevel <= Log.DEBUG) {
                 final StackTraceElement trace = Thread.currentThread()
                     .getStackTrace()[DEFAULT_STACK_TRACE_LINE_COUNT];
-                return config.scope + "/" + trace.getFileName() + ":"
+                return CONFIG.scope + "/" + trace.getFileName() + ":"
                     + trace.getLineNumber();
             }
 
-            return config.scope;
+            return CONFIG.scope;
         }
 
     }

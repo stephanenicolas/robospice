@@ -47,8 +47,8 @@ public final class JsonObjectPersister<T> extends InFileObjectPersister<T> {
     }
 
     @Override
-    public T loadDataFromCache(Object cacheKey,
-        long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
+    public T loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry)
+        throws CacheLoadingException {
         T result = null;
 
         File file = getCacheFile(cacheKey);
@@ -100,11 +100,14 @@ public final class JsonObjectPersister<T> extends InFileObjectPersister<T> {
                         } finally {
                             // notify that saving is finished for test purpose
                             lock.lock();
-                            condition.signal();
-                            lock.unlock();
+                            try {
+                                condition.signal();
+                            } finally {
+                                lock.unlock();
+                            }
                         }
                     };
-                } .start();
+                }.start();
             } else {
                 saveData(data, cacheKey);
             }
@@ -131,9 +134,9 @@ public final class JsonObjectPersister<T> extends InFileObjectPersister<T> {
      * visibility.
      */
     @Override
-    protected void awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
+    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
         throws InterruptedException {
-        super.awaitForSaveAsyncTermination(time, timeUnit);
+        return super.awaitForSaveAsyncTermination(time, timeUnit);
     }
 
     /**

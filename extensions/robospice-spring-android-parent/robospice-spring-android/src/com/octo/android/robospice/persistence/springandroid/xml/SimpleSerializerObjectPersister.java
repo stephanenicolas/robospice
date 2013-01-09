@@ -110,11 +110,14 @@ public final class SimpleSerializerObjectPersister<T> extends
                         } finally {
                             // notify that saving is finished for test purpose
                             lock.lock();
-                            condition.signal();
-                            lock.unlock();
+                            try {
+                                condition.signal();
+                            } finally {
+                                lock.unlock();
+                            }
                         }
                     };
-                } .start();
+                }.start();
             } else {
                 saveData(data, cacheKey);
             }
@@ -141,9 +144,9 @@ public final class SimpleSerializerObjectPersister<T> extends
      * visibility.
      */
     @Override
-    protected void awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
+    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
         throws InterruptedException {
-        super.awaitForSaveAsyncTermination(time, timeUnit);
+        return super.awaitForSaveAsyncTermination(time, timeUnit);
     }
 
     /**

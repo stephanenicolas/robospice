@@ -81,7 +81,7 @@ public abstract class SpiceService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        isStarted = true;
+        SpiceService.isStarted = true;
 
         cacheManager = createCacheManager(getApplication());
         if (cacheManager == null) {
@@ -166,9 +166,9 @@ public abstract class SpiceService extends Service {
 
     @Override
     public void onDestroy() {
+        SpiceService.isStarted = false;
         Ln.d("SpiceService instance destroyed.");
         super.onDestroy();
-        isStarted = false;
     }
 
     public static boolean isStarted() {

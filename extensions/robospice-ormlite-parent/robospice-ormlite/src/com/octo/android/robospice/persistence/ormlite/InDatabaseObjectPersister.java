@@ -153,8 +153,7 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     protected <E> void saveAllForeignObjectsToCache(E data)
-        throws SQLException, IllegalAccessException,
-        InvocationTargetException {
+        throws SQLException, IllegalAccessException, InvocationTargetException {
         // copy children on memory
         // set children to null on parents so that we can save the parent
         // without cascade
@@ -211,8 +210,9 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
 
         // recursive call on children
         // we now saved the parent and can fill the foreign key of the children
-        for (Field field : mapFieldToCollection.keySet()) {
-            Collection<?> collection = mapFieldToCollection.get(field);
+        for (Map.Entry<Field, Collection<?>> entry : mapFieldToCollection
+            .entrySet()) {
+            Collection<?> collection = entry.getValue();
             // re-set complete children to the parent
             ConnectionSource connectionSource = databaseHelper
                 .getConnectionSource();
@@ -306,9 +306,9 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
      * visibility.
      */
     @Override
-    protected void awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
+    protected boolean awaitForSaveAsyncTermination(long time, TimeUnit timeUnit)
         throws InterruptedException {
-        super.awaitForSaveAsyncTermination(time, timeUnit);
+        return super.awaitForSaveAsyncTermination(time, timeUnit);
     }
 
 }

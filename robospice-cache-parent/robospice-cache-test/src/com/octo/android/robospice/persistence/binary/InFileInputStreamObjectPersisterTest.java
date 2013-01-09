@@ -59,8 +59,8 @@ public class InFileInputStreamObjectPersisterTest extends
         inputStreamCacheManager.saveDataToCacheAndReturnData(
             new ByteArrayInputStream("coucou".getBytes()), TEST_CACHE_KEY);
 
-        inputStreamCacheManager.awaitForSaveAsyncTermination(FIVE_HUNDRED,
-            TimeUnit.MILLISECONDS);
+        assertTrue(inputStreamCacheManager.awaitForSaveAsyncTermination(FIVE_HUNDRED,
+            TimeUnit.MILLISECONDS));
         File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
         assertTrue(cachedFile.exists());
 

@@ -5,13 +5,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
 /**
  * An entity responsible for loading/saving data from/to cache. It implements a
- * Chain of Responsability pattern, delegating loading and saving operations to
+ * Chain of Responsibility pattern, delegating loading and saving operations to
  * {@link ObjectPersister} or {@link ObjectPersisterFactory} elements. The chain
  * of responsibility is ordered. This means that the order used to register
  * elements matters. All elements in the chain of responsibility are questioned
@@ -19,9 +20,14 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
  * will be used to persist data of this class.
  * @author sni
  */
+/*
+ * Note to maintainers : concurrency must be taken care of as persister can be
+ * created by factories at any time. Thx to Henri Tremblay from EasyMock for
+ * peer review and concurrency checks.
+ */
 public class CacheManager implements ICacheManager {
 
-    /** The Chain of Responsability list of all {@link Persister}. */
+    /** The Chain of Responsibility list of all {@link Persister}. */
     private Collection<Persister> listPersister = new ArrayList<Persister>();
     private Map<ObjectPersisterFactory, List<ObjectPersister<?>>> mapFactoryToPersister = new HashMap<ObjectPersisterFactory, List<ObjectPersister<?>>>();
 
@@ -30,8 +36,10 @@ public class CacheManager implements ICacheManager {
     public void addPersister(Persister persister) {
         listPersister.add(persister);
         if (persister instanceof ObjectPersisterFactory) {
+            // will lead the list to be copied whenever we add a persister to it
+            // but there won't be any overhead while iterating through the list.
             mapFactoryToPersister.put((ObjectPersisterFactory) persister,
-                new ArrayList<ObjectPersister<?>>());
+                new CopyOnWriteArrayList<ObjectPersister<?>>());
         } else if (!(persister instanceof ObjectPersister)) {
             throw new RuntimeException(getClass().getSimpleName()
                 + " only supports " + ObjectPersister.class.getSimpleName()
@@ -101,9 +109,9 @@ public class CacheManager implements ICacheManager {
                 ((ObjectPersister<?>) persister).removeAllDataFromCache();
             } else if (persister instanceof ObjectPersisterFactory) {
                 ObjectPersisterFactory factory = (ObjectPersisterFactory) persister;
-                List<ObjectPersister<?>> listPersister = mapFactoryToPersister
+                List<ObjectPersister<?>> listPersisterForFactory = mapFactoryToPersister
                     .get(factory);
-                for (ObjectPersister<?> objectPersister : listPersister) {
+                for (ObjectPersister<?> objectPersister : listPersisterForFactory) {
                     objectPersister.removeAllDataFromCache();
                 }
             }
@@ -116,20 +124,22 @@ public class CacheManager implements ICacheManager {
             if (persister.canHandleClass(clazz)) {
                 if (persister instanceof ObjectPersister) {
                     return (ObjectPersister<T>) persister;
-                } else if (persister instanceof ObjectPersisterFactory) {
+                }
+
+                if (persister instanceof ObjectPersisterFactory) {
                     ObjectPersisterFactory factory = (ObjectPersisterFactory) persister;
-                    List<ObjectPersister<?>> listPersister = null;
 
                     if (factory.canHandleClass(clazz)) {
-                        listPersister = mapFactoryToPersister.get(factory);
-                        for (ObjectPersister<?> objectPersister : listPersister) {
+                        List<ObjectPersister<?>> listPersisterForFactory = mapFactoryToPersister
+                            .get(factory);
+                        for (ObjectPersister<?> objectPersister : listPersisterForFactory) {
                             if (objectPersister.canHandleClass(clazz)) {
                                 return (ObjectPersister<T>) objectPersister;
                             }
                         }
                         ObjectPersister<T> newPersister = factory
                             .createObjectPersister(clazz);
-                        listPersister.add(newPersister);
+                        listPersisterForFactory.add(newPersister);
                         return newPersister;
                     }
                 }
