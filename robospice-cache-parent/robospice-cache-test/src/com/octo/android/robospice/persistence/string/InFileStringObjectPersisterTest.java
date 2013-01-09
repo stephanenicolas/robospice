@@ -18,7 +18,7 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 @MediumTest
 public class InFileStringObjectPersisterTest extends InstrumentationTestCase {
 
-    private static final int FIVE_HUNDRED = 500;
+    private static final int SAVE_TIMEOUT = 1000;
 
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
 
@@ -55,7 +55,7 @@ public class InFileStringObjectPersisterTest extends InstrumentationTestCase {
         inFileStringObjectPersister.saveDataToCacheAndReturnData("coucou",
             TEST_CACHE_KEY);
 
-        assertTrue(inFileStringObjectPersister.awaitForSaveAsyncTermination(FIVE_HUNDRED,
+        assertTrue(inFileStringObjectPersister.awaitForSaveAsyncTermination(SAVE_TIMEOUT,
             TimeUnit.MILLISECONDS));
         File cachedFile = inFileStringObjectPersister
             .getCacheFile(TEST_CACHE_KEY);

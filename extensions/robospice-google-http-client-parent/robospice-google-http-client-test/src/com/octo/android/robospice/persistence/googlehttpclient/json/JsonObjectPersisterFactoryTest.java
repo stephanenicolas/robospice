@@ -18,9 +18,8 @@ import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 @SmallTest
 public abstract class JsonObjectPersisterFactoryTest extends
     InstrumentationTestCase {
-    private static final long FIVE_SECONDS = 5
-        * DurationInMillis.ONE_SECOND;
-    private static final int FIVE_HUNDRED = 500;
+    private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
+    private static final int SAVE_TIMEOUT = 1000;
     private static final String TEST_TEMP_UNIT = "C";
     private static final String TEST_TEMP = "28";
     private static final String TEST_TEMP2 = "30";
@@ -79,7 +78,7 @@ public abstract class JsonObjectPersisterFactoryTest extends
 
         // THEN
         assertTrue(((JsonObjectPersister<?>) inFileObjectPersister)
-            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS));
+            .awaitForSaveAsyncTermination(SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         assertEquals(TEST_TEMP, weatherReturned.getWeather()
             .getCurren_weather().get(0).getTemp());
     }
@@ -88,7 +87,7 @@ public abstract class JsonObjectPersisterFactoryTest extends
         // GIVEN
         WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
             TEST_TEMP_UNIT);
-        
+
         inFileObjectPersister.saveDataToCacheAndReturnData(
             weatherRequestStatus, FILE_NAME);
 
@@ -122,7 +121,7 @@ public abstract class JsonObjectPersisterFactoryTest extends
         // GIVEN
         WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP2,
             TEST_TEMP_UNIT);
-        
+
         inFileObjectPersister.saveDataToCacheAndReturnData(
             weatherRequestStatus, FILE_NAME);
         File cachedFile = ((JsonObjectPersister<?>) inFileObjectPersister)

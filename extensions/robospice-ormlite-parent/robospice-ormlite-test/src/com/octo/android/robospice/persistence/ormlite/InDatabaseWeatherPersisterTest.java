@@ -19,7 +19,7 @@ import com.octo.android.robospice.persistence.ObjectPersister;
 
 @SmallTest
 public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
-    private static final int FIVE_HUNDRED = 500;
+    private static final int SAVE_TIMEOUT = 1000;
     private ObjectPersister<Weather> dataPersistenceManager;
     private static final Curren_weather TEST_TEMP = new Curren_weather();
     private static final Curren_weather TEST_TEMP2 = new Curren_weather();
@@ -91,7 +91,7 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
 
         // THEN
         assertFalse(((InDatabaseObjectPersister<?, ?>) dataPersistenceManager)
-            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS));
+            .awaitForSaveAsyncTermination(SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));
     }
 

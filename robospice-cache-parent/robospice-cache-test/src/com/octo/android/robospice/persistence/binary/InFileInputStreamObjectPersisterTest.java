@@ -21,10 +21,9 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 public class InFileInputStreamObjectPersisterTest extends
     InstrumentationTestCase {
 
-    private static final int FIVE_HUNDRED = 500;
+    private static final int SAVE_TIMEOUT = 1000;
 
-    private static final long FIVE_SECONDS = 5
-        * DurationInMillis.ONE_SECOND;
+    private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
 
     private static final String TEST_CACHE_KEY = "TEST_CACHE_KEY";
 
@@ -59,8 +58,8 @@ public class InFileInputStreamObjectPersisterTest extends
         inputStreamCacheManager.saveDataToCacheAndReturnData(
             new ByteArrayInputStream("coucou".getBytes()), TEST_CACHE_KEY);
 
-        assertTrue(inputStreamCacheManager.awaitForSaveAsyncTermination(FIVE_HUNDRED,
-            TimeUnit.MILLISECONDS));
+        assertTrue(inputStreamCacheManager.awaitForSaveAsyncTermination(
+            SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
         assertTrue(cachedFile.exists());
 

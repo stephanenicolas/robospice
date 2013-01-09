@@ -18,7 +18,7 @@ import com.octo.android.robospice.springandroid.test.model.json.WeatherResult;
 @SmallTest
 public class InFileWeatherPersisterTest extends InstrumentationTestCase {
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
-    private static final int FIVE_HUNDRED = 500;
+    private static final int SAVE_TIMEOUT = 1000;
     private static final String TEST_TEMP_UNIT = "C";
     private static final String TEST_TEMP = "28";
     private static final String TEST_TEMP2 = "30";
@@ -75,7 +75,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
 
         // THEN
         assertTrue(((JacksonObjectPersister<?>) dataPersistenceManager)
-            .awaitForSaveAsyncTermination(FIVE_HUNDRED, TimeUnit.MILLISECONDS));
+            .awaitForSaveAsyncTermination(SAVE_TIMEOUT, TimeUnit.MILLISECONDS));
         assertEquals(TEST_TEMP, weatherReturned.getWeather()
             .getCurren_weather().get(0).getTemp());
     }
