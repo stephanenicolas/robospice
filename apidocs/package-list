@@ -1,6 +1,0 @@
-com.octo.android.robospice.persistence
-com.octo.android.robospice.persistence.binary
-com.octo.android.robospice.persistence.exception
-com.octo.android.robospice.persistence.file
-com.octo.android.robospice.persistence.string
-roboguice.util.temp
