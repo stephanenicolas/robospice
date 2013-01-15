@@ -2,20 +2,20 @@
 
 <rss version="0.91">
   <channel>
-    <title>Robospice - Extension ORMLite Module - Checkstyle report</title>
-    <link>https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite</link>
-    <description>Robospice - Extension ORMLite Module - Checkstyle report</description>
+    <title>Robospice - Extension ORMLite Module tests - Checkstyle report</title>
+    <link>https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test</link>
+    <description>Robospice - Extension ORMLite Module tests - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2012 - 2013</copyright>
     <item>
-      <title>File: 4,
+      <title>File: 8,
              Errors: 0,
              Warnings: 0,
              Infos: 0
       </title>
-            <link>https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite/checkstyle.html</link>
+            <link>https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html</link>
       <description>
-        <p>Click <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +29,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite/checkstyle.html#com.octo.android.robospice.persistence.ormlite.RoboSpiceDatabaseHelper.java">com/octo/android/robospice/persistence/ormlite/RoboSpiceDatabaseHelper.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseWeatherPersisterTest.java">com/octo/android/robospice/persistence/ormlite/InDatabaseWeatherPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -43,7 +43,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersisterFactory.java">com/octo/android/robospice/persistence/ormlite/InDatabaseObjectPersisterFactory.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Wind.java">com/octo/android/robospice/ormlite/test/model/Wind.java</a>
                 </td>
                 <td>
                   0
@@ -57,7 +57,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersister.java">com/octo/android/robospice/persistence/ormlite/InDatabaseObjectPersister.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Forecast.java">com/octo/android/robospice/ormlite/test/model/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -71,7 +71,63 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite/checkstyle.html#com.octo.android.robospice.persistence.ormlite.CacheEntry.java">com/octo/android/robospice/persistence/ormlite/CacheEntry.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html#com.octo.android.robospice.ormlite.test.model.SimpleData.java">com/octo/android/robospice/ormlite/test/model/SimpleData.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Day.java">com/octo/android/robospice/ormlite/test/model/Day.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Weather.java">com/octo/android/robospice/ormlite/test/model/Weather.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Night.java">com/octo/android/robospice/ormlite/test/model/Night.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Curren_weather.java">com/octo/android/robospice/ormlite/test/model/Curren_weather.java</a>
                 </td>
                 <td>
                   0
