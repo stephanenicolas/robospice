@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rss version="0.91">
+  <channel>
+    <title>Robospice - Extension Google Http Java Client Module tests - Checkstyle report</title>
+    <link>https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test</link>
+    <description>Robospice - Extension Google Http Java Client Module tests - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2012 - 2013</copyright>
+    <item>
+      <title>File: 15,
+             Errors: 0,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Curren_weather.java">com/octo/android/robospice/googlehttpclient/test/model/Curren_weather.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.GoogleHttpClientSpiceRequestStub.java">com/octo/android/robospice/googlehttpclient/test/stub/GoogleHttpClientSpiceRequestStub.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJackson2Test.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJackson2Test.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterGsonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterGsonTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.SimpleData.java">com/octo/android/robospice/googlehttpclient/test/model/SimpleData.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Wind.java">com/octo/android/robospice/googlehttpclient/test/model/Wind.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Day.java">com/octo/android/robospice/googlehttpclient/test/model/Day.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.RequestListenerStub.java">com/octo/android/robospice/googlehttpclient/test/stub/RequestListenerStub.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.GoogleHttpClientSpiceServiceTest.java">com/octo/android/robospice/GoogleHttpClientSpiceServiceTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Weather.java">com/octo/android/robospice/googlehttpclient/test/model/Weather.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.WeatherResult.java">com/octo/android/robospice/googlehttpclient/test/model/WeatherResult.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersisterFactoryTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.GoogleHttpClientSpiceTestService.java">com/octo/android/robospice/googlehttpclient/test/GoogleHttpClientSpiceTestService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Forecast.java">com/octo/android/robospice/googlehttpclient/test/model/Forecast.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJacksonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJacksonTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
