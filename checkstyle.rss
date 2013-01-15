@@ -2,20 +2,20 @@
 
 <rss version="0.91">
   <channel>
-    <title>Robospice - Extension Spring Android Module - Checkstyle report</title>
-    <link>https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android</link>
-    <description>Robospice - Extension Spring Android Module - Checkstyle report</description>
+    <title>Robospice - Extension Spring Android Module tests - Checkstyle report</title>
+    <link>https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test</link>
+    <description>Robospice - Extension Spring Android Module tests - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2012 - 2013</copyright>
     <item>
-      <title>File: 12,
+      <title>File: 21,
              Errors: 0,
              Warnings: 0,
              Infos: 0
       </title>
-            <link>https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html</link>
+            <link>https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html</link>
       <description>
-        <p>Click <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +29,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.XmlSpringAndroidSpiceService.java">com/octo/android/robospice/XmlSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.stub.RequestListenerStub.java">com/octo/android/robospice/springandroid/test/stub/RequestListenerStub.java</a>
                 </td>
                 <td>
                   0
@@ -43,7 +43,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.GsonSpringAndroidSpiceService.java">com/octo/android/robospice/GsonSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Day.java">com/octo/android/robospice/springandroid/test/model/json/Day.java</a>
                 </td>
                 <td>
                   0
@@ -57,7 +57,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersister.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Curren_weather.java">com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java</a>
                 </td>
                 <td>
                   0
@@ -71,7 +71,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.SpringAndroidObjectPersister.java">com/octo/android/robospice/persistence/springandroid/SpringAndroidObjectPersister.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.SimpleData.java">com/octo/android/robospice/springandroid/test/model/xml/SimpleData.java</a>
                 </td>
                 <td>
                   0
@@ -85,7 +85,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -99,7 +99,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.JacksonSpringAndroidSpiceService.java">com/octo/android/robospice/JacksonSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Wind.java">com/octo/android/robospice/springandroid/test/model/json/Wind.java</a>
                 </td>
                 <td>
                   0
@@ -113,7 +113,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.SpringAndroidSpiceService.java">com/octo/android/robospice/SpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Forecast.java">com/octo/android/robospice/springandroid/test/model/json/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -127,7 +127,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersisterFactory.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.stub.SpringAndroidSpiceRequestStub.java">com/octo/android/robospice/springandroid/test/stub/SpringAndroidSpiceRequestStub.java</a>
                 </td>
                 <td>
                   0
@@ -141,7 +141,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersister.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Weather.java">com/octo/android/robospice/springandroid/test/model/xml/Weather.java</a>
                 </td>
                 <td>
                   0
@@ -155,7 +155,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersister.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersister.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Forecast.java">com/octo/android/robospice/springandroid/test/model/xml/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -169,7 +169,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Night.java">com/octo/android/robospice/springandroid/test/model/xml/Night.java</a>
                 </td>
                 <td>
                   0
@@ -183,7 +183,133 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest.java">com/octo/android/robospice/request/springandroid/SpringAndroidSpiceRequest.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.WeatherResult.java">com/octo/android/robospice/springandroid/test/model/json/WeatherResult.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Curren_weather.java">com/octo/android/robospice/springandroid/test/model/json/Curren_weather.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/xml/InFileWeatherPersisterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.SimpleData.java">com/octo/android/robospice/springandroid/test/model/json/SimpleData.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.SpringAndroidSpiceServiceTest.java">com/octo/android/robospice/SpringAndroidSpiceServiceTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Day.java">com/octo/android/robospice/springandroid/test/model/xml/Day.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Weather.java">com/octo/android/robospice/springandroid/test/model/json/Weather.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Wind.java">com/octo/android/robospice/springandroid/test/model/xml/Wind.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/checkstyle.html#com.octo.android.robospice.springandroid.test.SpringAndroidTestService.java">com/octo/android/robospice/springandroid/test/SpringAndroidTestService.java</a>
                 </td>
                 <td>
                   0
