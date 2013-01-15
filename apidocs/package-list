@@ -1,7 +1,6 @@
 com.octo.android.robospice
-com.octo.android.robospice.exception
-com.octo.android.robospice.networkstate
-com.octo.android.robospice.notification
-com.octo.android.robospice.request
-com.octo.android.robospice.request.listener
-com.octo.android.robospice.request.simple
+com.octo.android.robospice.persistence.springandroid
+com.octo.android.robospice.persistence.springandroid.json.gson
+com.octo.android.robospice.persistence.springandroid.json.jackson
+com.octo.android.robospice.persistence.springandroid.xml
+com.octo.android.robospice.request.springandroid
