@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Robospice - Core - Project Mailing Lists</title>
+    <title>Robospice - Core Module tests - Team list</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -17,7 +17,7 @@
   <body class="composite">
     <div id="banner">
                     <div id="bannerLeft">
-                Robospice - Core
+                Robospice - Core Module tests
                 </div>
                     <div class="clear">
         <hr/>
@@ -30,7 +30,7 @@
         <span id="publishDate">Last Published: 2013-01-15</span>
                   &nbsp;| <span id="projectVersion">Version: 1.3.2-SNAPSHOT</span>
                       </div>
-            <div class="xright">                    <a href="./" title="Robospice - Core">Robospice - Core</a>
+            <div class="xright">                    <a href="./" title="Robospice - Core Module tests">Robospice - Core Module tests</a>
               
             
       </div>
@@ -57,8 +57,8 @@
                           <a href="index.html" title="About">About</a>
             </li>
                       <li class="none">
-                          <a href="team-list.html" title="Project Team">Project Team</a>
-            </li>
+            <strong>Project Team</strong>
+          </li>
                       <li class="none">
                           <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
             </li>
@@ -93,8 +93,8 @@
                           <a href="project-summary.html" title="Project Summary">Project Summary</a>
             </li>
                       <li class="none">
-            <strong>Mailing Lists</strong>
-          </li>
+                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
+            </li>
                       <li class="none">
                           <a href="dependencies.html" title="Dependencies">Dependencies</a>
             </li>
@@ -113,7 +113,22 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Project Mailing Lists<a name="Project_Mailing_Lists"></a></h2><a name="Project_Mailing_Lists"></a><p>These are the mailing lists that have been established for this project. For each list, there is a subscribe, unsubscribe, and an archive link.</p><table border="0" class="bodyTable"><tr class="a"><th>Name</th><th>Subscribe</th><th>Unsubscribe</th><th>Post</th><th>Archive</th></tr><tr class="b"><td>RoboSpice Forum/Mailinglist</td><td><a class="externalLink" href="http://groups.google.com/group/robospice/subscribe">Subscribe</a></td><td><a class="externalLink" href="https://groups.google.com/group/robospice/subscribe">Unsubscribe</a></td><td><a class="externalLink" href="http://groups.google.com/group/robospice">Post</a></td><td>-</td></tr></table></div>
+        <div class="section"><h2>The Team<a name="The_Team"></a></h2><a name="The_Team"></a><p>A successful project requires many people to play many roles. Some members write code or documentation, while others are valuable as testers, submitting patches and suggestions.</p><p>The team is comprised of Members and Contributors. Members have direct access to the source of a project and actively evolve the code-base. Contributors improve the project through submission of patches and suggestions to the Members. The number of Contributors to the project is unbounded. Get involved today. All contributions to the project are greatly appreciated.</p><div class="section"><h3>Members<a name="Members"></a></h3><a name="Members"></a><p>The following is a list of developers with commit privileges that have directly contributed to the project in one way or another.</p><table border="0" class="bodyTable"><tr class="a"><th>Image</th><th>Id</th><th>Name</th><th>Email</th></tr><tr class="b"><td><img src="http://www.gravatar.com/avatar/74b51ecd108d9a7f8b57d80a47422943?d=mm&amp;s=60" alt="" /></td><td><a name="SNI"></a>SNI</td><td>St&#xe9;phane Nicolas</td><td><a class="externalLink" href="mailto:snicolas@octo.com">snicolas@octo.com</a></td></tr><tr class="a"><td><img src="http://www.gravatar.com/avatar/ba02eefcfb3448d229a6a88b807d3543?d=mm&amp;s=60" alt="" /></td><td><a name="VDL"></a>VDL</td><td>J&#xe9;r&#xf4;me Van Der Linden</td><td><a class="externalLink" href="mailto:jvanderlinden@octo.com">jvanderlinden@octo.com</a></td></tr><tr class="b"><td><img src="http://www.gravatar.com/avatar/7eed4e0a17f81a230dd5eae09dc485ff?d=mm&amp;s=60" alt="" /></td><td><a name="MWA"></a>MWA</td><td>Maxence Walbrou</td><td><a class="externalLink" href="mailto:mwalbrou@octo.com">mwalbrou@octo.com</a></td></tr><tr class="a"><td><img src="http://www.gravatar.com/avatar/6fde74fd9a5eeec87cede1d7a8c184a1?d=mm&amp;s=60" alt="" /></td><td><a name="MHA"></a>MHA</td><td>Mathieu Hausherr</td><td><a class="externalLink" href="mailto:mhausherr@octo.com">mhausherr@octo.com</a></td></tr><tr class="b"><td><img src="http://www.gravatar.com/avatar/80b5a7a78e7e143264b05fc33a6f381e?d=mm&amp;s=60" alt="" /></td><td><a name="RCI"></a>RCI</td><td>Riccardo Ciovati</td><td><a class="externalLink" href="mailto:rciovati@gmail.com">rciovati@gmail.com</a></td></tr></table></div><div class="section"><h3>Contributors<a name="Contributors"></a></h3><a name="Contributors"></a><p>There are no contributors listed for this project. Please check back again later.</p><script type="text/javascript">
+function offsetDate(id, offset) {
+    var now = new Date();
+    var nowTime = now.getTime();
+    var localOffset = now.getTimezoneOffset();
+    var developerTime = nowTime + ( offset * 60 * 60 * 1000 )+ ( localOffset * 60 * 1000 );
+    var developerDate = new Date(developerTime);
+
+    document.getElementById(id).innerHTML = developerDate;
+}
+
+function init(){
+}
+
+window.onLoad = init();
+</script></div></div>
       </div>
     </div>
     <div class="clear">
