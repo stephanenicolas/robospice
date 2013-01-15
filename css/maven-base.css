@@ -89,6 +89,10 @@ div.clear hr{
 #navcolumn li.collapsed {
   background-image: url(../images/collapsed.gif);
 }
+#navcolumn li.none {
+  text-indent: -1em;
+  margin-left: 1em;
+}
 #poweredBy {
   text-align: center;
 }
