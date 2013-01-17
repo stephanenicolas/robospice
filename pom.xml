@@ -122,7 +122,7 @@
 		<site>
 			<id>github-pages-site</id>
 			<name>Deployment through GitHub's site deployment plugin</name>
-			<url>site/${project.version}</url>
+			<url>site/latest</url>
 		</site>
 	</distributionManagement>
 
@@ -320,24 +320,6 @@
 				</plugin>
 				<!-- deploy javadoc and maven site to github https://github.com/github/maven-plugins/issues/22 -->
 				<plugin>
-					<groupId>com.github.github</groupId>
-					<artifactId>site-maven-plugin</artifactId>
-					<version>0.7</version>
-					<configuration>
-						<message>Creating site for ${project.version}</message>
-						<path>${project.distributionManagement.site.url}</path>
-						<merge>true</merge>
-					</configuration>
-					<executions>
-						<execution>
-							<goals>
-								<goal>site</goal>
-							</goals>
-							<phase>site-deploy</phase>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.2</version>
@@ -378,7 +360,27 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
 		<plugins>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.7</version>
+				<configuration>
+					<message>Creating site for ${project.version}</message>
+					<path>${project.distributionManagement.site.url}</path>
+					<merge>true</merge>
+				</configuration>
+				<executions>
+					<execution>
+						<id>site-deploy-to-github</id>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>site-deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -403,6 +405,13 @@
 					<value>true</value>
 				</property>
 			</activation>
+			<distributionManagement>
+				<site>
+					<id>github-pages-site</id>
+					<name>Deployment through GitHub's site deployment plugin</name>
+					<url>site/${project.version}</url>
+				</site>
+			</distributionManagement>
 			<build>
 				<plugins>
 					<plugin>
