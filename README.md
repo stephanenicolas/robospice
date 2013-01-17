@@ -11,7 +11,7 @@ To learn more about RoboSpice in 30 seconds, try [this infographics]
 A few links : 
 
 * Full documentation of RoboSpice can be found on our [Wiki pages](https://github.com/octo-online/robospice/wiki).
-* RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice). RoboSpice Maven site can be found [here](http://octo-online.github.com/robospice/index.html).
+* RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice). RoboSpice Maven site can be found [here](http://octo-online.github.com/robospice/site/latest/index.html).
 * For non-Maven developers, follow [this guide](https://github.com/octo-online/robospice/wiki/Using-RoboSpice-without-Maven) to setup RoboSpice in your app.
 * Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 * Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki) and [Javadocs](http://octo-online.github.com/robospice/site/latest/apidocs/index.html).
