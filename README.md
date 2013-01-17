@@ -12,7 +12,7 @@ RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice)
 For non-Maven developers, follow [this guide](https://github.com/octo-online/robospice/wiki/Using-RoboSpice-without-Maven) to setup RoboSpice in your app.
 
 Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
-Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki) and [Javadocs](http://octo-online.github.com/robospice/site/1.3.2-SNAPSHOT/apidocs/index.html).
+Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki) and [Javadocs](http://octo-online.github.com/robospice/site/latest/index.html).
 
 RoboSpice is now [under Continuous Integration on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/). Thanks CloudBees !
 
