@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.api.client.util.Key;
 
-public class Curren_weather {
+public class CurrenWeather {
     @Key
     private String humidity;
     @Key
@@ -104,7 +104,7 @@ public class Curren_weather {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Curren_weather other = (Curren_weather) obj;
+        CurrenWeather other = (CurrenWeather) obj;
         if (humidity == null) {
             if (other.humidity != null) {
                 return false;
@@ -159,7 +159,7 @@ public class Curren_weather {
 
     @Override
     public String toString() {
-        return "Curren_weather [humidity=" + humidity + ", pressure="
+        return "CurrenWeather [humidity=" + humidity + ", pressure="
             + pressure + ", temp=" + temp + ", temp_unit=" + temp_unit
             + ", weather_code=" + weather_code + ", weather_text="
             + weather_text + ", wind=" + wind + "]";

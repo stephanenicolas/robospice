@@ -7,18 +7,18 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather {
 
-    private List<Curren_weather> curren_weather;
+    private List<CurrenWeather> currenWeather;
     private List<Forecast> forecast;
 
     public Weather() {
     }
 
-    public List<Curren_weather> getCurren_weather() {
-        return this.curren_weather;
+    public List<CurrenWeather> getCurren_weather() {
+        return this.currenWeather;
     }
 
-    public void setCurren_weather(List<Curren_weather> curren_weather) {
-        this.curren_weather = curren_weather;
+    public void setCurren_weather(List<CurrenWeather> currenWeather) {
+        this.currenWeather = currenWeather;
     }
 
     public List<Forecast> getForecast() {
@@ -34,7 +34,7 @@ public class Weather {
         final int prime = 31;
         int result = 1;
         result = prime * result
-            + (curren_weather == null ? 0 : curren_weather.hashCode());
+            + (currenWeather == null ? 0 : currenWeather.hashCode());
         result = prime * result + (forecast == null ? 0 : forecast.hashCode());
         return result;
     }
@@ -51,11 +51,11 @@ public class Weather {
             return false;
         }
         Weather other = (Weather) obj;
-        if (curren_weather == null) {
-            if (other.curren_weather != null) {
+        if (currenWeather == null) {
+            if (other.currenWeather != null) {
                 return false;
             }
-        } else if (!curren_weather.equals(other.curren_weather)) {
+        } else if (!currenWeather.equals(other.currenWeather)) {
             return false;
         }
         if (forecast == null) {
@@ -70,7 +70,7 @@ public class Weather {
 
     @Override
     public String toString() {
-        return "Weather [curren_weather=" + curren_weather + ", forecast="
+        return "Weather [currenWeather=" + currenWeather + ", forecast="
             + forecast + "]";
     }
 

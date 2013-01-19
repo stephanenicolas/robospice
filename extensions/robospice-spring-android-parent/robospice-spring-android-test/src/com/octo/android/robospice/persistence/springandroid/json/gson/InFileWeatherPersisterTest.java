@@ -10,14 +10,13 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
-import com.octo.android.robospice.springandroid.test.model.json.Curren_weather;
+import com.octo.android.robospice.springandroid.test.model.json.CurrenWeather;
 import com.octo.android.robospice.springandroid.test.model.json.Weather;
 import com.octo.android.robospice.springandroid.test.model.json.WeatherResult;
 
 @SmallTest
 public class InFileWeatherPersisterTest extends InstrumentationTestCase {
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
-    private static final int SAVE_TIMEOUT = 1000;
     private static final String TEST_TEMP_UNIT = "C";
     private static final String TEST_TEMP = "28";
     private static final String TEST_TEMP2 = "30"; // still sunny
@@ -203,8 +202,8 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
     private WeatherResult buildWeather(String temp, String tempUnit) {
         WeatherResult weatherRequestStatus = new WeatherResult();
         Weather weather = new Weather();
-        List<Curren_weather> currents = new ArrayList<Curren_weather>();
-        Curren_weather current_weather = new Curren_weather();
+        List<CurrenWeather> currents = new ArrayList<CurrenWeather>();
+        CurrenWeather current_weather = new CurrenWeather();
         current_weather.setTemp(temp);
         current_weather.setTemp_unit(tempUnit);
         currents.add(current_weather);

@@ -1,18 +1,31 @@
-package com.octo.android.robospice.springandroid.test.model.json;
+package com.octo.android.robospice.ormlite.test.model;
 
-import java.util.List;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+@DatabaseTable(tableName = "curren_weather")
+public class CurrenWeather {
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Curren_weather {
+    @DatabaseField(generatedId = true)
+    private int id;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "weather_id")
+    private Weather weather;
+
+    @DatabaseField
     private String humidity;
+    @DatabaseField
     private String pressure;
+    @DatabaseField
     private String temp;
+    @DatabaseField
     private String temp_unit;
+    @DatabaseField
     private String weather_code;
+    @DatabaseField
     private String weather_text;
-    private List<Wind> wind;
+
+    private Wind wind;
 
     public String getHumidity() {
         return this.humidity;
@@ -62,12 +75,20 @@ public class Curren_weather {
         this.weather_text = weather_text;
     }
 
-    public List<Wind> getWind() {
+    public Wind getWind() {
         return this.wind;
     }
 
-    public void setWind(List<Wind> wind) {
+    public void setWind(Wind wind) {
         this.wind = wind;
+    }
+
+    @Override
+    public String toString() {
+        return "CurrenWeather [humidity=" + humidity + ", pressure="
+            + pressure + ", temp=" + temp + ", temp_unit=" + temp_unit
+            + ", weather_code=" + weather_code + ", weather_text="
+            + weather_text + ", wind=" + wind + "]";
     }
 
     @Override
@@ -75,6 +96,7 @@ public class Curren_weather {
         final int prime = 31;
         int result = 1;
         result = prime * result + (humidity == null ? 0 : humidity.hashCode());
+        result = prime * result + id;
         result = prime * result + (pressure == null ? 0 : pressure.hashCode());
         result = prime * result + (temp == null ? 0 : temp.hashCode());
         result = prime * result
@@ -98,12 +120,15 @@ public class Curren_weather {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Curren_weather other = (Curren_weather) obj;
+        CurrenWeather other = (CurrenWeather) obj;
         if (humidity == null) {
             if (other.humidity != null) {
                 return false;
             }
         } else if (!humidity.equals(other.humidity)) {
+            return false;
+        }
+        if (id != other.id) {
             return false;
         }
         if (pressure == null) {
@@ -149,14 +174,6 @@ public class Curren_weather {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Curren_weather [humidity=" + humidity + ", pressure="
-            + pressure + ", temp=" + temp + ", temp_unit=" + temp_unit
-            + ", weather_code=" + weather_code + ", weather_text="
-            + weather_text + ", wind=" + wind + "]";
     }
 
 }

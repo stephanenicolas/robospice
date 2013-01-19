@@ -15,7 +15,7 @@ public class Weather {
     private String emptyField;
 
     @ForeignCollectionField(eager = false)
-    private Collection<Curren_weather> listWeather;
+    private Collection<CurrenWeather> listWeather;
     @ForeignCollectionField(eager = false)
     private Collection<Forecast> listForecast;
 
@@ -30,12 +30,12 @@ public class Weather {
         return id;
     }
 
-    public Collection<Curren_weather> getListWeather() {
+    public Collection<CurrenWeather> getListWeather() {
         return this.listWeather;
     }
 
-    public void setListWeather(Collection<Curren_weather> curren_weather) {
-        this.listWeather = curren_weather;
+    public void setListWeather(Collection<CurrenWeather> currenWeather) {
+        this.listWeather = currenWeather;
     }
 
     public Collection<Forecast> getListForecast() {
@@ -108,9 +108,9 @@ public class Weather {
                 return false;
             }
 
-            Collection<Curren_weather> collectionCurren_Weather = new ArrayList<Curren_weather>(
+            Collection<CurrenWeather> collectionCurren_Weather = new ArrayList<CurrenWeather>(
                 listWeather);
-            Collection<Curren_weather> otherCollectionCurren_Weather = new ArrayList<Curren_weather>(
+            Collection<CurrenWeather> otherCollectionCurren_Weather = new ArrayList<CurrenWeather>(
                 other.listWeather);
             if (!collectionCurren_Weather.equals(otherCollectionCurren_Weather)) {
                 return false;

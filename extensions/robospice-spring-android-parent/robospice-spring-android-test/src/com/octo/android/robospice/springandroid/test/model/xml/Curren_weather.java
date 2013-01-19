@@ -80,7 +80,7 @@ public class Curren_weather {
 
     @Override
     public String toString() {
-        return "Curren_weather [humidity=" + humidity + ", pressure="
+        return "CurrenWeather [humidity=" + humidity + ", pressure="
             + pressure + ", temp=" + temp + ", temp_unit=" + temp_unit
             + ", weather_code=" + weather_code + ", weather_text="
             + weather_text + ", wind=" + wind + "]";

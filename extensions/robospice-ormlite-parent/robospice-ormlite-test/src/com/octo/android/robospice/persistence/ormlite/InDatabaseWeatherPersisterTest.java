@@ -7,7 +7,7 @@ import android.app.Application;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.octo.android.robospice.ormlite.test.model.Curren_weather;
+import com.octo.android.robospice.ormlite.test.model.CurrenWeather;
 import com.octo.android.robospice.ormlite.test.model.Day;
 import com.octo.android.robospice.ormlite.test.model.Forecast;
 import com.octo.android.robospice.ormlite.test.model.Night;
@@ -19,8 +19,8 @@ import com.octo.android.robospice.persistence.ObjectPersister;
 @SmallTest
 public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
     private ObjectPersister<Weather> dataPersistenceManager;
-    private static final Curren_weather TEST_TEMP = new Curren_weather();
-    private static final Curren_weather TEST_TEMP2 = new Curren_weather();
+    private static final CurrenWeather TEST_TEMP = new CurrenWeather();
+    private static final CurrenWeather TEST_TEMP2 = new CurrenWeather();
     private static final int CACHE_KEY = 1;
     private static final int CACHE_KEY2 = 2;
 
@@ -34,7 +34,7 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
 
         // add persisted classes to class collection
         classCollection.add(Weather.class);
-        classCollection.add(Curren_weather.class);
+        classCollection.add(CurrenWeather.class);
         classCollection.add(Day.class);
         classCollection.add(Forecast.class);
         classCollection.add(Night.class);
@@ -195,11 +195,11 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
         assertFalse(listWeatherResult.contains(weatherRequestStatus2));
     }
 
-    private Weather buildWeather(int id, Curren_weather curren_weather) {
+    private Weather buildWeather(int id, CurrenWeather currenWeather) {
         Weather weather = new Weather();
         weather.setId(id);
-        List<Curren_weather> currents = new ArrayList<Curren_weather>();
-        currents.add(curren_weather);
+        List<CurrenWeather> currents = new ArrayList<CurrenWeather>();
+        currents.add(currenWeather);
         weather.setListWeather(currents);
         weather.setListForecast(null);
         return weather;

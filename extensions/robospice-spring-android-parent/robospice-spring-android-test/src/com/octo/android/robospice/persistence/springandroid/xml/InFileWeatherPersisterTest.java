@@ -18,7 +18,6 @@ import com.octo.android.robospice.springandroid.test.model.xml.Wind;
 public class InFileWeatherPersisterTest extends InstrumentationTestCase {
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
     private InFileObjectPersister<Weather> dataPersistenceManager;
-    private static final int SAVE_TIMEOUT = 1000;
     private static final String FILE_NAME = "toto";
     private static final String FILE_NAME2 = "tutu";
     private static final Curren_weather TEST_TEMP = new Curren_weather();

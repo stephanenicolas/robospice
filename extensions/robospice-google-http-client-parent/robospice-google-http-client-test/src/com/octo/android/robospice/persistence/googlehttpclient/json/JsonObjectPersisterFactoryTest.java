@@ -8,7 +8,7 @@ import android.app.Application;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.octo.android.robospice.googlehttpclient.test.model.Curren_weather;
+import com.octo.android.robospice.googlehttpclient.test.model.CurrenWeather;
 import com.octo.android.robospice.googlehttpclient.test.model.Weather;
 import com.octo.android.robospice.googlehttpclient.test.model.WeatherResult;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -202,8 +202,8 @@ public abstract class JsonObjectPersisterFactoryTest extends
     private WeatherResult buildWeather(String temp, String tempUnit) {
         WeatherResult weatherRequestStatus = new WeatherResult();
         Weather weather = new Weather();
-        List<Curren_weather> currents = new ArrayList<Curren_weather>();
-        Curren_weather current_weather = new Curren_weather();
+        List<CurrenWeather> currents = new ArrayList<CurrenWeather>();
+        CurrenWeather current_weather = new CurrenWeather();
         current_weather.setTemp(temp);
         current_weather.setTemp_unit(tempUnit);
         currents.add(current_weather);
