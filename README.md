@@ -9,7 +9,7 @@ RoboSpice is a modular android library that makes writing asynchronous network r
 To learn more about RoboSpice in 30 seconds, try [this infographics]
 (https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png).
 
-If you want to start using RoboSpice right now, jump to the [Wiki](https://github.com/octo-online/RoboSpice-samples) or [samples](https://github.com/octo-online/RoboSpice-samples).
+If you want to start using RoboSpice right now, jump to the [Wiki](https://github.com/octo-online/RoboSpice-samples) or the [samples](https://github.com/octo-online/RoboSpice-samples).
 
 
 Main features of RoboSpice
