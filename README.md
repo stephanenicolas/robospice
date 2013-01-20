@@ -41,9 +41,10 @@ To learn more, look at the presentation slides we created for DroidCon UK 2012, 
 
 A few links : 
 
-* Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki) and [Javadocs](http://octo-online.github.com/robospice/site/latest/apidocs/index.html).
-RoboSpice Maven site can be found [here](http://octo-online.github.com/robospice/site/latest/index.html).
-* Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
+* Browse RoboSpice's full documentation on [the Wiki](https://github.com/octo-online/robospice/wiki).
+* [Javadocs](http://octo-online.github.com/robospice/site/latest/apidocs/index.html).
+* [Maven site](http://octo-online.github.com/robospice/site/latest/index.html).
+* [Discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 
 Example code & demo
 -------------------
