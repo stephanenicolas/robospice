@@ -31,6 +31,9 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * is **open source** ;) 
 * and **tested**
 
+* RoboSpice is [under Continuous Integration on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/). Thanks CloudBees !
+* RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonarsource.org/dashboard/index/504442). Thanks to Sonar Source !
+
 To learn more about RoboSpice
 -----------------------------
 
@@ -38,13 +41,9 @@ To learn more, look at the presentation slides we created for DroidCon UK 2012, 
 
 A few links : 
 
-* Full documentation of RoboSpice can be found on our [Wiki pages](https://github.com/octo-online/robospice/wiki).
-* RoboSpice is [maven-ready](http://search.maven.org/#search%7Cga%7C1%7Crobospice). RoboSpice Maven site can be found [here](http://octo-online.github.com/robospice/site/latest/index.html).
-* For non-Maven developers, follow [this guide](https://github.com/octo-online/robospice/wiki/Using-RoboSpice-without-Maven) to setup RoboSpice in your app.
-* Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 * Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki) and [Javadocs](http://octo-online.github.com/robospice/site/latest/apidocs/index.html).
-* RoboSpice is now [under Continuous Integration on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/). Thanks CloudBees !
-* RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonarsource.org/dashboard/index/504442). Thanks to Sonar Source !
+RoboSpice Maven site can be found [here](http://octo-online.github.com/robospice/site/latest/index.html).
+* Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 
 Example code & demo
 -------------------
