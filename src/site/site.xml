@@ -10,6 +10,8 @@
     </fluidoSkin>
   </custom>
 
+  <version position="right"/>
+
   <poweredBy>
     <logo name="octo" href="http://octo.com"
           img="https://raw.github.com/octo-online/robospice/master/gfx/octo-ascii-logo-blue.png"/>
