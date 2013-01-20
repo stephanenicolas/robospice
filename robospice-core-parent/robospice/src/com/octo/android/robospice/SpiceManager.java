@@ -717,6 +717,23 @@ public class SpiceManager implements Runnable {
         });
     }
 
+    /**
+     * Get some data previously saved in cache with key <i>requestCacheKey</i>.
+     * This method doesn't perform any network processing, it just check if
+     * there are previously saved data. Don't call this method in the main
+     * thread because you could block it. Instead, use the asynchronous version of
+     * this method: {@link #getFromCache(final Class<T>, final String, final
+     * long, final RequestListener<T>) getFromCache}.
+     * @param clazz
+     *            the class of the result to retrieve from cache.
+     * @param cacheKey
+     *            the key used to store and retrieve the result of the request
+     *            in the cache
+     * @return
+     * @throws CacheLoadingException
+     *             Exception thrown when a problem occurs while loading data
+     *             from cache.
+     */
     public <T> Future<T> getDataFromCache(final Class<T> clazz,
         final String cacheKey) throws CacheLoadingException {
         return executorService.submit(new Callable<T>() {
