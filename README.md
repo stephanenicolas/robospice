@@ -1,4 +1,5 @@
-![RoboSpice logo](https://raw.github.com/octo-online/robospice/master/gfx/Robospice-logo-white-background.png)
+<img src="https://raw.github.com/octo-online/robospice/master/gfx/Robospice-logo-white-background.png" 
+width="250px" />
 
 Overview
 --------
@@ -7,6 +8,8 @@ RoboSpice is a modular android library that makes writing asynchronous network r
 
 To learn more about RoboSpice in 30 seconds, try [this infographics]
 (https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png).
+
+
 
 Main features of RoboSpice
 --------------------------
