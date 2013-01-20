@@ -16,7 +16,7 @@ A few links :
 * Join our [discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 * Browse [RoboSpice Wiki](https://github.com/octo-online/robospice/wiki) and [Javadocs](http://octo-online.github.com/robospice/site/latest/apidocs/index.html).
 * RoboSpice is now [under Continuous Integration on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/). Thanks CloudBees !
-* Soon on Sonar's Nemo instance...
+* RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonarsource.org/dashboard/index/504442). Thanks to Sonar Source !
 
 
 Main features of RoboSpice
