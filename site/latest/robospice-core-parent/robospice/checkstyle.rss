@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rss version="0.91">
+  <channel>
+    <title>Robospice - Core - Checkstyle report</title>
+    <link>https://github.com/octo-online/robospice/robospice-core-parent/robospice</link>
+    <description>Robospice - Core - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2012 - 2013</copyright>
+    <item>
+      <title>File: 25,
+             Errors: 0,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.UncachedSpiceService.java">com/octo/android/robospice/UncachedSpiceService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.exception.NetworkException.java">com/octo/android/robospice/exception/NetworkException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.SpiceService.java">com/octo/android/robospice/SpiceService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BigBinaryRequest.java">com/octo/android/robospice/request/simple/BigBinaryRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestProgressListener.java">com/octo/android/robospice/request/listener/RequestProgressListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.SpiceManager.java">com/octo/android/robospice/SpiceManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestListener.java">com/octo/android/robospice/request/listener/RequestListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.CachedSpiceRequest.java">com/octo/android/robospice/request/CachedSpiceRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BinaryRequest.java">com/octo/android/robospice/request/simple/BinaryRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.exception.NoNetworkException.java">com/octo/android/robospice/exception/NoNetworkException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.networkstate.NetworkStateChecker.java">com/octo/android/robospice/networkstate/NetworkStateChecker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.networkstate.DefaultNetworkStateChecker.java">com/octo/android/robospice/networkstate/DefaultNetworkStateChecker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.SpiceRequest.java">com/octo/android/robospice/request/SpiceRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.notification.SpiceNotificationService.java">com/octo/android/robospice/notification/SpiceNotificationService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestStatus.java">com/octo/android/robospice/request/listener/RequestStatus.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestCancellationListener.java">com/octo/android/robospice/request/listener/RequestCancellationListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.exception.RequestCancelledException.java">com/octo/android/robospice/exception/RequestCancelledException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.simple.SmallBinaryRequest.java">com/octo/android/robospice/request/simple/SmallBinaryRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.package-info.java">com/octo/android/robospice/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestProgress.java">com/octo/android/robospice/request/listener/RequestProgress.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.simple.SimpleTextRequest.java">com/octo/android/robospice/request/simple/SimpleTextRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.SpiceServiceServiceListener.java">com/octo/android/robospice/SpiceServiceServiceListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.SpiceActivity.java">com/octo/android/robospice/SpiceActivity.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessorListener.java">com/octo/android/robospice/request/RequestProcessorListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessor.java">com/octo/android/robospice/request/RequestProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
