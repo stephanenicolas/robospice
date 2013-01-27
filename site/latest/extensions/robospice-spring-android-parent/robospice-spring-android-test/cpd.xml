@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
 <duplication lines="111" tokens="392">
-<file line="105" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java"/>
-<file line="106" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java"/>
+<file line="104" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java"/>
+<file line="105" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java"/>
 <codefragment>
 <![CDATA[
         File cachedFile = ((GsonObjectPersister<?>) dataPersistenceManager)
@@ -106,8 +106,8 @@
     private WeatherResult buildWeather(String temp, String tempUnit) {
         WeatherResult weatherRequestStatus = new WeatherResult();
         Weather weather = new Weather();
-        List<Curren_weather> currents = new ArrayList<Curren_weather>();
-        Curren_weather current_weather = new Curren_weather();
+        List<CurrenWeather> currents = new ArrayList<CurrenWeather>();
+        CurrenWeather current_weather = new CurrenWeather();
         current_weather.setTemp(temp);
         current_weather.setTemp_unit(tempUnit);
         currents.add(current_weather);
@@ -120,8 +120,8 @@
 </codefragment>
 </duplication>
 <duplication lines="68" tokens="248">
-<file line="33" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java"/>
-<file line="33" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java"/>
+<file line="32" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java"/>
+<file line="32" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java"/>
 <codefragment>
 <![CDATA[
         GsonObjectPersisterFactory factory = new GsonObjectPersisterFactory(
@@ -196,7 +196,7 @@
 </codefragment>
 </duplication>
 <duplication lines="47" tokens="230">
-<file line="106" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/Curren_weather.java"/>
+<file line="106" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
 <file line="126" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
 <codefragment>
 <![CDATA[
@@ -318,8 +318,8 @@ public class Day {
 ]]>
 </codefragment>
 </duplication>
-<duplication lines="32" tokens="209">
-<file line="78" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/Curren_weather.java"/>
+<duplication lines="23" tokens="163">
+<file line="78" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
 <file line="95" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
 <codefragment>
 <![CDATA[
@@ -346,20 +346,11 @@ public class Day {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Curren_weather other = (Curren_weather) obj;
-        if (humidity == null) {
-            if (other.humidity != null) {
-                return false;
-            }
-        } else if (!humidity.equals(other.humidity)) {
-            return false;
-        }
-        if (pressure == null) {
 ]]>
 </codefragment>
 </duplication>
 <duplication lines="51" tokens="152">
-<file line="15" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/Curren_weather.java"/>
+<file line="15" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
 <file line="23" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
 <codefragment>
 <![CDATA[
@@ -531,7 +522,7 @@ public class Day {
 </codefragment>
 </duplication>
 <duplication lines="30" tokens="128">
-<file line="127" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/Curren_weather.java"/>
+<file line="127" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
 <file line="66" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Day.java"/>
 <file line="66" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Night.java"/>
 <codefragment>
@@ -565,7 +556,7 @@ public class Day {
 
     @Override
     public String toString() {
-        return "Curren_weather [humidity=" + humidity + ", pressure="
+        return "CurrenWeather [humidity=" + humidity + ", pressure="
 ]]>
 </codefragment>
 </duplication>
@@ -631,7 +622,7 @@ public class Day {
 </codefragment>
 </duplication>
 <duplication lines="19" tokens="106">
-<file line="82" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/Curren_weather.java"/>
+<file line="82" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
 <file line="99" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
 <file line="46" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Day.java"/>
 <file line="46" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Night.java"/>
