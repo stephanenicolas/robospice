@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="111" tokens="392">
+<file line="104" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java"/>
+<file line="105" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java"/>
+<codefragment>
+<![CDATA[
+        File cachedFile = ((GsonObjectPersister<?>) dataPersistenceManager)
+            .getCacheFile(FILE_NAME);
+        cachedFile.setLastModified(System.currentTimeMillis() - FIVE_SECONDS);
+
+        // WHEN
+        WeatherResult weatherReturned = dataPersistenceManager
+            .loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
+
+        // THEN
+        assertNull(weatherReturned);
+    }
+
+    public void test_loadAllDataFromCache_with_one_request_in_cache()
+        throws Exception {
+        // GIVEN
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
+            TEST_TEMP_UNIT);
+
+        dataPersistenceManager.saveDataToCacheAndReturnData(
+            weatherRequestStatus, FILE_NAME);
+
+        // WHEN
+        List<WeatherResult> listWeatherResult = dataPersistenceManager
+            .loadAllDataFromCache();
+
+        // THEN
+        assertNotNull(listWeatherResult);
+        assertEquals(1, listWeatherResult.size());
+        assertEquals(weatherRequestStatus, listWeatherResult.get(0));
+    }
+
+    public void test_loadAllDataFromCache_with_two_requests_in_cache()
+        throws Exception {
+        // GIVEN
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
+            TEST_TEMP_UNIT);
+
+        dataPersistenceManager.saveDataToCacheAndReturnData(
+            weatherRequestStatus, FILE_NAME);
+
+        WeatherResult weatherRequestStatus2 = buildWeather(TEST_TEMP2,
+            TEST_TEMP_UNIT);
+
+        dataPersistenceManager.saveDataToCacheAndReturnData(
+            weatherRequestStatus2, FILE_NAME2);
+
+        // WHEN
+        List<WeatherResult> listWeatherResult = dataPersistenceManager
+            .loadAllDataFromCache();
+
+        // THEN
+        assertNotNull(listWeatherResult);
+        assertEquals(2, listWeatherResult.size());
+        assertTrue(listWeatherResult.contains(weatherRequestStatus));
+        assertTrue(listWeatherResult.contains(weatherRequestStatus2));
+    }
+
+    public void test_loadAllDataFromCache_with_no_requests_in_cache()
+        throws Exception {
+        // GIVEN
+
+        // WHEN
+        List<WeatherResult> listWeatherResult = dataPersistenceManager
+            .loadAllDataFromCache();
+
+        // THEN
+        assertNotNull(listWeatherResult);
+        assertTrue(listWeatherResult.isEmpty());
+    }
+
+    public void test_removeDataFromCache_when_two_requests_in_cache_and_one_removed()
+        throws Exception {
+        // GIVEN
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
+            TEST_TEMP_UNIT);
+
+        dataPersistenceManager.saveDataToCacheAndReturnData(
+            weatherRequestStatus, FILE_NAME);
+
+        WeatherResult weatherRequestStatus2 = buildWeather(TEST_TEMP2,
+            TEST_TEMP_UNIT);
+
+        dataPersistenceManager.saveDataToCacheAndReturnData(
+            weatherRequestStatus2, FILE_NAME2);
+
+        dataPersistenceManager.removeDataFromCache(FILE_NAME2);
+
+        // WHEN
+        List<WeatherResult> listWeatherResult = dataPersistenceManager
+            .loadAllDataFromCache();
+
+        // THEN
+        assertNotNull(listWeatherResult);
+        assertEquals(1, listWeatherResult.size());
+        assertTrue(listWeatherResult.contains(weatherRequestStatus));
+        assertFalse(listWeatherResult.contains(weatherRequestStatus2));
+    }
+
+    private WeatherResult buildWeather(String temp, String tempUnit) {
+        WeatherResult weatherRequestStatus = new WeatherResult();
+        Weather weather = new Weather();
+        List<CurrenWeather> currents = new ArrayList<CurrenWeather>();
+        CurrenWeather current_weather = new CurrenWeather();
+        current_weather.setTemp(temp);
+        current_weather.setTemp_unit(tempUnit);
+        currents.add(current_weather);
+        weather.setCurren_weather(currents);
+        weatherRequestStatus.setWeather(weather);
+        return weatherRequestStatus;
+    }
+}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="68" tokens="248">
+<file line="32" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java"/>
+<file line="32" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java"/>
+<codefragment>
+<![CDATA[
+        GsonObjectPersisterFactory factory = new GsonObjectPersisterFactory(
+            application);
+        dataPersistenceManager = factory
+            .createObjectPersister(WeatherResult.class);
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        dataPersistenceManager.removeAllDataFromCache();
+        super.tearDown();
+    }
+
+    public void test_canHandleClientRequestStatus() {
+        boolean canHandleClientWeatherResult = dataPersistenceManager
+            .canHandleClass(WeatherResult.class);
+        assertEquals(true, canHandleClientWeatherResult);
+    }
+
+    public void test_saveDataAndReturnData() throws Exception {
+        // GIVEN
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
+            TEST_TEMP_UNIT);
+
+        // WHEN
+        WeatherResult weatherReturned = dataPersistenceManager
+            .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
+
+        // THEN
+        assertEquals(TEST_TEMP, weatherReturned.getWeather()
+            .getCurren_weather().get(0).getTemp());
+    }
+
+    public void test_loadDataFromCache_no_expiracy() throws Exception {
+        // GIVEN
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
+            TEST_TEMP_UNIT);
+        dataPersistenceManager.saveDataToCacheAndReturnData(
+            weatherRequestStatus, FILE_NAME);
+
+        // WHEN
+        WeatherResult weatherReturned = dataPersistenceManager
+            .loadDataFromCache(FILE_NAME, DurationInMillis.ALWAYS);
+
+        // THEN
+        assertEquals(TEST_TEMP, weatherReturned.getWeather()
+            .getCurren_weather().get(0).getTemp());
+    }
+
+    public void test_loadDataFromCache_not_expired() throws Exception {
+        // GIVEN
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
+            TEST_TEMP_UNIT);
+
+        dataPersistenceManager.saveDataToCacheAndReturnData(
+            weatherRequestStatus, FILE_NAME);
+
+        // WHEN
+        WeatherResult weatherReturned = dataPersistenceManager
+            .loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
+
+        // THEN
+        assertEquals(TEST_TEMP, weatherReturned.getWeather()
+            .getCurren_weather().get(0).getTemp());
+    }
+
+    public void test_loadDataFromCache_expired() throws Exception {
+        // GIVEN
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
+]]>
+</codefragment>
+</duplication>
+<duplication lines="47" tokens="230">
+<file line="106" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
+<file line="126" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
+<codefragment>
+<![CDATA[
+        } else if (!humidity.equals(other.humidity)) {
+            return false;
+        }
+        if (pressure == null) {
+            if (other.pressure != null) {
+                return false;
+            }
+        } else if (!pressure.equals(other.pressure)) {
+            return false;
+        }
+        if (temp == null) {
+            if (other.temp != null) {
+                return false;
+            }
+        } else if (!temp.equals(other.temp)) {
+            return false;
+        }
+        if (temp_unit == null) {
+            if (other.temp_unit != null) {
+                return false;
+            }
+        } else if (!temp_unit.equals(other.temp_unit)) {
+            return false;
+        }
+        if (weather_code == null) {
+            if (other.weather_code != null) {
+                return false;
+            }
+        } else if (!weather_code.equals(other.weather_code)) {
+            return false;
+        }
+        if (weather_text == null) {
+            if (other.weather_text != null) {
+                return false;
+            }
+        } else if (!weather_text.equals(other.weather_text)) {
+            return false;
+        }
+        if (wind == null) {
+            if (other.wind != null) {
+                return false;
+            }
+        } else if (!wind.equals(other.wind)) {
+            return false;
+        }
+        return true;
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="60" tokens="224">
+<file line="5" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Day.java"/>
+<file line="5" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Night.java"/>
+<codefragment>
+<![CDATA[
+public class Day {
+
+    private int id;
+
+    @Element
+    private String weather_code;
+    @Element
+    private String weather_text;
+
+    @Element
+    private Wind wind;
+
+    public String getWeather_code() {
+        return this.weather_code;
+    }
+
+    public void setWeather_code(String weather_code) {
+        this.weather_code = weather_code;
+    }
+
+    public String getWeather_text() {
+        return this.weather_text;
+    }
+
+    public void setWeather_text(String weather_text) {
+        this.weather_text = weather_text;
+    }
+
+    public Wind getWind() {
+        return this.wind;
+    }
+
+    public void setWind(Wind wind) {
+        this.wind = wind;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result
+            + (weather_code == null ? 0 : weather_code.hashCode());
+        result = prime * result
+            + (weather_text == null ? 0 : weather_text.hashCode());
+        result = prime * result + (wind == null ? 0 : wind.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="23" tokens="163">
+<file line="78" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
+<file line="95" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
+<codefragment>
+<![CDATA[
+        result = prime * result + (pressure == null ? 0 : pressure.hashCode());
+        result = prime * result + (temp == null ? 0 : temp.hashCode());
+        result = prime * result
+            + (temp_unit == null ? 0 : temp_unit.hashCode());
+        result = prime * result
+            + (weather_code == null ? 0 : weather_code.hashCode());
+        result = prime * result
+            + (weather_text == null ? 0 : weather_text.hashCode());
+        result = prime * result + (wind == null ? 0 : wind.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="51" tokens="152">
+<file line="15" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
+<file line="23" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
+<codefragment>
+<![CDATA[
+    private List<Wind> wind;
+
+    public String getHumidity() {
+        return this.humidity;
+    }
+
+    public void setHumidity(String humidity) {
+        this.humidity = humidity;
+    }
+
+    public String getPressure() {
+        return this.pressure;
+    }
+
+    public void setPressure(String pressure) {
+        this.pressure = pressure;
+    }
+
+    public String getTemp() {
+        return this.temp;
+    }
+
+    public void setTemp(String temp) {
+        this.temp = temp;
+    }
+
+    public String getTemp_unit() {
+        return this.temp_unit;
+    }
+
+    public void setTemp_unit(String temp_unit) {
+        this.temp_unit = temp_unit;
+    }
+
+    public String getWeather_code() {
+        return this.weather_code;
+    }
+
+    public void setWeather_code(String weather_code) {
+        this.weather_code = weather_code;
+    }
+
+    public String getWeather_text() {
+        return this.weather_text;
+    }
+
+    public void setWeather_text(String weather_text) {
+        this.weather_text = weather_text;
+    }
+
+    public List<Wind> getWind() {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="35" tokens="152">
+<file line="65" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Day.java"/>
+<file line="65" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Night.java"/>
+<codefragment>
+<![CDATA[
+        Day other = (Day) obj;
+        if (id != other.id) {
+            return false;
+        }
+        if (weather_code == null) {
+            if (other.weather_code != null) {
+                return false;
+            }
+        } else if (!weather_code.equals(other.weather_code)) {
+            return false;
+        }
+        if (weather_text == null) {
+            if (other.weather_text != null) {
+                return false;
+            }
+        } else if (!weather_text.equals(other.weather_text)) {
+            return false;
+        }
+        if (wind == null) {
+            if (other.wind != null) {
+                return false;
+            }
+        } else if (!wind.equals(other.wind)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Day [weather_code=" + weather_code + ", weather_text="
+            + weather_text + ", wind=" + wind + "]";
+    }
+
+}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="28" tokens="138">
+<file line="72" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/Forecast.java"/>
+<file line="83" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Forecast.java"/>
+<codefragment>
+<![CDATA[
+        result = prime * result + (night == null ? 0 : night.hashCode());
+        result = prime * result
+            + (night_min_temp == null ? 0 : night_min_temp.hashCode());
+        result = prime * result
+            + (temp_unit == null ? 0 : temp_unit.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Forecast other = (Forecast) obj;
+        if (date == null) {
+            if (other.date != null) {
+                return false;
+            }
+        } else if (!date.equals(other.date)) {
+            return false;
+        }
+        if (day == null) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="26" tokens="133">
+<file line="40" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/Wind.java"/>
+<file line="58" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Wind.java"/>
+<codefragment>
+<![CDATA[
+        result = prime * result + (speed == null ? 0 : speed.hashCode());
+        result = prime * result
+            + (wind_unit == null ? 0 : wind_unit.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Wind other = (Wind) obj;
+        if (dir == null) {
+            if (other.dir != null) {
+                return false;
+            }
+        } else if (!dir.equals(other.dir)) {
+            return false;
+        }
+        if (speed == null) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="30" tokens="128">
+<file line="127" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
+<file line="66" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Day.java"/>
+<file line="66" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Night.java"/>
+<codefragment>
+<![CDATA[
+        } else if (!temp_unit.equals(other.temp_unit)) {
+            return false;
+        }
+        if (weather_code == null) {
+            if (other.weather_code != null) {
+                return false;
+            }
+        } else if (!weather_code.equals(other.weather_code)) {
+            return false;
+        }
+        if (weather_text == null) {
+            if (other.weather_text != null) {
+                return false;
+            }
+        } else if (!weather_text.equals(other.weather_text)) {
+            return false;
+        }
+        if (wind == null) {
+            if (other.wind != null) {
+                return false;
+            }
+        } else if (!wind.equals(other.wind)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CurrenWeather [humidity=" + humidity + ", pressure="
+]]>
+</codefragment>
+</duplication>
+<duplication lines="18" tokens="128">
+<file line="25" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/SimpleData.java"/>
+<file line="25" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/SimpleData.java"/>
+<codefragment>
+<![CDATA[
+        this.string = millis % MILLS_IN_A_SECOND + "ms";
+        this.millis = millis;
+        this.even = millis % 2 == 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("id=").append(id);
+        sb.append(", ").append("string=").append(string);
+        sb.append(", ").append("millis=").append(millis);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(
+            "MM/dd/yyyy HH:mm:ss.S");
+        sb.append(", ").append("date=").append(dateFormatter.format(date));
+        sb.append(", ").append("even=").append(even);
+        return sb.toString();
+    }
+}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="26" tokens="119">
+<file line="147" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
+<file line="66" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Day.java"/>
+<file line="66" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Night.java"/>
+<codefragment>
+<![CDATA[
+        } else if (!temp_unit.equals(other.temp_unit)) {
+            return false;
+        }
+        if (weather_code == null) {
+            if (other.weather_code != null) {
+                return false;
+            }
+        } else if (!weather_code.equals(other.weather_code)) {
+            return false;
+        }
+        if (weather_text == null) {
+            if (other.weather_text != null) {
+                return false;
+            }
+        } else if (!weather_text.equals(other.weather_text)) {
+            return false;
+        }
+        if (wind == null) {
+            if (other.wind != null) {
+                return false;
+            }
+        } else if (!wind.equals(other.wind)) {
+            return false;
+        }
+        return true;
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="19" tokens="106">
+<file line="82" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java"/>
+<file line="99" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java"/>
+<file line="46" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Day.java"/>
+<file line="46" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Night.java"/>
+<codefragment>
+<![CDATA[
+        result = prime * result
+            + (weather_code == null ? 0 : weather_code.hashCode());
+        result = prime * result
+            + (weather_text == null ? 0 : weather_text.hashCode());
+        result = prime * result + (wind == null ? 0 : wind.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="27" tokens="106">
+<file line="62" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/json/Wind.java"/>
+<file line="90" path="/Users/stephanenicolas/git/robospice/extensions/robospice-spring-android-parent/robospice-spring-android-test/src/com/octo/android/robospice/springandroid/test/model/xml/Wind.java"/>
+<codefragment>
+<![CDATA[
+        } else if (!dir.equals(other.dir)) {
+            return false;
+        }
+        if (speed == null) {
+            if (other.speed != null) {
+                return false;
+            }
+        } else if (!speed.equals(other.speed)) {
+            return false;
+        }
+        if (wind_unit == null) {
+            if (other.wind_unit != null) {
+                return false;
+            }
+        } else if (!wind_unit.equals(other.wind_unit)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Wind [dir=" + dir + ", speed=" + speed + ", wind_unit="
+            + wind_unit + "]";
+    }
+
+}
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>
