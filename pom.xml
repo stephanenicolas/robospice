@@ -81,12 +81,9 @@
 	</ciManagement>
 
 	<modules>
-		<!-- persistence -->
 		<module>robospice-cache-parent</module>
-		<!-- core library -->
 		<module>robospice-core-parent</module>
 
-		<!-- extensions -->
 		<module>extensions/robospice-spring-android-parent</module>
 		<module>extensions/robospice-google-http-client-parent</module>
 		<module>extensions/robospice-ormlite-parent</module>
@@ -377,11 +374,7 @@
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
 				<version>0.7</version>
-				<configuration>
-					<message>Creating site for ${project.version}</message>
-					<path>${project.distributionManagement.site.url}</path>
-					<merge>true</merge>
-				</configuration>
+				<inherited>false</inherited>
 				<executions>
 					<execution>
 						<id>site-deploy-to-github</id>
@@ -389,6 +382,13 @@
 							<goal>site</goal>
 						</goals>
 						<phase>site-deploy</phase>
+						<configuration>
+							<message>Creating site for ${project.version}</message>
+							<path>${project.distributionManagement.site.url}</path>
+							<excludes>
+								<exclude>dependencies/**</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -407,7 +407,39 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<profiles>
+		<profile>
+			<id>repository</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.github</groupId>
+						<artifactId>site-maven-plugin</artifactId>
+						<version>0.7</version>
+						<inherited>false</inherited>
+						<executions>
+							<execution>
+								<id>site-deploy-to-github</id>
+								<goals>
+									<goal>site</goal>
+								</goals>
+								<phase>deploy</phase>
+								<configuration>
+									<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+									<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+									<branch>refs/heads/repository</branch>                       <!-- remote branch name -->
+									<merge>true</merge>
+									<includes>
+										<include>dependencies/**</include>
+									</includes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>sign</id>
 			<activation>
@@ -470,6 +502,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
 				<reportSets>
 					<reportSet>
 						<id>aggregate</id><!-- aggregate reportSet, for pom with modules -->

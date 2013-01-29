@@ -22,5 +22,4 @@
 		<!-- test app -->
 		<module>robospice-core-test</module>
 	</modules>
-
 </project>
