@@ -115,15 +115,6 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<distributionManagement>
-		<site>
-			<id>github-pages-site</id>
-			<name>Deployment through GitHub's site deployment plugin</name>
-			<url>site/latest</url>
-		</site>
-	</distributionManagement>
-
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -410,7 +401,27 @@
 
 	<profiles>
 		<profile>
+			<id>standard</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<distributionManagement>
+				<site>
+					<id>github-pages-site</id>
+					<name>Deployment through GitHub's site deployment plugin</name>
+					<url>site/latest</url>
+				</site>
+			</distributionManagement>
+		</profile>
+		<profile>
 			<id>repository</id>
+			<distributionManagement>
+				<site>
+					<id>github-pages-site</id>
+					<name>Deployment through GitHub's site deployment plugin</name>
+					<url>repository</url>
+				</site>
+			</distributionManagement>
 			<build>
 				<plugins>
 					<plugin>
@@ -420,7 +431,7 @@
 						<inherited>false</inherited>
 						<executions>
 							<execution>
-								<id>site-deploy-to-github</id>
+								<id>repository-deploy-to-github</id>
 								<goals>
 									<goal>site</goal>
 								</goals>
@@ -429,7 +440,8 @@
 									<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
 									<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
 									<branch>refs/heads/repository</branch>                       <!-- remote branch name -->
-									<merge>true</merge>
+									<merge>false</merge>
+									<outputDirectory>${project.build.directory}/site/</outputDirectory>
 									<includes>
 										<include>dependencies/**</include>
 									</includes>
@@ -440,6 +452,7 @@
 				</plugins>
 			</build>
 		</profile>
+
 		<profile>
 			<id>sign</id>
 			<activation>
