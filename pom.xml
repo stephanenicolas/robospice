@@ -361,11 +361,12 @@
 		</pluginManagement>
 
 		<plugins>
+		    <!-- http://blog.akquinet.de/2012/04/12/maven-sites-reloaded/ -->
+		    <!-- http://minds.coremedia.com/2012/09/11/problem-solved-deploy-multi-module-maven-project-site-as-github-pages/ -->
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
 				<version>0.7</version>
-				<inherited>false</inherited>
 				<executions>
 					<execution>
 						<id>site-deploy-to-github</id>
@@ -374,6 +375,7 @@
 						</goals>
 						<phase>site-deploy</phase>
 						<configuration>
+						    <merge>true</merge>
 							<message>Creating site for ${project.version}</message>
 							<path>${project.distributionManagement.site.url}</path>
 							<excludes>
