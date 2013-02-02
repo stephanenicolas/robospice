@@ -374,8 +374,14 @@ public class SpiceManager implements Runnable {
      *            the key used to store and retrieve the result of the request
      *            in the cache
      * @param cacheDuration
-     *            the time in millisecond to keep cache alive (see
-     *            {@link DurationInMillis})
+     *            duration in millisecond after which the content of the cache
+     *            will be considered to be expired. For instance
+     *            DurationInMillis.ALWAYS means that data in cache will always
+     *            be considered expired, thus requests will always perform their
+     *            network operations to get new data. DurationInMillis.NEVER
+     *            means data will never be considered as expired, requests will
+     *            never perform network operations to refresh data but will
+     *            always return cached data. (see {@link DurationInMillis})
      * @param requestListener
      *            the listener to notify when the request will finish
      */
@@ -721,8 +727,8 @@ public class SpiceManager implements Runnable {
      * Get some data previously saved in cache with key <i>requestCacheKey</i>.
      * This method doesn't perform any network processing, it just check if
      * there are previously saved data. Don't call this method in the main
-     * thread because you could block it. Instead, use the asynchronous version of
-     * this method: {@link #getFromCache(final Class<T>, final String, final
+     * thread because you could block it. Instead, use the asynchronous version
+     * of this method: {@link #getFromCache(final Class<T>, final String, final
      * long, final RequestListener<T>) getFromCache}.
      * @param clazz
      *            the class of the result to retrieve from cache.
