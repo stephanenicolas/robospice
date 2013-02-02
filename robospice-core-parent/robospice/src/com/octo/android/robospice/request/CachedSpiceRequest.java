@@ -146,9 +146,7 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
             return false;
         }
         if (requestCacheKey == null) {
-            if (other.requestCacheKey != null) {
-                return false;
-            }
+            return false;
         } else if (!requestCacheKey.equals(other.requestCacheKey)) {
             return false;
         }

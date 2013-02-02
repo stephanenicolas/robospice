@@ -351,7 +351,9 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Execute a request, without using cache.
+     * Execute a request, without using cache. No result from cache will be
+     * returned. The method {@link SpiceRequest#loadDataFromNetwork()} will
+     * always be invoked. The result will not be stored in cache.
      * @param request
      *            the request to execute.
      * @param requestListener
