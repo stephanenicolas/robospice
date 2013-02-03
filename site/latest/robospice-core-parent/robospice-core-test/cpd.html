@@ -63,7 +63,7 @@
           <i class="icon-chevron-right"></i>
         Project Information</a>
                   </li>
-                                                                                                                                                      
+                                                                                                                                    
       <li>
     
                           <a href="project-reports.html" title="Project Reports">
@@ -76,13 +76,6 @@
                           <a href="checkstyle.html" title="Checkstyle">
           <i class="none"></i>
         Checkstyle</a>
-            </li>
-                      
-      <li>
-    
-                          <a href="findbugs.html" title="FindBugs Report">
-          <i class="none"></i>
-        FindBugs Report</a>
             </li>
                       
       <li>
@@ -131,7 +124,7 @@
                 
         <div id="bodyColumn"  class="span9" >
                                   
-            <div class="section"><h2>CPD Results<a name="CPD_Results"></a></h2><p>The following document contains the results of PMD's  <a class="externalLink" href="http://pmd.sourceforge.net/cpd.html">CPD</a> 4.3.</p></div><div class="section"><h2>Duplications<a name="Duplications"></a></h2><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>176</td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>315</td></tr><tr class="b"><td colspan='2'><div><pre>    public void testAddRequest_when_saving_to_cache_throws_exception() throws CacheLoadingException,
+            <div class="section"><h2>CPD Results<a name="CPD_Results"></a></h2><p>The following document contains the results of PMD's  <a class="externalLink" href="http://pmd.sourceforge.net/cpd.html">CPD</a> 4.3.</p></div><div class="section"><h2>Duplications<a name="Duplications"></a></h2><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#176">176</a></td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#315">315</a></td></tr><tr class="b"><td colspan='2'><div><pre>    public void testAddRequest_when_saving_to_cache_throws_exception() throws CacheLoadingException,
         CacheSavingException, InterruptedException {
         // given
         CachedSpiceRequestStub&lt;String&gt; stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION,
@@ -151,7 +144,7 @@
         EasyMock.replay(mockCacheManager);
 
         // when
-        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);</pre></div></td></tr></table><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>117</td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>254</td></tr><tr class="b"><td colspan='2'><div><pre>    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
+        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);</pre></div></td></tr></table><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#117">117</a></td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#254">254</a></td></tr><tr class="b"><td colspan='2'><div><pre>    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
         CacheSavingException, InterruptedException {
         // given
         CachedSpiceRequestStub&lt;String&gt; stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION,
@@ -171,7 +164,7 @@
         EasyMock.replay(mockCacheManager);
 
         // when
-        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);</pre></div></td></tr></table><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>393</td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>438</td></tr><tr class="b"><td colspan='2'><div><pre>            TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
+        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);</pre></div></td></tr></table><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#393">393</a></td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#438">438</a></td></tr><tr class="b"><td colspan='2'><div><pre>            TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
         CachedSpiceRequestStub&lt;String&gt; stubRequest2 = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2,
             TEST_DURATION, TEST_RETURNED_DATA);
         RequestListenerWithProgressStub&lt;String&gt; requestListenerStub = new RequestListenerWithProgressStub&lt;String&gt;();
@@ -183,7 +176,7 @@
 
         EasyMock.expect(
             mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY2),
-                EasyMock.eq(TEST_DURATION))).andReturn(null);</pre></div></td></tr></table><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>117</td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>176</td></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>254</td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>315</td></tr><tr class="b"><td colspan='2'><div><pre>    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
+                EasyMock.eq(TEST_DURATION))).andReturn(null);</pre></div></td></tr></table><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#117">117</a></td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#176">176</a></td></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#254">254</a></td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#315">315</a></td></tr><tr class="b"><td colspan='2'><div><pre>    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
         CacheSavingException, InterruptedException {
         // given
         CachedSpiceRequestStub&lt;String&gt; stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION,
@@ -199,7 +192,7 @@
         EasyMock
             .expect(
                 mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA),
-                    EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);</pre></div></td></tr></table><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>117</td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>176</td></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>208</td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>254</td></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td>315</td></tr><tr class="a"><td colspan='2'><div><pre>    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
+                    EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);</pre></div></td></tr></table><table border="0" class="table table-striped"><tr class="a"><th>File</th><th>Line</th></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#117">117</a></td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#176">176</a></td></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#208">208</a></td></tr><tr class="a"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#254">254</a></td></tr><tr class="b"><td>com/octo/android/robospice/request/RequestProcessorTest.java</td><td><a href="./xref/com/octo/android/robospice/request/RequestProcessorTest.html#315">315</a></td></tr><tr class="a"><td colspan='2'><div><pre>    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
         CacheSavingException, InterruptedException {
         // given
         CachedSpiceRequestStub&lt;String&gt; stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION,
