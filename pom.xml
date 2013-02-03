@@ -92,11 +92,35 @@
 	</modules>
 
 	<properties>
+		<!-- DEPENDENCIES VERSIONS -->
 		<android.version>4.1.1.4</android.version>
-		<android-platform.version>14</android-platform.version>
+		<android-platform.version>17</android-platform.version>
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
+		<easymock.version>2.5.2</easymock.version>
+		<mockwebserver.version>20121111</mockwebserver.version>
+		<junit.version>4.11</junit.version>
+		<commons-logging.version>1.1.1</commons-logging.version>
+
+		<!-- PLUGINS VERSIONS -->
 		<android-maven-plugin.version>3.4.2-SNAPSHOT</android-maven-plugin.version>
+		<site-maven-plugin.version>0.7</site-maven-plugin.version>
+		<maven-project-info-reports-plugin.version>2.6</maven-project-info-reports-plugin.version>
+		<maven-surefire-report-plugin.version>2.6</maven-surefire-report-plugin.version>
+		<maven-gpg-plugin.version>1.1</maven-gpg-plugin.version>
+		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
+		<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
+		<maven-release-plugin.version>2.3.2</maven-release-plugin.version>
+		<maven-javadoc-plugin.version>2.9</maven-javadoc-plugin.version>
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-site-plugin.version>3.2</maven-site-plugin.version>
+		<doxia-module-markdown.version>1.3</doxia-module-markdown.version>
+		<maven-pmd-plugin.version>2.7.1</maven-pmd-plugin.version>
+		<findbugs-maven-plugin.version>2.5.2</findbugs-maven-plugin.version>
+		<maven-checkstyle-plugin.version>2.9.1</maven-checkstyle-plugin.version>
+		<eclipse-lifecycle-plugin.version>1.0.0</eclipse-lifecycle-plugin.version>
+
+		<!-- OTHER -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
@@ -138,20 +162,25 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.11</version>
+				<version>${junit.version}</version>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>${easymock.version}</version>
 			</dependency>
 
 			<!-- http://stackoverflow.com/questions/5591811/ignoring-innerclasses-attribute-warning-is-killing-eclipse -->
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>
+				<version>${commons-logging.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.mockwebserver</groupId>
 				<artifactId>mockwebserver</artifactId>
-				<version>20121111</version>
+				<version>${mockwebserver.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -164,7 +193,7 @@
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
+					<version>${eclipse-lifecycle-plugin.version}</version>
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
@@ -209,7 +238,7 @@
 						<resourceDirectory>${project.basedir}/res</resourceDirectory>
 						<nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
 						<sdk>
-							<platform>7</platform>
+							<platform>${android-platform.version}</platform>
 						</sdk>
 						<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					</configuration>
@@ -217,7 +246,7 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
+					<version>${maven-compiler-plugin.version}</version>
 					<configuration>
 						<source>1.6</source>
 						<target>1.6</target>
@@ -225,12 +254,12 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.7</version>
+					<version>${maven-deploy-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9</version>
+					<version>${maven-javadoc-plugin.version}</version>
 					<executions>
 						<execution>
 							<id>attach-javadoc</id>
@@ -260,7 +289,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
-					<version>2.1.2</version>
+					<version>${maven-source-plugin.version}</version>
 					<executions>
 						<execution>
 							<id>attach-source</id>
@@ -274,13 +303,14 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>2.9.1</version>
+					<version>${maven-checkstyle-plugin.version}</version>
 					<configuration>
 						<configLocation>robospice_checks.xml</configLocation>
 						<enableRulesSummary>false</enableRulesSummary>
 					</configuration>
 					<executions>
 						<execution>
+							<id>checkstyle-check</id>
 							<phase>process-sources</phase>
 							<goals>
 								<goal>check</goal>
@@ -291,9 +321,10 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>findbugs-maven-plugin</artifactId>
-					<version>2.5.2</version>
+					<version>${findbugs-maven-plugin.version}</version>
 					<executions>
 						<execution>
+							<id>findbugs-check</id>
 							<phase>verify</phase>
 							<goals>
 								<goal>check</goal>
@@ -304,12 +335,13 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-pmd-plugin</artifactId>
-					<version>2.7.1</version>
+					<version>${maven-pmd-plugin.version}</version>
 					<configuration>
 						<targetJdk>1.5</targetJdk>
 					</configuration>
 					<executions>
 						<execution>
+							<id>pmd-check</id>
 							<goals>
 								<goal>check</goal>
 								<goal>cpd-check</goal>
@@ -321,7 +353,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-					<version>3.2</version>
+					<version>${maven-site-plugin.version}</version>
 					<configuration>
 						<skipDeploy>true</skipDeploy>
 					</configuration>
@@ -331,14 +363,14 @@
 								files below | src/site/markdown/[filename].md -->
 							<groupId>org.apache.maven.doxia</groupId>
 							<artifactId>doxia-module-markdown</artifactId>
-							<version>1.3</version>
+							<version>${doxia-module-markdown.version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
-					<version>1.1</version>
+					<version>${maven-gpg-plugin.version}</version>
 					<executions>
 						<execution>
 							<id>sign-artifacts</id>
@@ -352,7 +384,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.3.2</version>
+					<version>${maven-release-plugin.version}</version>
 					<configuration>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 					</configuration>
@@ -361,12 +393,16 @@
 		</pluginManagement>
 
 		<plugins>
-		    <!-- http://blog.akquinet.de/2012/04/12/maven-sites-reloaded/ -->
-		    <!-- http://minds.coremedia.com/2012/09/11/problem-solved-deploy-multi-module-maven-project-site-as-github-pages/ -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<!-- http://blog.akquinet.de/2012/04/12/maven-sites-reloaded/ -->
+			<!-- http://minds.coremedia.com/2012/09/11/problem-solved-deploy-multi-module-maven-project-site-as-github-pages/ -->
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
-				<version>0.7</version>
+				<version>${site-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>site-deploy-to-github</id>
@@ -375,7 +411,7 @@
 						</goals>
 						<phase>site-deploy</phase>
 						<configuration>
-						    <merge>true</merge>
+							<merge>true</merge>
 							<message>Creating site for ${project.version}</message>
 							<path>${project.distributionManagement.site.url}</path>
 							<excludes>
@@ -388,6 +424,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<inherited>false</inherited>
 				<configuration>
 					<sourcepath>robospice-core-parent/robospice:
 						robospice-cache-parent/robospice-cache:
@@ -429,7 +466,7 @@
 					<plugin>
 						<groupId>com.github.github</groupId>
 						<artifactId>site-maven-plugin</artifactId>
-						<version>0.7</version>
+						<version>${site-maven-plugin.version}</version>
 						<inherited>false</inherited>
 						<executions>
 							<execution>
@@ -486,12 +523,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.6</version>
+				<version>${maven-project-info-reports-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>${maven-checkstyle-plugin.version}</version>
 				<configuration>
 					<!-- we are using the Sun Standard code style from the Maven Checkstyle 
 						Plugin -->
@@ -502,22 +539,25 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.5.2</version>
+				<version>${findbugs-maven-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.6</version>
+				<version>${maven-surefire-report-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.7.1</version>
+				<version>${maven-pmd-plugin.version}</version>
+				<configuration>
+					<targetJdk>1.5</targetJdk>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
+				<version>${maven-javadoc-plugin.version}</version>
 				<reportSets>
 					<reportSet>
 						<id>aggregate</id><!-- aggregate reportSet, for pom with modules -->

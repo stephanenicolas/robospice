@@ -16,6 +16,8 @@ Enhancements :
 * Added dedicated services to each module. They provide all configurations out of the box for processing web services and caching.
 * Enhanced NetworkStateChecker interface in order to refine permission checking and allow real processing of request that
 are not related to networking.
+* Peer review of multi tasking aspects of RoboSpice by Henri Tremblay.
+* Hosted on Sonar's Nemo.
 
 Documentation : 
 * Added documentation on Wiki pages for Advanced RoboSpice usages and FAQ, samples, maven and non maven setup, software design, contributors, etc.

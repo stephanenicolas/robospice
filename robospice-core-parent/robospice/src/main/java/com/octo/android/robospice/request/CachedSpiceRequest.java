@@ -1,6 +1,5 @@
 package com.octo.android.robospice.request;
 
-import java.util.UUID;
 import java.util.concurrent.Future;
 
 import com.octo.android.robospice.request.listener.RequestCancellationListener;
@@ -10,7 +9,7 @@ import com.octo.android.robospice.request.listener.RequestStatus;
 
 public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
 
-    private Object requestCacheKey = UUID.randomUUID().toString();
+    private Object requestCacheKey;
     private final long cacheDuration;
     private final SpiceRequest<RESULT> spiceRequest;
     private boolean isProcessable = true;

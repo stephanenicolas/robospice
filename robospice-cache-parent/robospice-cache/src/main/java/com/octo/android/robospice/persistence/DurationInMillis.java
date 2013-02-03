@@ -1,13 +1,21 @@
 package com.octo.android.robospice.persistence;
 
 /**
- * Utility interface to write duration, used to ease maximum time a value is
- * considered value in the cache before expiring.
+ * Utility interface to write durations. Its values can be used as helpers for
+ * the SpiceManager.execute method.
  * @author sni
  */
 public interface DurationInMillis {
 
+    /**
+     * Data in cache will never be returned, a network call will always be
+     * performed.
+     */
     long NEVER = -1;
+    /**
+     * Data in cache will always be returned. Thus a network call will only be
+     * performed once.
+     */
     long ALWAYS = 0;
     long ONE_SECOND = 1000;
     long ONE_MINUTE = 60 * ONE_SECOND;

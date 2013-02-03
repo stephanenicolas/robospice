@@ -283,9 +283,12 @@ public class SpiceManager implements Runnable {
      * @param requestCacheKey
      *            the key used to store and retrieve the result of the request
      *            in the cache
-     * @param cacheDuration
-     *            the time in millisecond to keep cache alive (see
-     *            {@link DurationInMillis})
+     * @param cacheExpiryDuration
+     *            duration in milliseconds after which the content of the cache
+     *            will be considered to be expired.
+     *            {@link DurationInMillis#ALWAYS} means data in cache is always
+     *            returned if it exists. {@link DurationInMillis#NEVER} means
+     *            data in cache is never returned.(see {@link DurationInMillis})
      * @param requestListener
      *            the listener to notify when the request will finish. If
      *            nothing is found in cache, listeners will receive a null
@@ -297,7 +300,7 @@ public class SpiceManager implements Runnable {
      *            method.
      */
     public <T> void getFromCache(final Class<T> clazz,
-        final String requestCacheKey, final long cacheDuration,
+        final String requestCacheKey, final long cacheExpiryDuration,
         final RequestListener<T> requestListener) {
         final SpiceRequest<T> request = new SpiceRequest<T>(clazz) {
 
@@ -312,7 +315,7 @@ public class SpiceManager implements Runnable {
             }
         };
         final CachedSpiceRequest<T> cachedSpiceRequest = new CachedSpiceRequest<T>(
-            request, requestCacheKey, cacheDuration);
+            request, requestCacheKey, cacheExpiryDuration);
         execute(cachedSpiceRequest, requestListener);
     }
 
@@ -382,14 +385,11 @@ public class SpiceManager implements Runnable {
      *            the key used to store and retrieve the result of the request
      *            in the cache
      * @param cacheExpiryDuration
-     *            duration in millisecond after which the content of the cache
-     *            will be considered to be expired. For instance
-     *            DurationInMillis.ALWAYS means that data in cache will always
-     *            be considered expired, thus requests will always perform their
-     *            network operations to get new data. DurationInMillis.NEVER
-     *            means data will never be considered as expired, requests will
-     *            never perform network operations to refresh data but will
-     *            always return cached data. (see {@link DurationInMillis})
+     *            duration in milliseconds after which the content of the cache
+     *            will be considered to be expired.
+     *            {@link DurationInMillis#ALWAYS} means data in cache is always
+     *            returned if it exists. {@link DurationInMillis#NEVER} means
+     *            data in cache is never returned.(see {@link DurationInMillis})
      * @param requestListener
      *            the listener to notify when the request will finish
      */
