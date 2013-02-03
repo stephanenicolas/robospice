@@ -17,10 +17,7 @@ import android.test.suitebuilder.annotation.MediumTest;
 import com.octo.android.robospice.persistence.DurationInMillis;
 
 @MediumTest
-public class InFileInputStreamObjectPersisterTest extends
-    InstrumentationTestCase {
-
-    private static final int SAVE_TIMEOUT = 1000;
+public class InFileInputStreamObjectPersisterTest extends InstrumentationTestCase {
 
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
 
@@ -31,15 +28,13 @@ public class InFileInputStreamObjectPersisterTest extends
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation()
-            .getTargetContext().getApplicationContext();
-        inputStreamCacheManager = new InFileInputStreamObjectPersister(
-            application);
+        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        inputStreamCacheManager = new InFileInputStreamObjectPersister(application);
     }
 
     public void testSaveDataToCacheAndReturnData() throws Exception {
-        inputStreamCacheManager.saveDataToCacheAndReturnData(
-            new ByteArrayInputStream("coucou".getBytes()), TEST_CACHE_KEY);
+        inputStreamCacheManager.saveDataToCacheAndReturnData(new ByteArrayInputStream("coucou".getBytes()),
+            TEST_CACHE_KEY);
 
         File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
         assertTrue(cachedFile.exists());
@@ -58,8 +53,7 @@ public class InFileInputStreamObjectPersisterTest extends
         IOUtils.write("coucou", fileOutputStream);
         IOUtils.closeQuietly(fileOutputStream);
 
-        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(
-            TEST_CACHE_KEY, DurationInMillis.ALWAYS);
+        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
         byte[] actual = IOUtils.toByteArray(inputStream);
         IOUtils.closeQuietly(inputStream);
         assertTrue(Arrays.equals("coucou".getBytes(), actual));
@@ -71,8 +65,8 @@ public class InFileInputStreamObjectPersisterTest extends
         IOUtils.write("coucou", fileOutputStream);
         IOUtils.closeQuietly(fileOutputStream);
 
-        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(
-            TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
+        InputStream inputStream = inputStreamCacheManager
+            .loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
         byte[] actual = IOUtils.toByteArray(inputStream);
         IOUtils.closeQuietly(inputStream);
         assertTrue(Arrays.equals("coucou".getBytes(), actual));
@@ -85,8 +79,8 @@ public class InFileInputStreamObjectPersisterTest extends
         IOUtils.closeQuietly(fileOutputStream);
         cachedFile.setLastModified(System.currentTimeMillis() - FIVE_SECONDS);
 
-        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(
-            TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
+        InputStream inputStream = inputStreamCacheManager
+            .loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
         assertNull(inputStream);
     }
 
