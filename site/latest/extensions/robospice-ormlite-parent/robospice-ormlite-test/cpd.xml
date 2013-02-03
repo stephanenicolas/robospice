@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
 <duplication lines="57" tokens="225">
-<file line="5" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/Day.java"/>
-<file line="5" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/Night.java"/>
+<file line="5" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/Day.java"/>
+<file line="5" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/Night.java"/>
 <codefragment>
 <![CDATA[
 public class Day {
@@ -66,8 +66,8 @@ public class Day {
 </codefragment>
 </duplication>
 <duplication lines="35" tokens="152">
-<file line="62" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/Day.java"/>
-<file line="61" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/Night.java"/>
+<file line="62" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/Day.java"/>
+<file line="61" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/Night.java"/>
 <codefragment>
 <![CDATA[
         Day other = (Day) obj;
@@ -109,9 +109,9 @@ public class Day {
 </codefragment>
 </duplication>
 <duplication lines="26" tokens="119">
-<file line="152" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/CurrenWeather.java"/>
-<file line="63" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/Day.java"/>
-<file line="62" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/Night.java"/>
+<file line="152" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/CurrenWeather.java"/>
+<file line="63" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/Day.java"/>
+<file line="62" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/Night.java"/>
 <codefragment>
 <![CDATA[
         } else if (!temp_unit.equals(other.temp_unit)) {
@@ -144,9 +144,9 @@ public class Day {
 </codefragment>
 </duplication>
 <duplication lines="19" tokens="106">
-<file line="104" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/CurrenWeather.java"/>
-<file line="43" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/Day.java"/>
-<file line="42" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/com/octo/android/robospice/ormlite/test/model/Night.java"/>
+<file line="104" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/CurrenWeather.java"/>
+<file line="43" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/Day.java"/>
+<file line="42" path="/Users/stephanenicolas/git/robospice/extensions/robospice-ormlite-parent/robospice-ormlite-test/src/main/java/com/octo/android/robospice/ormlite/test/model/Night.java"/>
 <codefragment>
 <![CDATA[
         result = prime * result
