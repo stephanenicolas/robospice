@@ -4,20 +4,37 @@ Release notes for RoboSpice
 Version 1.4.0 (to be released )
 -------------
 
+Enhancements : 
+
 * Riccardo Ciovati joined the team.
-* completely reviewed maven structure. Introduction of an easier extension mechanism and simpler samples. Thx to pommedeterresauté
-* added removeAllDataFromCache overload in spice manager : thx to Kaan Meralan
-* added retrofit module with tests and samples
-* enhanced cancel mechanism
-* enhanced core testing and extension testing.
-* added documentation on Wiki pages for Advanced RoboSpice usages and FAQ, samples, maven and non maven setup, software design, contributors, etc.
-* minor bugs solved in persistence module.
+* Added removeAllDataFromCache overload in spice manager : thx to Kaan Meralan
+* Added retrofit module with tests and samples
+* Enhanced cancel mechanism
+* Enhanced core testing and extension testing.
+* Added first UI module in RoboSpice to create ListViews using RoboSpice.
 * CacheKey is now of type Object and not String anymore. Thx to Fernando Franco Gíraldez for his pull request.
-* Added dedicated services to each module. They provide all configuration out of the box for processing web services and caching.
+* Added dedicated services to each module. They provide all configurations out of the box for processing web services and caching.
 * Enhanced NetworkStateChecker interface in order to refine permission checking and allow real processing of request that
 are not related to networking.
-* Added first UI module in RoboSpice to create ListViews using RoboSpice.
-* Thx to Alessio Bianchi for finding a bug in GsonObjectPersister
+
+Documentation : 
+* Added documentation on Wiki pages for Advanced RoboSpice usages and FAQ, samples, maven and non maven setup, software design, contributors, etc.
+* Added samples for most of the RoboSpice extensions.
+* Added maven site
+* Added repository branch on GitHub to assist non maven users to setup RoboSpice.
+* Enhanced javadocs
+
+Bug fix :
+
+* Minor bugs of undesired aggregation of offline requests solved. Thanks to djusv.
+* Minor bugs solved in persistence module.
+* Minor bug in GsonObjectPersister solved. Thx to Alessio Bianchi. 
+
+For contributors :
+ 
+* Completely reviewed maven structure. Introduction of an easier extension mechanism and simpler samples. Thx to pommedeterresauté
+* All project layouts inside RoboSpice are mavenized
+* Added wiki pages for contributors, common tasks and so on.
 
 
 Version 1.3.1 (december 2012)
