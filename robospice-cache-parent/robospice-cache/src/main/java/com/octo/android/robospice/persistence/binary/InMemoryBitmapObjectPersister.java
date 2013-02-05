@@ -8,11 +8,9 @@ import android.app.ActivityManager;
 
 /**
  * Concrete implementation of {@link InMemoryLRUCacheObjectPersister} for bitmap
- * objects.
- *
- * By default, it creates an LRU cache that can fill up to 1/4 of application
- * memory. This value can be changed by passing a different cache size in the
- * constructor method.
+ * objects. By default, it creates an LRU cache that can fill up to 1/4 of
+ * application memory. This value can be changed by passing a different cache
+ * size in the constructor method.
  */
 
 public class InMemoryBitmapObjectPersister extends
@@ -20,10 +18,13 @@ public class InMemoryBitmapObjectPersister extends
 
     private final int cacheSize;
 
+    private static final int DEFAULT_CACHE_SIZE = 1024 * 1024 * 4;
+    private static final int BASELINE_MEMCLASS = 16;
+
     /**
      * Convenience constructor with the default cache size.
-     *
-     * @param application the Android application object
+     * @param application
+     *            the Android application object
      */
 
     public InMemoryBitmapObjectPersister(Application application) {
@@ -32,12 +33,14 @@ public class InMemoryBitmapObjectPersister extends
 
     /**
      * Default constructor method.
-     *
-     * @param application the Android application object
-     * @param cacheSize the requested cache size, in bytes. If the size is less
-     *                  than one, the cache size is limited to 1/4 of the
-     *                  application memory.
+     * @param application
+     *            the Android application object
+     * @param cacheSize
+     *            the requested cache size, in bytes. If the size is less than
+     *            one, the cache size is limited to 1/4 of the application
+     *            memory.
      */
+
     public InMemoryBitmapObjectPersister(Application application, int cacheSize) {
         super(application, Bitmap.class);
 
@@ -47,15 +50,15 @@ public class InMemoryBitmapObjectPersister extends
             this.cacheSize = cacheSize;
         } else {
             int memClass = ((ActivityManager) application
-                .getSystemService( Context.ACTIVITY_SERVICE )).getMemoryClass();
-            this.cacheSize = 1024 * 1024 * 4 * (memClass / 16);
+                .getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+            this.cacheSize = DEFAULT_CACHE_SIZE
+                * (memClass / BASELINE_MEMCLASS);
         }
     }
 
     /**
      * Creates the LRUCache, calculating the size of the object based on the
      * number of bytes in the bitmap.
-     *
      * @return the instantiated cache
      */
 
@@ -65,7 +68,8 @@ public class InMemoryBitmapObjectPersister extends
 
             @Override
             protected int sizeOf(Object key, CacheItem<Bitmap> value) {
-                return value.data.getRowBytes() * value.data.getHeight();
+                Bitmap data = value.getData();
+                return data.getRowBytes() * data.getHeight();
             }
 
             @Override

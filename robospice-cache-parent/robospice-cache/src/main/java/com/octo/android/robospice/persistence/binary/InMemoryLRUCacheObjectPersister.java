@@ -13,10 +13,8 @@ import java.util.Map;
 
 /**
  * @author David Stemmer
- * @author Mike Jancola
- *
- * Abstract in-memory object persister, based on the Android LRUCache.
- *
+ * @author Mike Jancola Abstract in-memory object persister, based on the
+ *         Android LRUCache.
  */
 
 public abstract class InMemoryLRUCacheObjectPersister<T> extends
@@ -40,7 +38,6 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
 
     /**
      * Subclasses must implement this method to instantiate the LRU cache.
-     *
      * @return the instantiated cache object
      */
 
@@ -50,26 +47,37 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
      * The CacheItem class represents a cached object, consisting of a piece of
      * immutable data and a timestamp marking when the data was added to the
      * cache.
-     *
-     * @param <T> the type of object that will be stored in the cache
+     * @param <T>
+     *            the type of object that will be stored in the cache
      */
 
     protected static class CacheItem<T> {
-        public final long created;
-        public final T data;
+        private final long created;
+        private final T data;
 
         public CacheItem(long created, T data) {
             this.created = created;
             this.data = data;
         }
+
+        public long getCreated() {
+            return created;
+        }
+
+        public T getData() {
+            return data;
+        }
     }
 
     /**
-     *
-     * @param cacheKey the cacheKey of the data to load.
-     * @param maxTimeInCacheBeforeExpiry max time, in milliseconds, that the data should remain in the cache
+     * @param cacheKey
+     *            the cacheKey of the data to load.
+     * @param maxTimeInCacheBeforeExpiry
+     *            max time, in milliseconds, that the data should remain in the
+     *            cache
      * @return the cached data
-     * @throws CacheLoadingException when the cache data is null
+     * @throws CacheLoadingException
+     *             when the cache data is null
      */
 
     @Override
@@ -80,13 +88,13 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
         String errorMsg = String.format(CACHE_MISS_NOT_FOUND, cacheKey);
 
         /*
-        Since this is an in-memory cache and will be dumped when the
-        device reboots, the timestamp is retrieved via the
-        {@link android.os.SystemClock#elapsedRealtime()} method. This method
-        counts the time since boot and is safer than
-        {@link System#currentTimeMillis()} which can be dependant on user
-        configuration.
-        */
+         * Since this is an in-memory cache and will be dumped when the device
+         * reboots, the timestamp is retrieved via the {@link
+         * android.os.SystemClock#elapsedRealtime()} method. This method counts
+         * the time since boot and is safer than {@link
+         * System#currentTimeMillis()} which can be dependant on user
+         * configuration.
+         */
 
         if (cacheItem != null) {
             long timeInCache = SystemClock.elapsedRealtime()
@@ -122,7 +130,7 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
         throws CacheSavingException {
         CacheItem<T> itemToCache = new CacheItem<T>(
             SystemClock.elapsedRealtime(), bitmap);
-        getMemoryCache().put( cacheKey, itemToCache);
+        getMemoryCache().put(cacheKey, itemToCache);
 
         return bitmap;
     }
