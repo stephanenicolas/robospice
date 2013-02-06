@@ -7,10 +7,12 @@ import android.app.Application;
 import android.app.ActivityManager;
 
 /**
- * Concrete implementation of {@link InMemoryLRUCacheObjectPersister} for bitmap
- * objects. By default, it creates an LRU cache that can fill up to 1/4 of
- * application memory. This value can be changed by passing a different cache
- * size in the constructor method.
+ * @author David Stemmer
+ * @author Mike Jancola Concrete implementation of
+ *         {@link InMemoryLRUCacheObjectPersister} for bitmap objects. By
+ *         default, it creates an LRU cache that can fill up to 1/4 of
+ *         application memory. This value can be changed by passing a different
+ *         cache size in the constructor method.
  */
 
 public class InMemoryBitmapObjectPersister extends
