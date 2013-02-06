@@ -3,6 +3,7 @@ package com.octo.android.robospice.persistence.binary;
 import android.app.Application;
 import android.os.SystemClock;
 import android.support.v4.util.LruCache;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
@@ -29,7 +30,7 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
         super(application, clazz);
     }
 
-    private LruCache<Object, CacheItem<T>> getMemoryCache() {
+    protected LruCache<Object, CacheItem<T>> getMemoryCache() {
         if (memoryCache == null) {
             memoryCache = instantiateLRUCache();
         }
@@ -77,7 +78,7 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
      *            cache
      * @return the cached data
      * @throws CacheLoadingException
-     *             when the cache data is null
+     *             when the cache data is expired or not found
      */
 
     @Override
@@ -97,9 +98,10 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
          */
 
         if (cacheItem != null) {
+            boolean doesExpire = maxTimeInCacheBeforeExpiry != DurationInMillis.ALWAYS;
             long timeInCache = SystemClock.elapsedRealtime()
                 - cacheItem.created;
-            if (timeInCache > maxTimeInCacheBeforeExpiry) {
+            if (doesExpire && timeInCache > maxTimeInCacheBeforeExpiry) {
                 errorMsg = String.format(CACHE_MISS_EXPIRED, cacheKey);
             } else {
                 return cacheItem.data;
