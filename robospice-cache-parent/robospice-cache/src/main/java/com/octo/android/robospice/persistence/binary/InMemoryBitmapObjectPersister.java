@@ -1,18 +1,20 @@
 package com.octo.android.robospice.persistence.binary;
 
-import android.support.v4.util.LruCache;
-import android.graphics.Bitmap;
-import android.content.Context;
-import android.app.Application;
 import android.app.ActivityManager;
+import android.app.Application;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.util.LruCache;
+import com.octo.android.robospice.persistence.ObjectPersister;
+import com.octo.android.robospice.persistence.memory.InMemoryLRUCacheObjectPersister;
 
 /**
  * @author David Stemmer
  * @author Mike Jancola Concrete implementation of
- *         {@link InMemoryLRUCacheObjectPersister} for bitmap objects. By
- *         default, it creates an LRU cache that can fill up to 1/4 of
- *         application memory. This value can be changed by passing a different
- *         cache size in the constructor method.
+ *         {@link com.octo.android.robospice.persistence.memory.InMemoryLRUCacheObjectPersister}
+ *         for bitmap objects. By default, it creates an LRU cache that can fill
+ *         up to 1/4 of application memory. This value can be changed by passing
+ *         a different cache size in the constructor method.
  */
 
 public class InMemoryBitmapObjectPersister extends
@@ -24,13 +26,23 @@ public class InMemoryBitmapObjectPersister extends
     private static final int BASELINE_MEMCLASS = 16;
 
     /**
-     * Convenience constructor with the default cache size.
+     * Convenience constructor with the default cache size and no fallback persister.
      * @param application
      *            the Android application object
      */
 
     public InMemoryBitmapObjectPersister(Application application) {
         this(application, -1);
+    }
+
+    /**
+     * Convenience constructor with the default cache size.
+     * @param application
+     *            the Android application object
+     */
+
+    public InMemoryBitmapObjectPersister(Application application, int cacheSize) {
+        this (application, cacheSize, null);
     }
 
     /**
@@ -43,8 +55,11 @@ public class InMemoryBitmapObjectPersister extends
      *            memory.
      */
 
-    public InMemoryBitmapObjectPersister(Application application, int cacheSize) {
-        super(application, Bitmap.class);
+    public InMemoryBitmapObjectPersister (
+        Application application,
+        int cacheSize,
+        ObjectPersister<Bitmap> fallbackPersister) {
+        super(application, Bitmap.class, fallbackPersister);
 
         // base Android memory class is 16 MB per process
         // the cache should take up no more than 1/4 of the available app memory

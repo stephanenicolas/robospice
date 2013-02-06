@@ -1,8 +1,9 @@
 package com.octo.android.robospice.persistence.binary;
 
-import android.test.InstrumentationTestCase;
-import android.graphics.Bitmap;
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.support.v4.util.LruCache;
+import android.test.InstrumentationTestCase;
 
 public class InMemoryBitmapObjectPersisterTest extends InstrumentationTestCase {
 
@@ -20,7 +21,21 @@ public class InMemoryBitmapObjectPersisterTest extends InstrumentationTestCase {
     // The cache is large enough to hold no more than 1 bitmap
     private static final int CACHE_SIZE = BITMAP_SIZE * 3 / 2;
 
-    private InMemoryBitmapObjectPersister testPersister;
+    private TestBitmapPersister testPersister;
+
+    private class TestBitmapPersister extends InMemoryBitmapObjectPersister {
+
+        private TestBitmapPersister( Application application, int cacheSize )
+        {
+            super( application, cacheSize );
+        }
+
+        // increase visibility
+        @Override
+        public LruCache<Object, CacheItem<Bitmap>> getMemoryCache() {
+            return super.getMemoryCache();
+        }
+    }
 
     @Override
     protected void setUp() throws Exception {
@@ -29,13 +44,14 @@ public class InMemoryBitmapObjectPersisterTest extends InstrumentationTestCase {
         Application application = (Application) getInstrumentation()
             .getTargetContext().getApplicationContext();
 
-        testPersister = new InMemoryBitmapObjectPersister(application,
-            CACHE_SIZE);
+        testPersister = new TestBitmapPersister(application, CACHE_SIZE);
+
     }
 
     public void testCacheSizeCalculation() throws Exception {
         testPersister.saveDataToCacheAndReturnData(testBitmap, CACHE_KEY_1);
         assertEquals(testPersister.getMemoryCache().size(), BITMAP_SIZE);
     }
+
 
 }

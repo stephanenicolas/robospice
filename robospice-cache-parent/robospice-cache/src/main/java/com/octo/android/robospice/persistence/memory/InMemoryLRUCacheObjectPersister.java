@@ -1,4 +1,4 @@
-package com.octo.android.robospice.persistence.binary;
+package com.octo.android.robospice.persistence.memory;
 
 import android.app.Application;
 import android.os.SystemClock;
@@ -24,10 +24,18 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
     private static final String CACHE_MISS_NOT_FOUND = "%s: not found in cache";
 
     private LruCache<Object, CacheItem<T>> memoryCache;
+    private final ObjectPersister<T> fallbackPersister;
 
     protected InMemoryLRUCacheObjectPersister(Application application,
         Class<T> clazz) {
+        this(application, clazz, null);
+    }
+
+    protected InMemoryLRUCacheObjectPersister(Application application,
+        Class<T> clazz, ObjectPersister<T> fallback) {
         super(application, clazz);
+        this.fallbackPersister = fallback;
+
     }
 
     protected LruCache<Object, CacheItem<T>> getMemoryCache() {
@@ -35,6 +43,10 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
             memoryCache = instantiateLRUCache();
         }
         return memoryCache;
+    }
+
+    public ObjectPersister<T> getFallbackPersister() {
+        return fallbackPersister;
     }
 
     /**
@@ -86,7 +98,8 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
         throws CacheLoadingException {
         String keyString = cacheKey.toString();
         CacheItem<T> cacheItem = getMemoryCache().get(keyString);
-        String errorMsg = String.format(CACHE_MISS_NOT_FOUND, cacheKey);
+
+        T dataToReturn =  null;
 
         /*
          * Since this is an in-memory cache and will be dumped when the device
@@ -98,17 +111,26 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
          */
 
         if (cacheItem != null) {
-            boolean doesExpire = maxTimeInCacheBeforeExpiry != DurationInMillis.ALWAYS;
-            long timeInCache = SystemClock.elapsedRealtime()
-                - cacheItem.created;
-            if (doesExpire && timeInCache > maxTimeInCacheBeforeExpiry) {
-                errorMsg = String.format(CACHE_MISS_EXPIRED, cacheKey);
+            boolean dataDoesExpire = maxTimeInCacheBeforeExpiry != DurationInMillis.ALWAYS;
+            boolean dataIsStale = SystemClock.elapsedRealtime() - cacheItem.created > maxTimeInCacheBeforeExpiry;
+            if (dataDoesExpire && dataIsStale) {
+                String errorMsg = String.format(CACHE_MISS_EXPIRED, cacheKey);
+                throw new CacheLoadingException( errorMsg );
             } else {
-                return cacheItem.data;
+                dataToReturn = cacheItem.data;
             }
+        } else if (fallbackPersister != null ){
+            dataToReturn = fallbackPersister.loadDataFromCache( cacheKey,
+                                                        maxTimeInCacheBeforeExpiry );
         }
 
-        throw new CacheLoadingException(errorMsg);
+        boolean dataIsMissing = dataToReturn == null;
+        if (dataIsMissing)  {
+            String errorMsg = String.format( CACHE_MISS_NOT_FOUND, cacheKey );
+            throw new CacheLoadingException(errorMsg);
+        }
+
+        return dataToReturn;
     }
 
     @Override
@@ -128,18 +150,23 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
     }
 
     @Override
-    public T saveDataToCacheAndReturnData(T bitmap, Object cacheKey)
+    public T saveDataToCacheAndReturnData(T data, Object cacheKey)
         throws CacheSavingException {
         CacheItem<T> itemToCache = new CacheItem<T>(
-            SystemClock.elapsedRealtime(), bitmap);
+            SystemClock.elapsedRealtime(), data);
         getMemoryCache().put(cacheKey, itemToCache);
 
-        return bitmap;
+        if (fallbackPersister != null) {
+            fallbackPersister.saveDataToCacheAndReturnData(data, cacheKey);
+        }
+
+        return data;
     }
 
     @Override
     public boolean removeDataFromCache(Object o) {
         return (getMemoryCache().remove(o) != null);
+
     }
 
     @Override
