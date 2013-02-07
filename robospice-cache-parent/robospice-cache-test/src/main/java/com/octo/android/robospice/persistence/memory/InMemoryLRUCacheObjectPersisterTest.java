@@ -1,8 +1,9 @@
 package com.octo.android.robospice.persistence.memory;
 
-import android.app.Application;
-import android.support.v4.util.LruCache;
 import android.test.InstrumentationTestCase;
+import android.support.v4.util.LruCache;
+import android.app.Application;
+
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
@@ -11,66 +12,63 @@ import com.octo.android.robospice.persistence.string.InFileStringObjectPersister
 public class InMemoryLRUCacheObjectPersisterTest extends
     InstrumentationTestCase {
 
-    private static final int    CACHE_SIZE      = 2;
-    private static final String CACHE_KEY_1     = "cacheKey1";
-    private static final String CACHE_KEY_2     = "cacheKey2";
-    private static final String CACHE_KEY_3     = "cacheKey3";
-    private static final String GENERIC_DATA    = "hello world!";
-    private static final long   ONE_MILLISECOND = 1;
-    private static final long   TEN_MILLISECONDS = ONE_MILLISECOND * 10;
+    private static final int CACHE_SIZE = 2;
+    private static final String CACHE_KEY_1 = "cacheKey1";
+    private static final String CACHE_KEY_2 = "cacheKey2";
+    private static final String CACHE_KEY_3 = "cacheKey3";
+    private static final String GENERIC_DATA = "hello world!";
+    private static final long ONE_MILLISECOND = 1;
+    private static final long TEN_MILLISECONDS = ONE_MILLISECOND * 10;
 
-    private static final String EXPIRED_DATA_MSG      = "Cache loaded expired data instead of throwing a CacheLoadingException.";
+    private static final String EXPIRED_DATA_MSG = "Cache loaded expired data instead of throwing a CacheLoadingException.";
     private static final String DID_NOT_PURGE_LRU_MSG = "Cache loaded old data that should have been purged by the LRUCache.";
 
     private TestLRUPersister testPersister;
     private TestLRUPersister testPersisterWithFallback;
 
-    private class TestLRUPersister extends InMemoryLRUCacheObjectPersister<String>
-    {
+    private class TestLRUPersister extends
+        InMemoryLRUCacheObjectPersister<String> {
 
-        private TestLRUPersister( Application application )
-        {
-            super( application, String.class );
+        private TestLRUPersister(Application application) {
+            super(application, String.class);
         }
 
-        private TestLRUPersister( Application application,
-                                  ObjectPersister<String> fallback )
-        {
-            super( application, String.class, fallback );
+        private TestLRUPersister(Application application,
+            ObjectPersister<String> fallback) {
+            super(application, String.class, fallback);
         }
 
         @Override
-        protected LruCache<Object, CacheItem<String>> instantiateLRUCache()
-        {
+        protected LruCache<Object, CacheItem<String>> instantiateLRUCache() {
             return new LruCache<Object, CacheItem<String>>(CACHE_SIZE);
         }
 
         // increase visibility
         @Override
-        public LruCache<Object, CacheItem<String>> getMemoryCache()
-        {
+        public LruCache<Object, CacheItem<String>> getMemoryCache() {
             return super.getMemoryCache();
         }
-
 
     }
 
     public void setUp() {
         Application application = (Application) getInstrumentation()
             .getTargetContext().getApplicationContext();
-        testPersister = new TestLRUPersister( application );
+        testPersister = new TestLRUPersister(application);
 
-        InFileStringObjectPersister fallbackPersister = new InFileStringObjectPersister( application );
+        InFileStringObjectPersister fallbackPersister = new InFileStringObjectPersister(
+            application);
 
-        testPersisterWithFallback = new TestLRUPersister( application, fallbackPersister );
+        testPersisterWithFallback = new TestLRUPersister(application,
+            fallbackPersister);
     }
 
     public void tearDown() {
-        testPersisterWithFallback.getFallbackPersister().removeAllDataFromCache();
+        testPersisterWithFallback.getFallbackPersister()
+            .removeAllDataFromCache();
     }
 
     public void testSaveDataToCacheAndReturnData() throws Exception {
-
 
         testPersister.saveDataToCacheAndReturnData(GENERIC_DATA, CACHE_KEY_1);
         assertNotNull(testPersister.getMemoryCache().get(CACHE_KEY_1));
@@ -95,7 +93,7 @@ public class InMemoryLRUCacheObjectPersisterTest extends
         Thread.sleep(TEN_MILLISECONDS);
         try {
             Object data = testPersister.loadDataFromCache(CACHE_KEY_1,
-                                                          ONE_MILLISECOND);
+                ONE_MILLISECOND);
             throw new Exception(EXPIRED_DATA_MSG);
         } catch (CacheLoadingException e) {
             // throwing this error is the expected behavior
@@ -116,9 +114,11 @@ public class InMemoryLRUCacheObjectPersisterTest extends
     }
 
     public void testFallback() throws Exception {
-        testPersisterWithFallback.saveDataToCacheAndReturnData(GENERIC_DATA, CACHE_KEY_1);
+        testPersisterWithFallback.saveDataToCacheAndReturnData(GENERIC_DATA,
+            CACHE_KEY_1);
         testPersisterWithFallback.getMemoryCache().evictAll();
-        assertNotNull( testPersisterWithFallback.loadDataFromCache( CACHE_KEY_1, DurationInMillis.ALWAYS) );
+        assertNotNull(testPersisterWithFallback.loadDataFromCache(CACHE_KEY_1,
+            DurationInMillis.ALWAYS));
     }
 
 }

@@ -1,10 +1,11 @@
 package com.octo.android.robospice.persistence.binary;
 
-import android.app.ActivityManager;
-import android.app.Application;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
+import android.graphics.Bitmap;
+import android.content.Context;
+import android.app.Application;
+import android.app.ActivityManager;
+
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.memory.InMemoryLRUCacheObjectPersister;
 
@@ -26,7 +27,8 @@ public class InMemoryBitmapObjectPersister extends
     private static final int BASELINE_MEMCLASS = 16;
 
     /**
-     * Convenience constructor with the default cache size and no fallback persister.
+     * Convenience constructor with the default cache size and no fallback
+     * persister.
      * @param application
      *            the Android application object
      */
@@ -42,7 +44,7 @@ public class InMemoryBitmapObjectPersister extends
      */
 
     public InMemoryBitmapObjectPersister(Application application, int cacheSize) {
-        this (application, cacheSize, null);
+        this(application, cacheSize, null);
     }
 
     /**
@@ -55,10 +57,8 @@ public class InMemoryBitmapObjectPersister extends
      *            memory.
      */
 
-    public InMemoryBitmapObjectPersister (
-        Application application,
-        int cacheSize,
-        ObjectPersister<Bitmap> fallbackPersister) {
+    public InMemoryBitmapObjectPersister(Application application,
+        int cacheSize, ObjectPersister<Bitmap> fallbackPersister) {
         super(application, Bitmap.class, fallbackPersister);
 
         // base Android memory class is 16 MB per process

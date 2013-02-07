@@ -8,20 +8,37 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * @author David Stemmer
  */
 public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
 
+    private static final int DEFAULT_COMPRESS_QUALITY = 100;
+
     private static final String ERROR_CACHE_MISS_EXPIRED = "Found file in cache but the data was stale: %s";
     private static final String ERROR_CACHE_MISS_NOT_FOUND = "No cached file for path: %s";
     private static final String ERROR_COULD_NOT_COMPRESS_BITMAP = "Could not compress bitmap for path: %s";
     private static final String ERROR_COULD_NOT_DECODE_BITMAP = "Found the file but could not decode bitmap for path: %s";
 
+    private int compressionQuality = DEFAULT_COMPRESS_QUALITY;
+    private BitmapFactory.Options decodingOptions = null;
+
     public InFileBitmapObjectPersister(Application application) {
         super(application, Bitmap.class);
+    }
+
+    public void setCompressionQuality(int quality) {
+        compressionQuality = quality;
+    }
+
+    public void setDecodingOptions(BitmapFactory.Options opts) {
+        decodingOptions = opts;
     }
 
     @Override
@@ -38,14 +55,16 @@ public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
         }
 
         boolean dataDoesExpire = maxTimeInCache != DurationInMillis.ALWAYS;
-        boolean dataIsStale = System.currentTimeMillis() - cachedFile.lastModified() > maxTimeInCache;
+        boolean dataIsStale = System.currentTimeMillis()
+            - cachedFile.lastModified() > maxTimeInCache;
         if (dataDoesExpire && dataIsStale) {
             String errorMsg = String.format(ERROR_CACHE_MISS_EXPIRED,
                 cachedFile.getAbsolutePath());
             throw new CacheLoadingException(errorMsg);
         }
 
-        Bitmap data = BitmapFactory.decodeFile(cachedFile.getAbsolutePath());
+        Bitmap data = BitmapFactory.decodeFile(cachedFile.getAbsolutePath(),
+            decodingOptions);
 
         boolean bitmapNotLoaded = data == null;
         if (bitmapNotLoaded) {
@@ -66,8 +85,8 @@ public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
             BufferedOutputStream out = new BufferedOutputStream(
                 new FileOutputStream(cacheFile));
 
-            boolean didCompress = data.compress(Bitmap.CompressFormat.PNG, 100,
-                out);
+            boolean didCompress = data.compress(Bitmap.CompressFormat.PNG,
+                compressionQuality, out);
             if (!didCompress) {
                 /*
                  * we don't throw the error immediately so the stream has an

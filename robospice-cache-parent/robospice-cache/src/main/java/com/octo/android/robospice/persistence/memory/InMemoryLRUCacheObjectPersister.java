@@ -99,7 +99,7 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
         String keyString = cacheKey.toString();
         CacheItem<T> cacheItem = getMemoryCache().get(keyString);
 
-        T dataToReturn =  null;
+        T dataToReturn = null;
 
         /*
          * Since this is an in-memory cache and will be dumped when the device
@@ -112,21 +112,22 @@ public abstract class InMemoryLRUCacheObjectPersister<T> extends
 
         if (cacheItem != null) {
             boolean dataDoesExpire = maxTimeInCacheBeforeExpiry != DurationInMillis.ALWAYS;
-            boolean dataIsStale = SystemClock.elapsedRealtime() - cacheItem.created > maxTimeInCacheBeforeExpiry;
+            boolean dataIsStale = SystemClock.elapsedRealtime()
+                - cacheItem.created > maxTimeInCacheBeforeExpiry;
             if (dataDoesExpire && dataIsStale) {
                 String errorMsg = String.format(CACHE_MISS_EXPIRED, cacheKey);
-                throw new CacheLoadingException( errorMsg );
+                throw new CacheLoadingException(errorMsg);
             } else {
                 dataToReturn = cacheItem.data;
             }
-        } else if (fallbackPersister != null ){
-            dataToReturn = fallbackPersister.loadDataFromCache( cacheKey,
-                                                        maxTimeInCacheBeforeExpiry );
+        } else if (fallbackPersister != null) {
+            dataToReturn = fallbackPersister.loadDataFromCache(cacheKey,
+                maxTimeInCacheBeforeExpiry);
         }
 
         boolean dataIsMissing = dataToReturn == null;
-        if (dataIsMissing)  {
-            String errorMsg = String.format( CACHE_MISS_NOT_FOUND, cacheKey );
+        if (dataIsMissing) {
+            String errorMsg = String.format(CACHE_MISS_NOT_FOUND, cacheKey);
             throw new CacheLoadingException(errorMsg);
         }
 

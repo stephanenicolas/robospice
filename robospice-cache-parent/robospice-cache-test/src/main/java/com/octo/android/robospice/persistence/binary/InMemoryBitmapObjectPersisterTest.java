@@ -1,9 +1,9 @@
 package com.octo.android.robospice.persistence.binary;
 
-import android.app.Application;
-import android.graphics.Bitmap;
-import android.support.v4.util.LruCache;
 import android.test.InstrumentationTestCase;
+import android.support.v4.util.LruCache;
+import android.graphics.Bitmap;
+import android.app.Application;
 
 public class InMemoryBitmapObjectPersisterTest extends InstrumentationTestCase {
 
@@ -25,9 +25,8 @@ public class InMemoryBitmapObjectPersisterTest extends InstrumentationTestCase {
 
     private class TestBitmapPersister extends InMemoryBitmapObjectPersister {
 
-        private TestBitmapPersister( Application application, int cacheSize )
-        {
-            super( application, cacheSize );
+        private TestBitmapPersister(Application application, int cacheSize) {
+            super(application, cacheSize);
         }
 
         // increase visibility
@@ -52,6 +51,5 @@ public class InMemoryBitmapObjectPersisterTest extends InstrumentationTestCase {
         testPersister.saveDataToCacheAndReturnData(testBitmap, CACHE_KEY_1);
         assertEquals(testPersister.getMemoryCache().size(), BITMAP_SIZE);
     }
-
 
 }
