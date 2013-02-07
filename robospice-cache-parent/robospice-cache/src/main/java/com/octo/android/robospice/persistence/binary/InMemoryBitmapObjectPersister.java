@@ -88,12 +88,6 @@ public class InMemoryBitmapObjectPersister extends
                 Bitmap data = value.getData();
                 return data.getRowBytes() * data.getHeight();
             }
-
-            @Override
-            protected void entryRemoved(boolean evicted, Object key,
-                CacheItem<Bitmap> oldValue, CacheItem<Bitmap> newValue) {
-                super.entryRemoved(evicted, key, oldValue, newValue);
-            }
         };
     }
 
