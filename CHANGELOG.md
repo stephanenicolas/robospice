@@ -1,6 +1,15 @@
 Release notes for RoboSpice
 ===========================
 
+Version Cache module 1.4.1 (planned)
+-------------
+
+* Adding LRU ObjectPersister from David Stemmer, Mike Jancola
+
+------------------
+Release on February 8 2013
+------------------
+
 Version 1.4.0 (to be released )
 -------------
 

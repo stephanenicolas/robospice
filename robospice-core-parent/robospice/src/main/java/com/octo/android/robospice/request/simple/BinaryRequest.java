@@ -2,7 +2,6 @@ package com.octo.android.robospice.request.simple;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import roboguice.util.temp.Ln;
 
+import com.octo.android.robospice.request.ProgressByteProcessor;
 import com.octo.android.robospice.request.SpiceRequest;
 
 /**
@@ -75,29 +75,6 @@ public abstract class BinaryRequest extends SpiceRequest<InputStream> {
             } while (processor.processBytes(buf, 0, amt));
         } finally {
             IOUtils.closeQuietly(in);
-        }
-    }
-
-    /**
-     * Inspired from Guava com.google.common.io.ByteProcessor
-     */
-    public class ProgressByteProcessor {
-
-        private final OutputStream bos;
-        private long progress;
-        private final long total;
-
-        public ProgressByteProcessor(final OutputStream bos, final long total) {
-            this.bos = bos;
-            this.total = total;
-        }
-
-        public boolean processBytes(final byte[] buffer, final int offset,
-            final int length) throws IOException {
-            bos.write(buffer, offset, length);
-            progress += length - offset;
-            publishProgress((float) progress / total);
-            return !Thread.interrupted();
         }
     }
 

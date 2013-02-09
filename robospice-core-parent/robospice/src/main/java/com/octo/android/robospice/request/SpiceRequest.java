@@ -90,7 +90,7 @@ public abstract class SpiceRequest<RESULT> {
         this.future = future;
     }
 
-    /* package private */void setRequestProgressListener(
+    protected void setRequestProgressListener(
         final RequestProgressListener requestProgressListener) {
         this.requestProgressListener = requestProgressListener;
     }

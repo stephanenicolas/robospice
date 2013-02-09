@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice</artifactId>
-			<version>${project.version}</version>
+			<version>1.4.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.retrofit</groupId>

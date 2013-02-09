@@ -11,6 +11,8 @@ import org.apache.commons.io.IOUtils;
 
 import roboguice.util.temp.Ln;
 
+import com.octo.android.robospice.request.ProgressByteProcessor;
+
 /**
  * Downloads big images in size. All data is passed to the listener using file
  * system. This class is meant to help download big images. If you wish to
@@ -41,8 +43,8 @@ public class BigBinaryRequest extends BinaryRequest {
                     cacheFile.getAbsolutePath());
             }
             fileOutputStream = new FileOutputStream(cacheFile);
-            readBytes(inputStream, new ProgressByteProcessor(fileOutputStream,
-                contentLength));
+            readBytes(inputStream, new ProgressByteProcessor(this,
+                fileOutputStream, contentLength));
             return new FileInputStream(cacheFile);
         } finally {
             IOUtils.closeQuietly(fileOutputStream);

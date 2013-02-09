@@ -26,9 +26,9 @@
 	</modules>
 
 	<properties>
-	    <retrofit.version>1.0.0-SNAPSHOT</retrofit.version>
+		<retrofit.version>1.0.0-SNAPSHOT</retrofit.version>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -38,4 +38,16 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

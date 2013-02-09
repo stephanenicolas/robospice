@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.octo.android.robospice.request.ProgressByteProcessor;
+
 /**
  * Downloads small images in size. All data is passed to the listener using
  * memory. This class is meant to help download small images (like thumbnails).
@@ -22,7 +24,8 @@ public class SmallBinaryRequest extends BinaryRequest {
     public InputStream processStream(final int contentLength,
         final InputStream inputStream) throws IOException {
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        readBytes(inputStream, new ProgressByteProcessor(bos, contentLength));
+        readBytes(inputStream, new ProgressByteProcessor(this, bos,
+            contentLength));
 
         final byte[] bytes = bos.toByteArray();
         return new ByteArrayInputStream(bytes);

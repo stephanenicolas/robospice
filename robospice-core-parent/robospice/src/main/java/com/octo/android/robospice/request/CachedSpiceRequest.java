@@ -71,7 +71,7 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     }
 
     @Override
-    /* package private */void setRequestProgressListener(
+    protected void setRequestProgressListener(
         final RequestProgressListener requestProgressListener) {
         spiceRequest.setRequestProgressListener(requestProgressListener);
     }
