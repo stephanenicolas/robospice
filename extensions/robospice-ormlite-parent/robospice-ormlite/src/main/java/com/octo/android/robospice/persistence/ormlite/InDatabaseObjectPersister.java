@@ -39,15 +39,12 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
      *            the android context needed to access android file system or
      *            databases to store.
      */
-    public InDatabaseObjectPersister(Application application,
-        RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType,
-        Class<ID> idType) {
+    public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType, Class<ID> idType) {
         super(application, modelObjectType);
         this.databaseHelper = databaseHelper;
         this.idType = idType;
         try {
-            TableUtils.createTableIfNotExists(
-                databaseHelper.getConnectionSource(), modelObjectType);
+            TableUtils.createTableIfNotExists(databaseHelper.getConnectionSource(), modelObjectType);
         } catch (SQLException e1) {
             Ln.e(e1, "SQL Error while creating table for " + modelObjectType);
         }
@@ -60,22 +57,18 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
     }
 
     @Override
-    public T loadDataFromCache(Object cacheKey, long maxTimeInCache)
-        throws CacheLoadingException {
+    public T loadDataFromCache(Object cacheKey, long maxTimeInCache) throws CacheLoadingException {
         T result = null;
 
         try {
-            CacheEntry cacheEntry = databaseHelper
-                .queryCacheKeyForIdFromDatabase(String.valueOf(cacheKey));
+            CacheEntry cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(String.valueOf(cacheKey));
             if (cacheEntry == null) {
                 return null;
             }
             Object id = cacheEntry.getResultId();
-            long timeInCache = System.currentTimeMillis()
-                - cacheEntry.getTimestamp();
+            long timeInCache = System.currentTimeMillis() - cacheEntry.getTimestamp();
             if (maxTimeInCache == 0 || timeInCache <= maxTimeInCache) {
-                result = databaseHelper.queryForIdFromDatabase(id,
-                    getHandledClass());
+                result = databaseHelper.queryForIdFromDatabase(id, getHandledClass());
             }
         } catch (SQLException e) {
             Ln.e(e, "SQL error");
@@ -84,39 +77,30 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
     }
 
     @Override
-    public T saveDataToCacheAndReturnData(final T data, final Object cacheKey)
-        throws CacheSavingException {
+    public T saveDataToCacheAndReturnData(final T data, final Object cacheKey) throws CacheSavingException {
         if (!this.idType.equals(cacheKey.getClass())) {
-            throw new IllegalArgumentException("cacheKey must be a "
-                + idType.getSimpleName());
+            throw new IllegalArgumentException("cacheKey must be a " + idType.getSimpleName());
         }
         try {
             dao.callBatchTasks(new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
                     try {
-                        databaseHelper.createOrUpdateInDatabase(data,
-                            getHandledClass());
+                        databaseHelper.createOrUpdateInDatabase(data, getHandledClass());
                         saveAllForeignObjectsToCache(data);
                         Object id = null;
                         @SuppressWarnings("unchecked")
-                        DatabaseTableConfig<T> childDatabaseTableConfig = (DatabaseTableConfig<T>) DatabaseTableConfig
-                            .fromClass(databaseHelper.getConnectionSource(),
-                                data.getClass());
-                        for (FieldType childFieldType : childDatabaseTableConfig
-                            .getFieldTypes(null)) {
+                        DatabaseTableConfig<T> childDatabaseTableConfig = (DatabaseTableConfig<T>) DatabaseTableConfig.fromClass(
+                            databaseHelper.getConnectionSource(), data.getClass());
+                        for (FieldType childFieldType : childDatabaseTableConfig.getFieldTypes(null)) {
                             if (childFieldType.isId()) {
                                 id = childFieldType.extractJavaFieldValue(data);
                             }
                         }
-                        CacheEntry cacheEntry = new CacheEntry(String
-                            .valueOf(cacheKey), System.currentTimeMillis(),
-                            data.getClass(), id);
-                        databaseHelper
-                            .createOrUpdateCacheEntryInDatabase(cacheEntry);
+                        CacheEntry cacheEntry = new CacheEntry(String.valueOf(cacheKey), System.currentTimeMillis(), data.getClass(), id);
+                        databaseHelper.createOrUpdateCacheEntryInDatabase(cacheEntry);
                     } catch (Exception e) {
-                        Ln.d(e,
-                            "Exception occured during saveDataToCacheAndReturnData");
+                        Ln.d(e, "Exception occured during saveDataToCacheAndReturnData");
                     }
                     return null;
                 }
@@ -128,6 +112,20 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
             Ln.e(e, "SQL Error");
             return null;
         }
+    }
+
+    @Override
+    public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
+        CacheEntry cacheEntry = null;
+        try {
+            cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(String.valueOf(cacheKey));
+        } catch (SQLException e) {
+            throw new CacheLoadingException("Data could not be found in cache for cacheKey=" + cacheKey, e);
+        }
+        if (cacheEntry == null) {
+            throw new CacheLoadingException("Data could not be found in cache for cacheKey=" + cacheKey);
+        }
+        return cacheEntry.getTimestamp();
     }
 
     /**
@@ -151,27 +149,22 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
      * @throws InvocationTargetException
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected <E> void saveAllForeignObjectsToCache(E data)
-        throws SQLException, IllegalAccessException, InvocationTargetException {
+    protected <E> void saveAllForeignObjectsToCache(E data) throws SQLException, IllegalAccessException, InvocationTargetException {
         // copy children on memory
         // set children to null on parents so that we can save the parent
         // without cascade
         Map<Field, Collection<?>> mapFieldToCollection = new HashMap<Field, Collection<?>>();
         Class<? extends Object> parentClass = data.getClass();
         for (Field field : parentClass.getDeclaredFields()) {
-            ForeignCollectionField annotation = field
-                .getAnnotation(ForeignCollectionField.class);
+            ForeignCollectionField annotation = field.getAnnotation(ForeignCollectionField.class);
             if (annotation != null) {
                 Collection<?> collectionCopy = new ArrayList();
-                Method getMethod = DatabaseFieldConfig.findGetMethod(field,
-                    true);
-                Collection collectionInObject = (Collection<?>) getMethod
-                    .invoke(data);
+                Method getMethod = DatabaseFieldConfig.findGetMethod(field, true);
+                Collection collectionInObject = (Collection<?>) getMethod.invoke(data);
                 if (collectionInObject != null) {
                     collectionCopy.addAll(collectionInObject);
                 }
-                Method setMethod = DatabaseFieldConfig.findSetMethod(field,
-                    true);
+                Method setMethod = DatabaseFieldConfig.findSetMethod(field, true);
                 setMethod.invoke(data, (Object) null);
                 mapFieldToCollection.put(field, collectionCopy);
             }
@@ -189,39 +182,28 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
         // collection field of the parent
         for (Field field : parentClass.getDeclaredFields()) {
             if (field.getAnnotation(ForeignCollectionField.class) != null) {
-                Method getMethod = DatabaseFieldConfig.findGetMethod(field,
-                    true);
-                Collection collectionInObject = (Collection<?>) getMethod
-                    .invoke(data);
+                Method getMethod = DatabaseFieldConfig.findGetMethod(field, true);
+                Collection collectionInObject = (Collection<?>) getMethod.invoke(data);
                 // lazy collection are not loaded from database, so we load them
                 if (collectionInObject instanceof LazyForeignCollection) {
-                    ((LazyForeignCollection) collectionInObject)
-                        .refreshCollection();
+                    ((LazyForeignCollection) collectionInObject).refreshCollection();
                 }
-                ParameterizedType listType = (ParameterizedType) field
-                    .getGenericType();
-                Class<?> itemInListClass = (Class<?>) listType
-                    .getActualTypeArguments()[0];
-                databaseHelper.deleteFromDataBase(collectionInObject,
-                    itemInListClass);
+                ParameterizedType listType = (ParameterizedType) field.getGenericType();
+                Class<?> itemInListClass = (Class<?>) listType.getActualTypeArguments()[0];
+                databaseHelper.deleteFromDataBase(collectionInObject, itemInListClass);
             }
         }
 
         // recursive call on children
         // we now saved the parent and can fill the foreign key of the children
-        for (Map.Entry<Field, Collection<?>> entry : mapFieldToCollection
-            .entrySet()) {
+        for (Map.Entry<Field, Collection<?>> entry : mapFieldToCollection.entrySet()) {
             Collection<?> collection = entry.getValue();
             // re-set complete children to the parent
-            ConnectionSource connectionSource = databaseHelper
-                .getConnectionSource();
+            ConnectionSource connectionSource = databaseHelper.getConnectionSource();
             for (Object object : collection) {
-                DatabaseTableConfig childDatabaseTableConfig = DatabaseTableConfig
-                    .fromClass(connectionSource, object.getClass());
-                for (FieldType childFieldType : childDatabaseTableConfig
-                    .getFieldTypes(null)) {
-                    if (parentClass.equals(childFieldType.getType())
-                        && childFieldType.isForeign()) {
+                DatabaseTableConfig childDatabaseTableConfig = DatabaseTableConfig.fromClass(connectionSource, object.getClass());
+                for (FieldType childFieldType : childDatabaseTableConfig.getFieldTypes(null)) {
+                    if (parentClass.equals(childFieldType.getType()) && childFieldType.isForeign()) {
                         childFieldType.assignField(object, data, true, null);
                     }
                 }
@@ -239,14 +221,12 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
     public boolean removeDataFromCache(Object cacheKey) {
         try {
             String id = cacheKey.toString();
-            CacheEntry cacheEntry = databaseHelper
-                .queryCacheKeyForIdFromDatabase(id);
+            CacheEntry cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(id);
             if (cacheEntry == null) {
                 return false;
             }
             Class<?> clazz = Class.forName(cacheEntry.getResultClassName());
-            databaseHelper.deleteByIdFromDataBase(cacheEntry.getResultId(),
-                clazz);
+            databaseHelper.deleteByIdFromDataBase(cacheEntry.getResultId(), clazz);
             databaseHelper.deleteFromDataBase(cacheEntry, CacheEntry.class);
             return true;
         } catch (SQLException e) {
@@ -271,12 +251,10 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
     @Override
     public List<T> loadAllDataFromCache() throws CacheLoadingException {
         try {
-            List<CacheEntry> listCacheEntry = databaseHelper
-                .queryForAllFromDatabase(CacheEntry.class);
+            List<CacheEntry> listCacheEntry = databaseHelper.queryForAllFromDatabase(CacheEntry.class);
             List<T> listObjectInCache = new ArrayList<T>();
             for (CacheEntry cacheEntry : listCacheEntry) {
-                listObjectInCache.add(loadDataFromCache(
-                    cacheEntry.getCacheKey(), DurationInMillis.ALWAYS));
+                listObjectInCache.add(loadDataFromCache(cacheEntry.getCacheKey(), DurationInMillis.ALWAYS));
             }
             return listObjectInCache;
         } catch (SQLException e) {
@@ -288,8 +266,7 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
     @Override
     public List<Object> getAllCacheKeys() {
         try {
-            List<CacheEntry> listCacheEntry = databaseHelper
-                .queryForAllFromDatabase(CacheEntry.class);
+            List<CacheEntry> listCacheEntry = databaseHelper.queryForAllFromDatabase(CacheEntry.class);
             List<Object> listCacheKey = new ArrayList<Object>();
             for (CacheEntry cacheEntry : listCacheEntry) {
                 listCacheKey.add(cacheEntry.getCacheKey());

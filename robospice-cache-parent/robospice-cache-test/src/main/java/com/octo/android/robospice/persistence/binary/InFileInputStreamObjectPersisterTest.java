@@ -33,8 +33,7 @@ public class InFileInputStreamObjectPersisterTest extends InstrumentationTestCas
     }
 
     public void testSaveDataToCacheAndReturnData() throws Exception {
-        inputStreamCacheManager.saveDataToCacheAndReturnData(new ByteArrayInputStream("coucou".getBytes()),
-            TEST_CACHE_KEY);
+        inputStreamCacheManager.saveDataToCacheAndReturnData(new ByteArrayInputStream("coucou".getBytes()), TEST_CACHE_KEY);
 
         File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
         assertTrue(cachedFile.exists());
@@ -65,8 +64,7 @@ public class InFileInputStreamObjectPersisterTest extends InstrumentationTestCas
         IOUtils.write("coucou", fileOutputStream);
         IOUtils.closeQuietly(fileOutputStream);
 
-        InputStream inputStream = inputStreamCacheManager
-            .loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
+        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
         byte[] actual = IOUtils.toByteArray(inputStream);
         IOUtils.closeQuietly(inputStream);
         assertTrue(Arrays.equals("coucou".getBytes(), actual));
@@ -79,8 +77,7 @@ public class InFileInputStreamObjectPersisterTest extends InstrumentationTestCas
         IOUtils.closeQuietly(fileOutputStream);
         cachedFile.setLastModified(System.currentTimeMillis() - FIVE_SECONDS);
 
-        InputStream inputStream = inputStreamCacheManager
-            .loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
+        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
         assertNull(inputStream);
     }
 

@@ -29,16 +29,24 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     }
 
     @Override
+    public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
+        try {
+            return getCacheFile(cacheKey).lastModified();
+        } catch (Exception e) {
+            throw new CacheLoadingException("Data could not be found in cache for cacheKey=" + cacheKey);
+        }
+    }
+
+    @Override
     public List<Object> getAllCacheKeys() {
         final String prefix = getCachePrefix();
-        String[] cacheFileNameList = getCacheFolder().list(
-            new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String filename) {
-                    // patch from florianmski
-                    return filename.startsWith(prefix);
-                }
-            });
+        String[] cacheFileNameList = getCacheFolder().list(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String filename) {
+                // patch from florianmski
+                return filename.startsWith(prefix);
+            }
+        });
         List<Object> result = new ArrayList<Object>();
         for (String cacheFileName : cacheFileNameList) {
             result.add(cacheFileName.substring(prefix.length()));
@@ -86,12 +94,26 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     }
 
     public File getCacheFile(Object cacheKey) {
-        return new File(getCacheFolder(), getCachePrefix()
-            + cacheKey.toString());
+        return new File(getCacheFolder(), getCachePrefix() + cacheKey.toString());
     }
 
     private File getCacheFolder() {
         return getApplication().getCacheDir();
+    }
+
+    protected boolean isCachedAndNotExpired(Object cacheKey, long maxTimeInCacheBeforeExpiry) {
+        File cacheFile = getCacheFile(cacheKey);
+        return isCachedAndNotExpired(cacheFile, maxTimeInCacheBeforeExpiry);
+    }
+
+    protected boolean isCachedAndNotExpired(File cacheFile, long maxTimeInCacheBeforeExpiry) {
+        if (cacheFile.exists()) {
+            long timeInCache = System.currentTimeMillis() - cacheFile.lastModified();
+            if (maxTimeInCacheBeforeExpiry == DurationInMillis.ALWAYS || timeInCache <= maxTimeInCacheBeforeExpiry) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

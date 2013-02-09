@@ -45,8 +45,7 @@ public abstract class ObjectPersisterFactory implements Persister {
      *            factory will try to produce an {@link ObjectPersister} for
      *            each element of the list.
      */
-    public ObjectPersisterFactory(Application application,
-        List<Class<?>> listHandledClasses) {
+    public ObjectPersisterFactory(Application application, List<Class<?>> listHandledClasses) {
         this.mApplication = application;
         this.listHandledClasses = listHandledClasses;
     }
@@ -80,8 +79,7 @@ public abstract class ObjectPersisterFactory implements Persister {
      * @return a {@link ObjectPersister} able to load/save instances of class
      *         clazz.
      */
-    public abstract <DATA> ObjectPersister<DATA> createObjectPersister(
-        Class<DATA> clazz);
+    public abstract <DATA> ObjectPersister<DATA> createObjectPersister(Class<DATA> clazz);
 
     /**
      * Set whether this {@link ObjectPersisterFactory} will set the

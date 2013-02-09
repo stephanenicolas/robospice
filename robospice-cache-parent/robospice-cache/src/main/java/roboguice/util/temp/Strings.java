@@ -38,40 +38,34 @@ public final class Strings {
      *            the type
      * @return a string
      */
-    public static <T> String joinAnd(final String delimiter,
-        final String lastDelimiter, final Collection<T> objs) {
+    public static <T> String joinAnd(final String delimiter, final String lastDelimiter, final Collection<T> objs) {
         if (objs == null || objs.isEmpty()) {
             return "";
         }
 
         final Iterator<T> iter = objs.iterator();
-        final StringBuilder buffer = new StringBuilder(Strings.toString(iter
-            .next()));
+        final StringBuilder buffer = new StringBuilder(Strings.toString(iter.next()));
         int i = 1;
         while (iter.hasNext()) {
             final T obj = iter.next();
             if (notEmpty(obj)) {
-                buffer.append(++i == objs.size() ? lastDelimiter : delimiter)
-                    .append(Strings.toString(obj));
+                buffer.append(++i == objs.size() ? lastDelimiter : delimiter).append(Strings.toString(obj));
             }
         }
         return buffer.toString();
     }
 
-    public static <T> String joinAnd(final String delimiter,
-        final String lastDelimiter, final T... objs) {
+    public static <T> String joinAnd(final String delimiter, final String lastDelimiter, final T... objs) {
         return joinAnd(delimiter, lastDelimiter, Arrays.asList(objs));
     }
 
-    public static <T> String join(final String delimiter,
-        final Collection<T> objs) {
+    public static <T> String join(final String delimiter, final Collection<T> objs) {
         if (objs == null || objs.isEmpty()) {
             return "";
         }
 
         final Iterator<T> iter = objs.iterator();
-        final StringBuilder buffer = new StringBuilder(Strings.toString(iter
-            .next()));
+        final StringBuilder buffer = new StringBuilder(Strings.toString(iter.next()));
 
         while (iter.hasNext()) {
             final T obj = iter.next();
@@ -123,12 +117,9 @@ public final class Strings {
     }
 
     public static String toString(final Object o, final String def) {
-        return o == null ? def
-            : o instanceof InputStream ? toString((InputStream) o)
-                : o instanceof Reader ? toString((Reader) o)
-                    : o instanceof Object[] ? Strings.join(", ", (Object[]) o)
-                        : o instanceof Collection ? Strings.join(", ",
-                            (Collection<?>) o) : o.toString();
+        return o == null ? def : o instanceof InputStream ? toString((InputStream) o) : o instanceof Reader ? toString((Reader) o)
+            : o instanceof Object[] ? Strings.join(", ", (Object[]) o) : o instanceof Collection ? Strings.join(", ", (Collection<?>) o) : o
+                .toString();
     }
 
     public static boolean isEmpty(final Object o) {
@@ -144,8 +135,7 @@ public final class Strings {
         // http://code.google.com/p/roboguice/issues/detail?id=89
         try {
 
-            final byte[] hash = MessageDigest.getInstance("MD5").digest(
-                s.getBytes(CharEncoding.UTF_8));
+            final byte[] hash = MessageDigest.getInstance("MD5").digest(s.getBytes(CharEncoding.UTF_8));
             final StringBuilder hashString = new StringBuilder();
 
             for (byte aHash : hash) {
@@ -168,8 +158,7 @@ public final class Strings {
 
     public static String capitalize(String s) {
         final String c = Strings.toString(s);
-        return c.length() >= 2 ? c.substring(0, 1).toUpperCase()
-            + c.substring(1) : c.length() >= 1 ? c.toUpperCase() : c;
+        return c.length() >= 2 ? c.substring(0, 1).toUpperCase() + c.substring(1) : c.length() >= 1 ? c.toUpperCase() : c;
     }
 
     public static boolean equals(Object a, Object b) {
@@ -177,8 +166,7 @@ public final class Strings {
     }
 
     public static boolean equalsIgnoreCase(Object a, Object b) {
-        return Strings.toString(a).toLowerCase()
-            .equals(Strings.toString(b).toLowerCase());
+        return Strings.toString(a).toLowerCase().equals(Strings.toString(b).toLowerCase());
     }
 
     public static String[] chunk(String str, int chunkSize) {
@@ -190,16 +178,13 @@ public final class Strings {
         final int arrayLen = (len - 1) / chunkSize + 1;
         final String[] array = new String[arrayLen];
         for (int i = 0; i < arrayLen; ++i) {
-            array[i] = str.substring(i * chunkSize,
-                i * chunkSize + chunkSize < len ? i * chunkSize + chunkSize
-                    : len);
+            array[i] = str.substring(i * chunkSize, i * chunkSize + chunkSize < len ? i * chunkSize + chunkSize : len);
         }
 
         return array;
     }
 
-    public static String namedFormat(String str,
-        Map<String, String> substitutions) {
+    public static String namedFormat(String str, Map<String, String> substitutions) {
         for (Map.Entry<String, String> entry : substitutions.entrySet()) {
             str = str.replace('$' + entry.getKey(), entry.getValue());
         }
@@ -209,15 +194,12 @@ public final class Strings {
 
     public static String namedFormat(String str, Object... nameValuePairs) {
         if (nameValuePairs.length % 2 != 0) {
-            throw new InvalidParameterException(
-                "You must include one value for each parameter");
+            throw new InvalidParameterException("You must include one value for each parameter");
         }
 
-        final HashMap<String, String> map = new HashMap<String, String>(
-            nameValuePairs.length / 2);
+        final HashMap<String, String> map = new HashMap<String, String>(nameValuePairs.length / 2);
         for (int i = 0; i < nameValuePairs.length; i += 2) {
-            map.put(Strings.toString(nameValuePairs[i]),
-                Strings.toString(nameValuePairs[i + 1]));
+            map.put(Strings.toString(nameValuePairs[i]), Strings.toString(nameValuePairs[i + 1]));
         }
 
         return namedFormat(str, map);

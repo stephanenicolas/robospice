@@ -17,31 +17,24 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
-public class InFileInputStreamObjectPersister extends
-    InFileObjectPersister<InputStream> {
+public class InFileInputStreamObjectPersister extends InFileObjectPersister<InputStream> {
 
     public InFileInputStreamObjectPersister(Application application) {
         super(application, InputStream.class);
     }
 
     @Override
-    public InputStream loadDataFromCache(Object cacheKey,
-        long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
+    public InputStream loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
         File file = getCacheFile(cacheKey);
-        if (file.exists()) {
-            long timeInCache = System.currentTimeMillis() - file.lastModified();
-            if (maxTimeInCacheBeforeExpiry == 0
-                || timeInCache <= maxTimeInCacheBeforeExpiry) {
-                try {
-                    return new FileInputStream(file);
-                } catch (FileNotFoundException e) {
-                    // Should not occur (we test before if
-                    // file exists)
-                    // Do not throw, file is not cached
-                    Ln.w("file " + file.getAbsolutePath() + " does not exists",
-                        e);
-                    return null;
-                }
+        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
+            try {
+                return new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                // Should not occur (we test before if
+                // file exists)
+                // Do not throw, file is not cached
+                Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
+                return null;
             }
         }
         Ln.v("file " + file.getAbsolutePath() + " does not exists");
@@ -49,8 +42,7 @@ public class InFileInputStreamObjectPersister extends
     }
 
     @Override
-    public InputStream saveDataToCacheAndReturnData(InputStream data,
-        final Object cacheKey) throws CacheSavingException {
+    public InputStream saveDataToCacheAndReturnData(InputStream data, final Object cacheKey) throws CacheSavingException {
         // special case for inputstream object : as it can be read only
         // once,
         // 0) we extract the content of the input stream as a byte[]
@@ -66,18 +58,15 @@ public class InFileInputStreamObjectPersister extends
                     @Override
                     public void run() {
                         try {
-                            FileUtils.writeByteArrayToFile(
-                                getCacheFile(cacheKey), byteArray);
+                            FileUtils.writeByteArrayToFile(getCacheFile(cacheKey), byteArray);
                         } catch (IOException e) {
-                            Ln.e(e, "An error occured on saving request "
-                                + cacheKey + " data asynchronously");
+                            Ln.e(e, "An error occured on saving request " + cacheKey + " data asynchronously");
                         }
                     };
                 };
                 t.start();
             } else {
-                FileUtils.writeByteArrayToFile(getCacheFile(cacheKey),
-                    byteArray);
+                FileUtils.writeByteArrayToFile(getCacheFile(cacheKey), byteArray);
             }
 
             return new ByteArrayInputStream(byteArray);

@@ -21,8 +21,7 @@ public class StringPersisterStub extends ObjectPersister<String> {
     }
 
     @Override
-    public String loadDataFromCache(Object cacheKey, long maxTimeInCache)
-        throws CacheLoadingException {
+    public String loadDataFromCache(Object cacheKey, long maxTimeInCache) throws CacheLoadingException {
         return null;
     }
 
@@ -37,8 +36,7 @@ public class StringPersisterStub extends ObjectPersister<String> {
     }
 
     @Override
-    public String saveDataToCacheAndReturnData(String data, Object cacheKey)
-        throws CacheSavingException {
+    public String saveDataToCacheAndReturnData(String data, Object cacheKey) throws CacheSavingException {
         return data;
     }
 
@@ -49,6 +47,11 @@ public class StringPersisterStub extends ObjectPersister<String> {
 
     @Override
     public void removeAllDataFromCache() {
+    }
+
+    @Override
+    public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
+        return 0;
     }
 
 }

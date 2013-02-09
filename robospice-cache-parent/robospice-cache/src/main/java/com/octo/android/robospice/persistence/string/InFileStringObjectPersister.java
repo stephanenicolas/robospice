@@ -26,26 +26,20 @@ public class InFileStringObjectPersister extends InFileObjectPersister<String> {
     }
 
     @Override
-    public String loadDataFromCache(Object cacheKey,
-        long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
+    public String loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
         Ln.v("Loading String for cacheKey = " + cacheKey);
         File file = getCacheFile(cacheKey);
-        if (file.exists()) {
-            long timeInCache = System.currentTimeMillis() - file.lastModified();
-            if (maxTimeInCacheBeforeExpiry == 0
-                || timeInCache <= maxTimeInCacheBeforeExpiry) {
-                try {
-                    return FileUtils.readFileToString(file, CharEncoding.UTF_8);
-                } catch (FileNotFoundException e) {
-                    // Should not occur (we test before if
-                    // file exists)
-                    // Do not throw, file is not cached
-                    Ln.w("file " + file.getAbsolutePath() + " does not exists",
-                        e);
-                    return null;
-                } catch (Exception e) {
-                    throw new CacheLoadingException(e);
-                }
+        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
+            try {
+                return FileUtils.readFileToString(file, CharEncoding.UTF_8);
+            } catch (FileNotFoundException e) {
+                // Should not occur (we test before if
+                // file exists)
+                // Do not throw, file is not cached
+                Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
+                return null;
+            } catch (Exception e) {
+                throw new CacheLoadingException(e);
             }
         }
         Ln.v("file " + file.getAbsolutePath() + " does not exists");
@@ -53,8 +47,7 @@ public class InFileStringObjectPersister extends InFileObjectPersister<String> {
     }
 
     @Override
-    public String saveDataToCacheAndReturnData(final String data,
-        final Object cacheKey) throws CacheSavingException {
+    public String saveDataToCacheAndReturnData(final String data, final Object cacheKey) throws CacheSavingException {
         Ln.v("Saving String " + data + " into cacheKey = " + cacheKey);
         try {
             if (isAsyncSaveEnabled()) {
@@ -63,18 +56,15 @@ public class InFileStringObjectPersister extends InFileObjectPersister<String> {
                     @Override
                     public void run() {
                         try {
-                            FileUtils.writeStringToFile(getCacheFile(cacheKey),
-                                data, CharEncoding.UTF_8);
+                            FileUtils.writeStringToFile(getCacheFile(cacheKey), data, CharEncoding.UTF_8);
                         } catch (IOException e) {
-                            Ln.e(e, "An error occured on saving request "
-                                + cacheKey + " data asynchronously");
+                            Ln.e(e, "An error occured on saving request " + cacheKey + " data asynchronously");
                         }
                     };
                 };
                 t.start();
             } else {
-                FileUtils.writeStringToFile(getCacheFile(cacheKey), data,
-                    CharEncoding.UTF_8);
+                FileUtils.writeStringToFile(getCacheFile(cacheKey), data, CharEncoding.UTF_8);
             }
         } catch (Exception e) {
             throw new CacheSavingException(e);

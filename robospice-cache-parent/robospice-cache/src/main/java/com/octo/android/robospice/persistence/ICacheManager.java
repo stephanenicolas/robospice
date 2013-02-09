@@ -44,8 +44,7 @@ public interface ICacheManager {
      *             if an error occurs during cache reading, or instance
      *             creation.
      */
-    <T> T loadDataFromCache(Class<T> clazz, Object cacheKey,
-        long maxTimeInCacheBeforeExpiry) throws CacheLoadingException;
+    <T> T loadDataFromCache(Class<T> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException;
 
     /**
      * Loads all data stored in cache for a given class.
@@ -53,8 +52,7 @@ public interface ICacheManager {
      *            the class for which to get all data stored in cache.
      * @return all data stored in cache for a given class.
      */
-    <T> List<T> loadAllDataFromCache(Class<T> clazz)
-        throws CacheLoadingException;
+    <T> List<T> loadAllDataFromCache(Class<T> clazz) throws CacheLoadingException;
 
     /**
      * Save an instance of a given class, into the cache identified by cacheKey.
@@ -70,8 +68,7 @@ public interface ICacheManager {
      * @throws CacheSavingException
      *             if an error occurs during cache writing.
      */
-    <T> T saveDataToCacheAndReturnData(T data, Object cacheKey)
-        throws CacheSavingException;
+    <T> T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheSavingException;
 
     /**
      * Removes a given data in the cache that is an instance of class clazz.

@@ -51,8 +51,7 @@ public final class Ln {
     }
 
     public static int v(Throwable t) {
-        return CONFIG.minimumLogLevel <= Log.VERBOSE ? print.println(
-            Log.VERBOSE, Log.getStackTraceString(t)) : 0;
+        return CONFIG.minimumLogLevel <= Log.VERBOSE ? print.println(Log.VERBOSE, Log.getStackTraceString(t)) : 0;
     }
 
     public static int v(Object s1, Object... args) {
@@ -71,14 +70,12 @@ public final class Ln {
         }
 
         final String s = Strings.toString(s1);
-        final String message = (args.length > 0 ? String.format(s, args) : s)
-            + '\n' + Log.getStackTraceString(throwable);
+        final String message = (args.length > 0 ? String.format(s, args) : s) + '\n' + Log.getStackTraceString(throwable);
         return print.println(Log.VERBOSE, message);
     }
 
     public static int d(Throwable t) {
-        return CONFIG.minimumLogLevel <= Log.DEBUG ? print.println(Log.DEBUG,
-            Log.getStackTraceString(t)) : 0;
+        return CONFIG.minimumLogLevel <= Log.DEBUG ? print.println(Log.DEBUG, Log.getStackTraceString(t)) : 0;
     }
 
     public static int d(Object s1, Object... args) {
@@ -97,14 +94,12 @@ public final class Ln {
         }
 
         final String s = Strings.toString(s1);
-        final String message = (args.length > 0 ? String.format(s, args) : s)
-            + '\n' + Log.getStackTraceString(throwable);
+        final String message = (args.length > 0 ? String.format(s, args) : s) + '\n' + Log.getStackTraceString(throwable);
         return print.println(Log.DEBUG, message);
     }
 
     public static int i(Throwable t) {
-        return CONFIG.minimumLogLevel <= Log.INFO ? print.println(Log.INFO,
-            Log.getStackTraceString(t)) : 0;
+        return CONFIG.minimumLogLevel <= Log.INFO ? print.println(Log.INFO, Log.getStackTraceString(t)) : 0;
     }
 
     public static int i(Object s1, Object... args) {
@@ -123,14 +118,12 @@ public final class Ln {
         }
 
         final String s = Strings.toString(s1);
-        final String message = (args.length > 0 ? String.format(s, args) : s)
-            + '\n' + Log.getStackTraceString(throwable);
+        final String message = (args.length > 0 ? String.format(s, args) : s) + '\n' + Log.getStackTraceString(throwable);
         return print.println(Log.INFO, message);
     }
 
     public static int w(Throwable t) {
-        return CONFIG.minimumLogLevel <= Log.WARN ? print.println(Log.WARN,
-            Log.getStackTraceString(t)) : 0;
+        return CONFIG.minimumLogLevel <= Log.WARN ? print.println(Log.WARN, Log.getStackTraceString(t)) : 0;
     }
 
     public static int w(Object s1, Object... args) {
@@ -149,14 +142,12 @@ public final class Ln {
         }
 
         final String s = Strings.toString(s1);
-        final String message = (args.length > 0 ? String.format(s, args) : s)
-            + '\n' + Log.getStackTraceString(throwable);
+        final String message = (args.length > 0 ? String.format(s, args) : s) + '\n' + Log.getStackTraceString(throwable);
         return print.println(Log.WARN, message);
     }
 
     public static int e(Throwable t) {
-        return CONFIG.minimumLogLevel <= Log.ERROR ? print.println(Log.ERROR,
-            Log.getStackTraceString(t)) : 0;
+        return CONFIG.minimumLogLevel <= Log.ERROR ? print.println(Log.ERROR, Log.getStackTraceString(t)) : 0;
     }
 
     public static int e(Object s1, Object... args) {
@@ -175,8 +166,7 @@ public final class Ln {
         }
 
         final String s = Strings.toString(s1);
-        final String message = (args.length > 0 ? String.format(s, args) : s)
-            + '\n' + Log.getStackTraceString(throwable);
+        final String message = (args.length > 0 ? String.format(s, args) : s) + '\n' + Log.getStackTraceString(throwable);
         return print.println(Log.ERROR, message);
     }
 
@@ -210,13 +200,10 @@ public final class Ln {
         public BaseConfig(Application context) {
             try {
                 packageName = context.getPackageName();
-                final int flags = context.getPackageManager()
-                    .getApplicationInfo(packageName, 0).flags;
-                minimumLogLevel = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? Log.VERBOSE
-                    : Log.INFO;
+                final int flags = context.getPackageManager().getApplicationInfo(packageName, 0).flags;
+                minimumLogLevel = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? Log.VERBOSE : Log.INFO;
                 scope = packageName.toUpperCase();
-                Ln.d("Configuring Logging, minimum log level is %s",
-                    logLevelToString(minimumLogLevel));
+                Ln.d("Configuring Logging, minimum log level is %s", logLevelToString(minimumLogLevel));
             } catch (Exception e) {
                 Log.e(packageName, "Error configuring logger", e);
             }
@@ -268,19 +255,16 @@ public final class Ln {
 
         protected String processMessage(String msg) {
             if (CONFIG.minimumLogLevel <= Log.DEBUG) {
-                msg = String.format("%s %s %s", new SimpleDateFormat(
-                    "HH:mm:ss.SSS").format(System.currentTimeMillis()), Thread
-                    .currentThread().getName(), msg);
+                msg = String.format("%s %s %s", new SimpleDateFormat("HH:mm:ss.SSS").format(System.currentTimeMillis()), Thread.currentThread()
+                    .getName(), msg);
             }
             return msg;
         }
 
         protected static String getScope() {
             if (CONFIG.minimumLogLevel <= Log.DEBUG) {
-                final StackTraceElement trace = Thread.currentThread()
-                    .getStackTrace()[DEFAULT_STACK_TRACE_LINE_COUNT];
-                return CONFIG.scope + "/" + trace.getFileName() + ":"
-                    + trace.getLineNumber();
+                final StackTraceElement trace = Thread.currentThread().getStackTrace()[DEFAULT_STACK_TRACE_LINE_COUNT];
+                return CONFIG.scope + "/" + trace.getFileName() + ":" + trace.getLineNumber();
             }
 
             return CONFIG.scope;

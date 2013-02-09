@@ -38,13 +38,10 @@ public class CacheManager implements ICacheManager {
         if (persister instanceof ObjectPersisterFactory) {
             // will lead the list to be copied whenever we add a persister to it
             // but there won't be any overhead while iterating through the list.
-            mapFactoryToPersister.put((ObjectPersisterFactory) persister,
-                new CopyOnWriteArrayList<ObjectPersister<?>>());
+            mapFactoryToPersister.put((ObjectPersisterFactory) persister, new CopyOnWriteArrayList<ObjectPersister<?>>());
         } else if (!(persister instanceof ObjectPersister)) {
-            throw new RuntimeException(getClass().getSimpleName()
-                + " only supports " + ObjectPersister.class.getSimpleName()
-                + " or " + ObjectPersisterFactory.class.getSimpleName()
-                + " instances.");
+            throw new RuntimeException(getClass().getSimpleName() + " only supports " + ObjectPersister.class.getSimpleName() + " or "
+                + ObjectPersisterFactory.class.getSimpleName() + " instances.");
         }
     }
 
@@ -59,20 +56,16 @@ public class CacheManager implements ICacheManager {
 
     /** {@inheritDoc} */
     @Override
-    public <T> T loadDataFromCache(Class<T> clazz, Object cacheKey,
-        long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
-        return getObjectPersister(clazz).loadDataFromCache(cacheKey,
-            maxTimeInCacheBeforeExpiry);
+    public <T> T loadDataFromCache(Class<T> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
+        return getObjectPersister(clazz).loadDataFromCache(cacheKey, maxTimeInCacheBeforeExpiry);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     /** {@inheritDoc}*/
-    public <T> T saveDataToCacheAndReturnData(T data, Object cacheKey)
-        throws CacheSavingException {
+    public <T> T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheSavingException {
         // http://stackoverflow.com/questions/4460580/java-generics-why-someobject-getclass-doesnt-return-class-extends-t
-        ObjectPersister<T> classCacheManager = getObjectPersister((Class<T>) data
-            .getClass());
+        ObjectPersister<T> classCacheManager = getObjectPersister((Class<T>) data.getClass());
         return classCacheManager.saveDataToCacheAndReturnData(data, cacheKey);
     }
 
@@ -96,8 +89,7 @@ public class CacheManager implements ICacheManager {
 
     /** {@inheritDoc} */
     @Override
-    public <T> List<T> loadAllDataFromCache(final Class<T> clazz)
-        throws CacheLoadingException {
+    public <T> List<T> loadAllDataFromCache(final Class<T> clazz) throws CacheLoadingException {
         return getObjectPersister(clazz).loadAllDataFromCache();
     }
 
@@ -109,8 +101,7 @@ public class CacheManager implements ICacheManager {
                 ((ObjectPersister<?>) persister).removeAllDataFromCache();
             } else if (persister instanceof ObjectPersisterFactory) {
                 ObjectPersisterFactory factory = (ObjectPersisterFactory) persister;
-                List<ObjectPersister<?>> listPersisterForFactory = mapFactoryToPersister
-                    .get(factory);
+                List<ObjectPersister<?>> listPersisterForFactory = mapFactoryToPersister.get(factory);
                 for (ObjectPersister<?> objectPersister : listPersisterForFactory) {
                     objectPersister.removeAllDataFromCache();
                 }
@@ -130,22 +121,19 @@ public class CacheManager implements ICacheManager {
                     ObjectPersisterFactory factory = (ObjectPersisterFactory) persister;
 
                     if (factory.canHandleClass(clazz)) {
-                        List<ObjectPersister<?>> listPersisterForFactory = mapFactoryToPersister
-                            .get(factory);
+                        List<ObjectPersister<?>> listPersisterForFactory = mapFactoryToPersister.get(factory);
                         for (ObjectPersister<?> objectPersister : listPersisterForFactory) {
                             if (objectPersister.canHandleClass(clazz)) {
                                 return (ObjectPersister<T>) objectPersister;
                             }
                         }
-                        ObjectPersister<T> newPersister = factory
-                            .createObjectPersister(clazz);
+                        ObjectPersister<T> newPersister = factory.createObjectPersister(clazz);
                         listPersisterForFactory.add(newPersister);
                         return newPersister;
                     }
                 }
             }
         }
-        throw new RuntimeException("Class " + clazz.getName()
-            + " is not handled by any registered factoryList");
+        throw new RuntimeException("Class " + clazz.getName() + " is not handled by any registered factoryList");
     }
 }

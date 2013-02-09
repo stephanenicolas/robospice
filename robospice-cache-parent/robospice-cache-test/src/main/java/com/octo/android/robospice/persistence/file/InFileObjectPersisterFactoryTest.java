@@ -12,24 +12,19 @@ public class InFileObjectPersisterFactoryTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation()
-            .getTargetContext().getApplicationContext();
-        inFileObjectPersisterFactory = new InFileObjectPersisterFactoryUnderTest(
-            application);
+        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        inFileObjectPersisterFactory = new InFileObjectPersisterFactoryUnderTest(application);
     }
 
     public void testGetCachePrefix() {
         String actual = inFileObjectPersisterFactory.getCachePrefix();
-        assertEquals(
-            InFileObjectPersisterFactoryUnderTest.class.getSimpleName() + "_",
-            actual);
+        assertEquals(InFileObjectPersisterFactoryUnderTest.class.getSimpleName() + "_", actual);
     }
 
     // ============================================================================================
     // CLASS UNDER TEST
     // ============================================================================================
-    private final class InFileObjectPersisterFactoryUnderTest extends
-        InFileObjectPersisterFactory {
+    private final class InFileObjectPersisterFactoryUnderTest extends InFileObjectPersisterFactory {
         private InFileObjectPersisterFactoryUnderTest(Application application) {
             super(application);
         }
@@ -40,8 +35,7 @@ public class InFileObjectPersisterFactoryTest extends InstrumentationTestCase {
         }
 
         @Override
-        public <DATA> InFileObjectPersister<DATA> createObjectPersister(
-            Class<DATA> clazz) {
+        public <DATA> InFileObjectPersister<DATA> createObjectPersister(Class<DATA> clazz) {
             return null;
         }
 

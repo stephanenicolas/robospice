@@ -21,8 +21,7 @@ public class InFileObjectPersisterTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation()
-            .getTargetContext().getApplicationContext();
+        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
         inFileObjectPersister = new InFileObjectPersisterUnderTest(application);
     }
 
@@ -34,13 +33,11 @@ public class InFileObjectPersisterTest extends InstrumentationTestCase {
 
     public void testGetCachePrefix() {
         String actual = inFileObjectPersister.getCachePrefix();
-        assertEquals(
-            InFileObjectPersisterUnderTest.class.getSimpleName() + "_", actual);
+        assertEquals(InFileObjectPersisterUnderTest.class.getSimpleName() + "_", actual);
     }
 
     public void testRemoveDataFromCache() throws Exception {
-        inFileObjectPersister.saveDataToCacheAndReturnData(new Object(),
-            TEST_CACHE_KEY);
+        inFileObjectPersister.saveDataToCacheAndReturnData(new Object(), TEST_CACHE_KEY);
 
         File cacheFile = inFileObjectPersister.getCacheFile(TEST_CACHE_KEY);
         assertTrue(cacheFile.exists());
@@ -50,11 +47,9 @@ public class InFileObjectPersisterTest extends InstrumentationTestCase {
     }
 
     public void testRemoveAllDataFromCache() throws Exception {
-        inFileObjectPersister.saveDataToCacheAndReturnData(new Object(),
-            TEST_CACHE_KEY);
+        inFileObjectPersister.saveDataToCacheAndReturnData(new Object(), TEST_CACHE_KEY);
 
-        inFileObjectPersister.saveDataToCacheAndReturnData(new Object(),
-            TEST_CACHE_KEY2);
+        inFileObjectPersister.saveDataToCacheAndReturnData(new Object(), TEST_CACHE_KEY2);
 
         File cacheFile = inFileObjectPersister.getCacheFile(TEST_CACHE_KEY);
         assertTrue(cacheFile.exists());
@@ -70,8 +65,7 @@ public class InFileObjectPersisterTest extends InstrumentationTestCase {
     // ============================================================================================
     // CLASS UNDER TEST
     // ============================================================================================
-    private final class InFileObjectPersisterUnderTest extends
-        InFileObjectPersister<Object> {
+    private final class InFileObjectPersisterUnderTest extends InFileObjectPersister<Object> {
         private InFileObjectPersisterUnderTest(Application application) {
             super(application, Object.class);
         }
@@ -82,14 +76,12 @@ public class InFileObjectPersisterTest extends InstrumentationTestCase {
         }
 
         @Override
-        public Object loadDataFromCache(Object arg0, long arg1)
-            throws CacheLoadingException {
+        public Object loadDataFromCache(Object arg0, long arg1) throws CacheLoadingException {
             return null;
         }
 
         @Override
-        public Object saveDataToCacheAndReturnData(Object data, Object cacheKey)
-            throws CacheSavingException {
+        public Object saveDataToCacheAndReturnData(Object data, Object cacheKey) throws CacheSavingException {
             try {
                 getCacheFile(cacheKey).createNewFile();
             } catch (IOException e) {

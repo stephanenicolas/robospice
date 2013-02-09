@@ -40,8 +40,7 @@ public class CacheManagerTest extends AndroidTestCase {
         cacheManager.addPersister(mockStringPersistenceManager);
 
         // when
-        ObjectPersister<?> actual = cacheManager
-            .getObjectPersister(String.class);
+        ObjectPersister<?> actual = cacheManager.getObjectPersister(String.class);
 
         // then
         assertEquals(mockStringPersistenceManager, actual);
@@ -58,8 +57,7 @@ public class CacheManagerTest extends AndroidTestCase {
         cacheManager.addPersister(mockDataClassPersistenceManager2);
 
         // when
-        ObjectPersister<?> actual = cacheManager
-            .getObjectPersister(String.class);
+        ObjectPersister<?> actual = cacheManager.getObjectPersister(String.class);
 
         // then
         assertEquals(mockStringPersistenceManager, actual);
@@ -70,8 +68,7 @@ public class CacheManagerTest extends AndroidTestCase {
         // register a data class persistence manager first
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();
         cacheManager.addPersister(mockStringPersistenceManager);
-        ObjectPersister<?> actual = cacheManager
-            .getObjectPersister(String.class);
+        ObjectPersister<?> actual = cacheManager.getObjectPersister(String.class);
         assertEquals(mockStringPersistenceManager, actual);
 
         // unregister it
@@ -97,10 +94,8 @@ public class CacheManagerTest extends AndroidTestCase {
         cacheManager.addPersister(mockIntegerPersistenceManager);
 
         // when
-        ObjectPersister<?> persisterString = cacheManager
-            .getObjectPersister(String.class);
-        ObjectPersister<?> persisterInteger = cacheManager
-            .getObjectPersister(Integer.class);
+        ObjectPersister<?> persisterString = cacheManager.getObjectPersister(String.class);
+        ObjectPersister<?> persisterInteger = cacheManager.getObjectPersister(Integer.class);
 
         // then
         assertEquals(mockStringPersistenceManager, persisterString);
@@ -139,14 +134,12 @@ public class CacheManagerTest extends AndroidTestCase {
         }
 
         @Override
-        public String loadDataFromCache(Object arg0, long arg1)
-            throws CacheLoadingException {
+        public String loadDataFromCache(Object arg0, long arg1) throws CacheLoadingException {
             return TEST_PERSISTED_STRING;
         }
 
         @Override
-        public String saveDataToCacheAndReturnData(String arg0, Object arg1)
-            throws CacheSavingException {
+        public String saveDataToCacheAndReturnData(String arg0, Object arg1) throws CacheSavingException {
             return TEST_PERSISTED_STRING;
         }
 
@@ -170,10 +163,14 @@ public class CacheManagerTest extends AndroidTestCase {
         public List<Object> getAllCacheKeys() {
             return null;
         }
+
+        @Override
+        public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
+            return 0;
+        }
     }
 
-    private class MockIntegerPersistenceManager extends
-        ObjectPersister<Integer> {
+    private class MockIntegerPersistenceManager extends ObjectPersister<Integer> {
 
         public MockIntegerPersistenceManager() {
             super(null, Integer.class);
@@ -185,14 +182,12 @@ public class CacheManagerTest extends AndroidTestCase {
         }
 
         @Override
-        public Integer loadDataFromCache(Object arg0, long arg1)
-            throws CacheLoadingException {
+        public Integer loadDataFromCache(Object arg0, long arg1) throws CacheLoadingException {
             return TEST_PERSISTED_INTEGER;
         }
 
         @Override
-        public Integer saveDataToCacheAndReturnData(Integer arg0, Object arg1)
-            throws CacheSavingException {
+        public Integer saveDataToCacheAndReturnData(Integer arg0, Object arg1) throws CacheSavingException {
             return TEST_PERSISTED_INTEGER;
         }
 
@@ -206,8 +201,7 @@ public class CacheManagerTest extends AndroidTestCase {
         }
 
         @Override
-        public List<Integer> loadAllDataFromCache()
-            throws CacheLoadingException {
+        public List<Integer> loadAllDataFromCache() throws CacheLoadingException {
             ArrayList<Integer> listString = new ArrayList<Integer>();
             listString.add(TEST_PERSISTED_INTEGER);
             return listString;
@@ -216,6 +210,11 @@ public class CacheManagerTest extends AndroidTestCase {
         @Override
         public List<Object> getAllCacheKeys() {
             return null;
+        }
+
+        @Override
+        public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
+            return 0;
         }
     }
 }

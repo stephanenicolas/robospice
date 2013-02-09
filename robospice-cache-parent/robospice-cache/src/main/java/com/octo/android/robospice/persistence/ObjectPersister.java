@@ -26,11 +26,11 @@ public abstract class ObjectPersister<T> implements Persister {
         this.clazz = clazz;
     }
 
-    protected Application getApplication() {
+    public Application getApplication() {
         return application;
     }
 
-    protected Class<T> getHandledClass() {
+    public Class<T> getHandledClass() {
         return clazz;
     }
 
@@ -50,19 +50,28 @@ public abstract class ObjectPersister<T> implements Persister {
      * @throws CacheExpiredException
      *             if the data in cache is expired.
      */
-    public abstract T loadDataFromCache(Object cacheKey, long maxTimeInCache)
-        throws CacheLoadingException;
+    public abstract T loadDataFromCache(Object cacheKey, long maxTimeInCache) throws CacheLoadingException;
 
     public abstract List<T> loadAllDataFromCache() throws CacheLoadingException;
 
     public abstract List<Object> getAllCacheKeys();
 
-    public abstract T saveDataToCacheAndReturnData(T data, Object cacheKey)
-        throws CacheSavingException;
+    public abstract T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheSavingException;
 
     public abstract boolean removeDataFromCache(Object cacheKey);
 
     public abstract void removeAllDataFromCache();
+
+    /**
+     * Return the creation date of creation of cache. entry for a given
+     * cacheKey.
+     * @param cacheKey
+     *            the cachekey identifying the object to look for.
+     * @return a long corresponding to the creation date of creation of cache.
+     * @throws CacheLoadingException
+     *             if there is no such element in cache.
+     */
+    public abstract long getCreationDateInCache(Object cacheKey) throws CacheLoadingException;
 
     public boolean isAsyncSaveEnabled() {
         return isAsyncSaveEnabled;

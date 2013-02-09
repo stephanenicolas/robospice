@@ -1,32 +1,26 @@
 package com.octo.android.robospice.persistence.binary;
 
-import android.test.InstrumentationTestCase;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap;
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.test.InstrumentationTestCase;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 
 public class InFileBitmapObjectPersisterTest extends InstrumentationTestCase {
 
+    private static final int TEST_SIZE_RATIO_AFTER_DOWNSAMPLING = 4;
     private static final int BITMAP_HEIGHT = 10;
     private static final int BITMAP_WIDTH = 10;
     private static final int BYTES_PER_PIXEL_ARGB_8888 = 4;
-    private static final int BYTES_PER_PIXEL_RGB_565 = 2;
-    private static final Bitmap testBitmapLarge = Bitmap.createBitmap(
-        BITMAP_WIDTH, BITMAP_HEIGHT, Bitmap.Config.ARGB_8888);
-    private static final Bitmap testBitmapSmall = Bitmap.createBitmap(
-        BITMAP_WIDTH, BITMAP_HEIGHT, Bitmap.Config.RGB_565);
+    private static final Bitmap TEST_BITMAP_LARGE = Bitmap.createBitmap(BITMAP_WIDTH, BITMAP_HEIGHT, Bitmap.Config.ARGB_8888);
+    private static final int TEST_BITMAP_LARGE_SIZE = BITMAP_HEIGHT * BITMAP_WIDTH * BYTES_PER_PIXEL_ARGB_8888;
 
-    private static final String CACHE_KEY_1 = "cacheKey1";
+    private static final String TEST_CACHE_KEY = "cacheKey1";
 
-    private static final int LARGE_BITMAP_SIZE = BITMAP_HEIGHT * BITMAP_WIDTH
-        * BYTES_PER_PIXEL_ARGB_8888;
-    private static final int SMALL_BITMAP_SIZE = BITMAP_HEIGHT * BITMAP_WIDTH
-        * BYTES_PER_PIXEL_RGB_565;
-    private static final long ONE_MILLISECOND = 1;
-    private static final String EXPIRED_DATA_MSG = "Cache loaded expired data instead of throwing a CacheLoadingException.";
+    // in ms
+    private static final long TEST_EXPIRATION_DURATION = 1;
 
     private Application application;
     private InFileBitmapObjectPersister testPersister;
@@ -35,75 +29,70 @@ public class InFileBitmapObjectPersisterTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        application = (Application) getInstrumentation().getTargetContext()
-            .getApplicationContext();
-
+        application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
         testPersister = new InFileBitmapObjectPersister(application);
         testPersister.removeAllDataFromCache();
     }
 
-    private void assertBitmapSizeEquals(Bitmap bitmap, int bytes) {
-        assertEquals(bitmap.getRowBytes() * bitmap.getHeight(), bytes);
+    @Override
+    protected void tearDown() throws Exception {
+        testPersister.removeAllDataFromCache();
+        super.tearDown();
+    }
+
+    private void assertBitmapSizeEquals(int expectedBitmapSize, Bitmap bitmap) {
+        assertEquals(expectedBitmapSize, bitmap.getRowBytes() * bitmap.getHeight());
     }
 
     public void testSaveDataToCache() throws Exception {
-        assertNotNull(testPersister.saveDataToCacheAndReturnData(
-            testBitmapLarge, CACHE_KEY_1));
-        assertTrue(testPersister.getCacheFile(CACHE_KEY_1).exists());
+        assertNotNull(testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY));
+        assertTrue(testPersister.getCacheFile(TEST_CACHE_KEY).exists());
     }
 
-    public void testLoadDataFromCacheNoExpiration() throws Exception {
-        testPersister
-            .saveDataToCacheAndReturnData(testBitmapLarge, CACHE_KEY_1);
-        Bitmap data = testPersister.loadDataFromCache(CACHE_KEY_1,
-            DurationInMillis.ALWAYS);
+    public void testLoadDataFromCache_no_expiration() throws Exception {
+        testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY);
+        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
         assertNotNull(data);
-        assertBitmapSizeEquals(data, LARGE_BITMAP_SIZE);
+        assertBitmapSizeEquals(TEST_BITMAP_LARGE_SIZE, data);
 
     }
 
-    public void testLoadDataFromCacheNotExpired() throws Exception {
-        testPersister
-            .saveDataToCacheAndReturnData(testBitmapLarge, CACHE_KEY_1);
-        Bitmap data = testPersister.loadDataFromCache(CACHE_KEY_1,
-            Long.MAX_VALUE);
+    public void testLoadDataFromCache_not_expired() throws Exception {
+        testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY);
+        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, Long.MAX_VALUE);
         assertNotNull(data);
-        assertBitmapSizeEquals(data, LARGE_BITMAP_SIZE);
+        assertBitmapSizeEquals(TEST_BITMAP_LARGE_SIZE, data);
     }
 
-    public void testLoadDataFromCacheExpired() throws Exception {
-        testPersister
-            .saveDataToCacheAndReturnData(testBitmapLarge, CACHE_KEY_1);
-        Thread.sleep(ONE_MILLISECOND);
+    public void testLoadDataFromCache_expired() throws Exception {
+        testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY);
+        Thread.sleep(TEST_EXPIRATION_DURATION);
         try {
-            testPersister.loadDataFromCache(CACHE_KEY_1, ONE_MILLISECOND);
-            throw new Exception(EXPIRED_DATA_MSG);
+            Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, TEST_EXPIRATION_DURATION);
+            assertNull(data);
         } catch (CacheLoadingException e) {
-            // throwing this error is the expected behavior
+            fail("A cache miss should not throw exception ");
         }
     }
 
-    public void testLoadDataFromCacheNonDefaultDecoding() throws Exception {
-
-        testPersister
-            .saveDataToCacheAndReturnData(testBitmapSmall, CACHE_KEY_1);
-        Bitmap data = testPersister.loadDataFromCache(CACHE_KEY_1,
-            DurationInMillis.ALWAYS);
+    public void testLoadDataFromCache_with_default_decoding_options() throws Exception {
+        testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY);
+        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
         assertNotNull(data);
-        assertBitmapSizeEquals(data, SMALL_BITMAP_SIZE);
+        assertBitmapSizeEquals(TEST_BITMAP_LARGE_SIZE, data);
     }
 
-    public void testLoadDataFromCacheWithDecodingOptions() throws Exception {
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inSampleSize = 2;
-        testPersister.setDecodingOptions(opts);
+    public void testLoadDataFromCache_with_decoding_options() throws Exception {
+        BitmapFactory.Options decodingOptions = new BitmapFactory.Options();
+        decodingOptions.inSampleSize = 2;
+        testPersister = new InFileBitmapObjectPersister(application);
+        testPersister.setDecodingOptions(decodingOptions);
+        testPersister.removeAllDataFromCache();
 
-        testPersister
-            .saveDataToCacheAndReturnData(testBitmapLarge, CACHE_KEY_1);
-        Bitmap data = testPersister.loadDataFromCache(CACHE_KEY_1,
-            DurationInMillis.ALWAYS);
+        testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY);
+        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
         assertNotNull(data);
-        assertBitmapSizeEquals(data, LARGE_BITMAP_SIZE / 4);
+        assertBitmapSizeEquals(TEST_BITMAP_LARGE_SIZE / TEST_SIZE_RATIO_AFTER_DOWNSAMPLING, data);
     }
 
 }
