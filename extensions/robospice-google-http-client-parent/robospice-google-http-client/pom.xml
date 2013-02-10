@@ -92,7 +92,7 @@
 						<artifactId>maven-dependency-plugin</artifactId>
 						<configuration>
 							<includeArtifactIds>commons-lang3,commons-io,robospice,
-								robospice-cache,google-http-client-android,google-http-client-jackson,google-http-client-jackson2,google-http-client-gson,guava-jdk5,jsr305,jackson-core-asl,gson</includeArtifactIds>
+								robospice-cache,google-http-client-android,google-http-client-jackson,google-http-client-jackson2,google-http-client-gson,guava-jdk5,jsr305,jackson-core-asl,jackson-core,gson</includeArtifactIds>
 						</configuration>
 					</plugin>
 					<plugin>
