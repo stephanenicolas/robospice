@@ -3,9 +3,9 @@ package com.octo.android.robospice.spicelist.test;
 import android.content.Context;
 
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
-import com.octo.android.robospice.spicelist.BigBinarySpiceService;
+import com.octo.android.robospice.spicelist.BitmapSpiceService;
 
-public class TestBigBinarySpiceService extends BigBinarySpiceService {
+public class TestBigBinarySpiceService extends BitmapSpiceService {
 
     @Override
     protected NetworkStateChecker getNetworkStateChecker() {

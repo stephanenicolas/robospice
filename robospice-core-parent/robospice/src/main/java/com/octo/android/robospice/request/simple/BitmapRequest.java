@@ -104,6 +104,10 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
         return this.url;
     }
 
+    public File getCacheFile() {
+        return cacheFile;
+    }
+
     public void processStream(int contentLength, final InputStream inputStream)
         throws IOException {
         OutputStream fileOutputStream = null;

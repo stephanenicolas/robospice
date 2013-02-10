@@ -24,8 +24,8 @@ import android.widget.TextView;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.request.simple.BigBinaryRequest;
+import com.octo.android.robospice.request.simple.BitmapRequest;
+import com.octo.android.robospice.spicelist.BitmapSpiceManager;
 import com.octo.android.robospice.spicelist.SpiceArrayAdapter;
 import com.octo.android.robospice.spicelist.SpiceListItemView;
 
@@ -38,7 +38,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     private MockWebServer mockWebServer;
 
     private SpiceArrayAdapterUnderTest adapter;
-    private BigBinarySpiceManagerUnderTest spiceManager;
+    private BitmapSpiceManager spiceManager;
     private DataUnderTest data1;
     private DataUnderTest data2;
     private ArrayList<DataUnderTest> data;
@@ -46,12 +46,11 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        cacheFile = new File(getInstrumentation().getTargetContext()
-            .getCacheDir(), "Foo");
+        cacheFile = new File(getInstrumentation().getTargetContext().getCacheDir(), "Foo");
         cacheFile.delete();
         mockWebServer = new MockWebServer();
 
-        spiceManager = new BigBinarySpiceManagerUnderTest();
+        spiceManager = new BitmapSpiceManagerUnderTest();
         spiceManager.start(getInstrumentation().getTargetContext());
 
         data = new ArrayList<DataUnderTest>();
@@ -66,8 +65,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
 
         data.add(data1);
         data.add(data2);
-        adapter = new SpiceArrayAdapterUnderTest(getInstrumentation()
-            .getTargetContext(), spiceManager, data);
+        adapter = new SpiceArrayAdapterUnderTest(getInstrumentation().getTargetContext(), spiceManager, data);
     }
 
     @Override
@@ -85,16 +83,13 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     }
 
     public void testGetCount() {
-        assertEquals("Contacts amount incorrect.", data.size(),
-            adapter.getCount());
+        assertEquals("Contacts amount incorrect.", data.size(), adapter.getCount());
     }
 
     // I have 3 views on my adapter, name, number and photo
-    public void testGetView_fills_list_item_view_with_data_and_executes_request()
-        throws IOException, InterruptedException {
+    public void testGetView_fills_list_item_view_with_data_and_executes_request() throws IOException, InterruptedException {
         // given;
-        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext()
-            .getResources().openRawResource(R.raw.binary));
+        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext().getResources().openRawResource(R.raw.binary));
         mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
@@ -104,10 +99,8 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         assertTrue(adapter.isLoadBitmapHasBeenCalled());
 
         // then
-        TextView nameView = (TextView) view
-            .findViewById(R.id.user_name_textview);
-        ImageView photoView = (ImageView) view
-            .findViewById(R.id.thumbnail_imageview);
+        TextView nameView = (TextView) view.findViewById(R.id.user_name_textview);
+        ImageView photoView = (ImageView) view.findViewById(R.id.thumbnail_imageview);
 
         assertNotNull("View is null. ", view);
         assertNotNull("Name TextView is null. ", nameView);
@@ -118,12 +111,10 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         // could we get notified of this request ?
         assertEquals(1, mockWebServer.getRequestCount());
         RecordedRequest first = mockWebServer.takeRequest();
-        assertEquals("GET /" + data1.getImageUrl() + " HTTP/1.1",
-            first.getRequestLine());
+        assertEquals("GET /" + data1.getImageUrl() + " HTTP/1.1", first.getRequestLine());
 
         InputStream cacheInputStream = new FileInputStream(cacheFile);
-        assertTrue(IOUtils.contentEquals(cacheInputStream, getInstrumentation()
-            .getContext().getResources().openRawResource(R.raw.binary)));
+        assertTrue(IOUtils.contentEquals(cacheInputStream, getInstrumentation().getContext().getResources().openRawResource(R.raw.binary)));
 
     }
 
@@ -134,35 +125,34 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         public String getFoo() {
             return foo;
         }
+
         public void setFoo(String foo) {
             this.foo = foo;
         }
+
         public String getImageUrl() {
             return imageUrl;
         }
+
         public void setImageUrl(String imageUrl) {
             this.imageUrl = imageUrl;
         }
 
     }
 
-    private class SpiceArrayAdapterUnderTest extends
-        SpiceArrayAdapter<DataUnderTest> {
+    private class SpiceArrayAdapterUnderTest extends SpiceArrayAdapter<DataUnderTest> {
 
         private ReentrantLock reentrantLock = new ReentrantLock();
-        private Condition loadBitmapHasBeenCalledCondition = reentrantLock
-            .newCondition();
+        private Condition loadBitmapHasBeenCalledCondition = reentrantLock.newCondition();
         private boolean loadBitmapHasBeenCalled = false;
 
-        public SpiceArrayAdapterUnderTest(Context context,
-            SpiceManager spiceManagerBinary, List<DataUnderTest> data) {
+        public SpiceArrayAdapterUnderTest(Context context, BitmapSpiceManager spiceManagerBinary, List<DataUnderTest> data) {
             super(context, spiceManagerBinary, data);
         }
 
         @Override
-        public BigBinaryRequest createRequest(DataUnderTest data) {
-            return new BigBinaryRequest(mockWebServer.getUrl(
-                "/" + data.getImageUrl()).toString(), cacheFile);
+        public BitmapRequest createRequest(DataUnderTest data, int reqWidth, int reqHeight) {
+            return new BitmapRequest(mockWebServer.getUrl("/" + data.getImageUrl()).toString(), reqWidth, reqHeight, cacheFile);
         }
 
         @SuppressWarnings("unchecked")
@@ -177,11 +167,11 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
                 view = new ListItemViewStub(getContext());
             }
             ((ListItemViewStub) view).setDataUnderTest(currentData);
+
             // this is the most important line. It will update views
             // automatically
             // ----------------------------------------
-            updateListItemViewAsynchronously(currentData,
-                (SpiceListItemView<DataUnderTest>) view);
+            updateListItemViewAsynchronously(currentData, (SpiceListItemView<DataUnderTest>) view);
             // ----------------------------------------
             return view;
         }
@@ -191,10 +181,8 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         // ----------------------------------------------------
 
         @Override
-        protected void loadBitmapAsynchronously(DataUnderTest octo,
-            ImageView thumbImageView, String tempThumbnailImageFileName) {
-            super.loadBitmapAsynchronously(octo, thumbImageView,
-                tempThumbnailImageFileName);
+        protected void loadBitmapAsynchronously(DataUnderTest octo, ImageView thumbImageView, String tempThumbnailImageFileName) {
+            super.loadBitmapAsynchronously(octo, thumbImageView, tempThumbnailImageFileName);
             reentrantLock.lock();
             try {
                 loadBitmapHasBeenCalled = true;
@@ -207,8 +195,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         public void await(long millisecond) throws InterruptedException {
             reentrantLock.lock();
             try {
-                loadBitmapHasBeenCalledCondition.await(millisecond,
-                    TimeUnit.MILLISECONDS);
+                loadBitmapHasBeenCalledCondition.await(millisecond, TimeUnit.MILLISECONDS);
             } finally {
                 reentrantLock.unlock();
             }
@@ -219,8 +206,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         }
     }
 
-    private class ListItemViewStub extends RelativeLayout implements
-        SpiceListItemView<DataUnderTest> {
+    private class ListItemViewStub extends RelativeLayout implements SpiceListItemView<DataUnderTest> {
 
         private DataUnderTest dataUnderTest;
         private TextView userNameTextView;
@@ -228,13 +214,10 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
 
         public ListItemViewStub(Context context) {
             super(context);
-            LayoutInflater.from(context)
-                .inflate(R.layout.view_cell_tweet, this);
+            LayoutInflater.from(context).inflate(R.layout.view_cell_tweet, this);
 
-            this.userNameTextView = (TextView) this
-                .findViewById(R.id.user_name_textview);
-            this.thumbImageView = (ImageView) this
-                .findViewById(R.id.thumbnail_imageview);
+            this.userNameTextView = (TextView) this.findViewById(R.id.user_name_textview);
+            this.thumbImageView = (ImageView) this.findViewById(R.id.thumbnail_imageview);
         }
 
         public void setDataUnderTest(DataUnderTest dataUnderTest) {
@@ -257,9 +240,9 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
      * Used for testing only so that we can add a custom Service that works
      * offline for testing.
      */
-    private class BigBinarySpiceManagerUnderTest extends SpiceManager {
+    private class BitmapSpiceManagerUnderTest extends BitmapSpiceManager {
 
-        public BigBinarySpiceManagerUnderTest() {
+        public BitmapSpiceManagerUnderTest() {
             super(TestBigBinarySpiceService.class);
         }
     }
