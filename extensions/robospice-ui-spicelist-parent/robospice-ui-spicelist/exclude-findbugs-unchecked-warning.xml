@@ -1,0 +1,7 @@
+<FindBugsFilter>
+  <Match>
+    <!-- There is a bug in findbugs that prevents to compile SpiceArrayAdapter-->
+    <Bug code="BC"/>
+  </Match>
+</FindBugsFilter>
+

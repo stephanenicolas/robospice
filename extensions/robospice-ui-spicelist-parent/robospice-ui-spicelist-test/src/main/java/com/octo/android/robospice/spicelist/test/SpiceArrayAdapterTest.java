@@ -16,7 +16,6 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -155,27 +154,6 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
             return new BitmapRequest(mockWebServer.getUrl("/" + data.getImageUrl()).toString(), reqWidth, reqHeight, cacheFile);
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view;
-
-            DataUnderTest currentData = data.get(position);
-            if (convertView != null) {
-                view = convertView;
-            } else {
-                view = new ListItemViewStub(getContext());
-            }
-            ((ListItemViewStub) view).setDataUnderTest(currentData);
-
-            // this is the most important line. It will update views
-            // automatically
-            // ----------------------------------------
-            updateListItemViewAsynchronously(currentData, (SpiceListItemView<DataUnderTest>) view);
-            // ----------------------------------------
-            return view;
-        }
-
         // ----------------------------------------------------
         // ----- Block Test thread until drawable is refreshed.
         // ----------------------------------------------------
@@ -204,6 +182,11 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         public boolean isLoadBitmapHasBeenCalled() {
             return loadBitmapHasBeenCalled;
         }
+
+        @Override
+        public SpiceListItemView<DataUnderTest> createView(Context context) {
+            return new ListItemViewStub(getContext());
+        }
     }
 
     private class ListItemViewStub extends RelativeLayout implements SpiceListItemView<DataUnderTest> {
@@ -220,8 +203,9 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
             this.thumbImageView = (ImageView) this.findViewById(R.id.thumbnail_imageview);
         }
 
-        public void setDataUnderTest(DataUnderTest dataUnderTest) {
-            this.dataUnderTest = dataUnderTest;
+        @Override
+        public void update(DataUnderTest data) {
+            this.dataUnderTest = data;
             userNameTextView.setText(dataUnderTest.getFoo());
         }
 
@@ -234,6 +218,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         public ImageView getImageView() {
             return thumbImageView;
         }
+
     }
 
     /**
