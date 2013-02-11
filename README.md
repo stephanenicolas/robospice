@@ -21,7 +21,7 @@ Main features of RoboSpice
 * enforces no constraints neither on POJOs used for requests nor on Activity classes you use in your projects
 * **caches results** in Json with both [Jackson](http://jackson.codehaus.org/) or [Gson](http://code.google.com/p/google-gson/),
 or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, even using [ORM Lite](http://ormlite.com/sqlite_java_android_orm.shtml) (still in beta)
-* notifies your activities (or any other context) of the result of the network request if and only if they are still alive
+* notifies your activities (or any other context) of the result of the network request **with respect to their lifecycles**.
 * **no memory leaks** at all, like Android Loaders, unlike Android AsyncTasks
 * notifies your activities on their **UI Thread**
 * uses a simple but **robust** exception handling model
