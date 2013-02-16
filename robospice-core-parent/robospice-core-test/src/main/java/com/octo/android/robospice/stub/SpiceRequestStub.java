@@ -43,11 +43,11 @@ public abstract class SpiceRequestStub<T> extends SpiceRequest<T> {
      *         {@link #loadDataFromNetwork()} method has been called.
      */
     public boolean isLoadDataFromNetworkCalled() {
+        signalStopWaiting();
         return isLoadDataFromNetworkCalled;
     }
 
-    public void awaitForLoadDataFromNetworkIsCalled(long millisecond)
-        throws InterruptedException {
+    public void awaitForLoadDataFromNetworkIsCalled(long millisecond) throws InterruptedException {
         if (isLoadDataFromNetworkCalled) {
             return;
         }

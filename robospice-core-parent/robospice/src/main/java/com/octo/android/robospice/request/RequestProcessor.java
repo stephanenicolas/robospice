@@ -85,19 +85,15 @@ public class RequestProcessor {
      *            notified when no more requests are left, typically allowing
      *            the {@link SpiceService} to stop itself.
      */
-    public RequestProcessor(final Context context,
-        final ICacheManager cacheManager,
-        final ExecutorService executorService,
-        final RequestProcessorListener requestProcessorListener,
-        final NetworkStateChecker networkStateChecker) {
+    public RequestProcessor(final Context context, final ICacheManager cacheManager, final ExecutorService executorService,
+        final RequestProcessorListener requestProcessorListener, final NetworkStateChecker networkStateChecker) {
         this.applicationContext = context;
         this.cacheManager = cacheManager;
         this.requestProcessorListener = requestProcessorListener;
         this.networkStateChecker = networkStateChecker;
 
         handlerResponse = new Handler(Looper.getMainLooper());
-        spiceServiceListenerSet = Collections
-            .synchronizedSet(new HashSet<SpiceServiceServiceListener>());
+        spiceServiceListenerSet = Collections.synchronizedSet(new HashSet<SpiceServiceServiceListener>());
         this.executorService = executorService;
 
         this.networkStateChecker.checkPermissions(context);
@@ -106,14 +102,11 @@ public class RequestProcessor {
     // ============================================================================================
     // PUBLIC
     // ============================================================================================
-    public void addRequest(final CachedSpiceRequest<?> request,
-        final Set<RequestListener<?>> listRequestListener) {
-        Ln.d("Adding request to queue " + hashCode() + ": " + request
-            + " size is " + mapRequestToRequestListener.size());
+    public void addRequest(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listRequestListener) {
+        Ln.d("Adding request to queue " + hashCode() + ": " + request + " size is " + mapRequestToRequestListener.size());
 
         if (request.isCancelled()) {
-            for (final CachedSpiceRequest<?> cachedSpiceRequest : mapRequestToRequestListener
-                .keySet()) {
+            for (final CachedSpiceRequest<?> cachedSpiceRequest : mapRequestToRequestListener.keySet()) {
                 if (cachedSpiceRequest.equals(request)) {
                     cachedSpiceRequest.cancel();
                     return;
@@ -123,24 +116,19 @@ public class RequestProcessor {
 
         boolean aggregated = false;
         if (listRequestListener != null) {
-            Set<RequestListener<?>> listRequestListenerForThisRequest = mapRequestToRequestListener
-                .get(request);
+            Set<RequestListener<?>> listRequestListenerForThisRequest = mapRequestToRequestListener.get(request);
 
             if (listRequestListenerForThisRequest == null) {
                 listRequestListenerForThisRequest = new HashSet<RequestListener<?>>();
-                this.mapRequestToRequestListener.put(request,
-                    listRequestListenerForThisRequest);
+                this.mapRequestToRequestListener.put(request, listRequestListenerForThisRequest);
             } else {
-                Ln.d(String.format(
-                    "Request for type %s and cacheKey %s already exists.",
-                    request.getResultType(), request.getRequestCacheKey()));
+                Ln.d(String.format("Request for type %s and cacheKey %s already exists.", request.getResultType(), request.getRequestCacheKey()));
                 aggregated = true;
             }
 
             listRequestListenerForThisRequest.addAll(listRequestListener);
             if (request.isProcessable()) {
-                notifyListenersOfRequestProgress(request, listRequestListener,
-                    request.getProgress());
+                notifyListenersOfRequestProgress(request, listRequestListener, request.getProgress());
             }
         }
 
@@ -153,8 +141,7 @@ public class RequestProcessor {
             @Override
             public void onRequestCancelled() {
                 mapRequestToRequestListener.remove(request);
-                notifyListenersOfRequestCancellation(request,
-                    listRequestListener);
+                notifyListenersOfRequestCancellation(request, listRequestListener);
             }
         };
         request.setRequestCancellationListener(requestCancellationListener);
@@ -171,10 +158,7 @@ public class RequestProcessor {
                     try {
                         processRequest(request);
                     } catch (final Throwable t) {
-                        Ln.d(
-                            t,
-                            "An unexpected error occured when processsing request %s",
-                            request.toString());
+                        Ln.d(t, "An unexpected error occured when processsing request %s", request.toString());
 
                     }
                 }
@@ -198,8 +182,7 @@ public class RequestProcessor {
         final RequestProgressListener requestProgressListener = new RequestProgressListener() {
             @Override
             public void onRequestProgressUpdate(final RequestProgress progress) {
-                final Set<RequestListener<?>> listeners = mapRequestToRequestListener
-                    .get(request);
+                final Set<RequestListener<?>> listeners = mapRequestToRequestListener.get(request);
                 notifyListenersOfRequestProgress(request, listeners, progress);
             }
         };
@@ -210,11 +193,9 @@ public class RequestProcessor {
             try {
                 Ln.d("Loading request from cache : " + request);
                 request.setStatus(RequestStatus.READING_FROM_CACHE);
-                result = loadDataFromCache(request.getResultType(),
-                    request.getRequestCacheKey(), request.getCacheDuration());
+                result = loadDataFromCache(request.getResultType(), request.getRequestCacheKey(), request.getCacheDuration());
                 if (result != null) {
-                    Ln.d("Request loaded from cache : " + request + " result="
-                        + result);
+                    Ln.d("Request loaded from cache : " + request + " result=" + result);
                     notifyListenersOfRequestSuccess(request, result);
                     return;
                 }
@@ -224,8 +205,7 @@ public class RequestProcessor {
                     notifyListenersOfRequestFailure(request, e);
                     return;
                 }
-                cacheManager.removeDataFromCache(request.getResultType(),
-                    request.getRequestCacheKey());
+                cacheManager.removeDataFromCache(request.getResultType(), request.getRequestCacheKey());
                 Ln.d(e, "Cache file deleted.");
             }
         }
@@ -235,8 +215,7 @@ public class RequestProcessor {
             Ln.d("Cache content not available or expired or disabled");
             if (!isNetworkAvailable(applicationContext)) {
                 Ln.e("Network is down.");
-                notifyListenersOfRequestFailure(request,
-                    new NoNetworkException());
+                notifyListenersOfRequestFailure(request, new NoNetworkException());
                 return;
             }
 
@@ -247,11 +226,8 @@ public class RequestProcessor {
                 result = request.loadDataFromNetwork();
                 Ln.d("Network request call ended.");
             } catch (final Exception e) {
-                Ln.e(e,
-                    "An exception occured during request network execution :"
-                        + e.getMessage());
-                notifyListenersOfRequestFailure(request, new NetworkException(
-                    "Exception occured during invocation of web service.", e));
+                Ln.e(e, "An exception occured during request network execution :" + e.getMessage());
+                notifyListenersOfRequestFailure(request, new NetworkException("Exception occured during invocation of web service.", e));
                 return;
             }
 
@@ -261,14 +237,11 @@ public class RequestProcessor {
                 try {
                     Ln.d("Start caching content...");
                     request.setStatus(RequestStatus.WRITING_TO_CACHE);
-                    result = saveDataToCacheAndReturnData(result,
-                        request.getRequestCacheKey());
+                    result = saveDataToCacheAndReturnData(result, request.getRequestCacheKey());
                     notifyListenersOfRequestSuccess(request, result);
                     return;
                 } catch (final CacheSavingException e) {
-                    Ln.d(
-                        "An exception occured during service execution :"
-                            + e.getMessage(), e);
+                    Ln.d("An exception occured during service execution :" + e.getMessage(), e);
                     if (failOnCacheError) {
                         notifyListenersOfRequestFailure(request, e);
                         return;
@@ -280,8 +253,7 @@ public class RequestProcessor {
                         // network
                         notifyListenersOfRequestSuccess(request, result);
                     }
-                    cacheManager.removeDataFromCache(request.getResultType(),
-                        request.getRequestCacheKey());
+                    cacheManager.removeDataFromCache(request.getResultType(), request.getRequestCacheKey());
                     Ln.d(e, "Cache file deleted.");
                 }
             } else {
@@ -298,18 +270,14 @@ public class RequestProcessor {
         handlerResponse.postAtTime(r, token, 0);
     }
 
-    private <T> void notifyListenersOfRequestProgress(
-        final CachedSpiceRequest<?> request,
-        final Set<RequestListener<?>> listeners, final RequestStatus status) {
-        notifyListenersOfRequestProgress(request, listeners,
-            new RequestProgress(status));
+    private <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners,
+        final RequestStatus status) {
+        notifyListenersOfRequestProgress(request, listeners, new RequestProgress(status));
     }
 
-    private <T> void notifyListenersOfRequestProgress(
-        final CachedSpiceRequest<?> request,
-        final Set<RequestListener<?>> listeners, final RequestProgress progress) {
-        post(new ProgressRunnable(listeners, progress),
-            request.getRequestCacheKey());
+    private <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners,
+        final RequestProgress progress) {
+        post(new ProgressRunnable(listeners, progress), request.getRequestCacheKey());
         checkAllRequestComplete();
     }
 
@@ -320,39 +288,26 @@ public class RequestProcessor {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private <T> void notifyListenersOfRequestSuccess(
-        final CachedSpiceRequest<T> request, final T result) {
-        final Set<RequestListener<?>> listeners = mapRequestToRequestListener
-            .get(request);
-        notifyListenersOfRequestProgress(request, listeners,
-            RequestStatus.COMPLETE);
-        post(new ResultRunnable(listeners, result),
-            request.getRequestCacheKey());
+    private <T> void notifyListenersOfRequestSuccess(final CachedSpiceRequest<T> request, final T result) {
+        final Set<RequestListener<?>> listeners = mapRequestToRequestListener.get(request);
+        notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
+        post(new ResultRunnable(listeners, result), request.getRequestCacheKey());
         notifyOfRequestProcessed(request);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private <T> void notifyListenersOfRequestFailure(
-        final CachedSpiceRequest<T> request, final SpiceException e) {
-        final Set<RequestListener<?>> listeners = mapRequestToRequestListener
-            .get(request);
-        notifyListenersOfRequestProgress(request, listeners,
-            RequestStatus.COMPLETE);
+    private <T> void notifyListenersOfRequestFailure(final CachedSpiceRequest<T> request, final SpiceException e) {
+        final Set<RequestListener<?>> listeners = mapRequestToRequestListener.get(request);
+        notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
         post(new ResultRunnable(listeners, e), request.getRequestCacheKey());
         notifyOfRequestProcessed(request);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void notifyListenersOfRequestCancellation(
-        final CachedSpiceRequest<?> request,
-        final Set<RequestListener<?>> listeners) {
-        Ln.d("Not calling network request : " + request
-            + " as it is cancelled. ");
-        notifyListenersOfRequestProgress(request, listeners,
-            RequestStatus.COMPLETE);
-        post(new ResultRunnable(listeners, new RequestCancelledException(
-            "Request has been cancelled explicitely.")),
-            request.getRequestCacheKey());
+    private void notifyListenersOfRequestCancellation(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners) {
+        Ln.d("Not calling network request : " + request + " as it is cancelled. ");
+        notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
+        post(new ResultRunnable(listeners, new RequestCancelledException("Request has been cancelled explicitely.")), request.getRequestCacheKey());
         notifyOfRequestProcessed(request);
     }
 
@@ -366,16 +321,11 @@ public class RequestProcessor {
      *            the collection of listeners associated to request not to be
      *            notified
      */
-    public void dontNotifyRequestListenersForRequest(
-        final CachedSpiceRequest<?> request,
-        final Collection<RequestListener<?>> listRequestListener) {
-        handlerResponse
-            .removeCallbacksAndMessages(request.getRequestCacheKey());
-        final Set<RequestListener<?>> setRequestListener = mapRequestToRequestListener
-            .get(request);
+    public void dontNotifyRequestListenersForRequest(final CachedSpiceRequest<?> request, final Collection<RequestListener<?>> listRequestListener) {
+        handlerResponse.removeCallbacksAndMessages(request.getRequestCacheKey());
+        final Set<RequestListener<?>> setRequestListener = mapRequestToRequestListener.get(request);
         if (setRequestListener != null && listRequestListener != null) {
-            Ln.d("Removing listeners of request : " + request.toString()
-                + " : " + setRequestListener.size());
+            Ln.d("Removing listeners of request : " + request.toString() + " : " + setRequestListener.size());
             setRequestListener.removeAll(listRequestListener);
         }
     }
@@ -392,12 +342,10 @@ public class RequestProcessor {
     }
 
     public static boolean hasNetworkPermission(final Context context) {
-        return context.getPackageManager().checkPermission(
-            "android.permission.INTERNET", context.getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        return context.getPackageManager().checkPermission("android.permission.INTERNET", context.getPackageName()) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public boolean removeDataFromCache(final Class<?> clazz,
-        final Object cacheKey) {
+    public boolean removeDataFromCache(final Class<?> clazz, final Object cacheKey) {
         return cacheManager.removeDataFromCache(clazz, cacheKey);
     }
 
@@ -421,15 +369,11 @@ public class RequestProcessor {
     // PRIVATE
     // ============================================================================================
 
-    private <T> T loadDataFromCache(final Class<T> clazz,
-        final Object cacheKey, final long maxTimeInCacheBeforeExpiry)
-        throws CacheLoadingException {
-        return cacheManager.loadDataFromCache(clazz, cacheKey,
-            maxTimeInCacheBeforeExpiry);
+    private <T> T loadDataFromCache(final Class<T> clazz, final Object cacheKey, final long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
+        return cacheManager.loadDataFromCache(clazz, cacheKey, maxTimeInCacheBeforeExpiry);
     }
 
-    private <T> T saveDataToCacheAndReturnData(final T data,
-        final Object cacheKey) throws CacheSavingException {
+    private <T> T saveDataToCacheAndReturnData(final T data, final Object cacheKey) throws CacheSavingException {
         return cacheManager.saveDataToCacheAndReturnData(data, cacheKey);
     }
 
@@ -437,8 +381,7 @@ public class RequestProcessor {
         private final RequestProgress progress;
         private final Set<RequestListener<?>> listeners;
 
-        public ProgressRunnable(final Set<RequestListener<?>> listeners,
-            final RequestProgress progress) {
+        public ProgressRunnable(final Set<RequestListener<?>> listeners, final RequestProgress progress) {
             this.progress = progress;
             this.listeners = listeners;
         }
@@ -450,13 +393,11 @@ public class RequestProcessor {
                 return;
             }
 
-            Ln.v("Notifying " + listeners.size() + " listeners of progress "
-                + progress);
+            Ln.v("Notifying " + listeners.size() + " listeners of progress " + progress);
             for (final RequestListener<?> listener : listeners) {
-                if (listener instanceof RequestProgressListener) {
+                if (listener != null && listener instanceof RequestProgressListener) {
                     Ln.v("Notifying %s", listener.getClass().getSimpleName());
-                    ((RequestProgressListener) listener)
-                        .onRequestProgressUpdate(progress);
+                    ((RequestProgressListener) listener).onRequestProgressUpdate(progress);
                 }
             }
         }
@@ -468,14 +409,12 @@ public class RequestProcessor {
         private T result;
         private final Set<RequestListener<?>> listeners;
 
-        public ResultRunnable(final Set<RequestListener<?>> listeners,
-            final T result) {
+        public ResultRunnable(final Set<RequestListener<?>> listeners, final T result) {
             this.result = result;
             this.listeners = listeners;
         }
 
-        public ResultRunnable(final Set<RequestListener<?>> listeners,
-            final SpiceException spiceException) {
+        public ResultRunnable(final Set<RequestListener<?>> listeners, final SpiceException spiceException) {
             this.spiceException = spiceException;
             this.listeners = listeners;
         }
@@ -486,18 +425,18 @@ public class RequestProcessor {
                 return;
             }
 
-            final String resultMsg = spiceException == null ? "success"
-                : "failure";
-            Ln.v("Notifying " + listeners.size() + " listeners of request "
-                + resultMsg);
+            final String resultMsg = spiceException == null ? "success" : "failure";
+            Ln.v("Notifying " + listeners.size() + " listeners of request " + resultMsg);
             for (final RequestListener<?> listener : listeners) {
-                @SuppressWarnings("unchecked")
-                final RequestListener<T> listener2 = (RequestListener<T>) listener;
-                Ln.v("Notifying %s", listener.getClass().getSimpleName());
-                if (spiceException == null) {
-                    listener2.onRequestSuccess(result);
-                } else {
-                    listener.onRequestFailure(spiceException);
+                if (listener != null) {
+                    @SuppressWarnings("unchecked")
+                    final RequestListener<T> listenerOfT = (RequestListener<T>) listener;
+                    Ln.v("Notifying %s", listener.getClass().getSimpleName());
+                    if (spiceException == null) {
+                        listenerOfT.onRequestSuccess(result);
+                    } else {
+                        listener.onRequestFailure(spiceException);
+                    }
                 }
             }
         }
@@ -514,8 +453,7 @@ public class RequestProcessor {
         stringBuilder.append(mapRequestToRequestListener.keySet().size());
 
         stringBuilder.append(", listeners per requests = [");
-        for (final Map.Entry<CachedSpiceRequest<?>, Set<RequestListener<?>>> entry : mapRequestToRequestListener
-            .entrySet()) {
+        for (final Map.Entry<CachedSpiceRequest<?>, Set<RequestListener<?>>> entry : mapRequestToRequestListener.entrySet()) {
             stringBuilder.append(entry.getKey().getClass().getName());
             stringBuilder.append(":");
             stringBuilder.append(entry.getKey());
@@ -532,19 +470,16 @@ public class RequestProcessor {
         return stringBuilder.toString();
     }
 
-    public void addSpiceServiceListener(
-        final SpiceServiceServiceListener spiceServiceServiceListener) {
+    public void addSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
         this.spiceServiceListenerSet.add(spiceServiceServiceListener);
     }
 
-    public void removeSpiceServiceListener(
-        final SpiceServiceServiceListener spiceServiceServiceListener) {
+    public void removeSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
         this.spiceServiceListenerSet.add(spiceServiceServiceListener);
     }
 
     protected void notifyOfRequestProcessed(final CachedSpiceRequest<?> request) {
-        Ln.v("Removing %s  size is %d", request,
-            mapRequestToRequestListener.size());
+        Ln.v("Removing %s  size is %d", request, mapRequestToRequestListener.size());
         mapRequestToRequestListener.remove(request);
 
         checkAllRequestComplete();
