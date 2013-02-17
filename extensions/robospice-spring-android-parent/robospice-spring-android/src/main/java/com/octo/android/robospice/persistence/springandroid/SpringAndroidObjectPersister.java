@@ -49,38 +49,30 @@ public abstract class SpringAndroidObjectPersister<T> extends
         String resultJson = null;
 
         File file = getCacheFile(cacheKey);
-        if (file.exists()) {
-            long timeInCache = System.currentTimeMillis() - file.lastModified();
-            if (maxTimeInCacheBeforeExpiry == 0
-                || timeInCache <= maxTimeInCacheBeforeExpiry) {
-                try {
-                    resultJson = FileUtils.readFileToString(file,
-                        CharEncoding.UTF_8);
+        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
+            try {
+                resultJson = FileUtils.readFileToString(file,
+                    CharEncoding.UTF_8);
 
-                    // finally transform json in object
-                    if (!StringUtils.isEmpty(resultJson)) {
-                        result = deserializeData(resultJson);
-                        return result;
-                    }
-                    throw new CacheLoadingException(
-                        "Unable to restore cache content : cache file is empty");
-                } catch (FileNotFoundException e) {
-                    // Should not occur (we test before if file exists)
-                    // Do not throw, file is not cached
-                    Ln.w("file " + file.getAbsolutePath() + " does not exists",
-                        e);
-                    return null;
-                } catch (CacheLoadingException e) {
-                    throw e;
-                } catch (Exception e) {
-                    throw new CacheLoadingException(e);
+                // finally transform json in object
+                if (!StringUtils.isEmpty(resultJson)) {
+                    result = deserializeData(resultJson);
+                    return result;
                 }
+                throw new CacheLoadingException(
+                    "Unable to restore cache content : cache file is empty");
+            } catch (FileNotFoundException e) {
+                // Should not occur (we test before if file exists)
+                // Do not throw, file is not cached
+                Ln.w("file " + file.getAbsolutePath() + " does not exists",
+                    e);
+                return null;
+            } catch (CacheLoadingException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new CacheLoadingException(e);
             }
-            Ln.v("Cache content is expired since "
-                + (maxTimeInCacheBeforeExpiry - timeInCache));
-            return null;
         }
-        Ln.v("file " + file.getAbsolutePath() + " does not exists");
         return null;
     }
 

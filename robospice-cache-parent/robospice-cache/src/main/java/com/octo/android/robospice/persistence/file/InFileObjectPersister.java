@@ -47,7 +47,7 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
                 return filename.startsWith(prefix);
             }
         });
-        List<Object> result = new ArrayList<Object>();
+        List<Object> result = new ArrayList<Object>(cacheFileNameList.length);
         for (String cacheFileName : cacheFileNameList) {
             result.add(cacheFileName.substring(prefix.length()));
         }
@@ -57,8 +57,9 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
 
     @Override
     public List<T> loadAllDataFromCache() throws CacheLoadingException {
-        List<T> result = new ArrayList<T>();
-        for (Object key : getAllCacheKeys()) {
+        List<Object> allCacheKeys = getAllCacheKeys();
+        List<T> result = new ArrayList<T>(allCacheKeys.size());
+        for (Object key : allCacheKeys) {
             result.add(loadDataFromCache(key, DurationInMillis.ALWAYS));
         }
         return result;

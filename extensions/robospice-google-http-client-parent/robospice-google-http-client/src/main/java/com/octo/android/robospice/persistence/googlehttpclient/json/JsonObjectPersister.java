@@ -51,31 +51,23 @@ public final class JsonObjectPersister<T> extends InFileObjectPersister<T> {
         T result = null;
 
         File file = getCacheFile(cacheKey);
-        if (file.exists()) {
-            long timeInCache = System.currentTimeMillis() - file.lastModified();
-            if (maxTimeInCacheBeforeExpiry == 0
-                || timeInCache <= maxTimeInCacheBeforeExpiry) {
-                try {
-                    JsonParser jsonParser = jsonFactory
-                        .createJsonParser(new FileReader(getCacheFile(cacheKey)));
-                    result = jsonParser.parse(getHandledClass(), null);
-                    jsonParser.close();
-                    return result;
-                } catch (FileNotFoundException e) {
-                    // Should not occur (we test before if file exists)
-                    // Do not throw, file is not cached
-                    Ln.w("file " + file.getAbsolutePath() + " does not exists",
-                        e);
-                    return null;
-                } catch (Exception e) {
-                    throw new CacheLoadingException(e);
-                }
+        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
+            try {
+                JsonParser jsonParser = jsonFactory
+                    .createJsonParser(new FileReader(file));
+                result = jsonParser.parse(getHandledClass(), null);
+                jsonParser.close();
+                return result;
+            } catch (FileNotFoundException e) {
+                // Should not occur (we test before if file exists)
+                // Do not throw, file is not cached
+                Ln.w("file " + file.getAbsolutePath() + " does not exists",
+                    e);
+                return null;
+            } catch (Exception e) {
+                throw new CacheLoadingException(e);
             }
-            Ln.v("Cache content is expired since "
-                + (maxTimeInCacheBeforeExpiry - timeInCache));
-            return null;
         }
-        Ln.v("file " + file.getAbsolutePath() + " does not exists");
         return null;
     }
 
