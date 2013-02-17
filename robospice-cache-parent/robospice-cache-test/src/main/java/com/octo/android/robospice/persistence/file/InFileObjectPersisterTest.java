@@ -81,6 +81,11 @@ public class InFileObjectPersisterTest extends InstrumentationTestCase {
         }
 
         @Override
+        protected Object readCacheDataFromFile(File file) throws CacheLoadingException {
+            return null;
+        }
+
+        @Override
         public Object saveDataToCacheAndReturnData(Object data, Object cacheKey) throws CacheSavingException {
             try {
                 getCacheFile(cacheKey).createNewFile();

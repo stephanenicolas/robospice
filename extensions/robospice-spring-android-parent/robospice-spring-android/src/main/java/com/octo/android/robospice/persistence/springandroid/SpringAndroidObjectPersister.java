@@ -43,37 +43,27 @@ public abstract class SpringAndroidObjectPersister<T> extends
     }
 
     @Override
-    public T loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry)
-        throws CacheLoadingException {
-        T result = null;
-        String resultJson = null;
-
-        File file = getCacheFile(cacheKey);
-        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
-            try {
-                resultJson = FileUtils.readFileToString(file,
-                    CharEncoding.UTF_8);
-
-                // finally transform json in object
-                if (!StringUtils.isEmpty(resultJson)) {
-                    result = deserializeData(resultJson);
-                    return result;
-                }
-                throw new CacheLoadingException(
-                    "Unable to restore cache content : cache file is empty");
-            } catch (FileNotFoundException e) {
-                // Should not occur (we test before if file exists)
-                // Do not throw, file is not cached
-                Ln.w("file " + file.getAbsolutePath() + " does not exists",
-                    e);
-                return null;
-            } catch (CacheLoadingException e) {
-                throw e;
-            } catch (Exception e) {
-                throw new CacheLoadingException(e);
+    protected T readCacheDataFromFile(File file) throws CacheLoadingException {
+        try {
+            String resultJson = FileUtils.readFileToString(file,
+                CharEncoding.UTF_8);
+            if (!StringUtils.isEmpty(resultJson)) {
+                T result = deserializeData(resultJson);
+                return result;
             }
+            throw new CacheLoadingException(
+                "Unable to restore cache content : cache file is empty");
+        } catch (FileNotFoundException e) {
+            // Should not occur (we test before if file exists)
+            // Do not throw, file is not cached
+            Ln.w("file " + file.getAbsolutePath() + " does not exists",
+                e);
+            return null;
+        } catch (CacheLoadingException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CacheLoadingException(e);
         }
-        return null;
     }
 
     protected abstract T deserializeData(String json)

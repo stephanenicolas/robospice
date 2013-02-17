@@ -90,6 +90,20 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
         }
     }
 
+    @Override
+    public T loadDataFromCache(Object cacheKey, long maxTimeInCache)
+        throws CacheLoadingException {
+
+        File file = getCacheFile(cacheKey);
+        if (isCachedAndNotExpired(file, maxTimeInCache)) {
+            return readCacheDataFromFile(file);
+        }
+
+        return null;
+    }
+
+    protected abstract T readCacheDataFromFile(File file) throws CacheLoadingException;
+
     protected String getCachePrefix() {
         return getClass().getSimpleName() + CACHE_PREFIX_END;
     }

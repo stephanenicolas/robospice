@@ -33,16 +33,13 @@ public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
     }
 
     @Override
-    public Bitmap loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
-        File file = getCacheFile(cacheKey);
-        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
-            Bitmap data = BitmapFactory.decodeFile(file.getAbsolutePath(), decodingOptions);
-            if (data == null) {
-                throw new CacheLoadingException(String.format("Found the file %s but could not decode bitmap.", file.getAbsolutePath()));
-            }
-            return data;
+    protected Bitmap readCacheDataFromFile(File file)
+        throws CacheLoadingException {
+        Bitmap data = BitmapFactory.decodeFile(file.getAbsolutePath(), decodingOptions);
+        if (data == null) {
+            throw new CacheLoadingException(String.format("Found the file %s but could not decode bitmap.", file.getAbsolutePath()));
         }
-        return null;
+        return data;
     }
 
     @Override

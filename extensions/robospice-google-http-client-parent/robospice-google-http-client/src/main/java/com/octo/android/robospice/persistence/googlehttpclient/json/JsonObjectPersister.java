@@ -46,29 +46,22 @@ public final class JsonObjectPersister<T> extends InFileObjectPersister<T> {
     }
 
     @Override
-    public T loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry)
-        throws CacheLoadingException {
-        T result = null;
-
-        File file = getCacheFile(cacheKey);
-        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
-            try {
-                JsonParser jsonParser = jsonFactory
-                    .createJsonParser(new FileReader(file));
-                result = jsonParser.parse(getHandledClass(), null);
-                jsonParser.close();
-                return result;
-            } catch (FileNotFoundException e) {
-                // Should not occur (we test before if file exists)
-                // Do not throw, file is not cached
-                Ln.w("file " + file.getAbsolutePath() + " does not exists",
-                    e);
-                return null;
-            } catch (Exception e) {
-                throw new CacheLoadingException(e);
-            }
+    protected T readCacheDataFromFile(File file) throws CacheLoadingException {
+        try {
+            JsonParser jsonParser = jsonFactory
+                .createJsonParser(new FileReader(file));
+            T result = jsonParser.parse(getHandledClass(), null);
+            jsonParser.close();
+            return result;
+        } catch (FileNotFoundException e) {
+            // Should not occur (we test before if file exists)
+            // Do not throw, file is not cached
+            Ln.w("file " + file.getAbsolutePath() + " does not exists",
+                e);
+            return null;
+        } catch (Exception e) {
+            throw new CacheLoadingException(e);
         }
-        return null;
     }
 
     @Override

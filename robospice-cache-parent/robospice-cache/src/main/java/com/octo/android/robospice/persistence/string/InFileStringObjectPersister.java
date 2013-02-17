@@ -26,24 +26,19 @@ public class InFileStringObjectPersister extends InFileObjectPersister<String> {
     }
 
     @Override
-    public String loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
-        Ln.v("Loading String for cacheKey = " + cacheKey);
-        File file = getCacheFile(cacheKey);
-        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
-            try {
-                return FileUtils.readFileToString(file, CharEncoding.UTF_8);
-            } catch (FileNotFoundException e) {
-                // Should not occur (we test before if
-                // file exists)
-                // Do not throw, file is not cached
-                Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
-                return null;
-            } catch (Exception e) {
-                throw new CacheLoadingException(e);
-            }
+    protected String readCacheDataFromFile(File file)
+        throws CacheLoadingException {
+        try {
+            return FileUtils.readFileToString(file, CharEncoding.UTF_8);
+        } catch (FileNotFoundException e) {
+            // Should not occur (we test before if
+            // file exists)
+            // Do not throw, file is not cached
+            Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
+            return null;
+        } catch (Exception e) {
+            throw new CacheLoadingException(e);
         }
-        Ln.v("file " + file.getAbsolutePath() + " does not exists");
-        return null;
     }
 
     @Override

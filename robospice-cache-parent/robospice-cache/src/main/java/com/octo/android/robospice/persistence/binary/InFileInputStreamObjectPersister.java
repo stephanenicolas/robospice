@@ -24,21 +24,17 @@ public class InFileInputStreamObjectPersister extends InFileObjectPersister<Inpu
     }
 
     @Override
-    public InputStream loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
-        File file = getCacheFile(cacheKey);
-        if (isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry)) {
-            try {
-                return new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                // Should not occur (we test before if
-                // file exists)
-                // Do not throw, file is not cached
-                Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
-                return null;
-            }
+    protected InputStream readCacheDataFromFile(File file)
+        throws CacheLoadingException {
+        try {
+            return new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            // Should not occur (we test before if
+            // file exists)
+            // Do not throw, file is not cached
+            Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
+            return null;
         }
-        Ln.v("file " + file.getAbsolutePath() + " does not exists");
-        return null;
     }
 
     @Override
