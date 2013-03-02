@@ -23,7 +23,6 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     private static final String TEST_CACHE_KEY2 = "123456";
     private static final long TEST_DURATION = DurationInMillis.ALWAYS_EXPIRED;
     private static final String TEST_RETURNED_DATA = "coucou";
-    private static final Integer TEST_RETURNED_DATA_2 = 7;
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_LARGE = 3000;
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_SHORT = 1000;
     private static final long REQUEST_COMPLETION_TIME_OUT = 2000;
