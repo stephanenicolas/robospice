@@ -219,6 +219,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // test
         assertTrue(spiceRequestStub.isCancelled());
         assertTrue(spiceRequestStub2.isCancelled());
+        // can we guarantee that ? If cancel is too fast, spiceManager won't
+        // have passed the request to spice service.
         assertTrue(requestListenerStub.isComplete());
         assertTrue(requestListenerStub2.isComplete());
         assertFalse(requestListenerStub.isSuccessful());
