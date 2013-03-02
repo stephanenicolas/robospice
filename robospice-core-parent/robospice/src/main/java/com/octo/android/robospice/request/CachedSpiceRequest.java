@@ -13,9 +13,9 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     private final long cacheDuration;
     private final SpiceRequest<RESULT> spiceRequest;
     private boolean isProcessable = true;
+    private boolean executeLoadDataFromNetworkAnyWay = false;
 
-    public CachedSpiceRequest(final SpiceRequest<RESULT> spiceRequest,
-        final Object requestCacheKey, final long cacheDuration) {
+    public CachedSpiceRequest(final SpiceRequest<RESULT> spiceRequest, final Object requestCacheKey, final long cacheDuration) {
         super(spiceRequest.getResultType());
         this.requestCacheKey = requestCacheKey;
         this.cacheDuration = cacheDuration;
@@ -71,16 +71,13 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     }
 
     @Override
-    protected void setRequestProgressListener(
-        final RequestProgressListener requestProgressListener) {
+    protected void setRequestProgressListener(final RequestProgressListener requestProgressListener) {
         spiceRequest.setRequestProgressListener(requestProgressListener);
     }
 
     @Override
-    public void setRequestCancellationListener(
-        final RequestCancellationListener requestCancellationListener) {
-        spiceRequest
-            .setRequestCancellationListener(requestCancellationListener);
+    public void setRequestCancellationListener(final RequestCancellationListener requestCancellationListener) {
+        spiceRequest.setRequestCancellationListener(requestCancellationListener);
     }
 
     @Override
@@ -102,21 +99,15 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
 
     @Override
     public String toString() {
-        return "CachedSpiceRequest [requestCacheKey=" + requestCacheKey
-            + ", cacheDuration=" + cacheDuration + ", spiceRequest="
-            + spiceRequest + "]";
+        return "CachedSpiceRequest [requestCacheKey=" + requestCacheKey + ", cacheDuration=" + cacheDuration + ", spiceRequest=" + spiceRequest + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime
-            * result
-            + (spiceRequest.getResultType() == null ? 0 : spiceRequest
-                .getResultType().hashCode());
-        result = prime * result
-            + (requestCacheKey == null ? 0 : requestCacheKey.hashCode());
+        result = prime * result + (spiceRequest.getResultType() == null ? 0 : spiceRequest.getResultType().hashCode());
+        result = prime * result + (requestCacheKey == null ? 0 : requestCacheKey.hashCode());
         return result;
     }
 
@@ -136,12 +127,10 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
             if (other.spiceRequest.getResultType() != null) {
                 return false;
             }
-        } else if (!spiceRequest.getResultType().equals(
-            other.spiceRequest.getResultType())) {
+        } else if (!spiceRequest.getResultType().equals(other.spiceRequest.getResultType())) {
             return false;
         }
-        if (spiceRequest.isAggregatable() != other.spiceRequest
-            .isAggregatable()) {
+        if (spiceRequest.isAggregatable() != other.spiceRequest.isAggregatable()) {
             return false;
         }
         if (requestCacheKey == null) {
@@ -160,6 +149,14 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     /* package private */@Override
     RequestProgress getProgress() {
         return spiceRequest.getProgress();
+    }
+
+    public void setExecuteLoadDataFromNetworkAnyWay(boolean executeLoadDataFromNetworkAnyWay) {
+        this.executeLoadDataFromNetworkAnyWay = executeLoadDataFromNetworkAnyWay;
+    }
+
+    public boolean isExecuteLoadDataFromNetworkAnyWay() {
+        return executeLoadDataFromNetworkAnyWay;
     }
 
 }

@@ -33,7 +33,7 @@ public class LruCacheObjectPersisterTest extends InstrumentationTestCase {
 
     public void testLoadDataFromCache_with_duration_always() throws Exception {
         testPersister.saveDataToCacheAndReturnData(TEST_DATA, TEST_CACHE_KEY_1);
-        assertNotNull(testPersister.loadDataFromCache(TEST_CACHE_KEY_1, DurationInMillis.ALWAYS));
+        assertNotNull(testPersister.loadDataFromCache(TEST_CACHE_KEY_1, DurationInMillis.ALWAYS_RETURNED));
     }
 
     public void testLoadDataFromCache_with_data_not_expired() throws Exception {
@@ -51,14 +51,14 @@ public class LruCacheObjectPersisterTest extends InstrumentationTestCase {
         testPersister.saveDataToCacheAndReturnData(TEST_DATA, TEST_CACHE_KEY_1);
         testPersister.saveDataToCacheAndReturnData(TEST_DATA, TEST_CACHE_KEY_2);
         testPersister.saveDataToCacheAndReturnData(TEST_DATA, TEST_CACHE_KEY_3);
-        String data = testPersister.loadDataFromCache(TEST_CACHE_KEY_1, DurationInMillis.ALWAYS);
+        String data = testPersister.loadDataFromCache(TEST_CACHE_KEY_1, DurationInMillis.ALWAYS_RETURNED);
         assertNull("Cache loaded old data that should have been purged by the LRUCache.", data);
     }
 
     public void testFallback() throws Exception {
         testPersisterWithFallback.saveDataToCacheAndReturnData(TEST_DATA, TEST_CACHE_KEY_1);
         testPersisterWithFallback.getLruCache().evictAll();
-        assertNotNull(testPersisterWithFallback.loadDataFromCache(TEST_CACHE_KEY_1, DurationInMillis.ALWAYS));
+        assertNotNull(testPersisterWithFallback.loadDataFromCache(TEST_CACHE_KEY_1, DurationInMillis.ALWAYS_RETURNED));
     }
 
 }

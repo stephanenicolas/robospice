@@ -51,7 +51,7 @@ public class InFileBitmapObjectPersisterTest extends InstrumentationTestCase {
 
     public void testLoadDataFromCache_no_expiration() throws Exception {
         testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY);
-        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
+        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
         assertNotNull(data);
         assertBitmapSizeEquals(TEST_BITMAP_LARGE_SIZE, data);
 
@@ -77,7 +77,7 @@ public class InFileBitmapObjectPersisterTest extends InstrumentationTestCase {
 
     public void testLoadDataFromCache_with_default_decoding_options() throws Exception {
         testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY);
-        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
+        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
         assertNotNull(data);
         assertBitmapSizeEquals(TEST_BITMAP_LARGE_SIZE, data);
     }
@@ -90,7 +90,7 @@ public class InFileBitmapObjectPersisterTest extends InstrumentationTestCase {
         testPersister.removeAllDataFromCache();
 
         testPersister.saveDataToCacheAndReturnData(TEST_BITMAP_LARGE, TEST_CACHE_KEY);
-        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
+        Bitmap data = testPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
         assertNotNull(data);
         assertBitmapSizeEquals(TEST_BITMAP_LARGE_SIZE / TEST_SIZE_RATIO_AFTER_DOWNSAMPLING, data);
     }

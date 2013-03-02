@@ -82,16 +82,13 @@ public abstract class SpiceService extends Service {
 
         cacheManager = createCacheManager(getApplication());
         if (cacheManager == null) {
-            throw new IllegalArgumentException(
-                "createCacheManager() can't create a null cacheManager");
+            throw new IllegalArgumentException("createCacheManager() can't create a null cacheManager");
         }
 
         final ExecutorService executorService = getExecutorService();
         final NetworkStateChecker networkStateChecker = getNetworkStateChecker();
 
-        requestProcessor = new RequestProcessor(getApplicationContext(),
-            cacheManager, executorService, requestProcessorListener,
-            networkStateChecker);
+        requestProcessor = new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener, networkStateChecker);
         requestProcessor.setFailOnCacheError(DEFAULT_FAIL_ON_CACHE_ERROR);
 
         notification = createDefaultNotification();
@@ -101,8 +98,7 @@ public abstract class SpiceService extends Service {
     }
 
     @Override
-    public int onStartCommand(final Intent intent, final int flags,
-        final int startId) {
+    public int onStartCommand(final Intent intent, final int flags, final int startId) {
         super.onStartCommand(intent, flags, startId);
         return START_NOT_STICKY;
     }
@@ -141,22 +137,20 @@ public abstract class SpiceService extends Service {
         } else if (threadCount == 1) {
             executorService = Executors.newSingleThreadExecutor();
         } else {
-            executorService = Executors.newFixedThreadPool(threadCount,
-                new ThreadFactory() {
+            executorService = Executors.newFixedThreadPool(threadCount, new ThreadFactory() {
 
-                    @Override
-                    public Thread newThread(final Runnable r) {
-                        return new Thread(r);
-                    }
-                });
+                @Override
+                public Thread newThread(final Runnable r) {
+                    return new Thread(r);
+                }
+            });
         }
         return executorService;
     }
 
     public static Notification createDefaultNotification() {
         @SuppressWarnings("deprecation")
-        final Notification note = new Notification(0, null,
-            System.currentTimeMillis());
+        final Notification note = new Notification(0, null, System.currentTimeMillis());
         note.flags |= Notification.FLAG_NO_CLEAR;
         return note;
     }
@@ -177,14 +171,12 @@ public abstract class SpiceService extends Service {
         return DEFAULT_THREAD_COUNT;
     }
 
-    public void addRequest(final CachedSpiceRequest<?> request,
-        final Set<RequestListener<?>> listRequestListener) {
+    public void addRequest(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listRequestListener) {
         currentPendingRequestCount++;
         requestProcessor.addRequest(request, listRequestListener);
     }
 
-    public boolean removeDataFromCache(final Class<?> clazz,
-        final Object cacheKey) {
+    public boolean removeDataFromCache(final Class<?> clazz, final Object cacheKey) {
         return requestProcessor.removeDataFromCache(clazz, cacheKey);
     }
 
@@ -196,15 +188,12 @@ public abstract class SpiceService extends Service {
         return cacheManager.getAllCacheKeys(clazz);
     }
 
-    public <T> List<T> loadAllDataFromCache(final Class<T> clazz)
-        throws CacheLoadingException {
+    public <T> List<T> loadAllDataFromCache(final Class<T> clazz) throws CacheLoadingException {
         return cacheManager.loadAllDataFromCache(clazz);
     }
 
-    public <T> T getDataFromCache(final Class<T> clazz, final String cacheKey)
-        throws CacheLoadingException {
-        return cacheManager.loadDataFromCache(clazz, cacheKey,
-            DurationInMillis.ALWAYS);
+    public <T> T getDataFromCache(final Class<T> clazz, final Object cacheKey) throws CacheLoadingException {
+        return cacheManager.loadDataFromCache(clazz, cacheKey, DurationInMillis.ALWAYS_RETURNED);
     }
 
     public void removeAllDataFromCache() {
@@ -219,11 +208,8 @@ public abstract class SpiceService extends Service {
         requestProcessor.setFailOnCacheError(failOnCacheError);
     }
 
-    public void dontNotifyRequestListenersForRequest(
-        final CachedSpiceRequest<?> request,
-        final Collection<RequestListener<?>> listRequestListener) {
-        requestProcessor.dontNotifyRequestListenersForRequest(request,
-            listRequestListener);
+    public void dontNotifyRequestListenersForRequest(final CachedSpiceRequest<?> request, final Collection<RequestListener<?>> listRequestListener) {
+        requestProcessor.dontNotifyRequestListenersForRequest(request, listRequestListener);
     }
 
     // ============================================================================================
@@ -244,8 +230,7 @@ public abstract class SpiceService extends Service {
         return result;
     }
 
-    private final class SelfStopperRequestProcessorListener implements
-        RequestProcessorListener {
+    private final class SelfStopperRequestProcessorListener implements RequestProcessorListener {
         @Override
         public void allRequestComplete() {
             currentPendingRequestCount = 0;
@@ -269,15 +254,12 @@ public abstract class SpiceService extends Service {
         Ln.v(requestProcessor.toString());
     }
 
-    public void addSpiceServiceListener(
-        final SpiceServiceServiceListener spiceServiceServiceListener) {
+    public void addSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
         requestProcessor.addSpiceServiceListener(spiceServiceServiceListener);
     }
 
-    public void removeSpiceServiceListener(
-        final SpiceServiceServiceListener spiceServiceServiceListener) {
-        requestProcessor
-            .removeSpiceServiceListener(spiceServiceServiceListener);
+    public void removeSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
+        requestProcessor.removeSpiceServiceListener(spiceServiceServiceListener);
     }
 
     private void stopIfNotBoundAndHasNoPendingRequests() {
@@ -291,8 +273,7 @@ public abstract class SpiceService extends Service {
     // http://code.google.com/p/android/issues/detail?id=12122
     private void startForeground(final Notification notification) {
         try {
-            final Method setForegroundMethod = Service.class.getMethod(
-                "startForeground", int.class, Notification.class);
+            final Method setForegroundMethod = Service.class.getMethod("startForeground", int.class, Notification.class);
             setForegroundMethod.invoke(this, NOTIFICATION_ID, notification);
         } catch (final SecurityException e) {
             Ln.e(e, "Unable to start a service in foreground");

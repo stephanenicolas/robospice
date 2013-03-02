@@ -25,8 +25,7 @@ public abstract class SpiceRequest<RESULT> {
     private Future<?> future;
     private RequestProgressListener requestProgressListener;
     private boolean isAggregatable = true;
-    private RequestProgress progress = new RequestProgress(
-        RequestStatus.PENDING);
+    private RequestProgress progress = new RequestProgress(RequestStatus.PENDING);
     private RequestCancellationListener requestCancellationListener;
 
     public SpiceRequest(final Class<RESULT> clazz) {
@@ -38,12 +37,9 @@ public abstract class SpiceRequest<RESULT> {
         // thanx to Cyril Mottier for this contribution
         // prevent devs from creating memory leaks by using inner
         // classes of contexts
-        if (getClass().isMemberClass()
-            && Context.class.isAssignableFrom(getClass().getDeclaringClass())
+        if (getClass().isMemberClass() && Context.class.isAssignableFrom(getClass().getDeclaringClass())
             && !Modifier.isStatic(getClass().getModifiers())) {
-            throw new IllegalArgumentException(
-                "Requests must be either non-inner classes or a static inner member class of Context : "
-                    + getClass());
+            throw new IllegalArgumentException("Requests must be either non-inner classes or a static inner member class of Context : " + getClass());
         }
     }
 
@@ -90,8 +86,7 @@ public abstract class SpiceRequest<RESULT> {
         this.future = future;
     }
 
-    protected void setRequestProgressListener(
-        final RequestProgressListener requestProgressListener) {
+    protected void setRequestProgressListener(final RequestProgressListener requestProgressListener) {
         this.requestProgressListener = requestProgressListener;
     }
 
@@ -108,8 +103,8 @@ public abstract class SpiceRequest<RESULT> {
         publishProgress();
     }
 
-    public void setRequestCancellationListener(
-        final RequestCancellationListener requestCancellationListener) {
+    public void setRequestCancellationListener(final RequestCancellationListener requestCancellationListener) {
         this.requestCancellationListener = requestCancellationListener;
     }
+
 }

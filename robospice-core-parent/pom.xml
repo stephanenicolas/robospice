@@ -17,12 +17,25 @@
 	<name>Robospice - Core Module Parent</name>
 	<description>RoboSpice core module parent</description>
 
+	<properties>
+	    <robospice-cache.version>1.4.1-SNAPSHOT</robospice-cache.version>
+	</properties>
 	<modules>
 		<!-- library -->
 		<module>robospice</module>
 		<!-- test app -->
 		<module>robospice-core-test</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.octo.android.robospice</groupId>
+				<artifactId>robospice-cache</artifactId>
+				<version>${robospice-cache.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

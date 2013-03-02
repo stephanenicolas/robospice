@@ -46,7 +46,7 @@ public class InFileStringObjectPersisterTest extends InstrumentationTestCase {
         File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
         IOUtils.write("coucou", new FileOutputStream(cachedFile), CharEncoding.UTF_8);
 
-        String actual = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS);
+        String actual = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
         assertEquals("coucou", actual);
     }
 

@@ -59,8 +59,8 @@ public class LruCacheObjectPersister<T> extends ObjectPersister<T> {
             return null;
         } else {
             Ln.d("Hit from lru cache for %s", cacheKey);
-            boolean dataCanExpire = maxTimeInCacheBeforeExpiry != DurationInMillis.ALWAYS;
-            boolean dataIsNotExpired = System.currentTimeMillis() - cacheItem.getCreationDate() < maxTimeInCacheBeforeExpiry;
+            boolean dataCanExpire = maxTimeInCacheBeforeExpiry != DurationInMillis.ALWAYS_RETURNED;
+            boolean dataIsNotExpired = System.currentTimeMillis() - cacheItem.getCreationDate() <= maxTimeInCacheBeforeExpiry;
             if (!dataCanExpire || dataIsNotExpired) {
                 return cacheItem.getData();
             }

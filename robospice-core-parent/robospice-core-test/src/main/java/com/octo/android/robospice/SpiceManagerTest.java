@@ -18,13 +18,16 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     private static final int SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION = 1000;
     private static final Class<String> TEST_CLASS = String.class;
+    private static final Class<Integer> TEST_CLASS2 = Integer.class;
     private static final String TEST_CACHE_KEY = "12345";
     private static final String TEST_CACHE_KEY2 = "123456";
-    private static final long TEST_DURATION = DurationInMillis.NEVER;
+    private static final long TEST_DURATION = DurationInMillis.ALWAYS_EXPIRED;
     private static final String TEST_RETURNED_DATA = "coucou";
-    private static final long WAIT_BEFORE_EXECUTING_REQUEST = 3000;
+    private static final Integer TEST_RETURNED_DATA_2 = 7;
+    private static final long WAIT_BEFORE_EXECUTING_REQUEST_LARGE = 3000;
+    private static final long WAIT_BEFORE_EXECUTING_REQUEST_SHORT = 1000;
     private static final long REQUEST_COMPLETION_TIME_OUT = 2000;
-    private static final long CONTENT_MANAGER_WAIT_TIMEOUT = 500;
+    private static final long SPICE_MANAGER_WAIT_TIMEOUT = 500;
 
     private SpiceManagerUnderTest spiceManager;
 
@@ -39,12 +42,10 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         if (spiceManager != null && spiceManager.isStarted()) {
             spiceManager.cancelAllRequests();
             spiceManager.removeAllDataFromCache();
-            spiceManager.shouldStopAndJoin(CONTENT_MANAGER_WAIT_TIMEOUT);
+            spiceManager.shouldStopAndJoin(SPICE_MANAGER_WAIT_TIMEOUT);
             spiceManager = null;
         }
-        getInstrumentation().getTargetContext().stopService(
-            new Intent(getInstrumentation().getTargetContext(),
-                SpiceTestService.class));
+        getInstrumentation().getTargetContext().stopService(new Intent(getInstrumentation().getTargetContext(), SpiceTestService.class));
         super.tearDown();
     }
 
@@ -53,9 +54,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         // when
         try {
-            spiceManager.execute(new CachedSpiceRequest<String>(
-                (SpiceRequest<String>) null, null, DurationInMillis.ALWAYS),
-                null);
+            spiceManager.execute(new CachedSpiceRequest<String>((SpiceRequest<String>) null, null, DurationInMillis.ALWAYS_RETURNED), null);
             // then
             fail();
         } catch (Exception ex) {
@@ -64,27 +63,22 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         }
     }
 
-    public void test_execute_should_succeed_if_started_from_context_with_declared_service_and_permissions()
-        throws InterruptedException {
+    public void test_execute_should_succeed_if_started_from_context_with_declared_service_and_permissions() throws InterruptedException {
         // given
 
         // when
         spiceManager.start(getInstrumentation().getContext());
-        assertNull(spiceManager
-            .getException(SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION));
+        assertNull(spiceManager.getException(SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION));
     }
 
-    public void test_execute_should_fail_if_stopped()
-        throws InterruptedException {
+    public void test_execute_should_fail_if_stopped() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        spiceManager.shouldStopAndJoin(CONTENT_MANAGER_WAIT_TIMEOUT);
+        spiceManager.shouldStopAndJoin(SPICE_MANAGER_WAIT_TIMEOUT);
 
         // when
         try {
-            spiceManager.execute(new CachedSpiceRequest<String>(
-                (SpiceRequest<String>) null, null, DurationInMillis.ALWAYS),
-                null);
+            spiceManager.execute(new CachedSpiceRequest<String>((SpiceRequest<String>) null, null, DurationInMillis.ALWAYS_RETURNED), null);
             // then
             fail();
         } catch (Exception ex) {
@@ -93,85 +87,138 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         }
     }
 
-    public void test_execute_executes_1_request_that_succeeds()
-        throws InterruptedException {
+    public void test_execute_executes_1_request_that_succeeds() throws InterruptedException {
         // when
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestStub<String> contentRequestStub = new SpiceRequestSucceedingStub<String>(
-            TEST_CLASS, TEST_RETURNED_DATA);
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
 
         // when
-        spiceManager.execute(contentRequestStub, TEST_CACHE_KEY, TEST_DURATION,
-            requestListenerStub);
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
         requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
-        assertTrue(contentRequestStub.isLoadDataFromNetworkCalled());
+        assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
         assertTrue(requestListenerStub.isSuccessful());
         assertTrue(requestListenerStub.isExecutedInUIThread());
     }
 
-    public void test_execute_executes_1_request_that_fails()
-        throws InterruptedException {
+    public void test_execute_executes_1_request_that_fails() throws InterruptedException {
         // when
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestStub<String> contentRequestStub = new SpiceRequestFailingStub<String>(
-            TEST_CLASS);
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
 
         // when
-        spiceManager.execute(contentRequestStub, TEST_CACHE_KEY, TEST_DURATION,
-            requestListenerStub);
-        contentRequestStub
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
-        assertTrue(contentRequestStub.isLoadDataFromNetworkCalled());
+        assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
+        assertTrue(requestListenerStub.isExecutedInUIThread());
+        assertFalse(requestListenerStub.isSuccessful());
+    }
+
+    public void test_execute_without_using_cache() throws InterruptedException {
+
+        // when
+        // this test is complex : we rely on the fact that the SpiceService as a
+        // IntegerPersister that
+        // always return a value in cache. Nevertheless, the request will fail
+        // as we don't use cache.
+        spiceManager.start(getInstrumentation().getTargetContext());
+        SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
+        RequestListenerStub<Integer> requestListenerStub = new RequestListenerStub<Integer>();
+
+        // when
+        spiceManager.execute(spiceRequestStub, requestListenerStub);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
+        assertTrue(requestListenerStub.isExecutedInUIThread());
+        assertFalse(requestListenerStub.isSuccessful());
+    }
+
+    public void test_execute_rejecting_cache() throws InterruptedException {
+        // same as above but precise cache usage
+
+        // when
+        // this test is complex : we rely on the fact that the SpiceService as a
+        // IntegerPersister that
+        // always return a value in cache. Nevertheless, the request will fail
+        // as we don't use cache.
+        spiceManager.start(getInstrumentation().getTargetContext());
+        SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
+        RequestListenerStub<Integer> requestListenerStub = new RequestListenerStub<Integer>();
+
+        // when
+        spiceManager.execute(spiceRequestStub, "", DurationInMillis.ALWAYS_EXPIRED, requestListenerStub);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
+        assertTrue(requestListenerStub.isExecutedInUIThread());
+        assertFalse(requestListenerStub.isSuccessful());
+    }
+
+    public void test_getFromCacheButLoadFromNetworkAnyway() throws InterruptedException {
+        // same as above but precise cache usage
+
+        // when
+        // this test is complex : we rely on the fact that the SpiceService as a
+        // IntegerPersister that
+        // always return a value in cache. Nevertheless, the request will fail
+        // as we will finally get data from network after getting from cache.
+        spiceManager.start(getInstrumentation().getTargetContext());
+        SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
+        RequestListenerStub<Integer> requestListenerStub = new RequestListenerStub<Integer>();
+
+        // when
+        spiceManager.getFromCacheButLoadFromNetworkAnyway(spiceRequestStub, "", DurationInMillis.ALWAYS_RETURNED, requestListenerStub);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
         assertTrue(requestListenerStub.isExecutedInUIThread());
         assertFalse(requestListenerStub.isSuccessful());
     }
 
     public void test_cancel_cancels_1_request() throws InterruptedException {
         // given
-        SpiceRequestStub<String> contentRequestStub = new SpiceRequestSucceedingStub<String>(
-            String.class, TEST_RETURNED_DATA);
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(String.class, TEST_RETURNED_DATA);
         spiceManager.start(getInstrumentation().getTargetContext());
         // when
-        spiceManager.cancel(contentRequestStub);
+        spiceManager.cancel(spiceRequestStub);
         Thread.sleep(REQUEST_COMPLETION_TIME_OUT);
 
         // test
-        assertTrue(contentRequestStub.isCancelled());
+        assertTrue(spiceRequestStub.isCancelled());
     }
 
-    public void test_cancelAllRequests_cancels_2_requests()
-        throws InterruptedException {
+    public void test_cancelAllRequests_cancels_2_requests() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestStub<String> contentRequestStub = new SpiceRequestFailingStub<String>(
-            TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST);
-        SpiceRequestStub<String> contentRequestStub2 = new SpiceRequestFailingStub<String>(
-            TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST);
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerWithProgressStub<String> requestListenerStub = new RequestListenerWithProgressStub<String>();
         RequestListenerWithProgressStub<String> requestListenerStub2 = new RequestListenerWithProgressStub<String>();
 
         // when
-        spiceManager.execute(contentRequestStub, TEST_CACHE_KEY, TEST_DURATION,
-            requestListenerStub);
-        spiceManager.execute(contentRequestStub2, TEST_CACHE_KEY2,
-            TEST_DURATION, requestListenerStub2);
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
         spiceManager.cancelAllRequests();
 
-        contentRequestStub
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        contentRequestStub2
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
 
         // test
-        assertTrue(contentRequestStub.isCancelled());
-        assertTrue(contentRequestStub2.isCancelled());
+        assertTrue(spiceRequestStub.isCancelled());
+        assertTrue(spiceRequestStub2.isCancelled());
         assertTrue(requestListenerStub.isComplete());
         assertTrue(requestListenerStub2.isComplete());
         assertFalse(requestListenerStub.isSuccessful());
@@ -180,21 +227,16 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertTrue(requestListenerStub2.getReceivedException() instanceof RequestCancelledException);
     }
 
-    public void test_addListenerIfPending_receives_no_events_when_there_is_no_request_pending()
-        throws InterruptedException {
+    public void test_addListenerIfPending_receives_no_events_when_there_is_no_request_pending() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestStub<String> contentRequestStub = new SpiceRequestFailingStub<String>(
-            TEST_CLASS);
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS);
         RequestListenerWithProgressStub<String> requestListenerStub = new RequestListenerWithProgressStub<String>();
 
         // when
-        spiceManager.addListenerIfPending(TEST_CLASS, TEST_CACHE_KEY,
-            requestListenerStub);
+        spiceManager.addListenerIfPending(TEST_CLASS, TEST_CACHE_KEY, requestListenerStub);
 
-        contentRequestStub
-            .awaitForLoadDataFromNetworkIsCalled(WAIT_BEFORE_EXECUTING_REQUEST
-                + REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(WAIT_BEFORE_EXECUTING_REQUEST_LARGE + REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertNull(requestListenerStub.isSuccessful());
@@ -202,59 +244,47 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertNull(requestListenerStub.getReceivedException());
     }
 
-    public void test_shouldStop_stops_requests_immediatly()
-        throws InterruptedException {
+    public void test_shouldStop_stops_requests_immediatly() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestStub<String> contentRequestStub = new SpiceRequestFailingStub<String>(
-            TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST);
-        SpiceRequestStub<String> contentRequestStub2 = new SpiceRequestFailingStub<String>(
-            TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST);
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
         RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
 
         // when
-        spiceManager.execute(contentRequestStub, TEST_CACHE_KEY, TEST_DURATION,
-            requestListenerStub);
-        spiceManager.execute(contentRequestStub2, TEST_CACHE_KEY2,
-            TEST_DURATION, requestListenerStub2);
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
         spiceManager.shouldStop();
 
-        contentRequestStub
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        contentRequestStub2
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         // no guarantee on that
-        // assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
-        // assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
+        // assertTrue( spiceRequestStub.isLoadDataFromNetworkCalled() );
+        // assertTrue( spiceRequestStub2.isLoadDataFromNetworkCalled() );
         assertNull(requestListenerStub.isSuccessful());
         assertNull(requestListenerStub2.isSuccessful());
     }
 
-    public void test_shouldStop_doesnt_notify_listeners_after_requests_are_executed()
-        throws InterruptedException {
+    public void test_shouldStop_doesnt_notify_listeners_after_requests_are_executed() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestSucceedingStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(
-            TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST);
-        SpiceRequestSucceedingStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(
-            TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST);
+        SpiceRequestSucceedingStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA,
+            WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        SpiceRequestSucceedingStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA,
+            WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
         RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
 
         // when
-        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION,
-            requestListenerStub);
-        spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION,
-            requestListenerStub2);
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
 
         // wait for requests begin to be executed
-        spiceRequestStub
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        spiceRequestStub2
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         // stop before
         spiceManager.shouldStop();
 
@@ -268,66 +298,52 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertNull(requestListenerStub2.isSuccessful());
     }
 
-    public void test_dontNotifyRequestListenersForRequest_stops_only_targeted_request()
-        throws InterruptedException {
+    public void test_dontNotifyRequestListenersForRequest_stops_only_targeted_request() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestStub<String> contentRequestStub = new SpiceRequestFailingStub<String>(
-            TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST);
-        SpiceRequestStub<String> contentRequestStub2 = new SpiceRequestFailingStub<String>(
-            TEST_CLASS);
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestFailingStub<String>(TEST_CLASS);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
         RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
 
         // when
-        spiceManager.execute(contentRequestStub, TEST_CACHE_KEY, TEST_DURATION,
-            requestListenerStub);
-        spiceManager
-            .dontNotifyRequestListenersForRequestInternal(contentRequestStub);
-        spiceManager.execute(contentRequestStub2, TEST_CACHE_KEY2,
-            TEST_DURATION, requestListenerStub2);
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceManager.dontNotifyRequestListenersForRequestInternal(spiceRequestStub);
+        spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
 
-        contentRequestStub
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        contentRequestStub2
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         requestListenerStub2.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
-        assertTrue(contentRequestStub.isLoadDataFromNetworkCalled());
-        assertTrue(contentRequestStub2.isLoadDataFromNetworkCalled());
+        assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
+        assertTrue(spiceRequestStub2.isLoadDataFromNetworkCalled());
         assertNull(requestListenerStub.isSuccessful());
         assertFalse(requestListenerStub2.isSuccessful());
     }
 
-    public void test_dontNotifyAnyRequestListeners_doesnt_notify_listeners_asap()
-        throws InterruptedException {
+    public void test_dontNotifyAnyRequestListeners_doesnt_notify_listeners_asap() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestStub<String> contentRequestStub = new SpiceRequestFailingStub<String>(
-            TEST_CLASS);
-        SpiceRequestStub<String> contentRequestStub2 = new SpiceRequestFailingStub<String>(
-            TEST_CLASS);
+        SpiceRequestFailingStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+        SpiceRequestFailingStub<String> spiceRequestStub2 = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
         RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
 
         // when
-        spiceManager.execute(contentRequestStub, TEST_CACHE_KEY, TEST_DURATION,
-            requestListenerStub);
-        spiceManager.execute(contentRequestStub2, TEST_CACHE_KEY2,
-            TEST_DURATION, requestListenerStub2);
+
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
         spiceManager.dontNotifyAnyRequestListenersInternal();
 
         spiceManager.dumpState();
-        contentRequestStub
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        contentRequestStub2
-            .awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         // no guarantee on that
-        // assertTrue( contentRequestStub.isLoadDataFromNetworkCalled() );
-        // assertTrue( contentRequestStub2.isLoadDataFromNetworkCalled() );
+        // assertTrue( spiceRequestStub.isLoadDataFromNetworkCalled() );
+        // assertTrue( spiceRequestStub2.isLoadDataFromNetworkCalled() );
 
         assertNull(requestListenerStub.isSuccessful());
         assertNull(requestListenerStub2.isSuccessful());
@@ -342,9 +358,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     private final class SpiceManagerUnderTest extends SpiceManager {
         private Exception ex;
 
-        private SpiceManagerUnderTest(
-            Class<? extends SpiceService> contentServiceClass) {
-            super(contentServiceClass);
+        private SpiceManagerUnderTest(Class<? extends SpiceService> spiceServiceClass) {
+            super(spiceServiceClass);
         }
 
         @Override

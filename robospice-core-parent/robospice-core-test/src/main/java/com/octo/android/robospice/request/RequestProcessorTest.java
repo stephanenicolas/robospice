@@ -532,18 +532,18 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // PRIVATE METHODS
     // ============================================================================================
 
-    private <T> CachedSpiceRequestStub<T> createSuccessfulRequest(Class<T> clazz, String cacheKey, long maxTimeInCache, T returnedData) {
+    private <T> CachedSpiceRequestStub<T> createSuccessfulRequest(Class<T> clazz, Object cacheKey, long maxTimeInCache, T returnedData) {
         SpiceRequestStub<T> stubContentRequest = new SpiceRequestSucceedingStub<T>(clazz, returnedData);
         return new CachedSpiceRequestStub<T>(stubContentRequest, cacheKey, maxTimeInCache);
     }
 
-    private <T> CachedSpiceRequestStub<T> createSuccessfulRequest(Class<T> clazz, String cacheKey, long maxTimeInCache, T returnedData,
+    private <T> CachedSpiceRequestStub<T> createSuccessfulRequest(Class<T> clazz, Object cacheKey, long maxTimeInCache, T returnedData,
         long waitBeforeExecution) {
         SpiceRequestStub<T> stubContentRequest = new SpiceRequestSucceedingStub<T>(clazz, returnedData, waitBeforeExecution);
         return new CachedSpiceRequestStub<T>(stubContentRequest, cacheKey, maxTimeInCache);
     }
 
-    private <T> CachedSpiceRequestStub<T> createFailedRequest(Class<T> clazz, String cacheKey, long maxTimeInCache) {
+    private <T> CachedSpiceRequestStub<T> createFailedRequest(Class<T> clazz, Object cacheKey, long maxTimeInCache) {
         SpiceRequestStub<T> stubContentRequest = new SpiceRequestFailingStub<T>(clazz);
         return new CachedSpiceRequestStub<T>(stubContentRequest, cacheKey, maxTimeInCache);
     }

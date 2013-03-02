@@ -25,7 +25,6 @@
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice-cache</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

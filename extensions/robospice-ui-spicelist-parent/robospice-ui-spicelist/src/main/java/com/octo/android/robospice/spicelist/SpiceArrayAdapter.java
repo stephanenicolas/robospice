@@ -300,7 +300,8 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
                 if (isNetworkFetchingAllowed) {
                     OctoImageRequestListener octoImageRequestListener = new OctoImageRequestListener(data, spiceListItemView,
                         tempThumbnailImageFileName);
-                    spiceManagerBinary.execute(bitmapRequest, "THUMB_IMAGE_" + data.hashCode(), DurationInMillis.NEVER, octoImageRequestListener);
+                    spiceManagerBinary.execute(bitmapRequest, "THUMB_IMAGE_" + data.hashCode(), DurationInMillis.ALWAYS_EXPIRED,
+                        octoImageRequestListener);
                 }
                 return false;
             }

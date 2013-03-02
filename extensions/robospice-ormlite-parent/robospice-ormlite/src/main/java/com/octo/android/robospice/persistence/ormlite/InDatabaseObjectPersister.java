@@ -254,7 +254,7 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
             List<CacheEntry> listCacheEntry = databaseHelper.queryForAllFromDatabase(CacheEntry.class);
             List<T> listObjectInCache = new ArrayList<T>();
             for (CacheEntry cacheEntry : listCacheEntry) {
-                listObjectInCache.add(loadDataFromCache(cacheEntry.getCacheKey(), DurationInMillis.ALWAYS));
+                listObjectInCache.add(loadDataFromCache(cacheEntry.getCacheKey(), DurationInMillis.ALWAYS_RETURNED));
             }
             return listObjectInCache;
         } catch (SQLException e) {

@@ -6,6 +6,7 @@ import android.content.Context;
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
+import com.octo.android.robospice.stub.IntegerPersisterStub;
 import com.octo.android.robospice.stub.StringPersisterStub;
 
 /**
@@ -20,9 +21,10 @@ public class SpiceTestService extends SpiceService {
     @Override
     public CacheManager createCacheManager(Application application) {
         CacheManager cacheManager = new CacheManager();
-        StringPersisterStub stringPersisterStub = new StringPersisterStub(
-            application);
+        StringPersisterStub stringPersisterStub = new StringPersisterStub(application);
+        IntegerPersisterStub integerPersisterStub = new IntegerPersisterStub(application);
         cacheManager.addPersister(stringPersisterStub);
+        cacheManager.addPersister(integerPersisterStub);
         return cacheManager;
     }
 

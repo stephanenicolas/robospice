@@ -22,8 +22,7 @@ public class CachedSpiceRequestStub<T> extends CachedSpiceRequest<T> {
      *            the expiry delay of potential cache content. If content is
      *            expired, data is loaded from network.
      */
-    public CachedSpiceRequestStub(SpiceRequestStub<T> contentRequest,
-        String requestCacheKey, long cacheDuration) {
+    public CachedSpiceRequestStub(SpiceRequestStub<T> contentRequest, Object requestCacheKey, long cacheDuration) {
         super(contentRequest, requestCacheKey, cacheDuration);
     }
 
@@ -32,8 +31,7 @@ public class CachedSpiceRequestStub<T> extends CachedSpiceRequest<T> {
      * @return
      */
     public boolean isLoadDataFromNetworkCalled() {
-        return ((SpiceRequestStub<?>) getSpiceRequest())
-            .isLoadDataFromNetworkCalled();
+        return ((SpiceRequestStub<?>) getSpiceRequest()).isLoadDataFromNetworkCalled();
     }
 
     /**
@@ -42,7 +40,6 @@ public class CachedSpiceRequestStub<T> extends CachedSpiceRequest<T> {
      * @throws InterruptedException
      */
     public void await(long millisecond) throws InterruptedException {
-        ((SpiceRequestStub<?>) getSpiceRequest())
-            .awaitForLoadDataFromNetworkIsCalled(millisecond);
+        ((SpiceRequestStub<?>) getSpiceRequest()).awaitForLoadDataFromNetworkIsCalled(millisecond);
     }
 }

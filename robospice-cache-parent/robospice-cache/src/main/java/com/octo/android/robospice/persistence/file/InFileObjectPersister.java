@@ -60,7 +60,7 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
         List<Object> allCacheKeys = getAllCacheKeys();
         List<T> result = new ArrayList<T>(allCacheKeys.size());
         for (Object key : allCacheKeys) {
-            result.add(loadDataFromCache(key, DurationInMillis.ALWAYS));
+            result.add(loadDataFromCache(key, DurationInMillis.ALWAYS_RETURNED));
         }
         return result;
     }
@@ -91,8 +91,7 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     }
 
     @Override
-    public T loadDataFromCache(Object cacheKey, long maxTimeInCache)
-        throws CacheLoadingException {
+    public T loadDataFromCache(Object cacheKey, long maxTimeInCache) throws CacheLoadingException {
 
         File file = getCacheFile(cacheKey);
         if (isCachedAndNotExpired(file, maxTimeInCache)) {
@@ -124,7 +123,7 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     protected boolean isCachedAndNotExpired(File cacheFile, long maxTimeInCacheBeforeExpiry) {
         if (cacheFile.exists()) {
             long timeInCache = System.currentTimeMillis() - cacheFile.lastModified();
-            if (maxTimeInCacheBeforeExpiry == DurationInMillis.ALWAYS || timeInCache <= maxTimeInCacheBeforeExpiry) {
+            if (maxTimeInCacheBeforeExpiry == DurationInMillis.ALWAYS_RETURNED || timeInCache <= maxTimeInCacheBeforeExpiry) {
                 return true;
             }
         }
