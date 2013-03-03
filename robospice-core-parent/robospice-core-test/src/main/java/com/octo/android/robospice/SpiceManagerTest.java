@@ -25,7 +25,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     private static final String TEST_RETURNED_DATA = "coucou";
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_LARGE = 3000;
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_SHORT = 1000;
-    private static final long REQUEST_COMPLETION_TIME_OUT = 2000;
+    private static final long REQUEST_COMPLETION_TIME_OUT = 4000;
     private static final long SPICE_MANAGER_WAIT_TIMEOUT = 500;
 
     private SpiceManagerUnderTest spiceManager;
