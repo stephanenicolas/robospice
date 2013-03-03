@@ -88,7 +88,7 @@ public abstract class SpiceService extends Service {
         final ExecutorService executorService = getExecutorService();
         final NetworkStateChecker networkStateChecker = getNetworkStateChecker();
 
-        requestProcessor = new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener, networkStateChecker);
+        requestProcessor = createRequestProcessor(executorService, networkStateChecker);
         requestProcessor.setFailOnCacheError(DEFAULT_FAIL_ON_CACHE_ERROR);
 
         notification = createDefaultNotification();
@@ -101,6 +101,23 @@ public abstract class SpiceService extends Service {
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         super.onStartCommand(intent, flags, startId);
         return START_NOT_STICKY;
+    }
+
+    /**
+     * Factory method to create an entity responsible for processing requests
+     * send to the SpiceService. The default implementation of this method will
+     * return a {@link RequestProcessor}. Override this method if you want to
+     * inject a custom request processor. This feature has been implemented
+     * following a request from Christopher Jenkins.
+     * @param executorService
+     *            a service executor that can be used to multi-thread request
+     *            processing.
+     * @param networkStateChecker
+     *            an entity that will check network state.
+     * @return a {@link RequestProcessor} that will be used to process requests.
+     */
+    protected RequestProcessor createRequestProcessor(ExecutorService executorService, NetworkStateChecker networkStateChecker) {
+        return new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener, networkStateChecker);
     }
 
     /**
