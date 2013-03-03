@@ -1,5 +1,6 @@
 package com.octo.android.robospice;
 
+import roboguice.util.temp.Ln;
 import android.content.Intent;
 import android.test.InstrumentationTestCase;
 
@@ -8,6 +9,7 @@ import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
+import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestStatus;
 import com.octo.android.robospice.stub.RequestListenerStub;
 import com.octo.android.robospice.stub.RequestListenerWithProgressHistoryStub;
@@ -173,7 +175,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // this test is complex : we rely on the fact that the SpiceService as a
         // IntegerPersister that
         // always return a value in cache. Nevertheless, the request will fail
-        // as we will finally get data from network after getting from cache.
+        // as we will finally get data from network after getting it from cache.
         spiceManager.start(getInstrumentation().getTargetContext());
         SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
         RequestListenerStub<Integer> requestListenerStub = new RequestListenerStub<Integer>();
@@ -367,12 +369,18 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // test
         assertTrue(requestListenerStub.isComplete());
         assertTrue(requestListenerStub.isSuccessful());
-        assertEquals(5, requestListenerStub.getRequestProgressesHistory().size());
-        assertEquals(RequestStatus.PENDING, requestListenerStub.getRequestProgressesHistory().get(0).getStatus());
-        assertEquals(RequestStatus.READING_FROM_CACHE, requestListenerStub.getRequestProgressesHistory().get(1).getStatus());
-        assertEquals(RequestStatus.LOADING_FROM_NETWORK, requestListenerStub.getRequestProgressesHistory().get(2).getStatus());
-        assertEquals(RequestStatus.WRITING_TO_CACHE, requestListenerStub.getRequestProgressesHistory().get(3).getStatus());
-        assertEquals(RequestStatus.COMPLETE, requestListenerStub.getRequestProgressesHistory().get(4).getStatus());
+        final int expectedRequestProgressCount = 4;
+        synchronized (requestListenerStub.getRequestProgressesHistory()) {
+            for (RequestProgress requestProgress : requestListenerStub.getRequestProgressesHistory()) {
+                Ln.d("RequestProgress received : %s", requestProgress.getStatus());
+            }
+        }
+        assertEquals(expectedRequestProgressCount, requestListenerStub.getRequestProgressesHistory().size());
+        int progressStatusIndex = 0;
+        assertEquals(RequestStatus.PENDING, requestListenerStub.getRequestProgressesHistory().get(progressStatusIndex++).getStatus());
+        assertEquals(RequestStatus.LOADING_FROM_NETWORK, requestListenerStub.getRequestProgressesHistory().get(progressStatusIndex++).getStatus());
+        assertEquals(RequestStatus.WRITING_TO_CACHE, requestListenerStub.getRequestProgressesHistory().get(progressStatusIndex++).getStatus());
+        assertEquals(RequestStatus.COMPLETE, requestListenerStub.getRequestProgressesHistory().get(progressStatusIndex++).getStatus());
     }
 
     // ----------------------------------

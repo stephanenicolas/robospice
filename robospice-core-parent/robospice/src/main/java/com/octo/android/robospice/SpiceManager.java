@@ -952,8 +952,14 @@ public class SpiceManager implements Runnable {
     // PRIVATE METHODS : SpiceService binding management.
     // ============================================================================================
 
+    /** For testing purpose. */
+    protected boolean isBound() {
+        return spiceService != null;
+    }
+
     private void bindToService(final Context context) {
-        if (context == null) {
+        if (context == null || isStopped) {
+            // fix issue 40. Thx Shussu
             return;
         }
         try {
