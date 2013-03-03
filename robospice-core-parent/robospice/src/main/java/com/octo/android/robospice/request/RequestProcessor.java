@@ -21,6 +21,7 @@ import com.octo.android.robospice.exception.NetworkException;
 import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
@@ -188,7 +189,7 @@ public class RequestProcessor {
         };
         request.setRequestProgressListener(requestProgressListener);
 
-        if (request.getRequestCacheKey() != null) {
+        if (request.getRequestCacheKey() != null && request.getCacheDuration() != DurationInMillis.ALWAYS_EXPIRED) {
             // First, search data in cache
             try {
                 Ln.d("Loading request from cache : " + request);
