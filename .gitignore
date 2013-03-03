@@ -28,6 +28,9 @@ release.properties
 .settings/
 .DS_Store
 
+# libraries for the Eclipse/Ant build system
+*/libs/
+
 #Intelli J project files
 *.idea/
 *.iml
