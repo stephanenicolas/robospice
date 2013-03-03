@@ -1,14 +1,17 @@
 package com.octo.android.robospice.stub;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
-public class RequestListenerWithProgressStub<T> extends RequestListenerStub<T>
-    implements RequestProgressListener {
+public class RequestListenerWithProgressStub<T> extends RequestListenerStub<T> implements RequestProgressListener {
 
     private boolean isComplete;
+    protected Condition requestCompleteCondition = lock.newCondition();
 
     @Override
     public void onRequestFailure(SpiceException exception) {
@@ -47,6 +50,7 @@ public class RequestListenerWithProgressStub<T> extends RequestListenerStub<T>
                 isComplete = true;
                 if (isSuccessful != null) {
                     requestFinishedCondition.signal();
+                    requestCompleteCondition.signal();
                 }
             }
         } finally {
@@ -57,6 +61,15 @@ public class RequestListenerWithProgressStub<T> extends RequestListenerStub<T>
 
     public boolean isComplete() {
         return isComplete;
+    }
+
+    public void awaitComplete(long millisecond) throws InterruptedException {
+        lock.lock();
+        try {
+            requestCompleteCondition.await(millisecond, TimeUnit.MILLISECONDS);
+        } finally {
+            lock.unlock();
+        }
     }
 
 }

@@ -8,7 +8,9 @@ import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
+import com.octo.android.robospice.request.listener.RequestStatus;
 import com.octo.android.robospice.stub.RequestListenerStub;
+import com.octo.android.robospice.stub.RequestListenerWithProgressHistoryStub;
 import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 import com.octo.android.robospice.stub.SpiceRequestFailingStub;
 import com.octo.android.robospice.stub.SpiceRequestStub;
@@ -349,6 +351,33 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertNull(requestListenerStub.isSuccessful());
         assertNull(requestListenerStub2.isSuccessful());
     }
+
+    public void test_should_receive_request_progress_updates_in_right_order() throws InterruptedException {
+        // TDD test for issue 36
+        // given
+        spiceManager.start(getInstrumentation().getTargetContext());
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
+        RequestListenerWithProgressHistoryStub<String> requestListenerStub = new RequestListenerWithProgressHistoryStub<String>();
+
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+
+        requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertTrue(requestListenerStub.isComplete());
+        assertTrue(requestListenerStub.isSuccessful());
+        assertEquals(5, requestListenerStub.getRequestProgressesHistory().size());
+        assertEquals(RequestStatus.PENDING, requestListenerStub.getRequestProgressesHistory().get(0).getStatus());
+        assertEquals(RequestStatus.READING_FROM_CACHE, requestListenerStub.getRequestProgressesHistory().get(1).getStatus());
+        assertEquals(RequestStatus.LOADING_FROM_NETWORK, requestListenerStub.getRequestProgressesHistory().get(2).getStatus());
+        assertEquals(RequestStatus.WRITING_TO_CACHE, requestListenerStub.getRequestProgressesHistory().get(3).getStatus());
+        assertEquals(RequestStatus.COMPLETE, requestListenerStub.getRequestProgressesHistory().get(4).getStatus());
+    }
+
+    // ----------------------------------
+    // INNER CLASS
+    // ----------------------------------
 
     /**
      * Class under test. Just a wrapper to get any exception that can occur in

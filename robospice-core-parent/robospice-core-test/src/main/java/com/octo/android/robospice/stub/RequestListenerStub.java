@@ -44,8 +44,7 @@ public class RequestListenerStub<T> implements RequestListener<T> {
     }
 
     protected void checkIsExectuedInUIThread() {
-        if (Looper.myLooper() != null
-            && Looper.myLooper() == Looper.getMainLooper()) {
+        if (Looper.myLooper() != null && Looper.myLooper() == Looper.getMainLooper()) {
             isExecutedInUIThread = true;
         }
     }

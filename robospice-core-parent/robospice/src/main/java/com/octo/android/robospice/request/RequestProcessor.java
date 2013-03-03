@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.SpiceServiceServiceListener;
@@ -268,7 +269,7 @@ public class RequestProcessor {
     }
 
     private void post(final Runnable r, final Object token) {
-        handlerResponse.postAtTime(r, token, 0);
+        handlerResponse.postAtTime(r, token, SystemClock.uptimeMillis());
     }
 
     private <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners,
