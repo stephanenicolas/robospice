@@ -187,7 +187,7 @@ public class SpiceManager implements Runnable {
                 try {
                     sendRequestToService(requestQueue.take());
                 } catch (final InterruptedException ex) {
-                    Ln.d(ex, "Interrupted while waiting for new request.");
+                    Ln.d("Interrupted while waiting for new request.");
                 }
             }
         } catch (final InterruptedException e) {
