@@ -79,7 +79,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
         // WHEN
-        Weather weatherReturned = dataPersistenceManager.loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
+        Weather weatherReturned = dataPersistenceManager.loadDataFromCache(FILE_NAME, FIVE_SECONDS);
 
         // THEN
         assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));

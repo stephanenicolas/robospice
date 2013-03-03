@@ -75,7 +75,7 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
+        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(FILE_NAME, FIVE_SECONDS);
 
         // THEN
         assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());
