@@ -16,6 +16,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 
 import com.octo.android.robospice.networkstate.DefaultNetworkStateChecker;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
@@ -165,9 +166,20 @@ public abstract class SpiceService extends Service {
         return executorService;
     }
 
-    public static Notification createDefaultNotification() {
-        @SuppressWarnings("deprecation")
-        final Notification note = new Notification(0, null, System.currentTimeMillis());
+    /**
+     * This method can be overrided in order to create a foreground
+     * SpiceService. By default, it will create a notification that can't be
+     * used to set a spiceService to foreground. It can work on some versions of
+     * Android but it should be overriden for more safety.
+     * @return a notification used to tell user that the SpiceService is still
+     *         running and processing requests.
+     */
+    public Notification createDefaultNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(0);
+        builder.setTicker(null);
+        builder.setWhen(System.currentTimeMillis());
+        final Notification note = builder.getNotification();
         note.flags |= Notification.FLAG_NO_CLEAR;
         return note;
     }
