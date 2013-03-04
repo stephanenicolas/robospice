@@ -108,10 +108,12 @@ public class RequestProcessor {
         Ln.d("Adding request to queue " + hashCode() + ": " + request + " size is " + mapRequestToRequestListener.size());
 
         if (request.isCancelled()) {
-            for (final CachedSpiceRequest<?> cachedSpiceRequest : mapRequestToRequestListener.keySet()) {
-                if (cachedSpiceRequest.equals(request)) {
-                    cachedSpiceRequest.cancel();
-                    return;
+            synchronized (mapRequestToRequestListener) {
+                for (final CachedSpiceRequest<?> cachedSpiceRequest : mapRequestToRequestListener.keySet()) {
+                    if (cachedSpiceRequest.equals(request)) {
+                        cachedSpiceRequest.cancel();
+                        return;
+                    }
                 }
             }
         }
