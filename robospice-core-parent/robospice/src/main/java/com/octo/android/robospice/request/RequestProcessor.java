@@ -197,11 +197,16 @@ public class RequestProcessor {
             try {
                 Ln.d("Loading request from cache : " + request);
                 request.setStatus(RequestStatus.READING_FROM_CACHE);
-                result = loadDataFromCache(request.getResultType(), request.getRequestCacheKey(), request.getCacheDuration());
+                long maxTimeInCacheBeforeExpiry = request.isAcceptingDirtyCache() ? DurationInMillis.ALWAYS_RETURNED : request.getCacheDuration();
+                result = loadDataFromCache(request.getResultType(), request.getRequestCacheKey(), maxTimeInCacheBeforeExpiry);
                 if (result != null) {
                     Ln.d("Request loaded from cache : " + request + " result=" + result);
-                    notifyListenersOfRequestSuccess(request, result);
-                    return;
+                    if (request.isAcceptingDirtyCache()) {
+                        notifyListenersOfRequestSuccessButDontCompleteRequest(request, result);
+                    } else {
+                        notifyListenersOfRequestSuccess(request, result);
+                        return;
+                    }
                 }
             } catch (final CacheLoadingException e) {
                 Ln.d(e, "Cache file could not be read.");
@@ -214,59 +219,57 @@ public class RequestProcessor {
             }
         }
 
-        if (result == null) {
-            // if result is not in cache, load data from network
-            Ln.d("Cache content not available or expired or disabled");
-            if (!isNetworkAvailable(applicationContext)) {
-                Ln.e("Network is down.");
-                notifyListenersOfRequestFailure(request, new NoNetworkException());
-                return;
-            }
+        // if result is not in cache, load data from network
+        Ln.d("Cache content not available or expired or disabled");
+        if (!isNetworkAvailable(applicationContext)) {
+            Ln.e("Network is down.");
+            notifyListenersOfRequestFailure(request, new NoNetworkException());
+            return;
+        }
 
-            // network is ok, load data from network
+        // network is ok, load data from network
+        try {
+            Ln.d("Calling netwok request.");
+            request.setStatus(RequestStatus.LOADING_FROM_NETWORK);
+            result = request.loadDataFromNetwork();
+            Ln.d("Network request call ended.");
+        } catch (final Exception e) {
+            Ln.e(e, "An exception occured during request network execution :" + e.getMessage());
+            notifyListenersOfRequestFailure(request, new NetworkException("Exception occured during invocation of web service.", e));
+            return;
+        }
+
+        if (result != null && request.getRequestCacheKey() != null) {
+            // request worked and result is not null, save
+            // it to cache
             try {
-                Ln.d("Calling netwok request.");
-                request.setStatus(RequestStatus.LOADING_FROM_NETWORK);
-                result = request.loadDataFromNetwork();
-                Ln.d("Network request call ended.");
-            } catch (final Exception e) {
-                Ln.e(e, "An exception occured during request network execution :" + e.getMessage());
-                notifyListenersOfRequestFailure(request, new NetworkException("Exception occured during invocation of web service.", e));
-                return;
-            }
-
-            if (result != null && request.getRequestCacheKey() != null) {
-                // request worked and result is not null, save
-                // it to cache
-                try {
-                    Ln.d("Start caching content...");
-                    request.setStatus(RequestStatus.WRITING_TO_CACHE);
-                    result = saveDataToCacheAndReturnData(result, request.getRequestCacheKey());
-                    notifyListenersOfRequestSuccess(request, result);
-                    return;
-                } catch (final CacheSavingException e) {
-                    Ln.d("An exception occured during service execution :" + e.getMessage(), e);
-                    if (failOnCacheError) {
-                        notifyListenersOfRequestFailure(request, e);
-                        return;
-                    } else {
-                        // result can't be saved to
-                        // cache but we reached that
-                        // point after a success of load
-                        // data from
-                        // network
-                        notifyListenersOfRequestSuccess(request, result);
-                    }
-                    cacheManager.removeDataFromCache(request.getResultType(), request.getRequestCacheKey());
-                    Ln.d(e, "Cache file deleted.");
-                }
-            } else {
-                // result can't be saved to cache but we reached
-                // that point after a success of load data from
-                // network
+                Ln.d("Start caching content...");
+                request.setStatus(RequestStatus.WRITING_TO_CACHE);
+                result = saveDataToCacheAndReturnData(result, request.getRequestCacheKey());
                 notifyListenersOfRequestSuccess(request, result);
                 return;
+            } catch (final CacheSavingException e) {
+                Ln.d("An exception occured during service execution :" + e.getMessage(), e);
+                if (failOnCacheError) {
+                    notifyListenersOfRequestFailure(request, e);
+                    return;
+                } else {
+                    // result can't be saved to
+                    // cache but we reached that
+                    // point after a success of load
+                    // data from
+                    // network
+                    notifyListenersOfRequestSuccess(request, result);
+                }
+                cacheManager.removeDataFromCache(request.getResultType(), request.getRequestCacheKey());
+                Ln.d(e, "Cache file deleted.");
             }
+        } else {
+            // result can't be saved to cache but we reached
+            // that point after a success of load data from
+            // network
+            notifyListenersOfRequestSuccess(request, result);
+            return;
         }
     }
 
@@ -290,6 +293,12 @@ public class RequestProcessor {
         if (mapRequestToRequestListener.isEmpty()) {
             requestProcessorListener.allRequestComplete();
         }
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private <T> void notifyListenersOfRequestSuccessButDontCompleteRequest(final CachedSpiceRequest<T> request, final T result) {
+        final Set<RequestListener<?>> listeners = mapRequestToRequestListener.get(request);
+        post(new ResultRunnable(listeners, result), request.getRequestCacheKey());
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

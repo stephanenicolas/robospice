@@ -427,10 +427,11 @@ public class SpiceManager implements Runnable {
      * @param requestListener
      *            the listener to notify when the request will finish
      */
-    public <T> void getFromCacheButLoadFromNetworkAnyway(final SpiceRequest<T> request, final Object requestCacheKey, final long cacheExpiryDuration,
-        final RequestListener<T> requestListener) {
-        getFromCache(request.getResultType(), requestCacheKey, cacheExpiryDuration, requestListener);
-        execute(request, requestListener);
+    public <T> void getFromCacheAndLoadFromNetworkIfExpired(final SpiceRequest<T> request, final Object requestCacheKey,
+        final long cacheExpiryDuration, final RequestListener<T> requestListener) {
+        final CachedSpiceRequest<T> cachedSpiceRequest = new CachedSpiceRequest<T>(request, requestCacheKey, cacheExpiryDuration);
+        cachedSpiceRequest.setAcceptingDirtyCache(true);
+        execute(cachedSpiceRequest, requestListener);
     }
 
     /**
