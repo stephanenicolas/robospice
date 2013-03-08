@@ -403,13 +403,13 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Execute a request anyway. Before invoking the method
-     * {@link SpiceRequest#loadDataFromNetwork()}, the cache will be checked :
-     * if a result has been cached with the cache key <i>requestCacheKey</i>,
-     * RoboSpice will consider the parameter <i>cacheExpiryDuration</i> to
-     * determine whether the result in the cache is expired or not. If it is not
-     * expired, then listeners will receive the data in cache. Whatever the
-     * request finds in the cache, the method
+     * Gets data from cache, expired or not, and executes a request normaly.
+     * Before invoking the method {@link SpiceRequest#loadDataFromNetwork()},
+     * the cache will be checked : if a result has been cached with the cache
+     * key <i>requestCacheKey</i>, RoboSpice will consider the parameter
+     * <i>cacheExpiryDuration</i> to determine whether the result in the cache
+     * is expired or not. If it is not expired, then listeners will receive the
+     * data in cache only. If the result is absent or expired, then
      * {@link SpiceRequest#loadDataFromNetwork()} will be invoked and the result
      * will be stored in cache using the cache key <i>requestCacheKey</i>.
      * @param request
@@ -422,15 +422,16 @@ public class SpiceManager implements Runnable {
      *            will be considered to be expired.
      *            {@link DurationInMillis#ALWAYS_RETURNED} means data in cache
      *            is always returned if it exists.
-     *            {@link DurationInMillis#ALWAYS_EXPIRED} means data in cache is
-     *            never returned.(see {@link DurationInMillis})
+     *            {@link DurationInMillis#ALWAYS_EXPIRED} doesn't make much
+     *            sense here.
      * @param requestListener
      *            the listener to notify when the request will finish
      */
-    public <T> void getFromCacheButLoadFromNetworkAnyway(final SpiceRequest<T> request, final Object requestCacheKey, final long cacheExpiryDuration,
-        final RequestListener<T> requestListener) {
-        getFromCache(request.getResultType(), requestCacheKey, cacheExpiryDuration, requestListener);
-        execute(request, requestListener);
+    public <T> void getFromCacheAndLoadFromNetworkIfExpired(final SpiceRequest<T> request, final Object requestCacheKey,
+        final long cacheExpiryDuration, final RequestListener<T> requestListener) {
+        final CachedSpiceRequest<T> cachedSpiceRequest = new CachedSpiceRequest<T>(request, requestCacheKey, cacheExpiryDuration);
+        cachedSpiceRequest.setAcceptingDirtyCache(true);
+        execute(cachedSpiceRequest, requestListener);
     }
 
     /**

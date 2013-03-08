@@ -168,20 +168,21 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertFalse(requestListenerStub.isSuccessful());
     }
 
-    public void test_getFromCacheButLoadFromNetworkAnyway() throws InterruptedException {
+    public void test_getFromCacheAndLoadFromNetworkIfExpired() throws InterruptedException {
         // same as above but precise cache usage
 
         // when
         // this test is complex : we rely on the fact that the SpiceService as a
         // IntegerPersister that
         // always return a value in cache. Nevertheless, the request will fail
-        // as we will finally get data from network after getting it from cache.
+        // as we will finally get data from network (and fail) after getting it
+        // from cache.
         spiceManager.start(getInstrumentation().getTargetContext());
         SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
         RequestListenerStub<Integer> requestListenerStub = new RequestListenerStub<Integer>();
 
         // when
-        spiceManager.getFromCacheButLoadFromNetworkAnyway(spiceRequestStub, "", DurationInMillis.ALWAYS_RETURNED, requestListenerStub);
+        spiceManager.getFromCacheAndLoadFromNetworkIfExpired(spiceRequestStub, "", DurationInMillis.ALWAYS_RETURNED, requestListenerStub);
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 

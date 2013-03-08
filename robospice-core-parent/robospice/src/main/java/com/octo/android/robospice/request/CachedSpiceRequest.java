@@ -13,6 +13,7 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     private final long cacheDuration;
     private final SpiceRequest<RESULT> spiceRequest;
     private boolean isProcessable = true;
+    private boolean isAcceptingDirtyCache;
 
     public CachedSpiceRequest(final SpiceRequest<RESULT> spiceRequest, final Object requestCacheKey, final long cacheDuration) {
         super(spiceRequest.getResultType());
@@ -148,5 +149,13 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     /* package private */@Override
     RequestProgress getProgress() {
         return spiceRequest.getProgress();
+    }
+
+    public boolean isAcceptingDirtyCache() {
+        return isAcceptingDirtyCache;
+    }
+
+    public void setAcceptingDirtyCache(boolean isAcceptingDirtyCache) {
+        this.isAcceptingDirtyCache = isAcceptingDirtyCache;
     }
 }
