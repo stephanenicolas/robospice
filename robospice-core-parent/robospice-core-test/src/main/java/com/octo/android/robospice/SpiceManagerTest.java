@@ -168,7 +168,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertFalse(requestListenerStub.isSuccessful());
     }
 
-    public void test_getFromCacheAndLoadFromNetworkIfExpired() throws InterruptedException {
+    public void test_getFromCacheAndLoadFromNetworkIfExpired_should_return_cache_data_if_not_expired_and_not_go_to_network()
+        throws InterruptedException {
         // same as above but precise cache usage
 
         // when
@@ -179,17 +180,43 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // from cache.
         spiceManager.start(getInstrumentation().getTargetContext());
         SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
-        RequestListenerStub<Integer> requestListenerStub = new RequestListenerStub<Integer>();
+        RequestListenerWithProgressStub<Integer> requestListenerStub = new RequestListenerWithProgressStub<Integer>();
 
         // when
-        spiceManager.getFromCacheAndLoadFromNetworkIfExpired(spiceRequestStub, "", DurationInMillis.ALWAYS_RETURNED, requestListenerStub);
+        spiceManager.getFromCacheAndLoadFromNetworkIfExpired(spiceRequestStub, "", DurationInMillis.ONE_SECOND, requestListenerStub);
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertFalse(spiceRequestStub.isLoadDataFromNetworkCalled());
+        assertTrue(requestListenerStub.isSuccessful());
+        assertTrue(requestListenerStub.isComplete());
+    }
+
+    public void test_getFromCacheAndLoadFromNetworkIfExpired_should_return_cache_data_if_expired_and_go_to_network() throws InterruptedException {
+        // same as above but precise cache usage
+
+        // when
+        // this test is complex : we rely on the fact that the SpiceService as a
+        // IntegerPersister that
+        // always return a value in cache. Nevertheless, the request will fail
+        // as we will finally get data from network (and fail) after getting it
+        // from cache.
+        spiceManager.start(getInstrumentation().getTargetContext());
+        SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
+        RequestListenerWithProgressStub<Integer> requestListenerStub = new RequestListenerWithProgressStub<Integer>();
+
+        // when
+        spiceManager.getFromCacheAndLoadFromNetworkIfExpired(spiceRequestStub, "", DurationInMillis.ONE_MINUTE * 2, requestListenerStub);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
         assertTrue(requestListenerStub.isExecutedInUIThread());
         assertFalse(requestListenerStub.isSuccessful());
+        assertTrue(requestListenerStub.isComplete());
+
     }
 
     public void test_cancel_cancels_1_request() throws InterruptedException {
@@ -389,9 +416,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     // ----------------------------------
 
     /**
-     * Class under test. Just a wrapper to get any exception that can occur in
-     * the spicemanager's thread. Inspired by
-     * http://stackoverflow.com/questions/
+     * Class under test. Just a wrapper to get any exception that can occur in the spicemanager's thread. Inspired by http://stackoverflow.com/questions/
      * 2596493/junit-assert-in-thread-throws-exception/13712829#13712829
      */
     private final class SpiceManagerUnderTest extends SpiceManager {

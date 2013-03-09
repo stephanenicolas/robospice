@@ -11,8 +11,7 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
 /**
- * Stub of an object persister. Doesn't use any real cache management. Will help
- * to pass the tests without any side-effect.
+ * Stub of an object persister. Doesn't use any real cache management. Will help to pass the tests without any side-effect.
  * @author sni
  */
 public class IntegerPersisterStub extends ObjectPersister<Integer> {
@@ -25,7 +24,7 @@ public class IntegerPersisterStub extends ObjectPersister<Integer> {
 
     @Override
     public Integer loadDataFromCache(Object cacheKey, long maxTimeInCache) throws CacheLoadingException {
-        if (maxTimeInCache == DurationInMillis.ALWAYS_EXPIRED) {
+        if (maxTimeInCache == DurationInMillis.ALWAYS_EXPIRED || maxTimeInCache > DurationInMillis.ONE_MINUTE) {
             return null;
         }
         return STUB_DATA;
