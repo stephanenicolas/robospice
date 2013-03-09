@@ -15,8 +15,7 @@ import com.octo.android.robospice.retrofit.test.model.Weather;
 import com.octo.android.robospice.retrofit.test.model.WeatherResult;
 
 @SmallTest
-public abstract class JsonObjectPersisterFactoryTest extends
-    InstrumentationTestCase {
+public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTestCase {
     private static final String TEST_TEMP_UNIT = "C";
     private static final String TEST_TEMP = "28";
     private static final String TEST_TEMP2 = "30";
@@ -25,15 +24,12 @@ public abstract class JsonObjectPersisterFactoryTest extends
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation()
-            .getTargetContext().getApplicationContext();
+        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
         RetrofitObjectPersisterFactory factory = getRetrofitObjectPersisterFactory(application);
-        inFileObjectPersister = factory
-            .createObjectPersister(WeatherResult.class);
+        inFileObjectPersister = factory.createObjectPersister(WeatherResult.class);
     }
 
-    protected abstract RetrofitObjectPersisterFactory getRetrofitObjectPersisterFactory(
-        Application application);
+    protected abstract RetrofitObjectPersisterFactory getRetrofitObjectPersisterFactory(Application application);
 
     @Override
     protected void tearDown() throws Exception {
@@ -42,91 +38,70 @@ public abstract class JsonObjectPersisterFactoryTest extends
     }
 
     public void test_canHandleClientRequestStatus() {
-        boolean canHandleClientWeatherResult = inFileObjectPersister
-            .canHandleClass(WeatherResult.class);
+        boolean canHandleClientWeatherResult = inFileObjectPersister.canHandleClass(WeatherResult.class);
         assertEquals(true, canHandleClientWeatherResult);
     }
 
     public void test_saveDataAndReturnData() throws Exception {
         // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP, TEST_TEMP_UNIT);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister
-            .saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
+        WeatherResult weatherReturned = inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
 
         // THEN
-        assertEquals(TEST_TEMP, weatherReturned.getWeather()
-            .getCurren_weather().get(0).getTemp());
+        assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());
     }
 
     public void test_loadDataFromCache_no_expiracy() throws Exception {
         // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP, TEST_TEMP_UNIT);
         final String FILE_NAME = "toto";
-        inFileObjectPersister.saveDataToCacheAndReturnData(
-            weatherRequestStatus, FILE_NAME);
+        inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister
-            .loadDataFromCache(FILE_NAME, DurationInMillis.ALWAYS);
+        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(FILE_NAME, DurationInMillis.ALWAYS_RETURNED);
 
         // THEN
-        assertEquals(TEST_TEMP, weatherReturned.getWeather()
-            .getCurren_weather().get(0).getTemp());
+        assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());
     }
 
     public void test_loadDataFromCache_not_expired() throws Exception {
         // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP, TEST_TEMP_UNIT);
         final String FILE_NAME = "toto";
-        inFileObjectPersister.saveDataToCacheAndReturnData(
-            weatherRequestStatus, FILE_NAME);
+        inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister
-            .loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
+        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
 
         // THEN
-        assertEquals(TEST_TEMP, weatherReturned.getWeather()
-            .getCurren_weather().get(0).getTemp());
+        assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());
     }
 
     public void test_loadDataFromCache_expired() throws Exception {
         // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP2,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP2, TEST_TEMP_UNIT);
         final String FILE_NAME = "toto";
-        inFileObjectPersister.saveDataToCacheAndReturnData(
-            weatherRequestStatus, FILE_NAME);
-        File cachedFile = ((RetrofitObjectPersister<?>) inFileObjectPersister)
-            .getCacheFile(FILE_NAME);
-        cachedFile.setLastModified(System.currentTimeMillis() - 5
-            * DurationInMillis.ONE_SECOND);
+        inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
+        File cachedFile = ((RetrofitObjectPersister<?>) inFileObjectPersister).getCacheFile(FILE_NAME);
+        cachedFile.setLastModified(System.currentTimeMillis() - 5 * DurationInMillis.ONE_SECOND);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister
-            .loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
+        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
 
         // THEN
         assertNull(weatherReturned);
     }
 
-    public void test_loadAllDataFromCache_with_one_request_in_cache()
-        throws Exception {
+    public void test_loadAllDataFromCache_with_one_request_in_cache() throws Exception {
         // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP, TEST_TEMP_UNIT);
         final String FILE_NAME = "toto";
-        inFileObjectPersister.saveDataToCacheAndReturnData(
-            weatherRequestStatus, FILE_NAME);
+        inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
         // WHEN
-        List<WeatherResult> listWeatherResult = inFileObjectPersister
-            .loadAllDataFromCache();
+        List<WeatherResult> listWeatherResult = inFileObjectPersister.loadAllDataFromCache();
 
         // THEN
         assertNotNull(listWeatherResult);
@@ -134,24 +109,18 @@ public abstract class JsonObjectPersisterFactoryTest extends
         assertEquals(weatherRequestStatus, listWeatherResult.get(0));
     }
 
-    public void test_loadAllDataFromCache_with_two_requests_in_cache()
-        throws Exception {
+    public void test_loadAllDataFromCache_with_two_requests_in_cache() throws Exception {
         // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP, TEST_TEMP_UNIT);
         final String FILE_NAME = "toto";
-        inFileObjectPersister.saveDataToCacheAndReturnData(
-            weatherRequestStatus, FILE_NAME);
+        inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
-        WeatherResult weatherRequestStatus2 = buildWeather(TEST_TEMP2,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus2 = buildWeather(TEST_TEMP2, TEST_TEMP_UNIT);
         final String FILE_NAME2 = "tutu";
-        inFileObjectPersister.saveDataToCacheAndReturnData(
-            weatherRequestStatus2, FILE_NAME2);
+        inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus2, FILE_NAME2);
 
         // WHEN
-        List<WeatherResult> listWeatherResult = inFileObjectPersister
-            .loadAllDataFromCache();
+        List<WeatherResult> listWeatherResult = inFileObjectPersister.loadAllDataFromCache();
 
         // THEN
         assertNotNull(listWeatherResult);
@@ -160,39 +129,31 @@ public abstract class JsonObjectPersisterFactoryTest extends
         assertTrue(listWeatherResult.contains(weatherRequestStatus2));
     }
 
-    public void test_loadAllDataFromCache_with_no_requests_in_cache()
-        throws Exception {
+    public void test_loadAllDataFromCache_with_no_requests_in_cache() throws Exception {
         // GIVEN
 
         // WHEN
-        List<WeatherResult> listWeatherResult = inFileObjectPersister
-            .loadAllDataFromCache();
+        List<WeatherResult> listWeatherResult = inFileObjectPersister.loadAllDataFromCache();
 
         // THEN
         assertNotNull(listWeatherResult);
         assertTrue(listWeatherResult.isEmpty());
     }
 
-    public void test_removeDataFromCache_when_two_requests_in_cache_and_one_removed()
-        throws Exception {
+    public void test_removeDataFromCache_when_two_requests_in_cache_and_one_removed() throws Exception {
         // GIVEN
-        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP, TEST_TEMP_UNIT);
         final String FILE_NAME = "toto";
-        inFileObjectPersister.saveDataToCacheAndReturnData(
-            weatherRequestStatus, FILE_NAME);
+        inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
-        WeatherResult weatherRequestStatus2 = buildWeather(TEST_TEMP2,
-            TEST_TEMP_UNIT);
+        WeatherResult weatherRequestStatus2 = buildWeather(TEST_TEMP2, TEST_TEMP_UNIT);
         final String FILE_NAME2 = "tutu";
-        inFileObjectPersister.saveDataToCacheAndReturnData(
-            weatherRequestStatus2, FILE_NAME2);
+        inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus2, FILE_NAME2);
 
         inFileObjectPersister.removeDataFromCache(FILE_NAME2);
 
         // WHEN
-        List<WeatherResult> listWeatherResult = inFileObjectPersister
-            .loadAllDataFromCache();
+        List<WeatherResult> listWeatherResult = inFileObjectPersister.loadAllDataFromCache();
 
         // THEN
         assertNotNull(listWeatherResult);
