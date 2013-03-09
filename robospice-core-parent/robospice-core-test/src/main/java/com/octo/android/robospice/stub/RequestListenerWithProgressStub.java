@@ -2,8 +2,8 @@ package com.octo.android.robospice.stub;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
-import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
@@ -11,52 +11,20 @@ import com.octo.android.robospice.request.listener.RequestStatus;
 public class RequestListenerWithProgressStub<T> extends RequestListenerStub<T> implements RequestProgressListener {
 
     private boolean isComplete;
-    protected Condition requestCompleteCondition = lock.newCondition();
-
-    @Override
-    public void onRequestFailure(SpiceException exception) {
-        lock.lock();
-        try {
-            checkIsExectuedInUIThread();
-            isSuccessful = false;
-            this.exception = exception;
-            if (isComplete) {
-                requestFinishedCondition.signal();
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    @Override
-    public void onRequestSuccess(T arg0) {
-        lock.lock();
-        try {
-            checkIsExectuedInUIThread();
-            isSuccessful = true;
-            if (isComplete) {
-                requestFinishedCondition.signal();
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
+    protected ReentrantLock lockComplete = new ReentrantLock();
+    protected Condition requestCompleteCondition = lockComplete.newCondition();
 
     @Override
     public void onRequestProgressUpdate(RequestProgress progress) {
-        lock.lock();
+        lockComplete.lock();
         try {
             if (progress.getStatus() == RequestStatus.COMPLETE) {
                 isComplete = true;
-                if (isSuccessful != null) {
-                    requestFinishedCondition.signal();
-                    requestCompleteCondition.signal();
-                }
+                requestCompleteCondition.signal();
             }
         } finally {
-            lock.unlock();
+            lockComplete.unlock();
         }
-
     }
 
     public boolean isComplete() {
@@ -64,14 +32,14 @@ public class RequestListenerWithProgressStub<T> extends RequestListenerStub<T> i
     }
 
     public void awaitComplete(long millisecond) throws InterruptedException {
-        if (isComplete) {
-            return;
-        }
-        lock.lock();
+        lockComplete.lock();
         try {
+            if (isComplete) {
+                return;
+            }
             requestCompleteCondition.await(millisecond, TimeUnit.MILLISECONDS);
         } finally {
-            lock.unlock();
+            lockComplete.unlock();
         }
     }
 

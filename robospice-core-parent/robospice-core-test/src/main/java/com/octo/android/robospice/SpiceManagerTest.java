@@ -211,12 +211,10 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.getFromCacheAndLoadFromNetworkIfExpired(spiceRequestStub, "", DurationInMillis.ONE_MINUTE * 2, requestListenerStub);
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
-        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
         assertTrue(requestListenerStub.isExecutedInUIThread());
-        assertFalse(requestListenerStub.isSuccessful());
         assertTrue(requestListenerStub.isComplete());
 
     }
@@ -264,6 +262,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertTrue(requestListenerStub2.isComplete());
         assertFalse(requestListenerStub.isSuccessful());
         assertFalse(requestListenerStub2.isSuccessful());
+        System.out.println(requestListenerStub2.getReceivedException());
         assertTrue(requestListenerStub.getReceivedException() instanceof RequestCancelledException);
         assertTrue(requestListenerStub2.getReceivedException() instanceof RequestCancelledException);
     }
@@ -405,7 +404,6 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         // test
         assertTrue(requestListenerStub.isComplete());
-        assertTrue(requestListenerStub.isSuccessful());
         final int expectedRequestProgressCount = 4;
         synchronized (requestListenerStub.getRequestProgressesHistory()) {
             for (RequestProgress requestProgress : requestListenerStub.getRequestProgressesHistory()) {
@@ -418,6 +416,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertEquals(RequestStatus.LOADING_FROM_NETWORK, requestListenerStub.getRequestProgressesHistory().get(progressStatusIndex++).getStatus());
         assertEquals(RequestStatus.WRITING_TO_CACHE, requestListenerStub.getRequestProgressesHistory().get(progressStatusIndex++).getStatus());
         assertEquals(RequestStatus.COMPLETE, requestListenerStub.getRequestProgressesHistory().get(progressStatusIndex++).getStatus());
+        assertTrue(requestListenerStub.isSuccessful());
     }
 
     // ----------------------------------

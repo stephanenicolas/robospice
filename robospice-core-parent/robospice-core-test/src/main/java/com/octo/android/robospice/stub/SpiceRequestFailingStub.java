@@ -1,5 +1,7 @@
 package com.octo.android.robospice.stub;
 
+import roboguice.util.temp.Ln;
+
 public final class SpiceRequestFailingStub<T> extends SpiceRequestStub<T> {
 
     private long sleepTimeBeforeAnswering = 0;
@@ -18,7 +20,11 @@ public final class SpiceRequestFailingStub<T> extends SpiceRequestStub<T> {
         isLoadDataFromNetworkCalled = true;
         signalStopWaiting();
         if (sleepTimeBeforeAnswering != 0) {
-            Thread.sleep(sleepTimeBeforeAnswering);
+            try {
+                Thread.sleep(sleepTimeBeforeAnswering);
+            } catch (InterruptedException e) {
+                Ln.d(e, "Interrupted while sleeping.");
+            }
         }
         throw new Exception();
     }
