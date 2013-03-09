@@ -64,6 +64,9 @@ public class RequestListenerWithProgressStub<T> extends RequestListenerStub<T> i
     }
 
     public void awaitComplete(long millisecond) throws InterruptedException {
+        if (isComplete) {
+            return;
+        }
         lock.lock();
         try {
             requestCompleteCondition.await(millisecond, TimeUnit.MILLISECONDS);

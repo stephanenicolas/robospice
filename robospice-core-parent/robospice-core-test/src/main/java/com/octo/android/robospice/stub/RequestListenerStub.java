@@ -62,6 +62,9 @@ public class RequestListenerStub<T> implements RequestListener<T> {
     }
 
     public void await(long millisecond) throws InterruptedException {
+        if (isSuccessful != null) {
+            return;
+        }
         lock.lock();
         try {
             requestFinishedCondition.await(millisecond, TimeUnit.MILLISECONDS);

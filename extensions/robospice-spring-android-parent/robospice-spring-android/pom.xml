@@ -64,6 +64,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
+				<configuration>
+					<targetJdk>1.5</targetJdk>
+					<!-- Jackson 1 and 2 use an Object Mapper, but those classes have nothing in common using OOP. -->
+					<excludes>
+						<exclude>**/JacksonObjectPersister.java</exclude>
+						<exclude>**/Jackson2ObjectPersister.java</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

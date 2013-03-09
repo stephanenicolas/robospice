@@ -97,7 +97,7 @@
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
 		<easymock.version>2.5.2</easymock.version>
-		<mockwebserver.version>20121111</mockwebserver.version>
+		<mockwebserver.version>20130303</mockwebserver.version>
 		<junit.version>4.11</junit.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
 

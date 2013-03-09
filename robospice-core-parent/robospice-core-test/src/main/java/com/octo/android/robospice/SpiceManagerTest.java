@@ -186,6 +186,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.getFromCacheAndLoadFromNetworkIfExpired(spiceRequestStub, "", DurationInMillis.ONE_SECOND, requestListenerStub);
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertFalse(spiceRequestStub.isLoadDataFromNetworkCalled());
@@ -210,6 +211,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.getFromCacheAndLoadFromNetworkIfExpired(spiceRequestStub, "", DurationInMillis.ONE_MINUTE * 2, requestListenerStub);
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
@@ -244,8 +246,14 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
         spiceManager.cancelAllRequests();
 
-        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub2.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub2.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        // spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertTrue(spiceRequestStub.isCancelled());
@@ -393,6 +401,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
 
         requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertTrue(requestListenerStub.isComplete());
