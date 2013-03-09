@@ -14,7 +14,7 @@ If you want to start using RoboSpice right now, jump to the [Wiki](https://githu
 
 Main features of RoboSpice
 --------------------------
-
+* supports Android SDK 8 (
 * executes network requests **asynchronously** (in a background AndroidService)
 * supports **REST** out of the box (using [Spring Android](http://www.springsource.org/spring-android) or [Google Http Client](http://code.google.com/p/google-http-java-client)).
 * is strongly typed ! You query webservices using **POJOs** and you get POJOs as request results.
@@ -31,7 +31,7 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * is **open source** ;) 
 * and **tested**
 
-RoboSpice is [under Continuous Integration on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/). Thanks to CloudBees.
+RoboSpice is under Continuous Integration [on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/) and [on a Travis server](https://travis-ci.org/octo-online/robospice/builds) Thanks to CloudBees and Travis.
 
 RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonarsource.org/dashboard/index/504442). Thanks to Sonar Source.
 
