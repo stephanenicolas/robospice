@@ -14,7 +14,7 @@ If you want to start using RoboSpice right now, jump to the [Wiki](https://githu
 
 Main features of RoboSpice
 --------------------------
-* supports Android SDK 8 (Froyo / 2.2.x)
+* supports Android starting from SDK version 8 (Froyo / 2.2.x) 
 * executes network requests **asynchronously** (in a background AndroidService)
 * supports **REST** out of the box (using [Spring Android](http://www.springsource.org/spring-android) or [Google Http Client](http://code.google.com/p/google-http-java-client)).
 * is strongly typed ! You query webservices using **POJOs** and you get POJOs as request results.
