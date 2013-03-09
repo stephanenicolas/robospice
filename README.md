@@ -31,7 +31,7 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * is **open source** ;) 
 * and **tested** (more than 150 tests)
 
-[![Build Status](https://travis-ci.org/[octo-online]/[robospice].png)](https://travis-ci.org/[octo-online]/[robospice])
+[![Build Status](https://travis-ci.org/octo-online/robospice.png)](https://travis-ci.org/octo-online/robospice)
 
 RoboSpice is under Continuous Integration [on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/) and [on a Travis server](https://travis-ci.org/octo-online/robospice/builds) Thanks to CloudBees and Travis.
 
