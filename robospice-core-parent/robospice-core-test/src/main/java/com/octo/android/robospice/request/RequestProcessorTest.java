@@ -210,7 +210,9 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // when
         requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
         stubRequest.cancel();
+        mockRequestListener.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
         mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+
         stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         mockRequestListener = new RequestListenerWithProgressStub<String>();
         requestListenerSet.clear();
@@ -225,8 +227,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // EasyMock.verify( mockCacheManager );
         assertTrue(stubRequest.isLoadDataFromNetworkCalled());
         assertTrue(mockRequestListener.isExecutedInUIThread());
-        assertTrue(mockRequestListener.isSuccessful());
         assertTrue(mockRequestListener.isComplete());
+        assertTrue(mockRequestListener.isSuccessful());
     }
 
     public void testAddRequest_with_null_listener() throws CacheLoadingException, CacheSavingException, InterruptedException {
