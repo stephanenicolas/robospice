@@ -16,7 +16,7 @@ env:
 before_install:
   # Install base Android SDK
   - sudo apt-get update -qq
-  - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes --yes libgd2-xpm ia32-libs ia32-libs-multiarch ; fi
+  - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-confold --force-yes --yes libgd2-xpm ia32-libs ia32-libs-multiarch ; fi
   - wget http://dl.google.com/android/android-sdk_r21.1-linux.tgz
   - tar xzf android-sdk_r21.1-linux.tgz
   - export ANDROID_HOME=$PWD/android-sdk-linux
