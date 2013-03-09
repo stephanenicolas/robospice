@@ -218,6 +218,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
 
         requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
 
+        mockRequestListener.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
         mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
 
         // then
