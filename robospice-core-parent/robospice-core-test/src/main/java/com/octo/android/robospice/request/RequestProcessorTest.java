@@ -18,16 +18,19 @@ import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.request.listener.RequestListener;
+import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
 import com.octo.android.robospice.stub.CachedSpiceRequestStub;
 import com.octo.android.robospice.stub.RequestListenerStub;
 import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 import com.octo.android.robospice.stub.SpiceRequestFailingStub;
 import com.octo.android.robospice.stub.SpiceRequestStub;
 import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
+import com.octo.android.robospice.stub.StubSpiceServiceListener;
 
 @SmallTest
 public class RequestProcessorTest extends InstrumentationTestCase {
 
+    private static final int WAIT_TIME_TEMP = 100;
     private static final Class<String> TEST_CLASS = String.class;
     private static final String TEST_CACHE_KEY = "12345";
     private static final String TEST_CACHE_KEY2 = "12345_2";
@@ -199,6 +202,10 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
         requestListenerSet.add(mockRequestListener);
 
+        SpiceServiceServiceListener mockSpiceServiceListener = new StubSpiceServiceListener();
+        requestProcessorUnderTest.addSpiceServiceListener(mockSpiceServiceListener);
+        mockSpiceServiceListener.onRequestProcessed(stubRequest);
+
         EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION)))
             .andReturn(null);
         EasyMock.expectLastCall().anyTimes();
@@ -210,9 +217,12 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // when
         requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
         stubRequest.cancel();
-        mockRequestListener.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
         mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+        mockRequestListener.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
 
+        while (requestProcessorUnderTest.getPendingRequestCount() != 0) {
+            Thread.sleep(WAIT_TIME_TEMP);
+        }
         stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         mockRequestListener = new RequestListenerWithProgressStub<String>();
         requestListenerSet.clear();
@@ -220,8 +230,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
 
         requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
 
-        mockRequestListener.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
         mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+        mockRequestListener.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
 
         // then
         // EasyMock.verify( mockCacheManager );

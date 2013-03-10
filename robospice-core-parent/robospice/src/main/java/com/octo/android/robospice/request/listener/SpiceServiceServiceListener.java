@@ -1,5 +1,6 @@
-package com.octo.android.robospice;
+package com.octo.android.robospice.request.listener;
 
+import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 
 /**

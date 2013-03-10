@@ -17,7 +17,6 @@ import android.os.Looper;
 import android.os.SystemClock;
 
 import com.octo.android.robospice.SpiceService;
-import com.octo.android.robospice.SpiceServiceServiceListener;
 import com.octo.android.robospice.exception.NetworkException;
 import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.exception.RequestCancelledException;
@@ -32,6 +31,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
+import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
 
 /**
  * Delegate class of the {@link SpiceService}, easier to test than an Android {@link Service}.
@@ -493,5 +493,9 @@ public class RequestProcessor {
                 spiceServiceServiceListener.onRequestProcessed(request);
             }
         }
+    }
+
+    public int getPendingRequestCount() {
+        return mapRequestToRequestListener.keySet().size();
     }
 }
