@@ -33,7 +33,7 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 
 [![Build Status](https://travis-ci.org/octo-online/robospice.png)](https://travis-ci.org/octo-online/robospice)
 
-RoboSpice is under Continuous Integration [on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/) and [on a Travis server](https://travis-ci.org/octo-online/robospice/builds) Thanks to CloudBees and Travis.
+RoboSpice is under Continuous Integration [on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build-RoboSpice/) and [on a Travis server](https://travis-ci.org/octo-online/robospice/builds) Thanks to CloudBees and Travis.
 
 RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonarsource.org/dashboard/index/504442). Thanks to Sonar Source.
 
