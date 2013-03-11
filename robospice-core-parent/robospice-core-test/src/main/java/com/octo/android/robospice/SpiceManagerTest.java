@@ -61,9 +61,21 @@ public class SpiceManagerTest extends InstrumentationTestCase {
             // then
             fail();
         } catch (Exception ex) {
+            Ln.d(ex);
             // then
             assertTrue(true);
         }
+    }
+
+    public void test_execute_should_stop_if_started_with_null_context() throws InterruptedException {
+        // given
+
+        // when
+        spiceManager.start(null);
+
+        // then
+        assertNull(spiceManager.getException(SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION));
+        assertFalse(spiceManager.isStarted());
     }
 
     public void test_execute_should_succeed_if_started_from_context_with_declared_service_and_permissions() throws InterruptedException {

@@ -216,13 +216,9 @@ public class RequestProcessorTest extends InstrumentationTestCase {
 
         stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         mockRequestListener = new RequestListenerWithProgressStub<String>();
-        requestListenerSet.clear();
+        requestListenerSet = new HashSet<RequestListener<?>>();
         requestListenerSet.add(mockRequestListener);
 
-        // something things to go wrong, trying to wait for real request cancelation
-        while (requestProcessorUnderTest.getPendingRequestCount() != 0) {
-            Thread.sleep(WAIT_TIME_TEMP);
-        }
         requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
 
         mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
