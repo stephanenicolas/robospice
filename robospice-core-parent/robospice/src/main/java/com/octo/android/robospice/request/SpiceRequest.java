@@ -11,10 +11,8 @@ import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
 /**
- * Base class for writing requests in RoboSpice. Simply override
- * {@link #loadDataFromNetwork()} to define the network operation of a request.
- * REST Requests are easier using the Request class proposed by the
- * spring-android module of RoboSpice.
+ * Base class for writing requests in RoboSpice. Simply override {@link #loadDataFromNetwork()} to define the network operation of a request. REST Requests are easier using the Request class proposed
+ * by the spring-android module of RoboSpice.
  * @author sni
  * @param <RESULT>
  */

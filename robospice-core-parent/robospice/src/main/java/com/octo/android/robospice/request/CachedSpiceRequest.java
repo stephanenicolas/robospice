@@ -138,6 +138,10 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
         } else if (!requestCacheKey.equals(other.requestCacheKey)) {
             return false;
         }
+        // if a request is not cancelled, it should not receive events for a cancelled request.
+        if (!isCancelled() && other.isCancelled()) {
+            return false;
+        }
         return true;
     }
 

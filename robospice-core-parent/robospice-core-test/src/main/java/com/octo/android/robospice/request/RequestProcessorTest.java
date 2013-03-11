@@ -28,14 +28,13 @@ import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
 @SmallTest
 public class RequestProcessorTest extends InstrumentationTestCase {
 
-    private static final int WAIT_TIME_TEMP = 100;
     private static final Class<String> TEST_CLASS = String.class;
     private static final String TEST_CACHE_KEY = "12345";
     private static final String TEST_CACHE_KEY2 = "12345_2";
     private static final long TEST_DURATION = DurationInMillis.ONE_SECOND;
     private static final String TEST_RETURNED_DATA = "coucou";
     private static final long REQUEST_COMPLETION_TIME_OUT = 2000;
-    private static final long WAIT_BEFORE_REQUEST_EXECUTION = 1000;
+    private static final long WAIT_BEFORE_REQUEST_EXECUTION = 200;
 
     private ICacheManager mockCacheManager;
     private RequestProcessor requestProcessorUnderTest;
@@ -194,7 +193,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     public void testAddRequest_when_request_is_cancelled_and_new_one_relaunched_with_same_key() throws CacheLoadingException, CacheSavingException,
         InterruptedException {
         // given
-        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA,
+            WAIT_BEFORE_REQUEST_EXECUTION);
 
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
         Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
@@ -226,9 +226,11 @@ public class RequestProcessorTest extends InstrumentationTestCase {
 
         // then
         // EasyMock.verify( mockCacheManager );
+        assertFalse(stubRequest.isCancelled());
         assertTrue(stubRequest.isLoadDataFromNetworkCalled());
         assertTrue(mockRequestListener.isExecutedInUIThread());
         assertTrue(mockRequestListener.isComplete());
+        System.out.println(mockRequestListener.getReceivedException());
         assertTrue(mockRequestListener.isSuccessful());
     }
 

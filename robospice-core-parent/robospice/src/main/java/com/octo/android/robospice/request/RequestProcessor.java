@@ -222,13 +222,20 @@ public class RequestProcessor {
 
         // network is ok, load data from network
         try {
+            if (request.isCancelled()) {
+                return;
+            }
             Ln.d("Calling netwok request.");
             request.setStatus(RequestStatus.LOADING_FROM_NETWORK);
             result = request.loadDataFromNetwork();
             Ln.d("Network request call ended.");
         } catch (final Exception e) {
-            Ln.e(e, "An exception occured during request network execution :" + e.getMessage());
-            notifyListenersOfRequestFailure(request, new NetworkException("Exception occured during invocation of web service.", e));
+            if (!request.isCancelled()) {
+                Ln.e(e, "An exception occured during request network execution :" + e.getMessage());
+                notifyListenersOfRequestFailure(request, new NetworkException("Exception occured during invocation of web service.", e));
+            } else {
+                Ln.e("An exception occured during request network execution but request was cancelled, so listeners are not called.");
+            }
             return;
         }
 
@@ -236,9 +243,15 @@ public class RequestProcessor {
             // request worked and result is not null, save
             // it to cache
             try {
+                if (request.isCancelled()) {
+                    return;
+                }
                 Ln.d("Start caching content...");
                 request.setStatus(RequestStatus.WRITING_TO_CACHE);
                 result = saveDataToCacheAndReturnData(result, request.getRequestCacheKey());
+                if (request.isCancelled()) {
+                    return;
+                }
                 notifyListenersOfRequestSuccess(request, result);
                 return;
             } catch (final CacheSavingException e) {
@@ -247,6 +260,9 @@ public class RequestProcessor {
                     notifyListenersOfRequestFailure(request, e);
                     return;
                 } else {
+                    if (request.isCancelled()) {
+                        return;
+                    }
                     // result can't be saved to
                     // cache but we reached that
                     // point after a success of load
