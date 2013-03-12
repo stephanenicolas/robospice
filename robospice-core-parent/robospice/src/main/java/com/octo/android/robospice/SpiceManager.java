@@ -160,7 +160,6 @@ public class SpiceManager implements Runnable {
         } else {
             Ln.d("Service was not started as Activity died prematurely");
             isStopped = true;
-            shouldStop();
         }
 
         bindToService(contextWeakReference.get());
