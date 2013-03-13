@@ -160,6 +160,7 @@ public class SpiceManager implements Runnable {
         } else {
             Ln.d("Service was not started as Activity died prematurely");
             isStopped = true;
+            return;
         }
 
         bindToService(contextWeakReference.get());
@@ -202,7 +203,7 @@ public class SpiceManager implements Runnable {
      * will be unregistered. None of them will be notified with the results of their {@link SpiceRequest}s. Unbinding will occur asynchronously.
      */
     public synchronized void shouldStop() {
-        if (this.runner == null) {
+        if (!isStarted()) {
             throw new IllegalStateException("Not started yet");
         }
         Ln.d("SpiceManager stopping.");
