@@ -14,6 +14,9 @@ env:
     - ANDROID_SDKS=android-16,sysimg-16 ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
     - ANDROID_SDKS=android-17,sysimg-17 ANDROID_TARGET=android-17  ANDROID_ABI=armeabi-v7a
 before_install:
+  # check the travis file
+  - gem install travis-lint
+  - travis-lint
   # Install base Android SDK
   - sudo apt-get update -qq
   - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq -o Dpkg::Options::="--force-confold" --force-yes --yes libgd2-xpm ia32-libs ia32-libs-multiarch ; fi
