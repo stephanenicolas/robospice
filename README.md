@@ -102,3 +102,4 @@ Alternatives to RoboSpice
 * [DataDroid](http://www.datadroidlib.com/2012/12/datadroid-v2-is-available)
 * [REST Provider](https://github.com/novoda/RESTProvider)
 * [REST Droid](https://github.com/PCreations/RESTDroid)
+* [PostMan (rings twice) Lib](https://github.com/fedepaol/PostmanLib--Rings-Twice--Android)
