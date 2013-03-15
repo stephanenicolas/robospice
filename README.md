@@ -14,7 +14,7 @@ If you want to start using RoboSpice right now, jump to the [Wiki](https://githu
 
 Main features of RoboSpice
 --------------------------
-* supports Android starting from SDK version 8 (Froyo / 2.2.x) 
+* supports Android starting *_from_ SDK version 8 (Froyo / 2.2.x)* 
 * executes network requests **asynchronously** (in a background AndroidService)
 * supports **REST** out of the box (using [Spring Android](http://www.springsource.org/spring-android) or [Google Http Client](http://code.google.com/p/google-http-java-client)).
 * is strongly typed ! You query webservices using **POJOs** and you get POJOs as request results.
@@ -29,7 +29,7 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * supports aggregation of different web services
 * is a full featured replacement for long running AsyncTasks even they are not related to networking.
 * is **open source** ;) 
-* and **tested** (more than 150 tests)
+* and **tested** (more than 160 tests)
 
 RoboSpice is under Continuous Integration [on a CloudBees server](https://robospice.ci.cloudbees.com/job/Build-RoboSpice/) and [on a Travis server](https://travis-ci.org/octo-online/robospice/builds) Thanks to CloudBees and Travis.
 * Build Status on Travis: [![Build Status on Travis:](https://travis-ci.org/octo-online/robospice.png)](https://travis-ci.org/octo-online/robospice)
