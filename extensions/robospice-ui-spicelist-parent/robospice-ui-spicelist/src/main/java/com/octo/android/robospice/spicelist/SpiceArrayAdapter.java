@@ -144,7 +144,7 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
         if (convertView != null) {
             spiceListItemView = (SpiceListItemView<T>) convertView;
         } else {
-            spiceListItemView = createView(getContext());
+            spiceListItemView = createView(getContext(), parent);
         }
         spiceListItemView.update(currentItem);
 
@@ -156,7 +156,7 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
         return (View) spiceListItemView;
     }
 
-    public abstract SpiceListItemView<T> createView(Context context);
+    public abstract SpiceListItemView<T> createView(Context context, ViewGroup parent);
 
     public abstract BitmapRequest createRequest(T data, int requestImageWidth, int requestImageHeight);
 
