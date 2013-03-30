@@ -18,7 +18,9 @@ public class Jackson2SpringAndroidSpiceService extends SpringAndroidSpiceService
     @Override
     public CacheManager createCacheManager(Application application) {
         CacheManager cacheManager = new CacheManager();
-        cacheManager.addPersister(new com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory(application));
+        cacheManager
+            .addPersister(new com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersisterFactory(
+                application));
         return cacheManager;
     }
 
@@ -28,7 +30,8 @@ public class Jackson2SpringAndroidSpiceService extends SpringAndroidSpiceService
 
         // web services support json responses
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-        final List<HttpMessageConverter<?>> listHttpMessageConverters = restTemplate.getMessageConverters();
+        final List<HttpMessageConverter<?>> listHttpMessageConverters = restTemplate
+            .getMessageConverters();
 
         listHttpMessageConverters.add(jsonConverter);
         restTemplate.setMessageConverters(listHttpMessageConverters);
