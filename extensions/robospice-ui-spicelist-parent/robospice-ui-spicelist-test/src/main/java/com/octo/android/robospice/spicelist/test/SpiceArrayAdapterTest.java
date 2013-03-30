@@ -16,6 +16,7 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,7 +65,8 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
 
         data.add(data1);
         data.add(data2);
-        adapter = new SpiceArrayAdapterUnderTest(getInstrumentation().getTargetContext(), spiceManager, data);
+        adapter = new SpiceArrayAdapterUnderTest(getInstrumentation().getTargetContext(),
+            spiceManager, data);
     }
 
     @Override
@@ -86,9 +88,11 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     }
 
     // I have 3 views on my adapter, name, number and photo
-    public void testGetView_fills_list_item_view_with_data_and_executes_request() throws IOException, InterruptedException {
+    public void testGetView_fills_list_item_view_with_data_and_executes_request()
+        throws IOException, InterruptedException {
         // given;
-        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext().getResources().openRawResource(R.raw.binary));
+        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext().getResources()
+            .openRawResource(R.raw.binary));
         mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
@@ -113,7 +117,8 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         assertEquals("GET /" + data1.getImageUrl() + " HTTP/1.1", first.getRequestLine());
 
         InputStream cacheInputStream = new FileInputStream(cacheFile);
-        assertTrue(IOUtils.contentEquals(cacheInputStream, getInstrumentation().getContext().getResources().openRawResource(R.raw.binary)));
+        assertTrue(IOUtils.contentEquals(cacheInputStream, getInstrumentation().getContext()
+            .getResources().openRawResource(R.raw.binary)));
 
     }
 
@@ -145,13 +150,15 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         private Condition loadBitmapHasBeenCalledCondition = reentrantLock.newCondition();
         private boolean loadBitmapHasBeenCalled = false;
 
-        public SpiceArrayAdapterUnderTest(Context context, BitmapSpiceManager spiceManagerBinary, List<DataUnderTest> data) {
+        public SpiceArrayAdapterUnderTest(Context context, BitmapSpiceManager spiceManagerBinary,
+            List<DataUnderTest> data) {
             super(context, spiceManagerBinary, data);
         }
 
         @Override
         public BitmapRequest createRequest(DataUnderTest data, int reqWidth, int reqHeight) {
-            return new BitmapRequest(mockWebServer.getUrl("/" + data.getImageUrl()).toString(), reqWidth, reqHeight, cacheFile);
+            return new BitmapRequest(mockWebServer.getUrl("/" + data.getImageUrl()).toString(),
+                reqWidth, reqHeight, cacheFile);
         }
 
         // ----------------------------------------------------
@@ -159,7 +166,8 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         // ----------------------------------------------------
 
         @Override
-        protected void loadBitmapAsynchronously(DataUnderTest octo, ImageView thumbImageView, String tempThumbnailImageFileName) {
+        protected void loadBitmapAsynchronously(DataUnderTest octo, ImageView thumbImageView,
+            String tempThumbnailImageFileName) {
             super.loadBitmapAsynchronously(octo, thumbImageView, tempThumbnailImageFileName);
             reentrantLock.lock();
             try {
@@ -184,12 +192,13 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
         }
 
         @Override
-        public SpiceListItemView<DataUnderTest> createView(Context context) {
+        public SpiceListItemView<DataUnderTest> createView(Context context, ViewGroup parent) {
             return new ListItemViewStub(getContext());
         }
     }
 
-    private class ListItemViewStub extends RelativeLayout implements SpiceListItemView<DataUnderTest> {
+    private class ListItemViewStub extends RelativeLayout implements
+        SpiceListItemView<DataUnderTest> {
 
         private DataUnderTest dataUnderTest;
         private TextView userNameTextView;
@@ -222,8 +231,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     }
 
     /**
-     * Used for testing only so that we can add a custom Service that works
-     * offline for testing.
+     * Used for testing only so that we can add a custom Service that works offline for testing.
      */
     private class BitmapSpiceManagerUnderTest extends BitmapSpiceManager {
 
