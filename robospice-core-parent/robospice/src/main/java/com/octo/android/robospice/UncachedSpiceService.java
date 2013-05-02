@@ -5,8 +5,8 @@ import android.app.Application;
 import com.octo.android.robospice.persistence.CacheManager;
 
 /***
- * Concrete implementation of {@link SpiceService} with an empty CacheManager.
- * Using this class you requests are not cached.
+ * Concrete implementation of {@link SpiceService} with an empty CacheManager. Using this class,
+ * requests will not be cached.
  * @author rciovati
  */
 public class UncachedSpiceService extends SpiceService {
