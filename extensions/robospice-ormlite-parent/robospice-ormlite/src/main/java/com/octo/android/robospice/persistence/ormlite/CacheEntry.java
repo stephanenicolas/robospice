@@ -24,6 +24,8 @@ public class CacheEntry {
     @DatabaseField
     private Integer resultIdInteger;
     @DatabaseField
+    private Long resultIdLong;
+    @DatabaseField
     private Float resultIdFloat;
     @DatabaseField
     private Double resultIdDouble;
@@ -32,8 +34,7 @@ public class CacheEntry {
 
     }
 
-    public CacheEntry(String cacheKey, long timestamp, Class<?> resultClass,
-        Object resultId) {
+    public CacheEntry(String cacheKey, long timestamp, Class<?> resultClass, Object resultId) {
         this.cacheKey = cacheKey;
         this.timestamp = timestamp;
         this.resultClassName = resultClass.getName();
@@ -52,6 +53,8 @@ public class CacheEntry {
             resultIdShort = (Short) id;
         } else if (id instanceof Integer) {
             resultIdInteger = (Integer) id;
+        } else if (id instanceof Long) {
+            resultIdLong = (Long) id;
         } else if (id instanceof Float) {
             resultIdFloat = (Float) id;
         } else if (id instanceof Double) {
@@ -90,11 +93,13 @@ public class CacheEntry {
         } else if (resultIdChar != null) {
             return resultIdChar;
         } else if (resultIdDouble != null) {
-            return resultIdChar;
+            return resultIdDouble;
         } else if (resultIdFloat != null) {
             return resultIdFloat;
         } else if (resultIdInteger != null) {
             return resultIdInteger;
+        } else if (resultIdLong != null) {
+            return resultIdLong;
         } else if (resultIdShort != null) {
             return resultIdShort;
         } else if (resultIdString != null) {
