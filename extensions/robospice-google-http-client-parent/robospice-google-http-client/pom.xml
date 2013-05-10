@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-google-http-client-parent</artifactId>
-		<version>1.4.1-SNAPSHOT</version>
+		<version>1.4.1</version>
 	</parent>
 
 	<artifactId>robospice-google-http-client</artifactId>
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.http-client</groupId>
