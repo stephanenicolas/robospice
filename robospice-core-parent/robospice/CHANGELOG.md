@@ -1,6 +1,7 @@
 Release 1.4.2 (planned)
 
 * SpiceManager can now add data to cache. Thanks to Christopher Jenkins fur suggesting this feature in https://github.com/octo-online/robospice/issues/75.
+* Spice Manager : getDataFromCache, addToCache and cancel will work even if network is down. This bug was mentionned by dkraus in https://github.com/octo-online/robospice/issues/67
 
 Release 1.4.1 (May 11 2013)
 
