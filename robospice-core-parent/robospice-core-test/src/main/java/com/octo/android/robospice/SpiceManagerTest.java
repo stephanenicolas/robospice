@@ -1,5 +1,7 @@
 package com.octo.android.robospice;
 
+import java.util.concurrent.ExecutionException;
+
 import roboguice.util.temp.Ln;
 import android.content.Intent;
 import android.test.InstrumentationTestCase;
@@ -7,6 +9,7 @@ import android.test.InstrumentationTestCase;
 import com.octo.android.robospice.core.test.SpiceTestService;
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestProgress;
@@ -23,10 +26,12 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     private static final int SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION = 1000;
     private static final Class<String> TEST_CLASS = String.class;
     private static final Class<Integer> TEST_CLASS2 = Integer.class;
+    private static final Class<Double> TEST_CLASS3 = Double.class;
     private static final String TEST_CACHE_KEY = "12345";
     private static final String TEST_CACHE_KEY2 = "123456";
     private static final long TEST_DURATION = DurationInMillis.ALWAYS_EXPIRED;
     private static final String TEST_RETURNED_DATA = "coucou";
+    private static final Double TEST_RETURNED_DATA3 = new Double(3.1416);
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_LARGE = 500;
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_SHORT = 200;
     private static final long REQUEST_COMPLETION_TIME_OUT = 4000;
@@ -180,8 +185,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertFalse(requestListenerStub.isSuccessful());
     }
 
-    public void test_getFromCacheAndLoadFromNetworkIfExpired_should_return_cache_data_if_not_expired_and_not_go_to_network()
-        throws InterruptedException {
+    public void test_getFromCacheAndLoadFromNetworkIfExpired_should_return_cache_data_if_not_expired_and_not_go_to_network() throws InterruptedException {
         // same as above but precise cache usage
 
         // when
@@ -229,6 +233,21 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertTrue(requestListenerStub.isExecutedInUIThread());
         assertTrue(requestListenerStub.isComplete());
 
+    }
+
+    public void test_addToCache_should_put_some_data_in_cache() throws InterruptedException, CacheLoadingException, ExecutionException {
+        // given
+        // we use double to get some in memory cache implementation
+        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.removeDataFromCache(TEST_CLASS3);
+        RequestListenerStub<Double> requestListenerStub = new RequestListenerStub<Double>();
+
+        // when
+        spiceManager.addToCache(TEST_CLASS3, TEST_CACHE_KEY, TEST_RETURNED_DATA3, requestListenerStub);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertEquals(TEST_RETURNED_DATA3, spiceManager.getDataFromCache(TEST_CLASS3, TEST_CACHE_KEY).get());
     }
 
     public void test_cancel_cancels_1_request() throws InterruptedException {
@@ -324,10 +343,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_shouldStop_doesnt_notify_listeners_after_requests_are_executed() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestSucceedingStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA,
-            WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
-        SpiceRequestSucceedingStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA,
-            WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        SpiceRequestSucceedingStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        SpiceRequestSucceedingStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
         RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
 
@@ -437,7 +454,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     // ----------------------------------
 
     /**
-     * Class under test. Just a wrapper to get any exception that can occur in the spicemanager's thread. Inspired by http://stackoverflow.com/questions/
+     * Class under test. Just a wrapper to get any exception that can occur in the spicemanager's
+     * thread. Inspired by http://stackoverflow.com/questions/
      * 2596493/junit-assert-in-thread-throws-exception/13712829#13712829
      */
     private final class SpiceManagerUnderTest extends SpiceManager {

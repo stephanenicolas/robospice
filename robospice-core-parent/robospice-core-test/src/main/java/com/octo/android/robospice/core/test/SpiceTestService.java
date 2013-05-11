@@ -6,12 +6,12 @@ import android.content.Context;
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
+import com.octo.android.robospice.stub.DoubleInMemoryPersisterStub;
 import com.octo.android.robospice.stub.IntegerPersisterStub;
 import com.octo.android.robospice.stub.StringPersisterStub;
 
 /**
- * Only used to test RoboSpice. Will not rely on network state. Multi-threaded
- * spice service.
+ * Only used to test RoboSpice. Will not rely on network state. Multi-threaded spice service.
  * @author sni
  */
 public class SpiceTestService extends SpiceService {
@@ -23,8 +23,10 @@ public class SpiceTestService extends SpiceService {
         CacheManager cacheManager = new CacheManager();
         StringPersisterStub stringPersisterStub = new StringPersisterStub(application);
         IntegerPersisterStub integerPersisterStub = new IntegerPersisterStub(application);
+        DoubleInMemoryPersisterStub doubleInMemoryPersisterStub = new DoubleInMemoryPersisterStub(application);
         cacheManager.addPersister(stringPersisterStub);
         cacheManager.addPersister(integerPersisterStub);
+        cacheManager.addPersister(doubleInMemoryPersisterStub);
         return cacheManager;
     }
 

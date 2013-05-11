@@ -1,4 +1,8 @@
-Release 1.4.1 (planned)
+Release 1.4.2 (planned)
+
+* SpiceManager can now add data to cache. Thanks to Christopher Jenkins fur suggesting this feature in https://github.com/octo-online/robospice/issues/75.
+
+Release 1.4.1 (May 11 2013)
 
 * More testing.
 * a new method to execute request is now possible : getFromCacheButLoadFromNetworkAnyway. It allows to get data from cache if it is not expired but will always perform the request anyway.

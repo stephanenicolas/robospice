@@ -35,17 +35,21 @@ import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
 
 /**
  * The instances of this class allow to acces the {@link SpiceService}. <br/>
- * They are tied to activities and obtain a local binding to the {@link SpiceService}. When binding occurs, the {@link SpiceManager} will send commadnds to the {@link SpiceService}, to execute
- * requests, clear cache, prevent listeners from being called and so on. Basically, all features of the {@link SpiceService} are accessible from the {@link SpiceManager}. It acts as an asynchronous
- * proxy : every call to a {@link SpiceService} method is asynchronous and will occur as soon as possible when the {@link SpiceManager} successfully binds to the service.
+ * They are tied to activities and obtain a local binding to the {@link SpiceService}. When binding
+ * occurs, the {@link SpiceManager} will send commadnds to the {@link SpiceService}, to execute
+ * requests, clear cache, prevent listeners from being called and so on. Basically, all features of
+ * the {@link SpiceService} are accessible from the {@link SpiceManager}. It acts as an asynchronous
+ * proxy : every call to a {@link SpiceService} method is asynchronous and will occur as soon as
+ * possible when the {@link SpiceManager} successfully binds to the service.
  * @author jva
  * @author sni
  * @author mwa
  */
 
 /*
- * Note to maintainers : This class is quite complex and requires background knowledge in multi-threading & local service binding in android. Thx to Henri Tremblay (from EasyMock) for his happy code
- * review.
+ * Note to maintainers : This class is quite complex and requires background knowledge in
+ * multi-threading & local service binding in android. Thx to Henri Tremblay (from EasyMock) for his
+ * happy code review.
  */
 public class SpiceManager implements Runnable {
 
@@ -61,7 +65,8 @@ public class SpiceManager implements Runnable {
     private WeakReference<Context> contextWeakReference;
 
     /**
-     * Whether or not {@link SpiceManager} is started. Must be volatile to ensure multi-thread consistency.
+     * Whether or not {@link SpiceManager} is started. Must be volatile to ensure multi-thread
+     * consistency.
      */
     private volatile boolean isStopped = true;
 
@@ -69,16 +74,18 @@ public class SpiceManager implements Runnable {
     private final BlockingQueue<CachedSpiceRequest<?>> requestQueue = new LinkedBlockingQueue<CachedSpiceRequest<?>>();
 
     /**
-     * The list of all requests that have not yet been passed to the service. All iterations must be synchronized.
+     * The list of all requests that have not yet been passed to the service. All iterations must be
+     * synchronized.
      */
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToLaunchToRequestListener = Collections
-        .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
+            .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
     /**
-     * The list of all requests that have already been passed to the service. All iterations must be synchronized.
+     * The list of all requests that have already been passed to the service. All iterations must be
+     * synchronized.
      */
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapPendingRequestToRequestListener = Collections
-        .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
+            .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
@@ -103,7 +110,8 @@ public class SpiceManager implements Runnable {
     private final RequestRemoverSpiceServiceListener removerSpiceServiceListener = new RequestRemoverSpiceServiceListener();
 
     /**
-     * Whether or not we are unbinding (to prevent unbinding twice. Must be volatile to ensure multi-thread consistency.
+     * Whether or not we are unbinding (to prevent unbinding twice. Must be volatile to ensure
+     * multi-thread consistency.
      */
     private volatile boolean isUnbinding = false;
 
@@ -112,7 +120,8 @@ public class SpiceManager implements Runnable {
     // ============================================================================================
 
     /**
-     * Creates a {@link SpiceManager}. Typically this occurs in the construction of an Activity or Fragment. This method will check if the service to bind to has been properly declared in
+     * Creates a {@link SpiceManager}. Typically this occurs in the construction of an Activity or
+     * Fragment. This method will check if the service to bind to has been properly declared in
      * AndroidManifest.
      * @param spiceServiceClass
      *            the service class to bind to.
@@ -124,7 +133,8 @@ public class SpiceManager implements Runnable {
     /**
      * Start the {@link SpiceManager}. It will bind asynchronously to the {@link SpiceService}.
      * @param contextWeakReference
-     *            a contextWeakReference that will be used to bind to the service. Typically, the Activity or Fragment that needs to interact with the {@link SpiceService}.
+     *            a contextWeakReference that will be used to bind to the service. Typically, the
+     *            Activity or Fragment that needs to interact with the {@link SpiceService}.
      */
     public synchronized void start(final Context context) {
         this.contextWeakReference = new WeakReference<Context>(context);
@@ -199,8 +209,10 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Stops the {@link SpiceManager}. It will unbind from {@link SpiceService}. All request listeners that had been registered to listen to {@link SpiceRequest}s sent from this {@link SpiceManager}
-     * will be unregistered. None of them will be notified with the results of their {@link SpiceRequest}s. Unbinding will occur asynchronously.
+     * Stops the {@link SpiceManager}. It will unbind from {@link SpiceService}. All request
+     * listeners that had been registered to listen to {@link SpiceRequest}s sent from this
+     * {@link SpiceManager} will be unregistered. None of them will be notified with the results of
+     * their {@link SpiceRequest}s. Unbinding will occur asynchronously.
      */
     public synchronized void shouldStop() {
         if (!isStarted()) {
@@ -219,9 +231,12 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * This is mostly a testing method. Stops the {@link SpiceManager}. It will unbind from {@link SpiceService}. All request listeners that had been registered to listen to {@link SpiceRequest}s sent
-     * from this {@link SpiceManager} will be unregistered. None of them will be notified with the results of their {@link SpiceRequest}s. Unbinding will occur syncrhonously : the method returns when
-     * all events have been unregistered and when main processing thread stops.
+     * This is mostly a testing method. Stops the {@link SpiceManager}. It will unbind from
+     * {@link SpiceService}. All request listeners that had been registered to listen to
+     * {@link SpiceRequest}s sent from this {@link SpiceManager} will be unregistered. None of them
+     * will be notified with the results of their {@link SpiceRequest}s. Unbinding will occur
+     * syncrhonously : the method returns when all events have been unregistered and when main
+     * processing thread stops.
      */
     public synchronized void shouldStopAndJoin(final long timeOut) throws InterruptedException {
         if (this.runner == null) {
@@ -244,22 +259,30 @@ public class SpiceManager implements Runnable {
     // ============================================================================================
 
     /**
-     * Get some data previously saved in cache with key <i>requestCacheKey</i> with maximum time in cache : <i>cacheDuration</i> millisecond and register listeners to notify when request is finished.
-     * This method executes a SpiceRequest with no network processing. It just checks whatever is in the cache and return it, including null if there is no such data found in cache.
+     * Get some data previously saved in cache with key <i>requestCacheKey</i> with maximum time in
+     * cache : <i>cacheDuration</i> millisecond and register listeners to notify when request is
+     * finished. This method executes a SpiceRequest with no network processing. It just checks
+     * whatever is in the cache and return it, including null if there is no such data found in
+     * cache.
      * @param clazz
      *            the class of the result to retrieve from cache.
      * @param requestCacheKey
      *            the key used to store and retrieve the result of the request in the cache
      * @param cacheExpiryDuration
-     *            duration in milliseconds after which the content of the cache will be considered to be expired. {@link DurationInMillis#ALWAYS_RETURNED} means data in cache is always returned if it
-     *            exists. {@link DurationInMillis#ALWAYS_EXPIRED} means data in cache is never returned.(see {@link DurationInMillis})
+     *            duration in milliseconds after which the content of the cache will be considered
+     *            to be expired. {@link DurationInMillis#ALWAYS_RETURNED} means data in cache is
+     *            always returned if it exists. {@link DurationInMillis#ALWAYS_EXPIRED} means data
+     *            in cache is never returned.(see {@link DurationInMillis})
      * @param requestListener
-     *            the listener to notify when the request will finish. If nothing is found in cache, listeners will receive a null result on their {@link RequestListener#onRequestSuccess(Object)}
-     *            method. If something is found in cache, they will receive it in this method. If an error occurs, they will be notified via their
-     *            {@link RequestListener#onRequestFailure(com.octo.android.robospice.persistence.exception.SpiceException)} method.
+     *            the listener to notify when the request will finish. If nothing is found in cache,
+     *            listeners will receive a null result on their
+     *            {@link RequestListener#onRequestSuccess(Object)} method. If something is found in
+     *            cache, they will receive it in this method. If an error occurs, they will be
+     *            notified via their
+     *            {@link RequestListener#onRequestFailure(com.octo.android.robospice.persistence.exception.SpiceException)}
+     *            method.
      */
-    public <T> void getFromCache(final Class<T> clazz, final Object requestCacheKey, final long cacheExpiryDuration,
-        final RequestListener<T> requestListener) {
+    public <T> void getFromCache(final Class<T> clazz, final Object requestCacheKey, final long cacheExpiryDuration, final RequestListener<T> requestListener) {
         final SpiceRequest<T> request = new SpiceRequest<T>(clazz) {
 
             @Override
@@ -277,7 +300,8 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Add listener to a pending request if it exists. If no such request exists, this method does nothing. If a request identified by clazz and requestCacheKey, it will receive an additional
+     * Add listener to a pending request if it exists. If no such request exists, this method does
+     * nothing. If a request identified by clazz and requestCacheKey, it will receive an additional
      * listener.
      * @param clazz
      *            the class of the result of the pending request to look for.
@@ -300,8 +324,9 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Execute a request, without using cache. No result from cache will be returned. The method {@link SpiceRequest#loadDataFromNetwork()} will always be invoked. The result will not be stored in
-     * cache.
+     * Execute a request, without using cache. No result from cache will be returned. The method
+     * {@link SpiceRequest#loadDataFromNetwork()} will always be invoked. The result will not be
+     * stored in cache.
      * @param request
      *            the request to execute.
      * @param requestListener
@@ -313,29 +338,36 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Execute a request. Before invoking the method {@link SpiceRequest#loadDataFromNetwork()}, the cache will be checked : if a result has been cached with the cache key <i>requestCacheKey</i>,
-     * RoboSpice will consider the parameter <i>cacheExpiryDuration</i> to determine whether the result in the cache is expired or not. If it is not expired, then listeners will receive the data in
-     * cache. Otherwise, the method {@link SpiceRequest#loadDataFromNetwork()} will be invoked and the result will be stored in cache using the cache key <i>requestCacheKey</i>.
+     * Execute a request. Before invoking the method {@link SpiceRequest#loadDataFromNetwork()}, the
+     * cache will be checked : if a result has been cached with the cache key
+     * <i>requestCacheKey</i>, RoboSpice will consider the parameter <i>cacheExpiryDuration</i> to
+     * determine whether the result in the cache is expired or not. If it is not expired, then
+     * listeners will receive the data in cache. Otherwise, the method
+     * {@link SpiceRequest#loadDataFromNetwork()} will be invoked and the result will be stored in
+     * cache using the cache key <i>requestCacheKey</i>.
      * @param request
      *            the request to execute
      * @param requestCacheKey
      *            the key used to store and retrieve the result of the request in the cache
      * @param cacheExpiryDuration
-     *            duration in milliseconds after which the content of the cache will be considered to be expired. {@link DurationInMillis#ALWAYS_RETURNED} means data in cache is always returned if it
-     *            exists. {@link DurationInMillis#ALWAYS_EXPIRED} means data in cache is never returned.(see {@link DurationInMillis})
+     *            duration in milliseconds after which the content of the cache will be considered
+     *            to be expired. {@link DurationInMillis#ALWAYS_RETURNED} means data in cache is
+     *            always returned if it exists. {@link DurationInMillis#ALWAYS_EXPIRED} means data
+     *            in cache is never returned.(see {@link DurationInMillis})
      * @param requestListener
      *            the listener to notify when the request will finish
      */
-    public <T> void execute(final SpiceRequest<T> request, final Object requestCacheKey, final long cacheExpiryDuration,
-        final RequestListener<T> requestListener) {
+    public <T> void execute(final SpiceRequest<T> request, final Object requestCacheKey, final long cacheExpiryDuration, final RequestListener<T> requestListener) {
         final CachedSpiceRequest<T> cachedSpiceRequest = new CachedSpiceRequest<T>(request, requestCacheKey, cacheExpiryDuration);
         execute(cachedSpiceRequest, requestListener);
     }
 
     /**
-     * Execute a request, put the result in cache and register listeners to notify when request is finished.
+     * Execute a request, put the result in cache and register listeners to notify when request is
+     * finished.
      * @param cachedSpiceRequest
-     *            the request to execute. {@link CachedSpiceRequest} is a wrapper of {@link SpiceRequest} that contains cache key and cache duration
+     *            the request to execute. {@link CachedSpiceRequest} is a wrapper of
+     *            {@link SpiceRequest} that contains cache key and cache duration
      * @param requestListener
      *            the listener to notify when the request will finish
      */
@@ -345,30 +377,107 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Gets data from cache, expired or not, and executes a request normaly. Before invoking the method {@link SpiceRequest#loadDataFromNetwork()}, the cache will be checked : if a result has been
-     * cached with the cache key <i>requestCacheKey</i>, RoboSpice will consider the parameter <i>cacheExpiryDuration</i> to determine whether the result in the cache is expired or not. If it is not
-     * expired, then listeners will receive the data in cache only. If the result is absent or expired, then {@link SpiceRequest#loadDataFromNetwork()} will be invoked and the result will be stored in
-     * cache using the cache key <i>requestCacheKey</i>.
+     * Gets data from cache, expired or not, and executes a request normaly. Before invoking the
+     * method {@link SpiceRequest#loadDataFromNetwork()}, the cache will be checked : if a result
+     * has been cached with the cache key <i>requestCacheKey</i>, RoboSpice will consider the
+     * parameter <i>cacheExpiryDuration</i> to determine whether the result in the cache is expired
+     * or not. If it is not expired, then listeners will receive the data in cache only. If the
+     * result is absent or expired, then {@link SpiceRequest#loadDataFromNetwork()} will be invoked
+     * and the result will be stored in cache using the cache key <i>requestCacheKey</i>.
      * @param request
      *            the request to execute
      * @param requestCacheKey
      *            the key used to store and retrieve the result of the request in the cache
      * @param cacheExpiryDuration
-     *            duration in milliseconds after which the content of the cache will be considered to be expired. {@link DurationInMillis#ALWAYS_RETURNED} means data in cache is always returned if it
-     *            exists. {@link DurationInMillis#ALWAYS_EXPIRED} doesn't make much sense here.
+     *            duration in milliseconds after which the content of the cache will be considered
+     *            to be expired. {@link DurationInMillis#ALWAYS_RETURNED} means data in cache is
+     *            always returned if it exists. {@link DurationInMillis#ALWAYS_EXPIRED} doesn't make
+     *            much sense here.
      * @param requestListener
      *            the listener to notify when the request will finish
      */
-    public <T> void getFromCacheAndLoadFromNetworkIfExpired(final SpiceRequest<T> request, final Object requestCacheKey,
-        final long cacheExpiryDuration, final RequestListener<T> requestListener) {
+    public <T> void getFromCacheAndLoadFromNetworkIfExpired(final SpiceRequest<T> request, final Object requestCacheKey, final long cacheExpiryDuration, final RequestListener<T> requestListener) {
         final CachedSpiceRequest<T> cachedSpiceRequest = new CachedSpiceRequest<T>(request, requestCacheKey, cacheExpiryDuration);
         cachedSpiceRequest.setAcceptingDirtyCache(true);
         execute(cachedSpiceRequest, requestListener);
     }
 
     /**
-     * Cancel a pending request if it exists. If no such request exists, this method does nothing. If a request identified by clazz and requestCacheKey exists, it will be cancelled and its associated
-     * listeners will get notified.
+     * Adds some data to the cache, asynchronously.
+     * @param clazz
+     *            a super class or the class of data.
+     * @param requestCacheKey
+     *            the request cache key that data will be stored in.
+     * @param data
+     *            the data to store. Maybe null if supported by underlying ObjectPersister.
+     * @param listener
+     *            a listener that will be notified of this request's success or failure. May be
+     *            null.
+     */
+    public <U, T extends U> void addToCache(final Class<U> clazz, final Object requestCacheKey, final T data, RequestListener<U> listener) {
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        final SpiceRequest<U> spiceRequest = new SpiceRequest(clazz) {
+            @Override
+            public U loadDataFromNetwork() throws Exception {
+                return data;
+            }
+        };
+        execute(spiceRequest, requestCacheKey, DurationInMillis.ALWAYS_EXPIRED, listener);
+    }
+
+    /**
+     * Adds some data to the cache, asynchronously. Same as
+     * {@link #addToCache(Class, Object, Object, RequestListener)} with a null listener. Operation
+     * will take place but you won't be notified.
+     * @param clazz
+     *            a super class or the class of data.
+     * @param requestCacheKey
+     *            the request cache key that data will be stored in.
+     * @param data
+     *            the data to store. Maybe null if supported by underlying ObjectPersister.
+     */
+    public <T> void addToCache(final Class<? super T> clazz, final Object requestCacheKey, final T data) {
+        addToCache(clazz, requestCacheKey, data, null);
+    }
+
+    /**
+     * Adds some data to the cache, asynchronously. Same as
+     * {@link #addToCache(Class, Object, Object, RequestListener)} where the class used to identify
+     * the request is data.getClass().
+     * @param requestCacheKey
+     *            the request cache key that data will be stored in.
+     * @param data
+     *            the data to store. Maybe null if supported by underlying ObjectPersister.
+     * @param listener
+     *            a listener that will be notified of this request's success or failure. May be
+     *            null.
+     */
+    @SuppressWarnings("unchecked")
+    public <T> void addToCache(final Object requestCacheKey, final T data, RequestListener<T> listener) {
+        addToCache((Class<T>) data.getClass(), requestCacheKey, data, listener);
+    }
+
+    /**
+     * Adds some data to the cache, asynchronously. Same as
+     * {@link #addToCache(Class, Object, Object, RequestListener)} where the class used to identify
+     * the request is data.getClass() and with a null listener. Operation will take place but you
+     * won't be notified.
+     * @param clazz
+     *            a super class or the class of data.
+     * @param requestCacheKey
+     *            the request cache key that data will be stored in.
+     * @param data
+     *            the data to store. Maybe null if supported by underlying ObjectPersister.
+     */
+    @SuppressWarnings("unchecked")
+    public <T> void addToCache(final Object requestCacheKey, final T data) {
+        addToCache((Class<T>) data.getClass(), requestCacheKey, data);
+    }
+
+    /**
+     * Cancel a pending request if it exists. If no such request exists, this method does nothing.
+     * If a request identified by clazz and requestCacheKey exists, it will be cancelled and its
+     * associated listeners will get notified.
      * @param clazz
      *            the class of the result of the pending request to look for.
      * @param requestCacheKey
@@ -395,9 +504,11 @@ public class SpiceManager implements Runnable {
     /**
      * Disable request listeners notifications for a specific request.<br/>
      * None of the listeners associated to this request will be called when request will finish.<br/>
-     * This method will ask (asynchronously) to the {@link SpiceService} to remove listeners if requests have already been sent to the {@link SpiceService} if the request has already been sent to the
-     * service. Otherwise, it will just remove listeners before passing the request to the {@link SpiceService}. Calling this method doesn't prevent request from being executed (and put in cache) but
-     * will remove request's listeners notification.
+     * This method will ask (asynchronously) to the {@link SpiceService} to remove listeners if
+     * requests have already been sent to the {@link SpiceService} if the request has already been
+     * sent to the service. Otherwise, it will just remove listeners before passing the request to
+     * the {@link SpiceService}. Calling this method doesn't prevent request from being executed
+     * (and put in cache) but will remove request's listeners notification.
      * @param request
      *            Request for which listeners are to unregistered.
      */
@@ -411,8 +522,10 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Internal method to remove requests. If request has not been passed to the {@link SpiceService} yet, all listeners are unregistered locally before being passed to the service. Otherwise, it will
-     * asynchronously ask to the {@link SpiceService} to remove the listeners of the request being processed.
+     * Internal method to remove requests. If request has not been passed to the
+     * {@link SpiceService} yet, all listeners are unregistered locally before being passed to the
+     * service. Otherwise, it will asynchronously ask to the {@link SpiceService} to remove the
+     * listeners of the request being processed.
      * @param request
      *            Request for which listeners are to unregistered.
      */
@@ -442,7 +555,8 @@ public class SpiceManager implements Runnable {
      * Remove all listeners of a request that has not yet been passed to the {@link SpiceService}.
      * @param request
      *            the request for which listeners must be unregistered.
-     * @return a boolean indicating if the request could be found inside the list of requests to be launched. If false, the request was already passed to the service.
+     * @return a boolean indicating if the request could be found inside the list of requests to be
+     *         launched. If false, the request was already passed to the service.
      */
     private boolean removeListenersOfCachedRequestToLaunch(final SpiceRequest<?> request) {
         synchronized (mapRequestToLaunchToRequestListener) {
@@ -458,8 +572,9 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Remove all listeners of a request that may have already been passed to the {@link SpiceService}. If the request has already been passed to the {@link SpiceService}, the method will bind to the
-     * service and ask it to remove listeners.
+     * Remove all listeners of a request that may have already been passed to the
+     * {@link SpiceService}. If the request has already been passed to the {@link SpiceService}, the
+     * method will bind to the service and ask it to remove listeners.
      * @param request
      *            the request for which listeners must be unregistered.
      */
@@ -494,8 +609,9 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Remove all listeners of requests. All requests that have not been yet passed to the service will see their of listeners cleaned. For all requests that have been passed to the service, we ask
-     * the service to remove their listeners.
+     * Remove all listeners of requests. All requests that have not been yet passed to the service
+     * will see their of listeners cleaned. For all requests that have been passed to the service,
+     * we ask the service to remove their listeners.
      */
     protected void dontNotifyAnyRequestListenersInternal() {
         try {
@@ -640,8 +756,10 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Get some data previously saved in cache with key <i>requestCacheKey</i>. This method doesn't perform any network processing, it just check if there are previously saved data. Don't call this
-     * method in the main thread because you could block it. Instead, use the asynchronous version of this method: {@link #getFromCache(final Class<T>, final Object, final long, final
+     * Get some data previously saved in cache with key <i>requestCacheKey</i>. This method doesn't
+     * perform any network processing, it just check if there are previously saved data. Don't call
+     * this method in the main thread because you could block it. Instead, use the asynchronous
+     * version of this method: {@link #getFromCache(final Class<T>, final Object, final long, final
      * RequestListener<T>) getFromCache}.
      * @param clazz
      *            the class of the result to retrieve from cache.
@@ -714,7 +832,8 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Remove all data from cache. This will clear all data stored by the {@link CacheManager} of the {@link SpiceService}.
+     * Remove all data from cache. This will clear all data stored by the {@link CacheManager} of
+     * the {@link SpiceService}.
      */
     public void removeAllDataFromCache() {
         executorService.execute(new Runnable() {
@@ -758,8 +877,7 @@ public class SpiceManager implements Runnable {
         });
     }
 
-    private <T> void addRequestListenerToListOfRequestListeners(final CachedSpiceRequest<T> cachedSpiceRequest,
-        final RequestListener<T> requestListener) {
+    private <T> void addRequestListenerToListOfRequestListeners(final CachedSpiceRequest<T> cachedSpiceRequest, final RequestListener<T> requestListener) {
         synchronized (mapRequestToLaunchToRequestListener) {
             Set<RequestListener<?>> listeners = mapRequestToLaunchToRequestListener.get(cachedSpiceRequest);
             if (listeners == null) {
@@ -949,8 +1067,7 @@ public class SpiceManager implements Runnable {
         final Intent intentCheck = new Intent(context, spiceServiceClass);
         if (context.getPackageManager().queryIntentServices(intentCheck, 0).isEmpty()) {
             shouldStop();
-            throw new RuntimeException("Impossible to start SpiceManager as no service of class : " + spiceServiceClass.getName()
-                + " is registered in AndroidManifest.xml file !");
+            throw new RuntimeException("Impossible to start SpiceManager as no service of class : " + spiceServiceClass.getName() + " is registered in AndroidManifest.xml file !");
         }
     }
 
