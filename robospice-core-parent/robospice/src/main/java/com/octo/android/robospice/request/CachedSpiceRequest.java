@@ -14,6 +14,7 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     private final SpiceRequest<RESULT> spiceRequest;
     private boolean isProcessable = true;
     private boolean isAcceptingDirtyCache;
+    private boolean isOffline;
 
     public CachedSpiceRequest(final SpiceRequest<RESULT> spiceRequest, final Object requestCacheKey, final long cacheDuration) {
         super(spiceRequest.getResultType());
@@ -161,5 +162,13 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
 
     public void setAcceptingDirtyCache(boolean isAcceptingDirtyCache) {
         this.isAcceptingDirtyCache = isAcceptingDirtyCache;
+    }
+
+    public boolean isOffline() {
+        return isOffline;
+    }
+
+    public void setOffline(boolean isOffline) {
+        this.isOffline = isOffline;
     }
 }

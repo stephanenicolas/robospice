@@ -296,6 +296,7 @@ public class SpiceManager implements Runnable {
             }
         };
         final CachedSpiceRequest<T> cachedSpiceRequest = new CachedSpiceRequest<T>(request, requestCacheKey, cacheExpiryDuration);
+        cachedSpiceRequest.setOffline(true);
         execute(cachedSpiceRequest, requestListener);
     }
 
@@ -415,14 +416,16 @@ public class SpiceManager implements Runnable {
      *            null.
      */
     public <U, T extends U> void addToCache(final Class<U> clazz, final Object requestCacheKey, final T data, RequestListener<U> listener) {
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         final SpiceRequest<U> spiceRequest = new SpiceRequest(clazz) {
             @Override
             public U loadDataFromNetwork() throws Exception {
                 return data;
             }
         };
-        execute(spiceRequest, requestCacheKey, DurationInMillis.ALWAYS_EXPIRED, listener);
+        CachedSpiceRequest<U> cachedSpiceRequest = new CachedSpiceRequest<U>(spiceRequest, requestCacheKey, DurationInMillis.ALWAYS_EXPIRED);
+        cachedSpiceRequest.setOffline(true);
+        execute(cachedSpiceRequest, listener);
     }
 
     /**
@@ -493,6 +496,7 @@ public class SpiceManager implements Runnable {
         };
         final CachedSpiceRequest<T> cachedSpiceRequest = new CachedSpiceRequest<T>(request, requestCacheKey, DurationInMillis.ALWAYS_EXPIRED);
         cachedSpiceRequest.setProcessable(false);
+        cachedSpiceRequest.setOffline(true);
         cachedSpiceRequest.cancel();
         execute(cachedSpiceRequest, null);
     }

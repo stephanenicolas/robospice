@@ -41,11 +41,12 @@ public class RequestProcessor {
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================
-    private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener = Collections
-        .synchronizedMap(new LinkedHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
+    private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener = Collections.synchronizedMap(new LinkedHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
     /**
-     * Thanks Olivier Croiser from Zenika for his excellent <a href= "http://blog.zenika.com/index.php?post/2012/04/11/Introduction-programmation-concurrente-Java-2sur2. " >blog article</a>.
+     * Thanks Olivier Croiser from Zenika for his excellent <a href=
+     * "http://blog.zenika.com/index.php?post/2012/04/11/Introduction-programmation-concurrente-Java-2sur2. "
+     * >blog article</a>.
      */
     private ExecutorService executorService = null;
 
@@ -68,18 +69,22 @@ public class RequestProcessor {
     // ============================================================================================
 
     /**
-     * Build a request processor using a custom. This feature has been implemented follwing a feature request from Riccardo Ciovati.
+     * Build a request processor using a custom. This feature has been implemented follwing a
+     * feature request from Riccardo Ciovati.
      * @param context
      *            the context on which {@link SpiceRequest} will provide their results.
      * @param cacheManager
-     *            the {@link CacheManager} that will be used to retrieve requests' result and store them.
+     *            the {@link CacheManager} that will be used to retrieve requests' result and store
+     *            them.
      * @param executorService
-     *            a custom {@link ExecutorService} that will be used to execute {@link SpiceRequest}.
+     *            a custom {@link ExecutorService} that will be used to execute {@link SpiceRequest}
+     *            .
      * @param requestProcessorListener
-     *            a listener of the {@link RequestProcessor}, it will be notified when no more requests are left, typically allowing the {@link SpiceService} to stop itself.
+     *            a listener of the {@link RequestProcessor}, it will be notified when no more
+     *            requests are left, typically allowing the {@link SpiceService} to stop itself.
      */
-    public RequestProcessor(final Context context, final ICacheManager cacheManager, final ExecutorService executorService,
-        final RequestProcessorListener requestProcessorListener, final NetworkStateChecker networkStateChecker) {
+    public RequestProcessor(final Context context, final ICacheManager cacheManager, final ExecutorService executorService, final RequestProcessorListener requestProcessorListener,
+            final NetworkStateChecker networkStateChecker) {
         this.applicationContext = context;
         this.cacheManager = cacheManager;
         this.requestProcessorListener = requestProcessorListener;
@@ -195,7 +200,8 @@ public class RequestProcessor {
                     notifyListenersOfRequestSuccess(request, result);
                     return;
                 } else if (request.isAcceptingDirtyCache()) {
-                    // as a fallback, some request may accept whatever is in the cache but still want an update from network.
+                    // as a fallback, some request may accept whatever is in the cache but still
+                    // want an update from network.
                     result = loadDataFromCache(request.getResultType(), request.getRequestCacheKey(), DurationInMillis.ALWAYS_RETURNED);
                     if (result != null) {
                         notifyListenersOfRequestSuccessButDontCompleteRequest(request, result);
@@ -214,7 +220,7 @@ public class RequestProcessor {
 
         // if result is not in cache, load data from network
         Ln.d("Cache content not available or expired or disabled");
-        if (!isNetworkAvailable(applicationContext)) {
+        if (!isNetworkAvailable(applicationContext) && !request.isOffline()) {
             Ln.e("Network is down.");
             notifyListenersOfRequestFailure(request, new NoNetworkException());
             return;
@@ -286,13 +292,11 @@ public class RequestProcessor {
         handlerResponse.postAtTime(r, token, SystemClock.uptimeMillis());
     }
 
-    private <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners,
-        final RequestStatus status) {
+    private <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners, final RequestStatus status) {
         notifyListenersOfRequestProgress(request, listeners, new RequestProgress(status));
     }
 
-    private <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners,
-        final RequestProgress progress) {
+    private <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners, final RequestProgress progress) {
         Ln.d("Sending progress %s", progress.getStatus());
         post(new ProgressRunnable(listeners, progress), request.getRequestCacheKey());
         checkAllRequestComplete();
