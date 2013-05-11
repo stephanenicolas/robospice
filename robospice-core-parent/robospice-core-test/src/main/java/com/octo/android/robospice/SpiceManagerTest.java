@@ -299,6 +299,17 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertTrue(requestListenerStub2.getReceivedException() instanceof RequestCancelledException);
     }
 
+    public void test_cancel_cancels_non_existing_request() throws InterruptedException {
+        // this test follows bug https://github.com/octo-online/robospice/issues/92
+
+        // given
+        spiceManager.start(getInstrumentation().getTargetContext());
+
+        // when
+        spiceManager.cancel(TEST_CLASS, TEST_CACHE_KEY);
+
+    }
+
     public void test_addListenerIfPending_receives_no_events_when_there_is_no_request_pending() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
