@@ -21,20 +21,20 @@ public abstract class RoboSpiceContentProvider extends OrmLiteSimpleContentProvi
 
     @Override
     public boolean onCreate() {
-        Controller = new MatcherController();
+        MatcherController controller = new MatcherController();
         for (Class<?> clazz : getExposedClasses()) {
             try {
                 Class<?> contractClazz;
                 contractClazz = getContractClassForClass(clazz);
                 int contentUriPatternMany = getContentUriPatternMany(contractClazz);
                 int contentUriPatternOne = getContentUriPatternOne(contractClazz);
-                Controller.add(clazz, SubType.Directory, "", contentUriPatternMany);
-                Controller.add(clazz, SubType.Directory, "#", contentUriPatternOne);
+                controller.add(clazz, SubType.Directory, "", contentUriPatternMany);
+                controller.add(clazz, SubType.Directory, "#", contentUriPatternOne);
             } catch (Exception e) {
                 Ln.e(e);
             }
         }
-        Controller.initialize();
+        setMatcherController(controller);
         return true;
     }
 

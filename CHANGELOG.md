@@ -1,7 +1,10 @@
 Release notes for RoboSpice
 ===========================
-Since release 1.4.0 of RoboSpice, each module has its own release cycle.
-This changelog file won't be maintained anymore. Each module will have its own CHANGELOG file.
+
+Version 1.4.2 (planned)
+-------------
+* 2 bug fixes (find them)
+* Content Provider module added to ease creation of ContentProviders backed by an ORMLite Database.
 
 Version 1.4.1 (May 11 2013)
 -------------
