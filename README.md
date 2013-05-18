@@ -48,6 +48,7 @@ A few links :
 * [Javadocs](http://octo-online.github.com/robospice/site/latest/apidocs/index.html).
 * [Maven site](http://octo-online.github.com/robospice/site/latest/index.html).
 * [Discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
+* [Stack Over Flow questions about RoboSpice](http://stackoverflow.com/questions/tagged/robospice)
 
 Example code & demo
 -------------------
