@@ -1,14 +1,50 @@
 Release notes for RoboSpice
 ===========================
 
-Version 1.4.2 (planned)
+Version 1.4.2 (May 20th 2013)
 -------------
-* 2 bug fixes (find them)
-* Content Provider module added to ease creation of ContentProviders backed by an ORMLite Database.
+** New module : Retrofit 
+* New Retrofit module added to RoboSpice !! It is now very easy to use Retrofit
+https://github.com/square/retrofit
+
+** Features :
+* New method "putInCache" added to spiceManager. 
+Thanks to Christopher Jenkins fur suggesting this feature in https://github.com/octo-online/robospice/issues/75.
+
+** Bugs :
+* Spice Manager : getDataFromCache, addToCache and cancel will work even if network is down. This bug was mentionned by dkraus in https://github.com/octo-online/robospice/issues/67
+* Content Provider module added to ease creation of ContentProviders backed by an ORMLite Database. (still in beta, waiting for AndroidORMLite to be released on central).
 
 Version 1.4.1 (May 11 2013)
 -------------
 
+* RoboSpice core :
+** Support for null RequestListener. Thx to chrisjenx. Issue #48
+** Issue #62. Thanks to doridori.
+
+* RoboSpice cache : 
+** DurationInMillis constants names were confusing (even for contributors !!). We got that clear now.
+** Added LRU ObjectPersister from David Stemmer, Mike Jancola
+** Added BitmapRequest to ease getting Bitmap data 
+** More testing.
+
+* Spring Android module : 
+** Add Jackson 2.1 support. Feature suggested by James Campbell.
+** Fixed issue https://github.com/octo-online/robospice/issues/80. Thx to Aaron Pickard
+
+* Google Http Java Client for Android module : 
+** minor changes
+
+* ORM-Lite module : 
+** #Issue 93 solved thanks to Aaron Pickard
+** https://github.com/octo-online/robospice/issues/93
+
+* UI SpiceList module :
+** UI SpiceList APIs got refactored. The new API is not backward compatible but is much more simple and elegant to implement.
+** UI SpiceList now uses the BitmapRequest from the core module to download bitmap and cache them scaled and downsampled.
+** Thx to Sergej Koščejev for adding parent parameter in view creation https://github.com/octo-online/robospice/pull/76
+
+A beta version of Retrofit module is also available on the github repo.
 
 Version 1.4.0 (February 8 2013)
 -------------
