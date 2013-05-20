@@ -1,8 +1,9 @@
 package com.octo.android.robospice.retrofit;
 
-import retrofit.http.Converter;
-import retrofit.http.GsonConverter;
-import retrofit.http.RestAdapter;
+import retrofit.RestAdapter;
+import retrofit.RestAdapter.Builder;
+import retrofit.converter.Converter;
+import retrofit.converter.GsonConverter;
 import android.app.Application;
 
 import com.google.gson.Gson;
@@ -14,7 +15,7 @@ public class RetrofitGsonSpiceService extends RetrofitSpiceService {
     private Converter converter = new GsonConverter(new Gson());
 
     @Override
-    public RestAdapter.Builder createRestAdapterBuilder() {
+    public Builder createRestAdapterBuilder() {
         RestAdapter.Builder restAdapter = new RestAdapter.Builder()//
                 .setConverter(converter);
         return restAdapter;

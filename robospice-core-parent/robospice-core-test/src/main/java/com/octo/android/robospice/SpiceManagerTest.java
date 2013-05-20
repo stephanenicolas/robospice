@@ -243,7 +243,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         RequestListenerStub<Double> requestListenerStub = new RequestListenerStub<Double>();
 
         // when
-        spiceManager.addToCache(TEST_CLASS3, TEST_CACHE_KEY, TEST_RETURNED_DATA3, requestListenerStub);
+        spiceManager.putInCache(TEST_CLASS3, TEST_CACHE_KEY, TEST_RETURNED_DATA3, requestListenerStub);
         requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test

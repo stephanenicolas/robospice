@@ -1,16 +1,15 @@
 package com.octo.android.robospice.request.retrofit;
 
-import retrofit.http.RestAdapter;
+import retrofit.RestAdapter;
 
 import com.octo.android.robospice.request.SpiceRequest;
 
 public abstract class RetrofitSpiceRequest<T> extends SpiceRequest<T> {
+    private RestAdapter.Builder restAdapterBuilder;
 
     public RetrofitSpiceRequest(Class<T> clazz) {
         super(clazz);
     }
-
-    private RestAdapter.Builder restAdapterBuilder;
 
     public RestAdapter.Builder getRestAdapterBuilder() {
         return restAdapterBuilder;

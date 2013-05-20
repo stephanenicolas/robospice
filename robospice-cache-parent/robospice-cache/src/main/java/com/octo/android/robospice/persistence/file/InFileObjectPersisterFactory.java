@@ -8,11 +8,9 @@ import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.ObjectPersisterFactory;
 
 /**
- * A factory that will create {@link ObjectPersister} instances will that
- * saves/loads data in a file.
+ * A factory that will create {@link ObjectPersister} instances will that saves/loads data in a
+ * file.
  * @author sni
- * @param <T>
- *            the class of the data to load/save.
  */
 public abstract class InFileObjectPersisterFactory extends ObjectPersisterFactory {
 

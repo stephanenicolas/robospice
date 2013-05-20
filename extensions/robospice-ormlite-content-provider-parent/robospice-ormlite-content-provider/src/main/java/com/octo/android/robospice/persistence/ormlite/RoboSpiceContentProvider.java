@@ -6,6 +6,8 @@ import roboguice.util.temp.Ln;
 import android.app.Application;
 
 import com.tojc.ormlite.android.OrmLiteSimpleContentProvider;
+import com.tojc.ormlite.android.annotation.AdditionalAnnotation.Contract;
+import com.tojc.ormlite.android.framework.MatcherController;
 import com.tojc.ormlite.android.framework.MimeTypeVnd.SubType;
 
 public abstract class RoboSpiceContentProvider extends OrmLiteSimpleContentProvider<RoboSpiceDatabaseHelper> {
@@ -24,12 +26,15 @@ public abstract class RoboSpiceContentProvider extends OrmLiteSimpleContentProvi
         MatcherController controller = new MatcherController();
         for (Class<?> clazz : getExposedClasses()) {
             try {
+                if (!clazz.isAnnotationPresent(Contract.class)) {
+                    throw new Exception("Class " + clazz + " is not annotated with the @Contract annotation.");
+                }
                 Class<?> contractClazz;
                 contractClazz = getContractClassForClass(clazz);
                 int contentUriPatternMany = getContentUriPatternMany(contractClazz);
                 int contentUriPatternOne = getContentUriPatternOne(contractClazz);
-                controller.add(clazz, SubType.Directory, "", contentUriPatternMany);
-                controller.add(clazz, SubType.Directory, "#", contentUriPatternOne);
+                controller.add(clazz, SubType.DIRECTORY, "", contentUriPatternMany);
+                controller.add(clazz, SubType.DIRECTORY, "#", contentUriPatternOne);
             } catch (Exception e) {
                 Ln.e(e);
             }
@@ -39,8 +44,16 @@ public abstract class RoboSpiceContentProvider extends OrmLiteSimpleContentProvi
     }
 
     protected Class<?> getContractClassForClass(Class<?> clazz) throws ClassNotFoundException {
-        String className = clazz.getName() + "Contract";
-        return Class.forName(className);
+        String className;
+        if (clazz.isAnnotationPresent(Contract.class)) {
+            className = clazz.getAnnotation(Contract.class).contractClassName();
+            if (className == null || className.isEmpty()) {
+                className = clazz.getName() + "Contract";
+            }
+            return Class.forName(className);
+        } else {
+            return null;
+        }
     }
 
     protected int getContentUriPatternMany(Class<?> contractClass) throws IllegalAccessException, NoSuchFieldException {

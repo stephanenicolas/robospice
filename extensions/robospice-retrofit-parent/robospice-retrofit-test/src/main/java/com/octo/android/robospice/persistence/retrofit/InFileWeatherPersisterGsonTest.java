@@ -7,7 +7,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 public class InFileWeatherPersisterGsonTest extends JsonObjectPersisterFactoryTest {
 
     @Override
-    protected RetrofitObjectPersisterFactory getRetrofitObjectPersisterFactory( Application application ) {
-        return new GsonRetrofitObjectPersisterFactory( application );
+    protected RetrofitObjectPersisterFactory getRetrofitObjectPersisterFactory(Application application) {
+        return new GsonRetrofitObjectPersisterFactory(application);
     }
 }

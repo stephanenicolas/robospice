@@ -17,7 +17,7 @@ import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 /**
  * Stores and retrieves bitmaps to/from file system. Support custom
- * {@link BitmapFactory.Options} to lower disk usage.
+ * {@link android.graphics.BitmapFactory.BitmapFactory.Options} to lower disk usage.
  * @author David Stemmer
  */
 public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
@@ -33,8 +33,7 @@ public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
     }
 
     @Override
-    protected Bitmap readCacheDataFromFile(File file)
-        throws CacheLoadingException {
+    protected Bitmap readCacheDataFromFile(File file) throws CacheLoadingException {
         Bitmap data = BitmapFactory.decodeFile(file.getAbsolutePath(), decodingOptions);
         if (data == null) {
             throw new CacheLoadingException(String.format("Found the file %s but could not decode bitmap.", file.getAbsolutePath()));

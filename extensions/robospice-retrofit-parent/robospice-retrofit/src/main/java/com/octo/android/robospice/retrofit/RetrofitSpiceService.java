@@ -2,7 +2,8 @@ package com.octo.android.robospice.retrofit;
 
 import java.util.Set;
 
-import retrofit.http.RestAdapter;
+import retrofit.RestAdapter;
+import retrofit.RestAdapter.Builder;
 
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.request.CachedSpiceRequest;
@@ -19,14 +20,12 @@ public abstract class RetrofitSpiceService extends SpiceService {
         restAdapterBuilder = createRestAdapterBuilder();
     }
 
-    public abstract RestAdapter.Builder createRestAdapterBuilder();
+    public abstract Builder createRestAdapterBuilder();
 
     @Override
-    public void addRequest(CachedSpiceRequest<?> request,
-        Set<RequestListener<?>> listRequestListener) {
+    public void addRequest(CachedSpiceRequest<?> request, Set<RequestListener<?>> listRequestListener) {
         if (request.getSpiceRequest() instanceof RetrofitSpiceRequest) {
-            ((RetrofitSpiceRequest<?>) request.getSpiceRequest())
-                .setRestAdapterBuilder(restAdapterBuilder);
+            ((RetrofitSpiceRequest<?>) request.getSpiceRequest()).setRestAdapterBuilder(restAdapterBuilder);
         }
         super.addRequest(request, listRequestListener);
     }

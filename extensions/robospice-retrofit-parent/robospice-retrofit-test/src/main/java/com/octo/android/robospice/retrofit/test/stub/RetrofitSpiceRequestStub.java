@@ -7,12 +7,12 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest;
 import com.octo.android.robospice.retrofit.test.model.WeatherResult;
 
-public class RetrofitSpiceRequestStub extends RetrofitSpiceRequest< WeatherResult > {
+public class RetrofitSpiceRequestStub extends RetrofitSpiceRequest<WeatherResult> {
     private ReentrantLock reentrantLock = new ReentrantLock();
     private Condition loadDataFromNetworkHasBeenExecuted = reentrantLock.newCondition();
 
-    public RetrofitSpiceRequestStub( Class< WeatherResult > clazz ) {
-        super( clazz );
+    public RetrofitSpiceRequestStub(Class<WeatherResult> clazz) {
+        super(clazz);
     }
 
     @Override
@@ -26,10 +26,10 @@ public class RetrofitSpiceRequestStub extends RetrofitSpiceRequest< WeatherResul
         return new WeatherResult();
     }
 
-    public void await( long timeout ) throws InterruptedException {
+    public void await(long timeout) throws InterruptedException {
         try {
             reentrantLock.lock();
-            loadDataFromNetworkHasBeenExecuted.await( timeout, TimeUnit.MILLISECONDS );
+            loadDataFromNetworkHasBeenExecuted.await(timeout, TimeUnit.MILLISECONDS);
         } finally {
             reentrantLock.unlock();
         }

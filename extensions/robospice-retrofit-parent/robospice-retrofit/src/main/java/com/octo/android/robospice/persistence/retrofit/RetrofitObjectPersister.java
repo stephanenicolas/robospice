@@ -10,9 +10,9 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 
-import retrofit.http.Converter;
-import retrofit.http.mime.TypedInput;
-import retrofit.http.mime.TypedOutput;
+import retrofit.converter.Converter;
+import retrofit.mime.TypedInput;
+import retrofit.mime.TypedOutput;
 import roboguice.util.temp.Ln;
 import android.app.Application;
 
