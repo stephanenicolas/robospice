@@ -7,12 +7,12 @@
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
 		<relativePath>../../</relativePath>
-		<version>1.4.3-SNAPSHOT</version>
+		<version>1.4.2-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.octo.android.robospice</groupId>
 	<artifactId>robospice-ormlite-parent</artifactId>
-	<version>1.4.3-SNAPSHOT</version>
+	<version>1.4.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Robospice - Extension ORMLite Module Parent</name>
 	<description>RoboSpice ORMLite module parent</description>
