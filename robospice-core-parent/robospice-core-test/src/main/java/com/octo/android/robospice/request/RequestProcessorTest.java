@@ -17,6 +17,8 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
+import com.octo.android.robospice.priority.PausableThreadPoolExecutor;
+import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.stub.CachedSpiceRequestStub;
 import com.octo.android.robospice.stub.RequestListenerStub;
@@ -33,6 +35,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     private static final String TEST_CACHE_KEY2 = "12345_2";
     private static final long TEST_DURATION = DurationInMillis.ONE_SECOND;
     private static final String TEST_RETURNED_DATA = "coucou";
+    private static final String TEST_RETURNED_DATA2 = "toto";
     private static final long REQUEST_COMPLETION_TIME_OUT = 2000;
     private static final long WAIT_BEFORE_REQUEST_EXECUTION = 200;
 
@@ -526,14 +529,124 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isSuccessful());
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    // ============================================================================================
+    // TESTING REQUEST PRIORITY
+    // ============================================================================================
+
+    /*
+     * Those tests are really tricky. We want to test request priority. There are some limitations
+     * to using a PriorityBlockingQueue inside an ExecutorService. Here, to get a smooth test, we
+     * inject a lot of low requests and make assertions on the last executed request. That is the
+     * only way to get a stable test.
+     */
+    public void testRequestPriority_should_execute_asap_hight_priority_requests() throws CacheLoadingException, CacheSavingException, InterruptedException {
+        // when
+        requestProcessorListener = EasyMock.createNiceMock(RequestProcessorListener.class);
+        PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
+        networkStateChecker = new MockNetworkStateChecker();
+        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker);
+
+        CachedSpiceRequestStub<String> stubRequestHighPriority = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);
+        stubRequestHighPriority.setPriority(SpiceRequest.PRIORITY_HIGH);
+
+        RequestListenerStub<String> mockRequestListener = new RequestListenerStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.anyObject(), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA2), EasyMock.eq(TEST_CACHE_KEY2))).andReturn(TEST_RETURNED_DATA2);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(mockCacheManager);
+
+        executorService.pause();
+        final int lowRequestCount = 10;
+        for (int i = 0; i < lowRequestCount; i++) {
+            CachedSpiceRequestStub<String> stubRequestLowPriority = createSuccessfulRequest(TEST_CLASS, TEST_RETURNED_DATA);
+            stubRequestLowPriority.setPriority(SpiceRequest.PRIORITY_LOW);
+            requestProcessorUnderTest.addRequest(stubRequestLowPriority, requestListenerSet);
+        }
+        requestProcessorUnderTest.addRequest(stubRequestHighPriority, requestListenerSet);
+        executorService.resume();
+
+        for (int i = 0; i < lowRequestCount; i++) {
+            mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+            mockRequestListener.resetSuccess();
+        }
+        mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // then
+        EasyMock.verify(mockCacheManager);
+        assertTrue(stubRequestHighPriority.isLoadDataFromNetworkCalled());
+        assertTrue(mockRequestListener.isExecutedInUIThread());
+        assertTrue(mockRequestListener.isSuccessful());
+        assertEquals(lowRequestCount + 1, mockRequestListener.getResultHistory().size());
+        assertNotSame(TEST_RETURNED_DATA2, mockRequestListener.getResultHistory().get(lowRequestCount));
+    }
+
+    public void testRequestPriority_should_execute_lazyly_low_priority_requests() throws CacheLoadingException, CacheSavingException, InterruptedException {
+        // when
+        requestProcessorListener = EasyMock.createNiceMock(RequestProcessorListener.class);
+        PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
+        networkStateChecker = new MockNetworkStateChecker();
+        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker);
+
+        CachedSpiceRequestStub<String> stubRequestLowPriority = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);
+        stubRequestLowPriority.setPriority(SpiceRequest.PRIORITY_LOW);
+
+        RequestListenerStub<String> mockRequestListener = new RequestListenerStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.anyObject(), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA2), EasyMock.eq(TEST_CACHE_KEY2))).andReturn(TEST_RETURNED_DATA2);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(mockCacheManager);
+
+        executorService.pause();
+        final int lowRequestCount = 10;
+        for (int i = 0; i < lowRequestCount; i++) {
+            CachedSpiceRequestStub<String> stubRequestNormalPriority = createSuccessfulRequest(TEST_CLASS, TEST_RETURNED_DATA);
+            stubRequestNormalPriority.setPriority(SpiceRequest.PRIORITY_NORMAL);
+            requestProcessorUnderTest.addRequest(stubRequestNormalPriority, requestListenerSet);
+        }
+        requestProcessorUnderTest.addRequest(stubRequestLowPriority, requestListenerSet);
+
+        for (int i = 0; i < lowRequestCount; i++) {
+            CachedSpiceRequestStub<String> stubRequestNormalPriority = createSuccessfulRequest(TEST_CLASS, TEST_RETURNED_DATA);
+            stubRequestNormalPriority.setPriority(SpiceRequest.PRIORITY_NORMAL);
+            requestProcessorUnderTest.addRequest(stubRequestNormalPriority, requestListenerSet);
+        }
+        executorService.resume();
+
+        for (int i = 0; i < 2 * lowRequestCount; i++) {
+            mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+            mockRequestListener.resetSuccess();
+        }
+        mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // then
+        EasyMock.verify(mockCacheManager);
+        assertTrue(stubRequestLowPriority.isLoadDataFromNetworkCalled());
+        assertTrue(mockRequestListener.isExecutedInUIThread());
+        assertTrue(mockRequestListener.isSuccessful());
+        assertEquals(2 * lowRequestCount + 1, mockRequestListener.getResultHistory().size());
+        assertEquals(TEST_RETURNED_DATA2, mockRequestListener.getResultHistory().get(2 * lowRequestCount));
     }
 
     // ============================================================================================
     // PRIVATE METHODS
     // ============================================================================================
+
+    private <T> CachedSpiceRequestStub<T> createSuccessfulRequest(Class<T> clazz, T returnedData) {
+        SpiceRequestStub<T> stubContentRequest = new SpiceRequestSucceedingStub<T>(clazz, returnedData);
+        return new CachedSpiceRequestStub<T>(stubContentRequest, null, 0 /* What ever. */);
+    }
 
     private <T> CachedSpiceRequestStub<T> createSuccessfulRequest(Class<T> clazz, Object cacheKey, long maxTimeInCache, T returnedData) {
         SpiceRequestStub<T> stubContentRequest = new SpiceRequestSucceedingStub<T>(clazz, returnedData);

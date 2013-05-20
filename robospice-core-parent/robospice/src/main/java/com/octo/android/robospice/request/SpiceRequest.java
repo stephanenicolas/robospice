@@ -11,18 +11,25 @@ import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
 /**
- * Base class for writing requests in RoboSpice. Simply override {@link #loadDataFromNetwork()} to define the network operation of a request. REST Requests are easier using the Request class proposed
- * by the spring-android module of RoboSpice.
+ * Base class for writing requests in RoboSpice. Simply override
+ * {@link #loadDataFromNetwork()} to define the network operation of a request.
+ * REST Requests are easier using the Request class proposed by the
+ * spring-android module of RoboSpice.
  * @author sni
  * @param <RESULT>
  */
-public abstract class SpiceRequest<RESULT> {
+public abstract class SpiceRequest<RESULT> implements Comparable<SpiceRequest<RESULT>> {
+
+    public static final int PRIORITY_HIGH = 0;
+    public static final int PRIORITY_NORMAL = 50;
+    public static final int PRIORITY_LOW = 100;
 
     private final Class<RESULT> resultType;
     private boolean isCanceled = false;
     private Future<?> future;
     private RequestProgressListener requestProgressListener;
     private boolean isAggregatable = true;
+    private int priority = PRIORITY_NORMAL;
     private RequestProgress progress = new RequestProgress(RequestStatus.PENDING);
     private RequestCancellationListener requestCancellationListener;
 
@@ -31,13 +38,34 @@ public abstract class SpiceRequest<RESULT> {
         this.resultType = clazz;
     }
 
+    /**
+     * Sets the priority of the request. Use priority constants or a positive
+     * integer. Will have no effect on a request after it starts being executed.
+     * @param priority
+     *            the priority of request. Defaults to {@link #PRIORITY_NORMAL}.
+     * @see #PRIORITY_LOW
+     * @see #PRIORITY_NORMAL
+     * @see #PRIORITY_HIGH
+     */
+    public void setPriority(int priority) {
+        if (priority < 0) {
+            throw new IllegalArgumentException("Priority must be positive.");
+        }
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
     private void checkInnerClassDeclarationToPreventMemoryLeak() {
         // thanx to Cyril Mottier for this contribution
         // prevent devs from creating memory leaks by using inner
         // classes of contexts
         if (getClass().isMemberClass() && Context.class.isAssignableFrom(getClass().getDeclaringClass())
             && !Modifier.isStatic(getClass().getModifiers())) {
-            throw new IllegalArgumentException("Requests must be either non-inner classes or a static inner member class of Context : " + getClass());
+            throw new IllegalArgumentException(
+                "Requests must be either non-inner classes or a static inner member class of Context : " + getClass());
         }
     }
 
@@ -103,6 +131,15 @@ public abstract class SpiceRequest<RESULT> {
 
     public void setRequestCancellationListener(final RequestCancellationListener requestCancellationListener) {
         this.requestCancellationListener = requestCancellationListener;
+    }
+
+    @Override
+    public int compareTo(SpiceRequest<RESULT> other) {
+        if (this == other) {
+            return 0;
+        }
+
+        return this.priority - other.priority;
     }
 
 }

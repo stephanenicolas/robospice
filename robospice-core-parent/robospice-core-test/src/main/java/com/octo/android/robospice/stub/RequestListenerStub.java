@@ -1,5 +1,7 @@
 package com.octo.android.robospice.stub;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,6 +19,7 @@ public class RequestListenerStub<T> implements RequestListener<T> {
     protected ReentrantLock lock = new ReentrantLock();
     protected Condition requestFinishedCondition = lock.newCondition();
     protected Exception exception;
+    protected List<T> resultHistory = new ArrayList<T>();
 
     @Override
     public void onRequestFailure(SpiceException exception) {
@@ -37,10 +40,15 @@ public class RequestListenerStub<T> implements RequestListener<T> {
         try {
             checkIsExectuedInUIThread();
             isSuccessful = true;
+            resultHistory.add(arg0);
             requestFinishedCondition.signal();
         } finally {
             lock.unlock();
         }
+    }
+
+    public List<T> getResultHistory() {
+        return resultHistory;
     }
 
     protected void checkIsExectuedInUIThread() {

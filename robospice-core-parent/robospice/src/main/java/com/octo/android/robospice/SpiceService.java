@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 import roboguice.util.temp.Ln;
 import android.app.Application;
@@ -23,6 +21,7 @@ import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
+import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.RequestProcessor;
 import com.octo.android.robospice.request.RequestProcessorListener;
@@ -30,9 +29,13 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
 
 /**
- * This is an abstract class used to manage the cache and provide web service result to an activity. <br/>
- * Extends this class to provide a service able to load content from web service or cache (if available and enabled). You will have to implement {@link #createCacheManager(Application)} to configure
- * the {@link CacheManager} used by all requests to persist their results in the cache (and load them from cache if possible).
+ * This is an abstract class used to manage the cache and provide web service
+ * result to an activity. <br/>
+ * Extends this class to provide a service able to load content from web service
+ * or cache (if available and enabled). You will have to implement
+ * {@link #createCacheManager(Application)} to configure the
+ * {@link CacheManager} used by all requests to persist their results in the
+ * cache (and load them from cache if possible).
  * @author jva
  * @author mwa
  * @author sni
@@ -102,57 +105,66 @@ public abstract class SpiceService extends Service {
     }
 
     /**
-     * Factory method to create an entity responsible for processing requests send to the SpiceService. The default implementation of this method will return a {@link RequestProcessor}. Override this
-     * method if you want to inject a custom request processor. This feature has been implemented following a request from Christopher Jenkins.
+     * Factory method to create an entity responsible for processing requests
+     * send to the SpiceService. The default implementation of this method will
+     * return a {@link RequestProcessor}. Override this method if you want to
+     * inject a custom request processor. This feature has been implemented
+     * following a request from Christopher Jenkins.
      * @param executorService
-     *            a service executor that can be used to multi-thread request processing.
+     *            a service executor that can be used to multi-thread request
+     *            processing.
      * @param networkStateChecker
      *            an entity that will check network state.
      * @return a {@link RequestProcessor} that will be used to process requests.
      */
-    protected RequestProcessor createRequestProcessor(ExecutorService executorService, NetworkStateChecker networkStateChecker) {
-        return new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener, networkStateChecker);
+    protected RequestProcessor createRequestProcessor(ExecutorService executorService,
+        NetworkStateChecker networkStateChecker) {
+        return new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener,
+            networkStateChecker);
     }
 
     /**
-     * Factory method to create an entity responsible to check for network state. The default implementation of this method will return a {@link DefaultNetworkStateChecker}. Override this method if
-     * you want to inject a custom network state for testing or to adapt to connectivity changes on the Android. This method is also useful to create non-network related requests. In that case create
-     * a {@link NetworkStateChecker} that always return true. This feature has been implemented following a request from Pierre Durand.
-     * @return a {@link NetworkStateChecker} that will be used to determine if network state allows requests executions.
+     * Factory method to create an entity responsible to check for network
+     * state. The default implementation of this method will return a
+     * {@link DefaultNetworkStateChecker}. Override this method if you want to
+     * inject a custom network state for testing or to adapt to connectivity
+     * changes on the Android. This method is also useful to create non-network
+     * related requests. In that case create a {@link NetworkStateChecker} that
+     * always return true. This feature has been implemented following a request
+     * from Pierre Durand.
+     * @return a {@link NetworkStateChecker} that will be used to determine if
+     *         network state allows requests executions.
      */
     protected NetworkStateChecker getNetworkStateChecker() {
         return new DefaultNetworkStateChecker();
     }
 
     /**
-     * Factory method to create an {@link ExecutorService} that will be used to execute requests. The default implementation of this method will create a single threaded or multi-threaded
-     * {@link ExecutorService} depending on the number of threads returned by {@link #getThreadCount()}. If you override this method in your service, you can supply a custom {@link ExecutorService}.
-     * This feature has been implemented following a request from Riccardo Ciovati.
+     * Factory method to create an {@link ExecutorService} that will be used to
+     * execute requests. The default implementation of this method will create a
+     * single threaded or multi-threaded {@link ExecutorService} depending on
+     * the number of threads returned by {@link #getThreadCount()}. If you
+     * override this method in your service, you can supply a custom
+     * {@link ExecutorService}. This feature has been implemented following a
+     * request from Riccardo Ciovati.
      * @return the {@link ExecutorService} to be used to execute requests .
      */
     protected ExecutorService getExecutorService() {
-        ExecutorService executorService;
         final int threadCount = getThreadCount();
         if (threadCount <= 0) {
             throw new IllegalArgumentException("Thread count must be >= 1");
-        } else if (threadCount == 1) {
-            executorService = Executors.newSingleThreadExecutor();
         } else {
-            executorService = Executors.newFixedThreadPool(threadCount, new ThreadFactory() {
-
-                @Override
-                public Thread newThread(final Runnable r) {
-                    return new Thread(r);
-                }
-            });
+            return PriorityThreadPoolExecutor.getPriorityExecutor(threadCount);
         }
-        return executorService;
     }
 
     /**
-     * This method can be overrided in order to create a foreground SpiceService. By default, it will create a notification that can't be used to set a spiceService to foreground. It can work on some
-     * versions of Android but it should be overriden for more safety.
-     * @return a notification used to tell user that the SpiceService is still running and processing requests.
+     * This method can be overrided in order to create a foreground
+     * SpiceService. By default, it will create a notification that can't be
+     * used to set a spiceService to foreground. It can work on some versions of
+     * Android but it should be overriden for more safety.
+     * @return a notification used to tell user that the SpiceService is still
+     *         running and processing requests.
      */
     public Notification createDefaultNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
@@ -217,7 +229,8 @@ public abstract class SpiceService extends Service {
         requestProcessor.setFailOnCacheError(failOnCacheError);
     }
 
-    public void dontNotifyRequestListenersForRequest(final CachedSpiceRequest<?> request, final Collection<RequestListener<?>> listRequestListener) {
+    public void dontNotifyRequestListenersForRequest(final CachedSpiceRequest<?> request,
+        final Collection<RequestListener<?>> listRequestListener) {
         requestProcessor.dontNotifyRequestListenersForRequest(request, listRequestListener);
     }
 
@@ -282,7 +295,8 @@ public abstract class SpiceService extends Service {
     // http://code.google.com/p/android/issues/detail?id=12122
     private void startForeground(final Notification notification) {
         try {
-            final Method setForegroundMethod = Service.class.getMethod("startForeground", int.class, Notification.class);
+            final Method setForegroundMethod = Service.class
+                .getMethod("startForeground", int.class, Notification.class);
             setForegroundMethod.invoke(this, NOTIFICATION_ID, notification);
         } catch (final SecurityException e) {
             Ln.e(e, "Unable to start a service in foreground");

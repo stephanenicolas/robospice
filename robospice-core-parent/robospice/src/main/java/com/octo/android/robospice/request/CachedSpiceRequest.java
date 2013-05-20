@@ -7,6 +7,12 @@ import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
+/**
+ * Decorates {@link SpiceRequest} and provides additional information used by
+ * RoboSpice.
+ * @author SNI
+ * @param <RESULT>
+ */
 public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
 
     private Object requestCacheKey;
@@ -16,7 +22,8 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     private boolean isAcceptingDirtyCache;
     private boolean isOffline;
 
-    public CachedSpiceRequest(final SpiceRequest<RESULT> spiceRequest, final Object requestCacheKey, final long cacheDuration) {
+    public CachedSpiceRequest(final SpiceRequest<RESULT> spiceRequest, final Object requestCacheKey,
+        final long cacheDuration) {
         super(spiceRequest.getResultType());
         this.requestCacheKey = requestCacheKey;
         this.cacheDuration = cacheDuration;
@@ -100,7 +107,8 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
 
     @Override
     public String toString() {
-        return "CachedSpiceRequest [requestCacheKey=" + requestCacheKey + ", cacheDuration=" + cacheDuration + ", spiceRequest=" + spiceRequest + "]";
+        return "CachedSpiceRequest [requestCacheKey=" + requestCacheKey + ", cacheDuration=" + cacheDuration
+            + ", spiceRequest=" + spiceRequest + "]";
     }
 
     @Override
@@ -139,7 +147,8 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
         } else if (!requestCacheKey.equals(other.requestCacheKey)) {
             return false;
         }
-        // if a request is not cancelled, it should not receive events for a cancelled request.
+        // if a request is not cancelled, it should not receive events for a
+        // cancelled request.
         if (!isCancelled() && other.isCancelled()) {
             return false;
         }
@@ -154,6 +163,16 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     /* package private */@Override
     RequestProgress getProgress() {
         return spiceRequest.getProgress();
+    }
+
+    @Override
+    public void setPriority(int priority) {
+        spiceRequest.setPriority(priority);
+    }
+
+    @Override
+    public int getPriority() {
+        return spiceRequest.getPriority();
     }
 
     public boolean isAcceptingDirtyCache() {
@@ -171,4 +190,17 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     public void setOffline(boolean isOffline) {
         this.isOffline = isOffline;
     }
+
+    @Override
+    public int compareTo(SpiceRequest<RESULT> other) {
+        if (this == other) {
+            return 0;
+        }
+        if (other == null) {
+            return -1;
+        }
+
+        return this.spiceRequest.compareTo(other);
+    }
+
 }
