@@ -40,9 +40,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<configuration>
-					<excludeFilterFile>exclude-retrofit-bugs.xml</excludeFilterFile>
-				</configuration>
 				<executions>
 					<execution>
 						<phase>verify</phase>

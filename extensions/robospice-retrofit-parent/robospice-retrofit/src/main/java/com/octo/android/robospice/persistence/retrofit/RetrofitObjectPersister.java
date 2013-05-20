@@ -2,9 +2,9 @@ package com.octo.android.robospice.persistence.retrofit;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -57,7 +57,7 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
             long timeInCache = System.currentTimeMillis() - file.lastModified();
             if (maxTimeInCacheBeforeExpiry == 0 || timeInCache <= maxTimeInCacheBeforeExpiry) {
                 try {
-                    final byte[] body = IOUtils.toByteArray(new FileReader(getCacheFile(cacheKey)), "utf-8");
+                    final byte[] body = IOUtils.toByteArray(new FileInputStream(getCacheFile(cacheKey)));
                     TypedInput typedInput = new TypedInput() {
 
                         @Override
