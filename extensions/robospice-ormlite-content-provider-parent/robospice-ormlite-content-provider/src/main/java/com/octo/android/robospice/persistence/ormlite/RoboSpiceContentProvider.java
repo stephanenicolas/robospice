@@ -29,10 +29,9 @@ public abstract class RoboSpiceContentProvider extends OrmLiteSimpleContentProvi
                 if (!clazz.isAnnotationPresent(Contract.class)) {
                     throw new Exception("Class " + clazz + " is not annotated with the @Contract annotation.");
                 }
-                Class<?> contractClazz;
-                contractClazz = getContractClassForClass(clazz);
-                int contentUriPatternMany = getContentUriPatternMany(contractClazz);
-                int contentUriPatternOne = getContentUriPatternOne(contractClazz);
+                Class<?> contractClazz = ContractHelper.getContractClassForClass(clazz);
+                int contentUriPatternMany = ContractHelper.getContentUriPatternMany(contractClazz);
+                int contentUriPatternOne = ContractHelper.getContentUriPatternOne(contractClazz);
                 controller.add(clazz, SubType.DIRECTORY, "", contentUriPatternMany);
                 controller.add(clazz, SubType.DIRECTORY, "#", contentUriPatternOne);
             } catch (Exception e) {
@@ -41,27 +40,6 @@ public abstract class RoboSpiceContentProvider extends OrmLiteSimpleContentProvi
         }
         setMatcherController(controller);
         return true;
-    }
-
-    protected Class<?> getContractClassForClass(Class<?> clazz) throws ClassNotFoundException {
-        String className;
-        if (clazz.isAnnotationPresent(Contract.class)) {
-            className = clazz.getAnnotation(Contract.class).contractClassName();
-            if (className == null || className.isEmpty()) {
-                className = clazz.getName() + "Contract";
-            }
-            return Class.forName(className);
-        } else {
-            return null;
-        }
-    }
-
-    protected int getContentUriPatternMany(Class<?> contractClass) throws IllegalAccessException, NoSuchFieldException {
-        return contractClass.getField("CONTENT_URI_PATTERN_MANY").getInt(null);
-    }
-
-    protected int getContentUriPatternOne(Class<?> contractClass) throws IllegalAccessException, NoSuchFieldException {
-        return contractClass.getField("CONTENT_URI_PATTERN_ONE").getInt(null);
     }
 
     public abstract List<Class<?>> getExposedClasses();

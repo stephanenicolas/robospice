@@ -14,6 +14,7 @@ import java.util.concurrent.Callable;
 
 import roboguice.util.temp.Ln;
 import android.app.Application;
+import android.net.Uri;
 
 import com.j256.ormlite.dao.LazyForeignCollection;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
@@ -33,16 +34,26 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
     private RoboSpiceDatabaseHelper databaseHelper;
     private Class<ID> idType;
     private RuntimeExceptionDao<T, ID> dao;
+    private Uri notificationUri;
 
     /**
      * @param application
-     *            the android context needed to access android file system or
-     *            databases to store.
+     *            the android context needed to access android file system or databases to store.
      */
     public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType, Class<ID> idType) {
+        this(application, databaseHelper, modelObjectType, idType, null);
+    }
+
+    /**
+     * @param application
+     *            the android context needed to access android file system or databases to store.
+     */
+    public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType, Class<ID> idType, Uri notificationUri) {
         super(application, modelObjectType);
         this.databaseHelper = databaseHelper;
         this.idType = idType;
+        this.notificationUri = notificationUri;
+
         try {
             TableUtils.createTableIfNotExists(databaseHelper.getConnectionSource(), modelObjectType);
         } catch (SQLException e1) {
@@ -90,8 +101,7 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
                         saveAllForeignObjectsToCache(data);
                         Object id = null;
                         @SuppressWarnings("unchecked")
-                        DatabaseTableConfig<T> childDatabaseTableConfig = (DatabaseTableConfig<T>) DatabaseTableConfig.fromClass(
-                            databaseHelper.getConnectionSource(), data.getClass());
+                        DatabaseTableConfig<T> childDatabaseTableConfig = (DatabaseTableConfig<T>) DatabaseTableConfig.fromClass(databaseHelper.getConnectionSource(), data.getClass());
                         for (FieldType childFieldType : childDatabaseTableConfig.getFieldTypes(null)) {
                             if (childFieldType.isId()) {
                                 id = childFieldType.extractJavaFieldValue(data);
@@ -99,6 +109,12 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
                         }
                         CacheEntry cacheEntry = new CacheEntry(String.valueOf(cacheKey), System.currentTimeMillis(), data.getClass(), id);
                         databaseHelper.createOrUpdateCacheEntryInDatabase(cacheEntry);
+
+                        if (notificationUri != null) {
+                            getApplication().getContentResolver().notifyChange(notificationUri, null);
+                            Uri itemNotificationUri = notificationUri.buildUpon().appendPath(id.toString()).build();
+                            getApplication().getContentResolver().notifyChange(itemNotificationUri, null);
+                        }
                     } catch (Exception e) {
                         Ln.d(e, "Exception occured during saveDataToCacheAndReturnData");
                     }
@@ -129,10 +145,9 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
     }
 
     /**
-     * During this operation, we must save a new POJO (parent) into the
-     * database. The problem is that is the POJO contains children POJOs, then
-     * saving the parent would not work as the parent must exist in the database
-     * prior to saving the children. SO :
+     * During this operation, we must save a new POJO (parent) into the database. The problem is
+     * that is the POJO contains children POJOs, then saving the parent would not work as the parent
+     * must exist in the database prior to saving the children. SO :
      * <ul>
      * <li>we copy the children into memory,
      * <li>put the children to null on parent

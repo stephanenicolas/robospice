@@ -1,10 +1,13 @@
 package com.octo.android.robospice.persistence.ormlite;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import roboguice.util.temp.Ln;
 import android.app.Application;
+import android.net.Uri;
 
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.table.DatabaseTableConfig;
@@ -16,10 +19,15 @@ public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
 
     private RoboSpiceDatabaseHelper databaseHelper;
     private boolean isAllTableCreated = false;
+    private Map<Class<?>, Uri> mapHandledClassesToNotificationUri;
 
-    public InDatabaseObjectPersisterFactory(Application application,
-        RoboSpiceDatabaseHelper databaseHelper,
-        List<Class<?>> listHandledClasses) {
+    public InDatabaseObjectPersisterFactory(Application application, RoboSpiceDatabaseHelper databaseHelper, Map<Class<?>, Uri> mapHandledClassesToNotificationUri) {
+        super(application, new ArrayList<Class<?>>(mapHandledClassesToNotificationUri.keySet()));
+        this.databaseHelper = databaseHelper;
+        this.mapHandledClassesToNotificationUri = mapHandledClassesToNotificationUri;
+    }
+
+    public InDatabaseObjectPersisterFactory(Application application, RoboSpiceDatabaseHelper databaseHelper, List<Class<?>> listHandledClasses) {
         super(application, listHandledClasses);
         this.databaseHelper = databaseHelper;
     }
@@ -33,18 +41,19 @@ public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
         try {
             idType = getIdType(clazz);
         } catch (SQLException e) {
-            throw new RuntimeException(
-                "Impossible to determine the type of the ID used in class "
-                    + clazz.getName(), e);
+            throw new RuntimeException("Impossible to determine the type of the ID used in class " + clazz.getName(), e);
         }
-        return new InDatabaseObjectPersister(getApplication(), databaseHelper,
-            clazz, idType);
+        if (mapHandledClassesToNotificationUri != null && mapHandledClassesToNotificationUri.containsKey(clazz)) {
+            Uri notificationUri = mapHandledClassesToNotificationUri.get(clazz);
+            return new InDatabaseObjectPersister(getApplication(), databaseHelper, clazz, idType, notificationUri);
+        } else {
+            return new InDatabaseObjectPersister(getApplication(), databaseHelper, clazz, idType);
+        }
     }
 
     private void createTableIfNotExists(Class<?> clazz) {
         try {
-            TableUtils.createTableIfNotExists(
-                databaseHelper.getConnectionSource(), clazz);
+            TableUtils.createTableIfNotExists(databaseHelper.getConnectionSource(), clazz);
         } catch (SQLException e) {
             Ln.e(e, "RoboSpice", "Could not create cache entry table");
         }
@@ -65,10 +74,8 @@ public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
     }
 
     private <DATA> Class<?> getIdType(Class<DATA> clazz) throws SQLException {
-        DatabaseTableConfig<DATA> childDatabaseTableConfig = DatabaseTableConfig
-            .fromClass(databaseHelper.getConnectionSource(), clazz);
-        for (FieldType childFieldType : childDatabaseTableConfig
-            .getFieldTypes(null)) {
+        DatabaseTableConfig<DATA> childDatabaseTableConfig = DatabaseTableConfig.fromClass(databaseHelper.getConnectionSource(), clazz);
+        for (FieldType childFieldType : childDatabaseTableConfig.getFieldTypes(null)) {
             if (childFieldType.isId()) {
                 if (childFieldType.getType().equals(int.class)) {
                     return Integer.class;
@@ -79,9 +86,7 @@ public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
                 return childFieldType.getType();
             }
         }
-        throw new RuntimeException(
-            "Impossible to determine the type of the ID used in class "
-                + clazz.getName());
+        throw new RuntimeException("Impossible to determine the type of the ID used in class " + clazz.getName());
     }
 
 }
