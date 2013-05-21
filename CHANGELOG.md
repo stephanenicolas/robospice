@@ -1,6 +1,21 @@
 Release notes for RoboSpice
 ===========================
 
+Version 1.4.3 (Planned)
+-------------
+** New module : AndroidORMLiteContentProvider
+* Integration with AndroidORMLiteContentProvider
+https://github.com/jakenjarvis/Android-OrmLiteContentProvider
+
+** Features :
+* Request priority management is now built into RoboSpice.
+Requests with higher priority will get executed first. This is only taken into account for requests that exceed the number of threads of RoboSpice Service, otherwise this is not used.
+https://github.com/octo-online/robospice/issues/99
+Thanks to Volley for inspiring us on this feature. Richard Hyndman and Nick Butcher suggested us to add this a while ago.. Thx Google ! :)
+
+ 
+
+
 Version 1.4.2 (May 20th 2013)
 -------------
 ** New module : Retrofit 
