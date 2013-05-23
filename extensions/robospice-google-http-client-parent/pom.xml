@@ -25,7 +25,7 @@
 	</modules>
 
 	<properties>
-		<google.http.client.version>1.13.1-beta</google.http.client.version>
+		<google.http.client.version>1.15.0-rc</google.http.client.version>
 	</properties>
 
 	<dependencyManagement>
