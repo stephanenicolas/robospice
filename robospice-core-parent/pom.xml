@@ -17,7 +17,7 @@
 	<description>RoboSpice core module parent</description>
 
 	<properties>
-	    <robospice-cache.version>1.4.1</robospice-cache.version>
+	    <robospice-cache.version>1.4.3-SNAPSHOT</robospice-cache.version>
 	</properties>
 	<modules>
 		<!-- library -->

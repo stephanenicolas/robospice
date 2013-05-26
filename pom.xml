@@ -94,7 +94,7 @@
 	<properties>
 		<!-- DEPENDENCIES VERSIONS -->
 		<android.version>4.1.1.4</android.version>
-		<android-platform.version>17</android-platform.version>
+		<android-platform.version>16</android-platform.version>
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
 		<easymock.version>2.5.2</easymock.version>
