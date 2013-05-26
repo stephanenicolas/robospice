@@ -9,6 +9,8 @@ import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
+import com.octo.android.robospice.retry.DefaultRetryPolicy;
+import com.octo.android.robospice.retry.RetryPolicy;
 
 /**
  * Base class for writing requests in RoboSpice. Simply override
@@ -33,9 +35,24 @@ public abstract class SpiceRequest<RESULT> implements Comparable<SpiceRequest<RE
     private RequestProgress progress = new RequestProgress(RequestStatus.PENDING);
     private RequestCancellationListener requestCancellationListener;
 
+    private RetryPolicy retryPolicy = new DefaultRetryPolicy();
+
     public SpiceRequest(final Class<RESULT> clazz) {
         checkInnerClassDeclarationToPreventMemoryLeak();
         this.resultType = clazz;
+    }
+
+    public RetryPolicy getRetryPolicy() {
+        return retryPolicy;
+    }
+
+    /**
+     * Set a {@link RetryPolicy} that will be responsible to coordinate retry
+     * attempts by the RequestProcessor. Can be null (no retry).
+     * @param retryPolicy
+     */
+    public void setRetryPolicy(RetryPolicy retryPolicy) {
+        this.retryPolicy = retryPolicy;
     }
 
     /**

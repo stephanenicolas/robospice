@@ -159,26 +159,7 @@ public class RequestProcessor {
             notifyListenersOfRequestCancellation(request, listRequestListener);
             return;
         } else {
-
-            Future<?> future;
-            future = executorService.submit(new PriorityRunnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        processRequest(request);
-                    } catch (final Throwable t) {
-                        Ln.d(t, "An unexpected error occured when processsing request %s", request.toString());
-                    }
-                }
-
-                @Override
-                public int getPriority() {
-                    return request.getPriority();
-                }
-
-            });
-            request.setFuture(future);
+            planRequestExecution(request);
         }
     }
 
@@ -229,7 +210,7 @@ public class RequestProcessor {
             } catch (final CacheLoadingException e) {
                 Ln.d(e, "Cache file could not be read.");
                 if (failOnCacheError) {
-                    notifyListenersOfRequestFailure(request, e);
+                    handleRetry(request, e);
                     return;
                 }
                 cacheManager.removeDataFromCache(request.getResultType(), request.getRequestCacheKey());
@@ -241,7 +222,7 @@ public class RequestProcessor {
         Ln.d("Cache content not available or expired or disabled");
         if (!isNetworkAvailable(applicationContext) && !request.isOffline()) {
             Ln.e("Network is down.");
-            notifyListenersOfRequestFailure(request, new NoNetworkException());
+            handleRetry(request, new NoNetworkException());
             return;
         }
 
@@ -257,8 +238,7 @@ public class RequestProcessor {
         } catch (final Exception e) {
             if (!request.isCancelled()) {
                 Ln.e(e, "An exception occured during request network execution :" + e.getMessage());
-                notifyListenersOfRequestFailure(request, new NetworkException(
-                    "Exception occured during invocation of web service.", e));
+                handleRetry(request, new NetworkException("Exception occured during invocation of web service.", e));
             } else {
                 Ln.e("An exception occured during request network execution but request was cancelled, so listeners are not called.");
             }
@@ -283,7 +263,7 @@ public class RequestProcessor {
             } catch (final CacheSavingException e) {
                 Ln.d("An exception occured during service execution :" + e.getMessage(), e);
                 if (failOnCacheError) {
-                    notifyListenersOfRequestFailure(request, e);
+                    handleRetry(request, e);
                     return;
                 } else {
                     if (request.isCancelled()) {
@@ -306,6 +286,46 @@ public class RequestProcessor {
             notifyListenersOfRequestSuccess(request, result);
             return;
         }
+    }
+
+    private void planRequestExecution(final CachedSpiceRequest<?> request) {
+        Future<?> future = executorService.submit(new PriorityRunnable() {
+            @Override
+            public void run() {
+                try {
+                    processRequest(request);
+                } catch (final Throwable t) {
+                    Ln.d(t, "An unexpected error occured when processsing request %s", request.toString());
+                }
+            }
+
+            @Override
+            public int getPriority() {
+                return request.getPriority();
+            }
+        });
+        request.setFuture(future);
+    }
+
+    private void handleRetry(final CachedSpiceRequest<?> request, final SpiceException e) {
+        if (request.getRetryPolicy() != null) {
+            request.getRetryPolicy().retry(e);
+            if (request.getRetryPolicy().getRetryCount() > 0) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(request.getRetryPolicy().getDelayBeforeRetry());
+                            planRequestExecution(request);
+                        } catch (InterruptedException e) {
+                            Ln.e(e, "Retry attempt failed for request " + request);
+                        }
+                    }
+                }).start();
+                return;
+            }
+        }
+        notifyListenersOfRequestFailure(request, e);
     }
 
     private void post(final Runnable r, final Object token) {

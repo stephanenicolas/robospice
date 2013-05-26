@@ -94,7 +94,7 @@
 	<properties>
 		<!-- DEPENDENCIES VERSIONS -->
 		<android.version>4.1.1.4</android.version>
-		<android-platform.version>14</android-platform.version>
+		<android-platform.version>17</android-platform.version>
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
 		<easymock.version>2.5.2</easymock.version>
@@ -103,7 +103,7 @@
 		<commons-logging.version>1.1.1</commons-logging.version>
 
 		<!-- PLUGINS VERSIONS -->
-		<android-maven-plugin.version>3.5.1</android-maven-plugin.version>
+		<android-maven-plugin.version>3.6.0</android-maven-plugin.version>
 		<site-maven-plugin.version>0.8</site-maven-plugin.version>
 		<maven-project-info-reports-plugin.version>2.6</maven-project-info-reports-plugin.version>
 		<maven-surefire-report-plugin.version>2.6</maven-surefire-report-plugin.version>
