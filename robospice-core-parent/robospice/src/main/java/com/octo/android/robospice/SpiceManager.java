@@ -13,6 +13,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -27,7 +28,6 @@ import android.os.IBinder;
 import com.octo.android.robospice.SpiceService.SpiceServiceBinder;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
-import com.octo.android.robospice.priority.PausablePriorityBlockingQueue;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -73,7 +73,7 @@ public class SpiceManager implements Runnable {
     private volatile boolean isStopped = true;
 
     /** The queue of requests to be sent to the service. */
-    protected final BlockingQueue<CachedSpiceRequest<?>> requestQueue = new PausablePriorityBlockingQueue<CachedSpiceRequest<?>>();
+    protected final BlockingQueue<CachedSpiceRequest<?>> requestQueue = new PriorityBlockingQueue<CachedSpiceRequest<?>>();
 
     /**
      * The list of all requests that have not yet been passed to the service.

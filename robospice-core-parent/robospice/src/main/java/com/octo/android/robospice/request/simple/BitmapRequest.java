@@ -92,6 +92,7 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
                 BitmapFactory.decodeFile(cacheFile.getAbsolutePath(), options);
                 options.inSampleSize = calculateInSampleSize(options, width, height);
                 options.inJustDecodeBounds = false;
+                options.inPurgeable = true;
                 return BitmapFactory.decodeFile(cacheFile.getAbsolutePath(), options);
             } else {
                 return BitmapFactory.decodeFile(cacheFile.getAbsolutePath(), options);
