@@ -1,5 +1,6 @@
 package com.octo.android.robospice.retrofit;
 
+
 import retrofit.RestAdapter;
 import retrofit.RestAdapter.Builder;
 import retrofit.converter.Converter;
@@ -10,22 +11,32 @@ import com.google.gson.Gson;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFactory;
 
-public class RetrofitGsonSpiceService extends RetrofitSpiceService {
+/**
+ * A pre-set, easy to use, retrofit service. It will use retrofit for network requests and both
+ * networking and caching will use Gson. To use it, just add to your manifest :
+ * 
+ * <pre>
+ * &lt;service
+ *   android:name="com.octo.android.robospice.retrofit.RetrofitGsonSpiceService"
+ *   android:exported="false" /&gt;
+ * </pre>
+ * @author SNI
+ */
+public abstract class RetrofitGsonSpiceService extends RetrofitSpiceService {
 
     private Converter converter = new GsonConverter(new Gson());
-
-    @Override
-    public Builder createRestAdapterBuilder() {
-        RestAdapter.Builder restAdapter = new RestAdapter.Builder()//
-                .setConverter(converter);
-        return restAdapter;
-    }
-
     @Override
     public CacheManager createCacheManager(Application application) {
         CacheManager cacheManager = new CacheManager();
         cacheManager.addPersister(new RetrofitObjectPersisterFactory(application, converter));
         return cacheManager;
+    }
+
+    @Override
+    protected Builder createRestAdapterBuilder() {
+        RestAdapter.Builder restAdapter = super.createRestAdapterBuilder();
+        restAdapter.setConverter(converter);
+        return restAdapter;
     }
 
 }

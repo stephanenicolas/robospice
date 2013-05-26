@@ -14,6 +14,7 @@ Requests with higher priority will get executed first. This is only taken into a
 https://github.com/octo-online/robospice/issues/99
 Thanks to Volley for inspiring us on this feature. Richard Hyndman and Nick Butcher suggested us to add this a while ago.. Thx Google ! :)
 * Retry Policy is now built into RoboSpice. Request default to a non null retry policy that can be customized.
+* Retrofit module's API improved. RetrofitSpiceRequest optimize creation of retrofit services. 
  
 
 

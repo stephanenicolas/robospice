@@ -1,9 +1,10 @@
-package com.octo.android.robospice;
+package com.octo.android.robospice.retrofit;
 
 import android.content.Intent;
 import android.test.ServiceTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.retrofit.test.RetrofitSpiceTestService;
 import com.octo.android.robospice.retrofit.test.model.WeatherResult;
 import com.octo.android.robospice.retrofit.test.stub.RequestListenerStub;
@@ -45,13 +46,13 @@ public class RetrofitGsonSpiceServiceTest extends ServiceTestCase<RetrofitSpiceT
     public void test_addRequest_injects_request_factory() throws InterruptedException {
         // given
         spiceManager.start(getContext());
-        RetrofitSpiceRequestStub googleHttpClientSpiceRequest = new RetrofitSpiceRequestStub(WeatherResult.class);
+        RetrofitSpiceRequestStub retrofitSpiceRequestStub = new RetrofitSpiceRequestStub(WeatherResult.class);
 
         // when
-        spiceManager.execute(googleHttpClientSpiceRequest, new RequestListenerStub<WeatherResult>());
-        googleHttpClientSpiceRequest.await(REQUEST_COMPLETION_TIMEOUT);
+        spiceManager.execute(retrofitSpiceRequestStub, new RequestListenerStub<WeatherResult>());
+        retrofitSpiceRequestStub.await(REQUEST_COMPLETION_TIMEOUT);
 
         // test
-        assertNotNull(googleHttpClientSpiceRequest.getRestAdapterBuilder());
+        assertNotNull(retrofitSpiceRequestStub.getService());
     }
 }
