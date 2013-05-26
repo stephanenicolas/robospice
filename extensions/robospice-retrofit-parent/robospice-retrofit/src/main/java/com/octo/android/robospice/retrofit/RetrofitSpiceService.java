@@ -1,9 +1,12 @@
 package com.octo.android.robospice.retrofit;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import retrofit.RestAdapter;
-import retrofit.RestAdapter.Builder;
 
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.request.CachedSpiceRequest;
@@ -12,21 +15,49 @@ import com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest;
 
 public abstract class RetrofitSpiceService extends SpiceService {
 
-    private RestAdapter.Builder restAdapterBuilder;
+    private Map<Class<?>, Object> retrofitInterfaceToServiceMap = new HashMap<Class<?>, Object>();
+    private RestAdapter.Builder builder;
+    private RestAdapter restAdapter;
+    protected List<Class<?>> retrofitInterfaceList = new ArrayList<Class<?>>();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        restAdapterBuilder = createRestAdapterBuilder();
+        builder = createRestAdapterBuilder();
+        restAdapter = builder.build();
     }
 
-    public abstract Builder createRestAdapterBuilder();
+    protected abstract String getServerUrl();
 
+    protected RestAdapter.Builder createRestAdapterBuilder() {
+        return new RestAdapter.Builder().setServer(getServerUrl());
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T> T getRetrofitService(Class<T> serviceClass) {
+        T service = (T) retrofitInterfaceToServiceMap.get(serviceClass);
+        if (service == null) {
+            service = restAdapter.create(serviceClass);
+            retrofitInterfaceToServiceMap.put(serviceClass, service);
+        }
+        return service;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void addRequest(CachedSpiceRequest<?> request, Set<RequestListener<?>> listRequestListener) {
         if (request.getSpiceRequest() instanceof RetrofitSpiceRequest) {
-            ((RetrofitSpiceRequest<?>) request.getSpiceRequest()).setRestAdapterBuilder(restAdapterBuilder);
+            RetrofitSpiceRequest retrofitSpiceRequest = (RetrofitSpiceRequest) request.getSpiceRequest();
+            retrofitSpiceRequest.setService(getRetrofitService(retrofitSpiceRequest.getRetrofitedInterfaceClass()));
         }
         super.addRequest(request, listRequestListener);
+    }
+
+    public final List<Class<?>> getRetrofitInterfaceList() {
+        return retrofitInterfaceList;
+    }
+
+    protected void addRetrofitInterface(Class<?> serviceClass) {
+        retrofitInterfaceList.add(serviceClass);
     }
 }
