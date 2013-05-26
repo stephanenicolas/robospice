@@ -31,7 +31,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     private static final String TEST_CACHE_KEY2 = "123456";
     private static final long TEST_DURATION = DurationInMillis.ALWAYS_EXPIRED;
     private static final String TEST_RETURNED_DATA = "coucou";
-    private static final Double TEST_RETURNED_DATA3 = new Double(3.1416);
+    private static final Double TEST_RETURNED_DATA3 = Double.valueOf(3.1416);
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_LARGE = 500;
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_SHORT = 200;
     private static final long REQUEST_COMPLETION_TIME_OUT = 4000;
@@ -460,6 +460,23 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertTrue(requestListenerStub.isSuccessful());
     }
 
+    public void test_should_process_requests_according_to_priorities() throws InterruptedException {
+        // TDD test for issue 36
+        // given
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
+        spiceRequestStub.setPriority(SpiceRequest.PRIORITY_LOW);
+
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
+        spiceRequestStub2.setPriority(SpiceRequest.PRIORITY_HIGH);
+
+        // when
+        spiceManager.execute(spiceRequestStub, null);
+        spiceManager.execute(spiceRequestStub2, null);
+
+        // test
+        assertEquals(spiceRequestStub2, spiceManager.getNextRequest().getSpiceRequest());
+    }
+
     // ----------------------------------
     // INNER CLASS
     // ----------------------------------
@@ -483,6 +500,10 @@ public class SpiceManagerTest extends InstrumentationTestCase {
             } catch (Exception ex) {
                 this.ex = ex;
             }
+        }
+
+        private CachedSpiceRequest<?> getNextRequest() {
+            return requestQueue.peek();
         }
 
         public Exception getException(long timeout) throws InterruptedException {
