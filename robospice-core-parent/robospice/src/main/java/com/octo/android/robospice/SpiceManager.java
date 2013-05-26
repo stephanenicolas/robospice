@@ -855,6 +855,10 @@ public class SpiceManager implements Runnable {
      *            the key of the object in cache
      */
     public <T> void removeDataFromCache(final Class<T> clazz, final Object cacheKey) {
+        if (clazz == null || cacheKey == null) {
+            throw new IllegalArgumentException("Both parameters must be non null.");
+        }
+
         executorService.execute(new Runnable() {
 
             @Override
@@ -878,6 +882,10 @@ public class SpiceManager implements Runnable {
      *            the type of data you want to remove from cache.
      */
     public <T> void removeDataFromCache(final Class<T> clazz) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("Both parameters must be non null.");
+        }
+
         executorService.execute(new Runnable() {
 
             @Override
