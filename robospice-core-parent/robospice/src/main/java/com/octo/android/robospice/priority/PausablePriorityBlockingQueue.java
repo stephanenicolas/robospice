@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * allow to {@link #poll()} or {@link #take()} an element when paused.
  * @author SNI
  */
-class PausablePriorityBlockingQueue<T> extends PriorityBlockingQueue<T> {
+public class PausablePriorityBlockingQueue<T> extends PriorityBlockingQueue<T> {
     private static final long serialVersionUID = 3726077277740650698L;
     private boolean isPaused;
     private transient ReentrantLock pauseLock = new ReentrantLock();

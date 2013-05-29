@@ -38,13 +38,23 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
      * Creates a BitmapRequest able to fetch a {@link Bitmap} from the network.
      * @param url
      *            the url of the bitmap to fetch.
+     * @param cacheFile
+     *            a file used to store data during download.
+     */
+    public BitmapRequest(String url, File cacheFile) {
+        this(url, new BitmapFactory.Options(), cacheFile);
+    }
+
+    /**
+     * Creates a BitmapRequest able to fetch a {@link Bitmap} from the network.
+     * @param url
+     *            the url of the bitmap to fetch.
      * @param options
      *            used to decode the data received from the network.
      * @param cacheFile
      *            a file used to store data during download.
      */
-    public BitmapRequest(String url, BitmapFactory.Options options,
-        File cacheFile) {
+    public BitmapRequest(String url, BitmapFactory.Options options, File cacheFile) {
         super(Bitmap.class);
         this.url = url;
         this.options = options;
@@ -73,23 +83,19 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
     @Override
     public final Bitmap loadDataFromNetwork() throws Exception {
         try {
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(
-                url).openConnection();
-            processStream(httpURLConnection.getContentLength(),
-                httpURLConnection.getInputStream());
+            final HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
+            processStream(httpURLConnection.getContentLength(), httpURLConnection.getInputStream());
 
             if (width != -1 && height != -1) {
                 this.options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(cacheFile.getAbsolutePath(), options);
-                options.inSampleSize = calculateInSampleSize(options, width,
-                    height);
+                options.inSampleSize = calculateInSampleSize(options, width, height);
                 options.inJustDecodeBounds = false;
-                return BitmapFactory.decodeFile(cacheFile.getAbsolutePath(),
-                    options);
+                options.inPurgeable = true;
+                return BitmapFactory.decodeFile(cacheFile.getAbsolutePath(), options);
             } else {
-                return BitmapFactory.decodeFile(cacheFile.getAbsolutePath(),
-                    options);
+                return BitmapFactory.decodeFile(cacheFile.getAbsolutePath(), options);
             }
         } catch (final MalformedURLException e) {
             Ln.e(e, "Unable to create URL");
@@ -108,21 +114,16 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
         return cacheFile;
     }
 
-    public void processStream(int contentLength, final InputStream inputStream)
-        throws IOException {
+    public void processStream(int contentLength, final InputStream inputStream) throws IOException {
         OutputStream fileOutputStream = null;
         try {
             // touch
-            boolean isTouchedNow = cacheFile.setLastModified(System
-                .currentTimeMillis());
+            boolean isTouchedNow = cacheFile.setLastModified(System.currentTimeMillis());
             if (!isTouchedNow) {
-                Ln.d(
-                    "Modification time of file %s could not be changed normally ",
-                    cacheFile.getAbsolutePath());
+                Ln.d("Modification time of file %s could not be changed normally ", cacheFile.getAbsolutePath());
             }
             fileOutputStream = new FileOutputStream(cacheFile);
-            readBytes(inputStream, new ProgressByteProcessor(this,
-                fileOutputStream, contentLength));
+            readBytes(inputStream, new ProgressByteProcessor(this, fileOutputStream, contentLength));
         } finally {
             IOUtils.closeQuietly(fileOutputStream);
         }
@@ -131,8 +132,7 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
     /**
      * Inspired from Guava com.google.common.io.ByteStreams
      */
-    protected void readBytes(final InputStream in,
-        final ProgressByteProcessor processor) throws IOException {
+    protected void readBytes(final InputStream in, final ProgressByteProcessor processor) throws IOException {
         final byte[] buf = new byte[BUF_SIZE];
         try {
             int amt;
@@ -147,8 +147,7 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
         }
     }
 
-    private static int calculateInSampleSize(BitmapFactory.Options options,
-        int reqWidth, int reqHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;

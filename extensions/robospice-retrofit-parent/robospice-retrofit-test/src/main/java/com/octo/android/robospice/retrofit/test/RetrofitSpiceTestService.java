@@ -4,4 +4,9 @@ import com.octo.android.robospice.retrofit.RetrofitGsonSpiceService;
 
 public class RetrofitSpiceTestService extends RetrofitGsonSpiceService {
 
+    @Override
+    protected String getServerUrl() {
+        return "";
+    }
+
 }

@@ -2,6 +2,7 @@ package com.octo.android.robospice.persistence.binary;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -34,7 +35,18 @@ public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
 
     @Override
     protected Bitmap readCacheDataFromFile(File file) throws CacheLoadingException {
-        Bitmap data = BitmapFactory.decodeFile(file.getAbsolutePath(), decodingOptions);
+        Bitmap data;
+        FileInputStream is = null;
+        try {
+            is = new FileInputStream(file.getAbsolutePath());
+            data = BitmapFactory.decodeStream(is, null, decodingOptions);
+        } catch (Throwable ex) {
+            throw new CacheLoadingException(String.format("Found the file %s but could not decode bitmap.", file.getAbsolutePath()), ex);
+        } finally {
+            if (is != null) {
+                IOUtils.closeQuietly(is);
+            }
+        }
         if (data == null) {
             throw new CacheLoadingException(String.format("Found the file %s but could not decode bitmap.", file.getAbsolutePath()));
         }

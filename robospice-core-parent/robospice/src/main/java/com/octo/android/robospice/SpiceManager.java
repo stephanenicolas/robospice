@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -73,7 +73,7 @@ public class SpiceManager implements Runnable {
     private volatile boolean isStopped = true;
 
     /** The queue of requests to be sent to the service. */
-    private final BlockingQueue<CachedSpiceRequest<?>> requestQueue = new LinkedBlockingQueue<CachedSpiceRequest<?>>();
+    protected final BlockingQueue<CachedSpiceRequest<?>> requestQueue = new PriorityBlockingQueue<CachedSpiceRequest<?>>();
 
     /**
      * The list of all requests that have not yet been passed to the service.
@@ -855,6 +855,10 @@ public class SpiceManager implements Runnable {
      *            the key of the object in cache
      */
     public <T> void removeDataFromCache(final Class<T> clazz, final Object cacheKey) {
+        if (clazz == null || cacheKey == null) {
+            throw new IllegalArgumentException("Both parameters must be non null.");
+        }
+
         executorService.execute(new Runnable() {
 
             @Override
@@ -878,6 +882,10 @@ public class SpiceManager implements Runnable {
      *            the type of data you want to remove from cache.
      */
     public <T> void removeDataFromCache(final Class<T> clazz) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("Both parameters must be non null.");
+        }
+
         executorService.execute(new Runnable() {
 
             @Override

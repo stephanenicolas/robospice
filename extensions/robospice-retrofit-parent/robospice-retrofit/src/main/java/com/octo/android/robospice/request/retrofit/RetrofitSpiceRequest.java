@@ -1,22 +1,35 @@
 package com.octo.android.robospice.request.retrofit;
 
-import retrofit.RestAdapter;
-
 import com.octo.android.robospice.request.SpiceRequest;
 
-public abstract class RetrofitSpiceRequest<T> extends SpiceRequest<T> {
-    private RestAdapter.Builder restAdapterBuilder;
+/**
+ * A simplified {@link SpiceRequest} that makes it even easier to use a retrofited REST service.
+ * @author SNI
+ * @param <T>
+ *            the result type of this request.
+ * @param <R>
+ *            the retrofited interface used by this request.
+ */
+public abstract class RetrofitSpiceRequest<T, R> extends SpiceRequest<T> {
 
-    public RetrofitSpiceRequest(Class<T> clazz) {
+    private Class<R> retrofitedInterfaceClass;
+    private R service;
+
+    public RetrofitSpiceRequest(Class<T> clazz, Class<R> retrofitedInterfaceClass) {
         super(clazz);
+        this.retrofitedInterfaceClass = retrofitedInterfaceClass;
     }
 
-    public RestAdapter.Builder getRestAdapterBuilder() {
-        return restAdapterBuilder;
+    public Class<R> getRetrofitedInterfaceClass() {
+        return retrofitedInterfaceClass;
     }
 
-    public void setRestAdapterBuilder(RestAdapter.Builder restAdapterBuilder) {
-        this.restAdapterBuilder = restAdapterBuilder;
+    public void setService(R service) {
+        this.service = service;
+    }
+
+    public R getService() {
+        return service;
     }
 
 }

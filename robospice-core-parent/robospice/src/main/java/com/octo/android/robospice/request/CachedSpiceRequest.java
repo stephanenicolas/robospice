@@ -6,6 +6,7 @@ import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
+import com.octo.android.robospice.retry.RetryPolicy;
 
 /**
  * Decorates {@link SpiceRequest} and provides additional information used by
@@ -28,6 +29,16 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
         this.requestCacheKey = requestCacheKey;
         this.cacheDuration = cacheDuration;
         this.spiceRequest = spiceRequest;
+    }
+
+    @Override
+    public RetryPolicy getRetryPolicy() {
+        return spiceRequest.getRetryPolicy();
+    }
+
+    @Override
+    public void setRetryPolicy(RetryPolicy retryPolicy) {
+        spiceRequest.setRetryPolicy(retryPolicy);
     }
 
     @Override
