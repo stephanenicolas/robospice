@@ -30,7 +30,7 @@ before_install:
   # Note that sysimg-16 downloads the ARM, x86 and MIPS images (we should optimize this).
   # Other relevant API's:
   #  addon-google_apis-google-16
-  - android update sdk --filter platform-tools,android-14,extra-android-support,$ANDROID_SDKS --no-ui --force > /dev/null
+  - echo "y" | android update sdk --filter platform-tools,android-14,extra-android-support,$ANDROID_SDKS --no-ui --force > /dev/null
 
   # Create and start emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
