@@ -1,4 +1,4 @@
-d#Thanks to https://raw.github.com/embarkmobile/android-maven-example/master/.travis.yml
+#Thanks to https://raw.github.com/embarkmobile/android-maven-example/master/.travis.yml
 
 branches:
   except:
