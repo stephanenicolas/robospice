@@ -1,4 +1,4 @@
-#Thanks to https://raw.github.com/embarkmobile/android-maven-example/master/.travis.yml
+d#Thanks to https://raw.github.com/embarkmobile/android-maven-example/master/.travis.yml
 
 branches:
   except:
@@ -19,7 +19,7 @@ before_install:
   - travis-lint
   # Install base Android SDK
   - sudo apt-get update -qq
-  - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq -o Dpkg::Options::="--force-confold" --force-yes --yes libgd2-xpm ia32-libs ia32-libs-multiarch ; fi
+  - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq -o Dpkg::Options::="--force-confold" --force-yes --yes libgd2-xpm ia32-libs ia32-libs-multiarch > /dev/null ; fi
   - wget http://dl.google.com/android/android-sdk_r22.0.1-linux.tgz
   - tar xzf android-sdk_r22.0.1-linux.tgz
   - export ANDROID_HOME=$PWD/android-sdk-linux
@@ -30,7 +30,7 @@ before_install:
   # Note that sysimg-16 downloads the ARM, x86 and MIPS images (we should optimize this).
   # Other relevant API's:
   #  addon-google_apis-google-16
-  - echo "y" | android update sdk --filter platform-tools,android-14,extra-android-support,$ANDROID_SDKS --no-ui --force > /dev/null
+  - echo "y" | android update sdk --filter platform-tools,build-tools-17.0.0,android-14,extra-android-support,$ANDROID_SDKS --no-ui --force
 
   # Create and start emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
