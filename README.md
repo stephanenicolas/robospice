@@ -81,6 +81,7 @@ RoboSpice has been presented at :
 * [DroidCon Amsterdam](http://www.droidcon.nl/), November 2012
 
 [RoboSpice video at DroidConLondon](http://uk.droidcon.com/sessions/b-track-3/)
+
 [Robospice presentation by David Stemmer](http://vimeo.com/66201359)
 
 License
