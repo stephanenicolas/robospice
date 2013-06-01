@@ -17,6 +17,7 @@ import com.octo.android.robospice.stub.StringPersisterStub;
 public class SpiceTestService extends SpiceService {
 
     private static final int TEST_THREAD_COUNT = 3;
+    private static final int TEST_THREAD_PRIORITY = Thread.NORM_PRIORITY;
 
     @Override
     public CacheManager createCacheManager(Application application) {
@@ -49,6 +50,11 @@ public class SpiceTestService extends SpiceService {
     @Override
     public int getThreadCount() {
         return TEST_THREAD_COUNT;
+    }
+
+    @Override
+    public int getThreadPriority() {
+        return TEST_THREAD_PRIORITY;
     }
 
     @Override

@@ -12,25 +12,44 @@ import java.util.concurrent.RunnableFuture;
  * thread in the pool size.
  * @author SNI
  */
-public final class PriorityThreadPoolExecutor {
+public final class PriorityThreadPoolExecutor extends PausableThreadPoolExecutor {
 
-    private PriorityThreadPoolExecutor() {
-        // utility class constructor
+    // ----------------------------------
+    // CONSTRUCTORS
+    // ----------------------------------
+
+    public PriorityThreadPoolExecutor(int poolSize, int threadPriority) {
+        super(poolSize, threadPriority);
     }
 
-    public static PausableThreadPoolExecutor getPriorityExecutor(int nThreads) {
-        return new PausableThreadPoolExecutor(nThreads) {
-
-            @Override
-            protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
-                // makes findbugs happy, there must be some @Nullable
-                // annotation in JDK..
-                if (runnable == null) {
-                    return null;
-                }
-                RunnableFuture<T> runnableFuture = super.newTaskFor(runnable, value);
-                return new PriorityFuture<T>(runnableFuture, ((PriorityRunnable) runnable).getPriority());
-            }
-        };
+    public PriorityThreadPoolExecutor(int poolSize) {
+        super(poolSize);
     }
+
+    // ----------------------------------
+    // API
+    // ----------------------------------
+
+    public static PriorityThreadPoolExecutor getPriorityExecutor(int nThreads, int threadPriority) {
+        return new PriorityThreadPoolExecutor(nThreads, threadPriority);
+    }
+
+    public static PriorityThreadPoolExecutor getPriorityExecutor(int nThreads) {
+        return new PriorityThreadPoolExecutor(nThreads);
+    }
+
+    // ----------------------------------
+    // OVVERRIDEN METHODS
+    // ----------------------------------
+    @Override
+    protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
+        // makes findbugs happy, there must be some @Nullable
+        // annotation in JDK..
+        if (runnable == null) {
+            return null;
+        }
+        RunnableFuture<T> runnableFuture = super.newTaskFor(runnable, value);
+        return new PriorityFuture<T>(runnableFuture, ((PriorityRunnable) runnable).getPriority());
+    }
+
 }

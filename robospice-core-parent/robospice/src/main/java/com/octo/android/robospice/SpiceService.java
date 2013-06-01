@@ -42,18 +42,22 @@ import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
  */
 public abstract class SpiceService extends Service {
 
+    // ----------------------------------
+    // CONSTANTS
+    // ----------------------------------
     private static final int NOTIFICATION_ID = 42;
 
-    private static final int DEFAULT_THREAD_COUNT = 1;
+    protected static final int DEFAULT_THREAD_COUNT = 1;
+    protected static final int DEFAULT_THREAD_PRIORITY = Thread.MIN_PRIORITY;
+
     private static final boolean DEFAULT_FAIL_ON_CACHE_ERROR = false;
 
-    // ============================================================================================
+    // ----------------------------------
     // ATTRIBUTES
-    // ============================================================================================
+    // ----------------------------------
     private SpiceServiceBinder mSpiceServiceBinder;
 
-    /** Responsible for persisting data. */
-
+    /** Responsible for processing requests. */
     private RequestProcessor requestProcessor;
 
     private int currentPendingRequestCount = 0;
@@ -62,13 +66,14 @@ public abstract class SpiceService extends Service {
 
     private Notification notification;
 
+    /** Responsible for persisting data. */
     private CacheManager cacheManager;
 
     private final SelfStopperRequestProcessorListener requestProcessorListener = new SelfStopperRequestProcessorListener();
 
-    // ============================================================================================
+    // ----------------------------------
     // CONSTRUCTOR
-    // ============================================================================================
+    // ----------------------------------
 
     /**
      * Default constructor.
@@ -143,18 +148,23 @@ public abstract class SpiceService extends Service {
      * Factory method to create an {@link ExecutorService} that will be used to
      * execute requests. The default implementation of this method will create a
      * single threaded or multi-threaded {@link ExecutorService} depending on
-     * the number of threads returned by {@link #getThreadCount()}. If you
-     * override this method in your service, you can supply a custom
-     * {@link ExecutorService}. This feature has been implemented following a
-     * request from Riccardo Ciovati.
+     * the number of threads returned by {@link #getThreadCount()} and will
+     * assign them the priority returned by {@link #getThreadPriority()}.
+     * <p/>
+     * If you override this method in your service, you can supply a custom
+     * {@link ExecutorService}.
+     * <p/>
+     * This feature has been implemented following a request from Riccardo
+     * Ciovati.
      * @return the {@link ExecutorService} to be used to execute requests .
      */
     protected ExecutorService getExecutorService() {
         final int threadCount = getThreadCount();
+        final int threadPriority = getThreadPriority();
         if (threadCount <= 0) {
             throw new IllegalArgumentException("Thread count must be >= 1");
         } else {
-            return PriorityThreadPoolExecutor.getPriorityExecutor(threadCount);
+            return PriorityThreadPoolExecutor.getPriorityExecutor(threadCount, threadPriority);
         }
     }
 
@@ -182,14 +192,31 @@ public abstract class SpiceService extends Service {
         super.onDestroy();
     }
 
-    // ============================================================================================
+    // ----------------------------------
     // DELEGATE METHODS (delegation is used to ease tests)
-    // ============================================================================================
+    // ----------------------------------
 
     public abstract CacheManager createCacheManager(Application application);
 
+    /**
+     * Override this method to increase the number of threads used to process
+     * requests. This method will have no effect if you override
+     * {@link #getExecutorService()}.
+     * @return the number of threads used to process requests. Defaults to
+     *         {@link #DEFAULT_THREAD_COUNT}.
+     */
     public int getThreadCount() {
         return DEFAULT_THREAD_COUNT;
+    }
+
+    /**
+     * Override this method to change the priority of threads requests. This
+     * method will have no effect if you override {@link #getExecutorService()}.
+     * @return the number of threads used to process requests.Defaults to
+     *         {@link #DEFAULT_THREAD_PRIORITY}.
+     */
+    public int getThreadPriority() {
+        return DEFAULT_THREAD_PRIORITY;
     }
 
     public void addRequest(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listRequestListener) {
@@ -234,9 +261,9 @@ public abstract class SpiceService extends Service {
         requestProcessor.dontNotifyRequestListenersForRequest(request, listRequestListener);
     }
 
-    // ============================================================================================
+    // ----------------------------------
     // SERVICE METHODS
-    // ============================================================================================
+    // ----------------------------------
 
     @Override
     public IBinder onBind(final Intent intent) {
