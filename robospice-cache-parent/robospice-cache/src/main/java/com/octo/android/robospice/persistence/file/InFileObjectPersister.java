@@ -12,6 +12,7 @@ import android.app.Application;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
+import com.octo.android.robospice.persistence.keysanitation.KeySanitizer;
 
 /**
  * An {@link ObjectPersister} that saves/loads data in a file.
@@ -21,12 +22,29 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
  */
 public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
 
+    // ----------------------------------
+    // CONSTANTS
+    // ----------------------------------
+
     /* package private */
     static final String CACHE_PREFIX_END = "_";
+
+    // ----------------------------------
+    // ATTRIBUTES
+    // ----------------------------------
+    private KeySanitizer keySanitizer;
+
+    // ----------------------------------
+    // CONSTRUCTOR
+    // ----------------------------------
 
     public InFileObjectPersister(Application application, Class<T> clazz) {
         super(application, clazz);
     }
+
+    // ----------------------------------
+    // PUBLIC API
+    // ----------------------------------
 
     @Override
     public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
@@ -40,6 +58,7 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     @Override
     public List<Object> getAllCacheKeys() {
         final String prefix = getCachePrefix();
+        int prefixLength = prefix.length();
         String[] cacheFileNameList = getCacheFolder().list(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String filename) {
@@ -49,7 +68,8 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
         });
         List<Object> result = new ArrayList<Object>(cacheFileNameList.length);
         for (String cacheFileName : cacheFileNameList) {
-            result.add(cacheFileName.substring(prefix.length()));
+            String cacheKey = cacheFileName.substring(prefixLength);
+            result.add(fromKey(cacheKey));
         }
         return result;
 
@@ -101,6 +121,62 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
         return null;
     }
 
+    /**
+     * @return Wether or not this {@link InFileObjectPersister} uses a {@link KeySanitizer}.
+     */
+    public boolean isUsingKeySanitizer() {
+        return keySanitizer != null;
+    }
+
+    /**
+     * @param keySanitize
+     *            the new key sanitizer to be used by this {@link InFileObjectPersister}. May be
+     *            null, in that case no key sanitation will be used default).
+     */
+    public void setKeySanitizer(KeySanitizer keySanitizer) {
+        this.keySanitizer = keySanitizer;
+    }
+
+    /**
+     * @return the key sanitizer used by this {@link InFileObjectPersister}. May be null, in that
+     *         case no key sanitation will be used default).
+     */
+    public KeySanitizer getKeySanitizer() {
+        return keySanitizer;
+    }
+
+    // ----------------------------------
+    // PROTECTED METHODS
+    // ----------------------------------
+
+    /**
+     * Get a key that may be sanitized if a {@link KeySanitizer} is used.
+     * @param cacheKey
+     *            a non-sanitized cacheKey.
+     * @return a key that will be sanitized if a {@link KeySanitizer} is used.
+     */
+    protected final String toKey(String cacheKey) {
+        if (isUsingKeySanitizer()) {
+            return (String) keySanitizer.sanitizeKey(cacheKey);
+        } else {
+            return cacheKey;
+        }
+    }
+
+    /**
+     * Get a cache key that may be de-sanitized if a {@link KeySanitizer} is used.
+     * @param cacheKey
+     *            a possibly sanitized cacheKey.
+     * @return a key that will be de-sanitized if a {@link KeySanitizer} is used.
+     */
+    protected final String fromKey(String cacheKey) {
+        if (isUsingKeySanitizer()) {
+            return (String) keySanitizer.desanitizeKey(cacheKey);
+        } else {
+            return cacheKey;
+        }
+    }
+
     protected abstract T readCacheDataFromFile(File file) throws CacheLoadingException;
 
     protected String getCachePrefix() {
@@ -108,7 +184,7 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     }
 
     public File getCacheFile(Object cacheKey) {
-        return new File(getCacheFolder(), getCachePrefix() + cacheKey.toString());
+        return new File(getCacheFolder(), getCachePrefix() + toKey(cacheKey.toString()));
     }
 
     private File getCacheFolder() {

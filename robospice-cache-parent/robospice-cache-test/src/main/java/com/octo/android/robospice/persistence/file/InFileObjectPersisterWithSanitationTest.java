@@ -1,18 +1,16 @@
 package com.octo.android.robospice.persistence.file;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Application;
 import android.test.suitebuilder.annotation.MediumTest;
 
-import com.octo.android.robospice.persistence.exception.CacheLoadingException;
-import com.octo.android.robospice.persistence.exception.CacheSavingException;
+import com.octo.android.robospice.persistence.file.InFileObjectPersisterTest.InFileObjectPersisterUnderTest;
+import com.octo.android.robospice.persistence.keysanitation.DefaultKeySanitizer;
 
 @MediumTest
-public class InFileObjectPersisterTest extends AbstractInFileObjectPersisterTest {
+public class InFileObjectPersisterWithSanitationTest extends AbstractInFileObjectPersisterTest {
 
     InFileObjectPersister<Object> inFileObjectPersister;
 
@@ -22,7 +20,7 @@ public class InFileObjectPersisterTest extends AbstractInFileObjectPersisterTest
     @Override
     protected void setUp() throws Exception {
         Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
-        inFileObjectPersister = new InFileObjectPersisterUnderTest(application);
+        inFileObjectPersister = new InFileObjectPersisterWithSanitationUnderTest(application);
         super.setUp(inFileObjectPersister);
     }
 
@@ -40,34 +38,10 @@ public class InFileObjectPersisterTest extends AbstractInFileObjectPersisterTest
     // ============================================================================================
     // CLASS UNDER TEST
     // ============================================================================================
-    static class InFileObjectPersisterUnderTest extends InFileObjectPersister<Object> {
-        InFileObjectPersisterUnderTest(Application application) {
-            super(application, Object.class);
-        }
-
-        @Override
-        public boolean canHandleClass(Class<?> arg0) {
-            return false;
-        }
-
-        @Override
-        public Object loadDataFromCache(Object arg0, long arg1) throws CacheLoadingException {
-            return null;
-        }
-
-        @Override
-        protected Object readCacheDataFromFile(File file) throws CacheLoadingException {
-            return null;
-        }
-
-        @Override
-        public Object saveDataToCacheAndReturnData(Object data, Object cacheKey) throws CacheSavingException {
-            try {
-                getCacheFile(cacheKey).createNewFile();
-            } catch (IOException e) {
-                throw new CacheSavingException(e);
-            }
-            return data;
+    private final class InFileObjectPersisterWithSanitationUnderTest extends InFileObjectPersisterUnderTest {
+        InFileObjectPersisterWithSanitationUnderTest(Application application) {
+            super(application);
+            setKeySanitizer(new DefaultKeySanitizer());
         }
     }
 

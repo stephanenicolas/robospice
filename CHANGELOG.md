@@ -8,14 +8,16 @@ Version 1.4.3 (Planned)
 https://github.com/jakenjarvis/Android-OrmLiteContentProvider
 
 ** Features :
-* Upgrade to android maven plugin 3.6.0, adt 22, and SDK 17.	
+* RoboSpice drops support for SDK 6 and 7. SDK 8+ required.
+* Upgrade to android maven plugin 3.6.0, adt 22, and SDK 17.
 * Request priority management is now built into RoboSpice.
 Requests with higher priority will get executed first. This is only taken into account for requests that exceed the number of threads of RoboSpice Service, otherwise this is not used.
 https://github.com/octo-online/robospice/issues/99
 Thanks to Volley for inspiring us on this feature. Richard Hyndman and Nick Butcher suggested us to add this a while ago.. Thx Google ! :)
-* Retry Policy is now built into RoboSpice. Request default to a non null retry policy that can be customized.
+* Add cachekey sanitation. Sanitation can be used to safely convert strings to cache keys persisted on a file system. Issue https://github.com/octo-online/robospice/issues/97  
+* Retry Policy is now built into RoboSpice. Requests default to a non null retry policy that can be customized.
+https://github.com/octo-online/robospice/issues/99
 * Retrofit module's API improved. RetrofitSpiceRequest optimize creation of retrofit services. 
- 
 
 
 Version 1.4.2 (May 20th 2013)
