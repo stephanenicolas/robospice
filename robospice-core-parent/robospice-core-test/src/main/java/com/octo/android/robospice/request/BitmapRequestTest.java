@@ -67,8 +67,7 @@ public class BitmapRequestTest extends InstrumentationTestCase {
         mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
-        BitmapRequest binaryRequest = new BitmapRequest(mockWebServer.getUrl("/").toString(), TEST_BITMAP_REDUCED_WIDTH, TEST_BITMAP_REDUCED_HEIGHT,
-            cacheFile);
+        BitmapRequest binaryRequest = new BitmapRequest(mockWebServer.getUrl("/").toString(), TEST_BITMAP_REDUCED_WIDTH, TEST_BITMAP_REDUCED_HEIGHT, cacheFile);
         Bitmap bitmapReturned = binaryRequest.loadDataFromNetwork();
         InputStream cacheInputStream = new FileInputStream(cacheFile);
 

@@ -83,12 +83,9 @@ public class CurrenWeather {
         result = prime * result + (humidity == null ? 0 : humidity.hashCode());
         result = prime * result + (pressure == null ? 0 : pressure.hashCode());
         result = prime * result + (temp == null ? 0 : temp.hashCode());
-        result = prime * result
-            + (temp_unit == null ? 0 : temp_unit.hashCode());
-        result = prime * result
-            + (weather_code == null ? 0 : weather_code.hashCode());
-        result = prime * result
-            + (weather_text == null ? 0 : weather_text.hashCode());
+        result = prime * result + (temp_unit == null ? 0 : temp_unit.hashCode());
+        result = prime * result + (weather_code == null ? 0 : weather_code.hashCode());
+        result = prime * result + (weather_text == null ? 0 : weather_text.hashCode());
         result = prime * result + (wind == null ? 0 : wind.hashCode());
         return result;
     }
@@ -159,10 +156,8 @@ public class CurrenWeather {
 
     @Override
     public String toString() {
-        return "CurrenWeather [humidity=" + humidity + ", pressure="
-            + pressure + ", temp=" + temp + ", temp_unit=" + temp_unit
-            + ", weather_code=" + weather_code + ", weather_text="
-            + weather_text + ", wind=" + wind + "]";
+        return "CurrenWeather [humidity=" + humidity + ", pressure=" + pressure + ", temp=" + temp + ", temp_unit="
+            + temp_unit + ", weather_code=" + weather_code + ", weather_text=" + weather_text + ", wind=" + wind + "]";
     }
 
 }

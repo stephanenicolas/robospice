@@ -20,6 +20,7 @@ import com.octo.android.robospice.networkstate.DefaultNetworkStateChecker;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.CachedSpiceRequest;
@@ -86,9 +87,17 @@ public abstract class SpiceService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        cacheManager = createCacheManager(getApplication());
+        try {
+            cacheManager = createCacheManager(getApplication());
+        } catch (CacheCreationException e) {
+            Ln.e(e);
+            stopSelf();
+            return;
+        }
         if (cacheManager == null) {
-            throw new IllegalArgumentException("createCacheManager() can't create a null cacheManager");
+            Ln.e(new CacheCreationException("createCacheManager() can't create a null cacheManager"));
+            stopSelf();
+            return;
         }
 
         final ExecutorService executorService = getExecutorService();
@@ -122,10 +131,8 @@ public abstract class SpiceService extends Service {
      *            an entity that will check network state.
      * @return a {@link RequestProcessor} that will be used to process requests.
      */
-    protected RequestProcessor createRequestProcessor(ExecutorService executorService,
-        NetworkStateChecker networkStateChecker) {
-        return new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener,
-            networkStateChecker);
+    protected RequestProcessor createRequestProcessor(ExecutorService executorService, NetworkStateChecker networkStateChecker) {
+        return new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener, networkStateChecker);
     }
 
     /**
@@ -196,7 +203,7 @@ public abstract class SpiceService extends Service {
     // DELEGATE METHODS (delegation is used to ease tests)
     // ----------------------------------
 
-    public abstract CacheManager createCacheManager(Application application);
+    public abstract CacheManager createCacheManager(Application application) throws CacheCreationException;
 
     /**
      * Override this method to increase the number of threads used to process
@@ -236,11 +243,11 @@ public abstract class SpiceService extends Service {
         return cacheManager.getAllCacheKeys(clazz);
     }
 
-    public <T> List<T> loadAllDataFromCache(final Class<T> clazz) throws CacheLoadingException {
+    public <T> List<T> loadAllDataFromCache(final Class<T> clazz) throws CacheLoadingException, CacheCreationException {
         return cacheManager.loadAllDataFromCache(clazz);
     }
 
-    public <T> T getDataFromCache(final Class<T> clazz, final Object cacheKey) throws CacheLoadingException {
+    public <T> T getDataFromCache(final Class<T> clazz, final Object cacheKey) throws CacheLoadingException, CacheCreationException {
         return cacheManager.loadDataFromCache(clazz, cacheKey, DurationInMillis.ALWAYS_RETURNED);
     }
 
@@ -256,8 +263,7 @@ public abstract class SpiceService extends Service {
         requestProcessor.setFailOnCacheError(failOnCacheError);
     }
 
-    public void dontNotifyRequestListenersForRequest(final CachedSpiceRequest<?> request,
-        final Collection<RequestListener<?>> listRequestListener) {
+    public void dontNotifyRequestListenersForRequest(final CachedSpiceRequest<?> request, final Collection<RequestListener<?>> listRequestListener) {
         requestProcessor.dontNotifyRequestListenersForRequest(request, listRequestListener);
     }
 
@@ -322,8 +328,7 @@ public abstract class SpiceService extends Service {
     // http://code.google.com/p/android/issues/detail?id=12122
     private void startForeground(final Notification notification) {
         try {
-            final Method setForegroundMethod = Service.class
-                .getMethod("startForeground", int.class, Notification.class);
+            final Method setForegroundMethod = Service.class.getMethod("startForeground", int.class, Notification.class);
             setForegroundMethod.invoke(this, NOTIFICATION_ID, notification);
         } catch (final SecurityException e) {
             Ln.e(e, "Unable to start a service in foreground");

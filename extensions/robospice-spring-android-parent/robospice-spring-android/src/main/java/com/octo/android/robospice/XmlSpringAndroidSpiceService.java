@@ -9,6 +9,8 @@ import org.springframework.web.client.RestTemplate;
 import android.app.Application;
 
 import com.octo.android.robospice.persistence.CacheManager;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
+import com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersisterFactory;
 
 /**
  * A {@link SpringAndroidSpiceService} dedicated to xml web services. Provides
@@ -17,11 +19,9 @@ import com.octo.android.robospice.persistence.CacheManager;
  */
 public class XmlSpringAndroidSpiceService extends SpringAndroidSpiceService {
     @Override
-    public CacheManager createCacheManager(Application application) {
+    public CacheManager createCacheManager(Application application) throws CacheCreationException {
         CacheManager cacheManager = new CacheManager();
-        cacheManager
-            .addPersister(new com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersisterFactory(
-                application));
+        cacheManager.addPersister(new SimpleSerializerObjectPersisterFactory(application));
         return cacheManager;
     }
 
@@ -31,8 +31,7 @@ public class XmlSpringAndroidSpiceService extends SpringAndroidSpiceService {
 
         // web services support xml responses
         SimpleXmlHttpMessageConverter jsonConverter = new SimpleXmlHttpMessageConverter();
-        final List<HttpMessageConverter<?>> listHttpMessageConverters = restTemplate
-            .getMessageConverters();
+        final List<HttpMessageConverter<?>> listHttpMessageConverters = restTemplate.getMessageConverters();
 
         listHttpMessageConverters.add(jsonConverter);
         restTemplate.setMessageConverters(listHttpMessageConverters);

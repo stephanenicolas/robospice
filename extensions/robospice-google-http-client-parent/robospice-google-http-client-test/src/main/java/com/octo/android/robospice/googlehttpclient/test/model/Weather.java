@@ -34,8 +34,7 @@ public class Weather {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-            + (currenWeather == null ? 0 : currenWeather.hashCode());
+        result = prime * result + (currenWeather == null ? 0 : currenWeather.hashCode());
         result = prime * result + (forecast == null ? 0 : forecast.hashCode());
         return result;
     }
@@ -71,8 +70,7 @@ public class Weather {
 
     @Override
     public String toString() {
-        return "Weather [currenWeather=" + currenWeather + ", forecast="
-            + forecast + "]";
+        return "Weather [currenWeather=" + currenWeather + ", forecast=" + forecast + "]";
     }
 
 }

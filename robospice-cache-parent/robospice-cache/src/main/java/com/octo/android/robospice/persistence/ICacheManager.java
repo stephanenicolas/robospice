@@ -2,6 +2,7 @@ package com.octo.android.robospice.persistence;
 
 import java.util.List;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
@@ -22,7 +23,8 @@ public interface ICacheManager {
      * Get all cache keys associated to a given class.
      * @param clazz
      *            the class for which to get all cache keys.
-     * @return all cache keys associated to a given class.
+     * @return all cache keys associated to a given class. The empty list is
+     *         nothing is found in cache.
      */
     <T> List<Object> getAllCacheKeys(Class<T> clazz);
 
@@ -40,11 +42,8 @@ public interface ICacheManager {
      * @return an instance of a class clazz, that is stored in cache under the
      *         key cacheKey. If the item is not found in cache or is older than
      *         maxTimeInCacheBeforeExpiry, then this method will return null.
-     * @throws CacheLoadingException
-     *             if an error occurs during cache reading, or instance
-     *             creation.
      */
-    <T> T loadDataFromCache(Class<T> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException;
+    <T> T loadDataFromCache(Class<T> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException, CacheCreationException;
 
     /**
      * Loads all data stored in cache for a given class.
@@ -52,7 +51,7 @@ public interface ICacheManager {
      *            the class for which to get all data stored in cache.
      * @return all data stored in cache for a given class.
      */
-    <T> List<T> loadAllDataFromCache(Class<T> clazz) throws CacheLoadingException;
+    <T> List<T> loadAllDataFromCache(Class<T> clazz) throws CacheLoadingException, CacheCreationException;
 
     /**
      * Save an instance of a given class, into the cache identified by cacheKey.
@@ -65,10 +64,8 @@ public interface ICacheManager {
      * @param cacheKey
      *            the key used to identify this item in cache.
      * @return the data that was saved.
-     * @throws CacheSavingException
-     *             if an error occurs during cache writing.
      */
-    <T> T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheSavingException;
+    <T> T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheCreationException, CacheSavingException;
 
     /**
      * Removes a given data in the cache that is an instance of class clazz.

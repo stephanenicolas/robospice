@@ -15,8 +15,10 @@ import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ICacheManager;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
+import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.priority.PausableThreadPoolExecutor;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -90,7 +92,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_something_is_found_in_cache() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_something_is_found_in_cache() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
 
@@ -114,7 +116,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
 
@@ -139,7 +141,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_nothing_is_found_in_cache_and_request_fails() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_nothing_is_found_in_cache_and_request_fails() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createFailedRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION);
         stubRequest.setRetryPolicy(null);
@@ -164,7 +166,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_saving_to_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_saving_to_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
 
@@ -189,7 +191,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_request_is_cancelled_and_new_one_relaunched_with_same_key() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_request_is_cancelled_and_new_one_relaunched_with_same_key() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
 
@@ -229,7 +231,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isSuccessful());
     }
 
-    public void testAddRequest_with_null_listener() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_with_null_listener() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
 
@@ -254,7 +256,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // TESTING WITH FAIL ON ERROR = true
     // ============================================================================================
 
-    public void testAddRequest_fail_on_error_true_when_nothing_is_found_in_cache() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_fail_on_error_true_when_nothing_is_found_in_cache() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
 
@@ -280,7 +282,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_fail_on_error_true_loading_from_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_fail_on_error_true_loading_from_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         stubRequest.setRetryPolicy(null);
@@ -305,7 +307,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_fail_on_error_true_saving_to_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_fail_on_error_true_saving_to_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         stubRequest.setRetryPolicy(null);
@@ -371,7 +373,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // ============================================================================================
     // DO NOT NOTIFY LISTENERS
     // ============================================================================================
-    public void test_dontNotifyRequestListenersForRequest_with_2_request_and_one_not_notified() throws InterruptedException, CacheLoadingException, CacheSavingException {
+    public void test_dontNotifyRequestListenersForRequest_with_2_request_and_one_not_notified() throws InterruptedException, CacheLoadingException, CacheSavingException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
         CachedSpiceRequestStub<String> stubRequest2 = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA);
@@ -408,7 +410,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // ============================================================================================
     // DO NOT NOTIFY LISTENERS
     // ============================================================================================
-    public void test_addRequest_with_2_requests_and_one_is_cancelled() throws InterruptedException, CacheLoadingException, CacheSavingException {
+    public void test_addRequest_with_2_requests_and_one_is_cancelled() throws InterruptedException, CacheLoadingException, CacheSavingException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         CachedSpiceRequestStub<String> stubRequest2 = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA);
@@ -485,7 +487,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // ============================================================================================
     // TESTING NETWORK MANAGER DEPENDENCY
     // ============================================================================================
-    public void testAddRequestWhenNetworkIsDown() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequestWhenNetworkIsDown() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         stubRequest.setRetryPolicy(null);
@@ -511,7 +513,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertFalse(mockRequestListener.isSuccessful());
     }
 
-    public void testAddRequest_should_process_offline_request_even_if_network_is_down() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_should_process_offline_request_even_if_network_is_down() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         stubRequest.setOffline(true);
@@ -542,12 +544,13 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // ============================================================================================
 
     /*
-     * Those tests are really tricky. We want to test request priority. There are some limitations
-     * to using a PriorityBlockingQueue inside an ExecutorService. Here, to get a smooth test, we
-     * inject a lot of low requests and make assertions on the last executed request. That is the
+     * Those tests are really tricky. We want to test request priority. There
+     * are some limitations to using a PriorityBlockingQueue inside an
+     * ExecutorService. Here, to get a smooth test, we inject a lot of low
+     * requests and make assertions on the last executed request. That is the
      * only way to get a stable test.
      */
-    public void testRequestPriority_should_execute_asap_hight_priority_requests() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testRequestPriority_should_execute_asap_hight_priority_requests() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // when
         requestProcessorListener = EasyMock.createNiceMock(RequestProcessorListener.class);
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
@@ -594,7 +597,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertNotSame(TEST_RETURNED_DATA2, mockRequestListener.getResultHistory().get(lowRequestCount));
     }
 
-    public void testRequestPriority_should_execute_lazyly_low_priority_requests() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testRequestPriority_should_execute_lazyly_low_priority_requests() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // when
         requestProcessorListener = EasyMock.createNiceMock(RequestProcessorListener.class);
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
@@ -651,7 +654,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // TESTING RETRY POLICY
     // ============================================================================================
 
-    public void testAddRequest_when_nothing_is_found_in_cache_and_request_has_retry_policy() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_nothing_is_found_in_cache_and_request_has_retry_policy() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createFailedRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION);
         DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(TEST_RETRY_COUNT, TEST_DELAY_BEFORE_RETRY, TEST_RETRY_BACKOFF_MULTIPLIER);
@@ -681,7 +684,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_fail_on_error_true_and_request_has_retry_policy_loading_from_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_fail_on_error_true_and_request_has_retry_policy_loading_from_cache_throws_exception() throws SpiceException, InterruptedException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(TEST_RETRY_COUNT, TEST_DELAY_BEFORE_RETRY, TEST_RETRY_BACKOFF_MULTIPLIER);
@@ -710,7 +713,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequest_when_fail_on_error_and_request_has_retry_polic_true_saving_to_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequest_when_fail_on_error_and_request_has_retry_polic_true_saving_to_cache_throws_exception() throws InterruptedException, SpiceException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(TEST_RETRY_COUNT, TEST_DELAY_BEFORE_RETRY, TEST_RETRY_BACKOFF_MULTIPLIER);
@@ -742,7 +745,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
-    public void testAddRequestWhenNetworkIsDown_and_request_has_retry_policy() throws CacheLoadingException, CacheSavingException, InterruptedException {
+    public void testAddRequestWhenNetworkIsDown_and_request_has_retry_policy() throws CacheLoadingException, SpiceException, InterruptedException, Exception {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
         DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(TEST_RETRY_COUNT, TEST_DELAY_BEFORE_RETRY, TEST_RETRY_BACKOFF_MULTIPLIER);
@@ -778,7 +781,11 @@ public class RequestProcessorTest extends InstrumentationTestCase {
 
     private <T> CachedSpiceRequestStub<T> createSuccessfulRequest(Class<T> clazz, T returnedData) {
         SpiceRequestStub<T> stubContentRequest = new SpiceRequestSucceedingStub<T>(clazz, returnedData);
-        return new CachedSpiceRequestStub<T>(stubContentRequest, null, 0 /* What ever. */);
+        return new CachedSpiceRequestStub<T>(stubContentRequest, null, 0 /*
+                                                                          * What
+                                                                          * ever
+                                                                          * .
+                                                                          */);
     }
 
     private <T> CachedSpiceRequestStub<T> createSuccessfulRequest(Class<T> clazz, Object cacheKey, long maxTimeInCache, T returnedData) {

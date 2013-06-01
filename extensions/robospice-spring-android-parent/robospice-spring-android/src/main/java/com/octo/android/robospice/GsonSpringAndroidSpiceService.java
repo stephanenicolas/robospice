@@ -9,6 +9,8 @@ import org.springframework.web.client.RestTemplate;
 import android.app.Application;
 
 import com.octo.android.robospice.persistence.CacheManager;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
+import com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersisterFactory;
 
 /**
  * A {@link SpringAndroidSpiceService} dedicated to json web services via gson.
@@ -17,11 +19,9 @@ import com.octo.android.robospice.persistence.CacheManager;
  */
 public class GsonSpringAndroidSpiceService extends SpringAndroidSpiceService {
     @Override
-    public CacheManager createCacheManager(Application application) {
+    public CacheManager createCacheManager(Application application) throws CacheCreationException {
         CacheManager cacheManager = new CacheManager();
-        cacheManager
-            .addPersister(new com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersisterFactory(
-                application));
+        cacheManager.addPersister(new GsonObjectPersisterFactory(application));
         return cacheManager;
     }
 
@@ -31,8 +31,7 @@ public class GsonSpringAndroidSpiceService extends SpringAndroidSpiceService {
 
         // web services support json responses
         GsonHttpMessageConverter jsonConverter = new GsonHttpMessageConverter();
-        final List<HttpMessageConverter<?>> listHttpMessageConverters = restTemplate
-            .getMessageConverters();
+        final List<HttpMessageConverter<?>> listHttpMessageConverters = restTemplate.getMessageConverters();
 
         listHttpMessageConverters.add(jsonConverter);
         restTemplate.setMessageConverters(listHttpMessageConverters);

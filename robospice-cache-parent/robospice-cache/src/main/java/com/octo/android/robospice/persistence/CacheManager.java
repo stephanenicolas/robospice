@@ -2,11 +2,15 @@ package com.octo.android.robospice.persistence;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import roboguice.util.temp.Ln;
+
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
@@ -40,8 +44,7 @@ public class CacheManager implements ICacheManager {
             // but there won't be any overhead while iterating through the list.
             mapFactoryToPersister.put((ObjectPersisterFactory) persister, new CopyOnWriteArrayList<ObjectPersister<?>>());
         } else if (!(persister instanceof ObjectPersister)) {
-            throw new RuntimeException(getClass().getSimpleName() + " only supports " + ObjectPersister.class.getSimpleName() + " or "
-                + ObjectPersisterFactory.class.getSimpleName() + " instances.");
+            throw new RuntimeException(getClass().getSimpleName() + " only supports " + ObjectPersister.class.getSimpleName() + " or " + ObjectPersisterFactory.class.getSimpleName() + " instances.");
         }
     }
 
@@ -54,42 +57,68 @@ public class CacheManager implements ICacheManager {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * @throws CacheCreationException
+     */
     @Override
-    public <T> T loadDataFromCache(Class<T> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
+    public <T> T loadDataFromCache(Class<T> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException, CacheCreationException {
         return getObjectPersister(clazz).loadDataFromCache(cacheKey, maxTimeInCacheBeforeExpiry);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     /** {@inheritDoc}*/
-    public <T> T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheSavingException {
+    public <T> T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheSavingException, CacheCreationException {
         // http://stackoverflow.com/questions/4460580/java-generics-why-someobject-getclass-doesnt-return-class-extends-t
         ObjectPersister<T> classCacheManager = getObjectPersister((Class<T>) data.getClass());
         return classCacheManager.saveDataToCacheAndReturnData(data, cacheKey);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean removeDataFromCache(Class<?> clazz, Object cacheKey) {
-        return getObjectPersister(clazz).removeDataFromCache(cacheKey);
+        try {
+            return getObjectPersister(clazz).removeDataFromCache(cacheKey);
+        } catch (CacheCreationException e) {
+            Ln.e(e);
+            return false;
+        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeAllDataFromCache(Class<?> clazz) {
-        getObjectPersister(clazz).removeAllDataFromCache();
+        try {
+            getObjectPersister(clazz).removeAllDataFromCache();
+        } catch (CacheCreationException e) {
+            Ln.e(e);
+        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T> List<Object> getAllCacheKeys(final Class<T> clazz) {
-        return getObjectPersister(clazz).getAllCacheKeys();
+        try {
+            return getObjectPersister(clazz).getAllCacheKeys();
+        } catch (CacheCreationException e) {
+            Ln.e(e);
+            return Collections.emptyList();
+        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * @throws CacheCreationException
+     */
     @Override
-    public <T> List<T> loadAllDataFromCache(final Class<T> clazz) throws CacheLoadingException {
+    public <T> List<T> loadAllDataFromCache(final Class<T> clazz) throws CacheLoadingException, CacheCreationException {
         return getObjectPersister(clazz).loadAllDataFromCache();
     }
 
@@ -97,20 +126,23 @@ public class CacheManager implements ICacheManager {
     @Override
     public void removeAllDataFromCache() {
         for (Persister persister : this.listPersister) {
-            if (persister instanceof ObjectPersister) {
-                ((ObjectPersister<?>) persister).removeAllDataFromCache();
-            } else if (persister instanceof ObjectPersisterFactory) {
+            if (persister instanceof CacheCleaner) {
+                ((CacheCleaner) persister).removeAllDataFromCache();
+            }
+
+            if (persister instanceof ObjectPersisterFactory) {
                 ObjectPersisterFactory factory = (ObjectPersisterFactory) persister;
                 List<ObjectPersister<?>> listPersisterForFactory = mapFactoryToPersister.get(factory);
                 for (ObjectPersister<?> objectPersister : listPersisterForFactory) {
                     objectPersister.removeAllDataFromCache();
                 }
             }
+
         }
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> ObjectPersister<T> getObjectPersister(Class<T> clazz) {
+    protected <T> ObjectPersister<T> getObjectPersister(Class<T> clazz) throws CacheCreationException {
         for (Persister persister : this.listPersister) {
             if (persister.canHandleClass(clazz)) {
                 if (persister instanceof ObjectPersister) {
@@ -128,6 +160,7 @@ public class CacheManager implements ICacheManager {
                             }
                         }
                         ObjectPersister<T> newPersister = factory.createObjectPersister(clazz);
+                        newPersister.setAsyncSaveEnabled(factory.isAsyncSaveEnabled());
                         listPersisterForFactory.add(newPersister);
                         return newPersister;
                     }

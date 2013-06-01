@@ -11,8 +11,7 @@ import com.octo.android.robospice.springandroid.test.stub.SpringAndroidSpiceRequ
 
 //Thanks to http://stackoverflow.com/questions/2300029/servicetestcaset-getservice
 @SmallTest
-public class SpringAndroidSpiceServiceTest extends
-    ServiceTestCase<SpringAndroidTestService> {
+public class SpringAndroidSpiceServiceTest extends ServiceTestCase<SpringAndroidTestService> {
 
     private static final int REQUEST_COMPLETION_TIMEOUT = 1000;
     private SpiceManager spiceManager;
@@ -43,16 +42,13 @@ public class SpringAndroidSpiceServiceTest extends
         assertNotNull(getService().createRestTemplate());
     }
 
-    public void test_addRequest_injects_request_factory()
-        throws InterruptedException {
+    public void test_addRequest_injects_request_factory() throws InterruptedException {
         // given
         spiceManager.start(getContext());
-        SpringAndroidSpiceRequestStub springAndroidSpiceRequest = new SpringAndroidSpiceRequestStub(
-            Weather.class);
+        SpringAndroidSpiceRequestStub springAndroidSpiceRequest = new SpringAndroidSpiceRequestStub(Weather.class);
 
         // when
-        spiceManager.execute(springAndroidSpiceRequest,
-            new RequestListenerStub<Weather>());
+        spiceManager.execute(springAndroidSpiceRequest, new RequestListenerStub<Weather>());
         springAndroidSpiceRequest.await(REQUEST_COMPLETION_TIMEOUT);
 
         // test

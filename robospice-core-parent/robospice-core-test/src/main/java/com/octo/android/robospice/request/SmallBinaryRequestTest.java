@@ -34,21 +34,17 @@ public class SmallBinaryRequestTest extends InstrumentationTestCase {
         super.tearDown();
     }
 
-    public void test_loadDataFromNetwork_returns_a_small_binary()
-        throws Exception {
+    public void test_loadDataFromNetwork_returns_a_small_binary() throws Exception {
         // given;
-        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext()
-            .getResources().openRawResource(R.raw.binary));
+        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext().getResources().openRawResource(R.raw.binary));
         mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
         // when
-        SmallBinaryRequest binaryRequest = new SmallBinaryRequest(mockWebServer
-            .getUrl("/").toString());
+        SmallBinaryRequest binaryRequest = new SmallBinaryRequest(mockWebServer.getUrl("/").toString());
         InputStream binaryReturned = binaryRequest.loadDataFromNetwork();
 
         // then
-        assertTrue(IOUtils.contentEquals(binaryReturned, getInstrumentation()
-            .getContext().getResources().openRawResource(R.raw.binary)));
+        assertTrue(IOUtils.contentEquals(binaryReturned, getInstrumentation().getContext().getResources().openRawResource(R.raw.binary)));
     }
 }

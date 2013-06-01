@@ -152,9 +152,11 @@
 		<module name="InnerAssignment" />
 		<module name="MagicNumber" />
 		<module name="MissingSwitchDefault" />
+                <!-- bugs
 		<module name="RedundantThrows">
 			<property name="suppressLoadErrors" value="true" />
 		</module>
+                -->
 		<module name="SimplifyBooleanExpression" />
 		<module name="SimplifyBooleanReturn" />
 

@@ -12,6 +12,7 @@ import com.octo.android.robospice.googlehttpclient.test.model.CurrenWeather;
 import com.octo.android.robospice.googlehttpclient.test.model.Weather;
 import com.octo.android.robospice.googlehttpclient.test.model.WeatherResult;
 import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 
 @SmallTest
 public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTestCase {
@@ -28,10 +29,11 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         super.setUp();
         Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
         JsonObjectPersisterFactory factory = getJsonObjectPersisterFactory(application);
-        inFileObjectPersister = factory.createObjectPersister(WeatherResult.class);
+        inFileObjectPersister = factory.createInFileObjectPersister(WeatherResult.class, null);
     }
 
-    protected abstract JsonObjectPersisterFactory getJsonObjectPersisterFactory(Application application);
+    protected abstract JsonObjectPersisterFactory getJsonObjectPersisterFactory(Application application)
+        throws CacheCreationException;
 
     @Override
     protected void tearDown() throws Exception {
@@ -49,7 +51,8 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP, TEST_TEMP_UNIT);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
+        WeatherResult weatherReturned = inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus,
+            "weather.json");
 
         // THEN
         assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());
@@ -62,7 +65,8 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(FILE_NAME, DurationInMillis.ALWAYS_RETURNED);
+        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(FILE_NAME,
+            DurationInMillis.ALWAYS_RETURNED);
 
         // THEN
         assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());

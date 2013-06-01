@@ -117,9 +117,8 @@ public final class Strings {
     }
 
     public static String toString(final Object o, final String def) {
-        return o == null ? def : o instanceof InputStream ? toString((InputStream) o) : o instanceof Reader ? toString((Reader) o)
-            : o instanceof Object[] ? Strings.join(", ", (Object[]) o) : o instanceof Collection ? Strings.join(", ", (Collection<?>) o) : o
-                .toString();
+        return o == null ? def : o instanceof InputStream ? toString((InputStream) o) : o instanceof Reader ? toString((Reader) o) : o instanceof Object[] ? Strings.join(", ", (Object[]) o)
+            : o instanceof Collection ? Strings.join(", ", (Collection<?>) o) : o.toString();
     }
 
     public static boolean isEmpty(final Object o) {

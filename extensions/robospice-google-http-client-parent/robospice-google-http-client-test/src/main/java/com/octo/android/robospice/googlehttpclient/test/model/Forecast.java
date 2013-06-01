@@ -72,13 +72,10 @@ public class Forecast {
         int result = 1;
         result = prime * result + (date == null ? 0 : date.hashCode());
         result = prime * result + (day == null ? 0 : day.hashCode());
-        result = prime * result
-            + (day_max_temp == null ? 0 : day_max_temp.hashCode());
+        result = prime * result + (day_max_temp == null ? 0 : day_max_temp.hashCode());
         result = prime * result + (night == null ? 0 : night.hashCode());
-        result = prime * result
-            + (night_min_temp == null ? 0 : night_min_temp.hashCode());
-        result = prime * result
-            + (temp_unit == null ? 0 : temp_unit.hashCode());
+        result = prime * result + (night_min_temp == null ? 0 : night_min_temp.hashCode());
+        result = prime * result + (temp_unit == null ? 0 : temp_unit.hashCode());
         return result;
     }
 
@@ -141,9 +138,8 @@ public class Forecast {
 
     @Override
     public String toString() {
-        return "Forecast [date=" + date + ", day=" + day + ", day_max_temp="
-            + day_max_temp + ", night=" + night + ", night_min_temp="
-            + night_min_temp + ", temp_unit=" + temp_unit + "]";
+        return "Forecast [date=" + date + ", day=" + day + ", day_max_temp=" + day_max_temp + ", night=" + night
+            + ", night_min_temp=" + night_min_temp + ", temp_unit=" + temp_unit + "]";
     }
 
 }

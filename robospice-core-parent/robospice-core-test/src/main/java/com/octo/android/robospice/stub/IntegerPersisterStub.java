@@ -11,7 +11,8 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
 /**
- * Stub of an object persister. Doesn't use any real cache management. Will help to pass the tests without any side-effect.
+ * Stub of an object persister. Doesn't use any real cache management. Will help
+ * to pass the tests without any side-effect.
  * @author sni
  */
 public class IntegerPersisterStub extends ObjectPersister<Integer> {

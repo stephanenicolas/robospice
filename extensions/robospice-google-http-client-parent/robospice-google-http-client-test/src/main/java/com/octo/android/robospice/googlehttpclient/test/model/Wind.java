@@ -40,8 +40,7 @@ public class Wind {
         int result = 1;
         result = prime * result + (dir == null ? 0 : dir.hashCode());
         result = prime * result + (speed == null ? 0 : speed.hashCode());
-        result = prime * result
-            + (wind_unit == null ? 0 : wind_unit.hashCode());
+        result = prime * result + (wind_unit == null ? 0 : wind_unit.hashCode());
         return result;
     }
 
@@ -83,8 +82,7 @@ public class Wind {
 
     @Override
     public String toString() {
-        return "Wind [dir=" + dir + ", speed=" + speed + ", wind_unit="
-            + wind_unit + "]";
+        return "Wind [dir=" + dir + ", speed=" + speed + ", wind_unit=" + wind_unit + "]";
     }
 
 }

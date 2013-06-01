@@ -38,8 +38,7 @@ public class Day {
 
     @Override
     public String toString() {
-        return "Day [weather_code=" + weather_code + ", weather_text="
-            + weather_text + ", wind=" + wind + "]";
+        return "Day [weather_code=" + weather_code + ", weather_text=" + weather_text + ", wind=" + wind + "]";
     }
 
 }

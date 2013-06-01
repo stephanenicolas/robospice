@@ -16,6 +16,7 @@ import retrofit.mime.TypedOutput;
 import roboguice.util.temp.Ln;
 import android.app.Application;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
@@ -28,25 +29,24 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
 
     private final Converter converter;
 
-    private String mFactoryPrefix;
-
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-    public RetrofitObjectPersister(Application application, Class<T> clazz, String factoryPrefix, Converter converter) {
-        super(application, clazz);
+
+    public RetrofitObjectPersister(Application application, Converter converter, Class<T> clazz, File cacheFolder)
+        throws CacheCreationException {
+        super(application, clazz, cacheFolder);
         this.converter = converter;
-        this.mFactoryPrefix = factoryPrefix;
+    }
+
+    public RetrofitObjectPersister(Application application, Converter converter, Class<T> clazz)
+        throws CacheCreationException {
+        this(application, converter, clazz, null);
     }
 
     // ============================================================================================
     // METHODS
     // ============================================================================================
-
-    @Override
-    protected String getCachePrefix() {
-        return mFactoryPrefix + super.getCachePrefix();
-    }
 
     @SuppressWarnings("unchecked")
     @Override

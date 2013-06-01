@@ -13,19 +13,23 @@ import org.apache.commons.io.IOUtils;
 import roboguice.util.temp.Ln;
 import android.app.Application;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 public class InFileInputStreamObjectPersister extends InFileObjectPersister<InputStream> {
 
-    public InFileInputStreamObjectPersister(Application application) {
+    public InFileInputStreamObjectPersister(Application application) throws CacheCreationException {
         super(application, InputStream.class);
     }
 
+    public InFileInputStreamObjectPersister(Application application, File cacheFolder) throws CacheCreationException {
+        super(application, InputStream.class, cacheFolder);
+    }
+
     @Override
-    protected InputStream readCacheDataFromFile(File file)
-        throws CacheLoadingException {
+    protected InputStream readCacheDataFromFile(File file) throws CacheLoadingException {
         try {
             return new FileInputStream(file);
         } catch (FileNotFoundException e) {

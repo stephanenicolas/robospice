@@ -11,6 +11,7 @@ import android.app.Application;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.keysanitation.KeySanitizer;
 
@@ -29,22 +30,58 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     /* package private */
     static final String CACHE_PREFIX_END = "_";
 
+    /* package private */
+    static final String DEFAULT_ROOT_CACHE_DIR = "robospice-cache";
+
     // ----------------------------------
     // ATTRIBUTES
     // ----------------------------------
     private KeySanitizer keySanitizer;
 
+    private File cacheFolder;
+
+    private String factoryCachePrefix = "";
+
     // ----------------------------------
     // CONSTRUCTOR
     // ----------------------------------
 
-    public InFileObjectPersister(Application application, Class<T> clazz) {
+    public InFileObjectPersister(Application application, Class<T> clazz) throws CacheCreationException {
         super(application, clazz);
+        setCacheFolder(null);
+    }
+
+    public InFileObjectPersister(Application application, Class<T> clazz, File cacheFolder) throws CacheCreationException {
+        super(application, clazz);
+        setCacheFolder(cacheFolder);
     }
 
     // ----------------------------------
     // PUBLIC API
     // ----------------------------------
+
+    /**
+     * Set the cacheFolder to use.
+     * @param cacheFolder
+     *            the new cache folder to use. Can be null, will then default to
+     *            {@link #DEFAULT_ROOT_CACHE_DIR} sub folder in the application
+     *            cache dir.
+     * @throws CacheCreationException
+     *             if the cache folder doesn't exist or can't be created.
+     */
+    public void setCacheFolder(File cacheFolder) throws CacheCreationException {
+        if (cacheFolder == null) {
+            cacheFolder = new File(getApplication().getCacheDir(), DEFAULT_ROOT_CACHE_DIR);
+        }
+        if (!cacheFolder.exists() && !cacheFolder.mkdirs()) {
+            throw new CacheCreationException("The cache folder " + cacheFolder.getAbsolutePath() + " could not be created.");
+        }
+        this.cacheFolder = cacheFolder;
+    }
+
+    public final File getCacheFolder() {
+        return cacheFolder;
+    }
 
     @Override
     public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
@@ -122,32 +159,42 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     }
 
     /**
-     * @return Wether or not this {@link InFileObjectPersister} uses a {@link KeySanitizer}.
+     * @return Whether or not this {@link InFileObjectPersister} uses a
+     *         {@link KeySanitizer}.
      */
     public boolean isUsingKeySanitizer() {
         return keySanitizer != null;
     }
 
     /**
-     * @param keySanitize
-     *            the new key sanitizer to be used by this {@link InFileObjectPersister}. May be
-     *            null, in that case no key sanitation will be used default).
+     * @param keySanitizer
+     *            the new key sanitizer to be used by this
+     *            {@link InFileObjectPersister}. May be null, in that case no
+     *            key sanitation will be used default).
      */
     public void setKeySanitizer(KeySanitizer keySanitizer) {
         this.keySanitizer = keySanitizer;
     }
 
     /**
-     * @return the key sanitizer used by this {@link InFileObjectPersister}. May be null, in that
-     *         case no key sanitation will be used default).
+     * @return the key sanitizer used by this {@link InFileObjectPersister}. May
+     *         be null, in that case no key sanitation will be used default).
      */
     public KeySanitizer getKeySanitizer() {
         return keySanitizer;
     }
 
+    public final File getCacheFile(Object cacheKey) {
+        return new File(getCacheFolder(), getCachePrefix() + toKey(cacheKey.toString()));
+    }
+
     // ----------------------------------
     // PROTECTED METHODS
     // ----------------------------------
+    /* package-private */
+    void setFactoryCachePrefix(String factoryCachePrefix) {
+        this.factoryCachePrefix = factoryCachePrefix;
+    }
 
     /**
      * Get a key that may be sanitized if a {@link KeySanitizer} is used.
@@ -164,10 +211,12 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     }
 
     /**
-     * Get a cache key that may be de-sanitized if a {@link KeySanitizer} is used.
+     * Get a cache key that may be de-sanitized if a {@link KeySanitizer} is
+     * used.
      * @param cacheKey
      *            a possibly sanitized cacheKey.
-     * @return a key that will be de-sanitized if a {@link KeySanitizer} is used.
+     * @return a key that will be de-sanitized if a {@link KeySanitizer} is
+     *         used.
      */
     protected final String fromKey(String cacheKey) {
         if (isUsingKeySanitizer()) {
@@ -179,16 +228,8 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
 
     protected abstract T readCacheDataFromFile(File file) throws CacheLoadingException;
 
-    protected String getCachePrefix() {
-        return getClass().getSimpleName() + CACHE_PREFIX_END;
-    }
-
-    public File getCacheFile(Object cacheKey) {
-        return new File(getCacheFolder(), getCachePrefix() + toKey(cacheKey.toString()));
-    }
-
-    private File getCacheFolder() {
-        return getApplication().getCacheDir();
+    protected final String getCachePrefix() {
+        return factoryCachePrefix + getClass().getSimpleName() + CACHE_PREFIX_END;
     }
 
     protected boolean isCachedAndNotExpired(Object cacheKey, long maxTimeInCacheBeforeExpiry) {

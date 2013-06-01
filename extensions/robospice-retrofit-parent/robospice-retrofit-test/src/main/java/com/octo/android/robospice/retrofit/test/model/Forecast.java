@@ -130,7 +130,8 @@ public class Forecast {
 
     @Override
     public String toString() {
-        return "Forecast [date=" + date + ", day=" + day + ", day_max_temp=" + day_max_temp + ", night=" + night + ", night_min_temp=" + night_min_temp + ", temp_unit=" + temp_unit + "]";
+        return "Forecast [date=" + date + ", day=" + day + ", day_max_temp=" + day_max_temp + ", night=" + night
+            + ", night_min_temp=" + night_min_temp + ", temp_unit=" + temp_unit + "]";
     }
 
 }

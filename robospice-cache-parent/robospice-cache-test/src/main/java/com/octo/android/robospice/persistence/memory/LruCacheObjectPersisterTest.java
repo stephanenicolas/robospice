@@ -4,6 +4,7 @@ import android.app.Application;
 import android.test.InstrumentationTestCase;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.string.InFileStringObjectPersister;
 
 public class LruCacheObjectPersisterTest extends InstrumentationTestCase {
@@ -20,10 +21,11 @@ public class LruCacheObjectPersisterTest extends InstrumentationTestCase {
     private LruCacheStringObjectPersister testPersisterWithFallback;
 
     @Override
-    public void setUp() {
+    public void setUp() throws CacheCreationException {
         testPersister = new LruCacheStringObjectPersister(TEST_LRU_CACHE_SIZE);
         Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
-        testPersisterWithFallback = new LruCacheStringObjectPersister(new InFileStringObjectPersister(application), TEST_LRU_CACHE_SIZE);
+        testPersisterWithFallback = new LruCacheStringObjectPersister(new InFileStringObjectPersister(application),
+                TEST_LRU_CACHE_SIZE);
     }
 
     public void testSaveDataToCacheAndReturnData() throws Exception {

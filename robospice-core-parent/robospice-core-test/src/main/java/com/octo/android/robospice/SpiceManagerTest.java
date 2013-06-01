@@ -300,7 +300,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     }
 
     public void test_cancel_cancels_non_existing_request() throws InterruptedException {
-        // this test follows bug https://github.com/octo-online/robospice/issues/92
+        // this test follows bug
+        // https://github.com/octo-online/robospice/issues/92
 
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
@@ -482,8 +483,9 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     // ----------------------------------
 
     /**
-     * Class under test. Just a wrapper to get any exception that can occur in the spicemanager's
-     * thread. Inspired by http://stackoverflow.com/questions/
+     * Class under test. Just a wrapper to get any exception that can occur in
+     * the spicemanager's thread. Inspired by
+     * http://stackoverflow.com/questions/
      * 2596493/junit-assert-in-thread-throws-exception/13712829#13712829
      */
     private final class SpiceManagerUnderTest extends SpiceManager {

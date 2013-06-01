@@ -94,7 +94,7 @@
 						<artifactId>maven-dependency-plugin</artifactId>
 						<configuration>
 							<includeArtifactIds>commons-lang3,commons-io,robospice,
-								robospice-cache,spring-android-core,spring-android-rest-template,simple-xml,jackson-mapper-asl,jackson-core-asl,jackson-databind,gson</includeArtifactIds>
+								robospice-cache,spring-android-core,spring-android-rest-template,simple-xml,jackson-mapper-asl,jackson-core-asl,jackson-databind, jackson-annotations, jackson-core, gson</includeArtifactIds>
 						</configuration>
 					</plugin>
 					<plugin>

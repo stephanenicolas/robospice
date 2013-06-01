@@ -40,8 +40,7 @@ public class SimpleData {
         sb.append("id=").append(id);
         sb.append(", ").append("string=").append(string);
         sb.append(", ").append("millis=").append(millis);
-        SimpleDateFormat dateFormatter = new SimpleDateFormat(
-            "MM/dd/yyyy HH:mm:ss.S");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.S");
         sb.append(", ").append("date=").append(dateFormatter.format(date));
         sb.append(", ").append("even=").append(even);
         return sb.toString();

@@ -11,26 +11,23 @@ import org.apache.commons.lang3.StringUtils;
 import roboguice.util.temp.Ln;
 import android.app.Application;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
-public abstract class SpringAndroidObjectPersister<T> extends
-    InFileObjectPersister<T> {
-
-    // ============================================================================================
-    // ATTRIBUTES
-    // ============================================================================================
-
-    private String mFactoryPrefix;
+public abstract class SpringAndroidObjectPersister<T> extends InFileObjectPersister<T> {
 
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-    public SpringAndroidObjectPersister(Application application,
-        Class<T> clazz, String factoryPrefix) {
+    public SpringAndroidObjectPersister(Application application, Class<T> clazz, File cacheFolder)
+        throws CacheCreationException {
+        super(application, clazz, cacheFolder);
+    }
+
+    public SpringAndroidObjectPersister(Application application, Class<T> clazz) throws CacheCreationException {
         super(application, clazz);
-        this.mFactoryPrefix = factoryPrefix;
     }
 
     // ============================================================================================
@@ -38,26 +35,18 @@ public abstract class SpringAndroidObjectPersister<T> extends
     // ============================================================================================
 
     @Override
-    protected String getCachePrefix() {
-        return mFactoryPrefix + super.getCachePrefix();
-    }
-
-    @Override
     protected T readCacheDataFromFile(File file) throws CacheLoadingException {
         try {
-            String resultJson = FileUtils.readFileToString(file,
-                CharEncoding.UTF_8);
+            String resultJson = FileUtils.readFileToString(file, CharEncoding.UTF_8);
             if (!StringUtils.isEmpty(resultJson)) {
                 T result = deserializeData(resultJson);
                 return result;
             }
-            throw new CacheLoadingException(
-                "Unable to restore cache content : cache file is empty");
+            throw new CacheLoadingException("Unable to restore cache content : cache file is empty");
         } catch (FileNotFoundException e) {
             // Should not occur (we test before if file exists)
             // Do not throw, file is not cached
-            Ln.w("file " + file.getAbsolutePath() + " does not exists",
-                e);
+            Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
             return null;
         } catch (CacheLoadingException e) {
             throw e;
@@ -66,12 +55,10 @@ public abstract class SpringAndroidObjectPersister<T> extends
         }
     }
 
-    protected abstract T deserializeData(String json)
-        throws CacheLoadingException;
+    protected abstract T deserializeData(String json) throws CacheLoadingException;
 
     @Override
-    public T saveDataToCacheAndReturnData(final T data, final Object cacheKey)
-        throws CacheSavingException {
+    public T saveDataToCacheAndReturnData(final T data, final Object cacheKey) throws CacheSavingException {
 
         try {
             if (isAsyncSaveEnabled()) {
@@ -81,11 +68,9 @@ public abstract class SpringAndroidObjectPersister<T> extends
                         try {
                             saveData(data, cacheKey);
                         } catch (IOException e) {
-                            Ln.e(e, "An error occured on saving request "
-                                + cacheKey + " data asynchronously");
+                            Ln.e(e, "An error occured on saving request " + cacheKey + " data asynchronously");
                         } catch (CacheSavingException e) {
-                            Ln.e(e, "An error occured on saving request "
-                                + cacheKey + " data asynchronously");
+                            Ln.e(e, "An error occured on saving request " + cacheKey + " data asynchronously");
                         }
                     };
                 };
@@ -101,6 +86,5 @@ public abstract class SpringAndroidObjectPersister<T> extends
         return data;
     }
 
-    protected abstract void saveData(T data, Object cacheKey)
-        throws IOException, CacheSavingException;
+    protected abstract void saveData(T data, Object cacheKey) throws IOException, CacheSavingException;
 }

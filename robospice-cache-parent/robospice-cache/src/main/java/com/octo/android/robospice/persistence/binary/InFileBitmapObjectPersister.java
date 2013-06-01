@@ -12,13 +12,14 @@ import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 /**
  * Stores and retrieves bitmaps to/from file system. Support custom
- * {@link android.graphics.BitmapFactory.BitmapFactory.Options} to lower disk usage.
+ * {@link android.graphics.BitmapFactory.Options} to lower disk usage.
  * @author David Stemmer
  */
 public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
@@ -29,8 +30,12 @@ public class InFileBitmapObjectPersister extends InFileObjectPersister<Bitmap> {
     private BitmapFactory.Options decodingOptions = null;
     private int quality = DEFAULT_QUALITY;
 
-    public InFileBitmapObjectPersister(Application application) {
+    public InFileBitmapObjectPersister(Application application) throws CacheCreationException {
         super(application, Bitmap.class);
+    }
+
+    public InFileBitmapObjectPersister(Application application, File cacheFolder) throws CacheCreationException {
+        super(application, Bitmap.class, cacheFolder);
     }
 
     @Override

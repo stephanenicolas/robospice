@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.Application;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
+
 /**
  * Super class of all factories of {@link ObjectPersisterFactory} classes. They
  * are responsible for creating {@link ObjectPersister} classes that will
@@ -78,8 +80,11 @@ public abstract class ObjectPersisterFactory implements Persister {
      *            cache.
      * @return a {@link ObjectPersister} able to load/save instances of class
      *         clazz.
+     * @throws CacheCreationException
+     *             if the persist fails to create its cache (it may also create
+     *             it later, but it is suggested to fail as fast as possible).
      */
-    public abstract <DATA> ObjectPersister<DATA> createObjectPersister(Class<DATA> clazz);
+    public abstract <DATA> ObjectPersister<DATA> createObjectPersister(Class<DATA> clazz) throws CacheCreationException;
 
     /**
      * Set whether this {@link ObjectPersisterFactory} will set the

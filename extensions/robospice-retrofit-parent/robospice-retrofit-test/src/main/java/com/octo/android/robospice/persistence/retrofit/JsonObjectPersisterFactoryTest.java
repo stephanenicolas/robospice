@@ -9,6 +9,7 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 import com.octo.android.robospice.retrofit.test.model.Curren_weather;
 import com.octo.android.robospice.retrofit.test.model.Weather;
@@ -29,7 +30,8 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         inFileObjectPersister = factory.createObjectPersister(WeatherResult.class);
     }
 
-    protected abstract RetrofitObjectPersisterFactory getRetrofitObjectPersisterFactory(Application application);
+    protected abstract RetrofitObjectPersisterFactory getRetrofitObjectPersisterFactory(Application application)
+        throws CacheCreationException;
 
     @Override
     protected void tearDown() throws Exception {
@@ -47,7 +49,8 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         WeatherResult weatherRequestStatus = buildWeather(TEST_TEMP, TEST_TEMP_UNIT);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, "weather.json");
+        WeatherResult weatherReturned = inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus,
+            "weather.json");
 
         // THEN
         assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());
@@ -60,7 +63,8 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
         inFileObjectPersister.saveDataToCacheAndReturnData(weatherRequestStatus, fileName);
 
         // WHEN
-        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(fileName, DurationInMillis.ALWAYS_RETURNED);
+        WeatherResult weatherReturned = inFileObjectPersister.loadDataFromCache(fileName,
+            DurationInMillis.ALWAYS_RETURNED);
 
         // THEN
         assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());

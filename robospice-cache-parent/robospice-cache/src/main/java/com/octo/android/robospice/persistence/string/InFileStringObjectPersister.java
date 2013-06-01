@@ -10,13 +10,14 @@ import org.apache.commons.lang3.CharEncoding;
 import roboguice.util.temp.Ln;
 import android.app.Application;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersister;
 
 public class InFileStringObjectPersister extends InFileObjectPersister<String> {
 
-    public InFileStringObjectPersister(Application application) {
+    public InFileStringObjectPersister(Application application) throws CacheCreationException {
         super(application, String.class);
     }
 
@@ -26,8 +27,7 @@ public class InFileStringObjectPersister extends InFileObjectPersister<String> {
     }
 
     @Override
-    protected String readCacheDataFromFile(File file)
-        throws CacheLoadingException {
+    protected String readCacheDataFromFile(File file) throws CacheLoadingException {
         try {
             return FileUtils.readFileToString(file, CharEncoding.UTF_8);
         } catch (FileNotFoundException e) {

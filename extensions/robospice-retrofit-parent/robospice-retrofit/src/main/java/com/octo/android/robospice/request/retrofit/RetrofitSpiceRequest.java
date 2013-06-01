@@ -3,7 +3,8 @@ package com.octo.android.robospice.request.retrofit;
 import com.octo.android.robospice.request.SpiceRequest;
 
 /**
- * A simplified {@link SpiceRequest} that makes it even easier to use a retrofited REST service.
+ * A simplified {@link SpiceRequest} that makes it even easier to use a
+ * retrofited REST service.
  * @author SNI
  * @param <T>
  *            the result type of this request.

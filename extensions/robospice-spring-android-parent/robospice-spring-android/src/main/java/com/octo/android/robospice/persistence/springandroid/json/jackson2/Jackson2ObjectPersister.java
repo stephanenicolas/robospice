@@ -1,5 +1,6 @@
 package com.octo.android.robospice.persistence.springandroid.json.jackson2;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import android.app.Application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.springandroid.SpringAndroidObjectPersister;
@@ -24,9 +26,15 @@ public final class Jackson2ObjectPersister<T> extends SpringAndroidObjectPersist
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-    public Jackson2ObjectPersister(Application application, Class<T> clazz, String factoryPrefix) {
-        super(application, clazz, factoryPrefix);
+
+    public Jackson2ObjectPersister(Application application, Class<T> clazz, File cacheFolder)
+        throws CacheCreationException {
+        super(application, clazz, cacheFolder);
         this.mJsonMapper = new ObjectMapper();
+    }
+
+    public Jackson2ObjectPersister(Application application, Class<T> clazz) throws CacheCreationException {
+        this(application, clazz, null);
     }
 
     // ============================================================================================

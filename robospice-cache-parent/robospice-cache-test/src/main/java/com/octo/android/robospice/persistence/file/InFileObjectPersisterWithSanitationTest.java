@@ -6,6 +6,7 @@ import java.util.Map;
 import android.app.Application;
 import android.test.suitebuilder.annotation.MediumTest;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.file.InFileObjectPersisterTest.InFileObjectPersisterUnderTest;
 import com.octo.android.robospice.persistence.keysanitation.DefaultKeySanitizer;
 
@@ -39,7 +40,7 @@ public class InFileObjectPersisterWithSanitationTest extends AbstractInFileObjec
     // CLASS UNDER TEST
     // ============================================================================================
     private final class InFileObjectPersisterWithSanitationUnderTest extends InFileObjectPersisterUnderTest {
-        InFileObjectPersisterWithSanitationUnderTest(Application application) {
+        InFileObjectPersisterWithSanitationUnderTest(Application application) throws CacheCreationException {
             super(application);
             setKeySanitizer(new DefaultKeySanitizer());
         }

@@ -255,8 +255,7 @@ public final class Ln {
 
         protected String processMessage(String msg) {
             if (CONFIG.minimumLogLevel <= Log.DEBUG) {
-                msg = String.format("%s %s %s", new SimpleDateFormat("HH:mm:ss.SSS").format(System.currentTimeMillis()), Thread.currentThread()
-                    .getName(), msg);
+                msg = String.format("%s %s %s", new SimpleDateFormat("HH:mm:ss.SSS").format(System.currentTimeMillis()), Thread.currentThread().getName(), msg);
             }
             return msg;
         }

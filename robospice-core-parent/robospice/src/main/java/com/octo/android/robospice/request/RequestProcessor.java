@@ -23,6 +23,7 @@ import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ICacheManager;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -207,7 +208,7 @@ public class RequestProcessor {
                         notifyListenersOfRequestSuccessButDontCompleteRequest(request, result);
                     }
                 }
-            } catch (final CacheLoadingException e) {
+            } catch (final SpiceException e) {
                 Ln.d(e, "Cache file could not be read.");
                 if (failOnCacheError) {
                     handleRetry(request, e);
@@ -260,7 +261,7 @@ public class RequestProcessor {
                 }
                 notifyListenersOfRequestSuccess(request, result);
                 return;
-            } catch (final CacheSavingException e) {
+            } catch (final SpiceException e) {
                 Ln.d("An exception occured during service execution :" + e.getMessage(), e);
                 if (failOnCacheError) {
                     handleRetry(request, e);
@@ -443,11 +444,12 @@ public class RequestProcessor {
     // ============================================================================================
 
     private <T> T loadDataFromCache(final Class<T> clazz, final Object cacheKey, final long maxTimeInCacheBeforeExpiry)
-        throws CacheLoadingException {
+        throws CacheLoadingException, CacheCreationException {
         return cacheManager.loadDataFromCache(clazz, cacheKey, maxTimeInCacheBeforeExpiry);
     }
 
-    private <T> T saveDataToCacheAndReturnData(final T data, final Object cacheKey) throws CacheSavingException {
+    private <T> T saveDataToCacheAndReturnData(final T data, final Object cacheKey) throws CacheSavingException,
+        CacheCreationException {
         return cacheManager.saveDataToCacheAndReturnData(data, cacheKey);
     }
 

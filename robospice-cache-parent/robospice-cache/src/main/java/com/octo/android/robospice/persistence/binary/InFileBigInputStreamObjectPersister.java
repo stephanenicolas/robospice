@@ -1,5 +1,6 @@
 package com.octo.android.robospice.persistence.binary;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import org.apache.commons.io.IOUtils;
 import android.app.Application;
 
 import com.octo.android.robospice.persistence.ObjectPersister;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
 /**
@@ -22,8 +24,12 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
  */
 public final class InFileBigInputStreamObjectPersister extends InFileInputStreamObjectPersister {
 
-    public InFileBigInputStreamObjectPersister(Application application) {
+    public InFileBigInputStreamObjectPersister(Application application) throws CacheCreationException {
         super(application);
+    }
+
+    public InFileBigInputStreamObjectPersister(Application application, File cacheFolder) throws CacheCreationException {
+        super(application, cacheFolder);
     }
 
     @Override

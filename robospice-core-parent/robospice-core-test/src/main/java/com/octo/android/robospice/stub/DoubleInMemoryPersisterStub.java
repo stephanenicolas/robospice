@@ -12,7 +12,8 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
 /**
- * Stub of an object persister. This one stores double in hashmap to implement caching.
+ * Stub of an object persister. This one stores double in hashmap to implement
+ * caching.
  * @author sni
  */
 public class DoubleInMemoryPersisterStub extends ObjectPersister<Double> {

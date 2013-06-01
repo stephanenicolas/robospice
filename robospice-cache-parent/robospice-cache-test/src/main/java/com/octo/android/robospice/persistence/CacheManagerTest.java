@@ -6,6 +6,7 @@ import java.util.List;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
@@ -34,7 +35,7 @@ public class CacheManagerTest extends AndroidTestCase {
         }
     }
 
-    public void testGetObjectPersister_returns_a_persister_when_one_persister_is_registered() {
+    public void testGetObjectPersister_returns_a_persister_when_one_persister_is_registered() throws CacheCreationException {
         // given
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();
         cacheManager.addPersister(mockStringPersistenceManager);
@@ -46,7 +47,7 @@ public class CacheManagerTest extends AndroidTestCase {
         assertEquals(mockStringPersistenceManager, actual);
     }
 
-    public void testGetObjectPersister_returns_persister_in_order_when_two_persisters_are_registered() {
+    public void testGetObjectPersister_returns_ordered_persister_when_2_persisters_are_registered() throws CacheCreationException {
         // given
         // register a data class persistence manager first
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();
@@ -63,7 +64,7 @@ public class CacheManagerTest extends AndroidTestCase {
         assertEquals(mockStringPersistenceManager, actual);
     }
 
-    public void testGetObjectPersister_returns_no_persister_when_persister_has_been_unregistered() {
+    public void testGetObjectPersister_returns_no_persister_when_persister_has_been_unregistered() throws CacheCreationException {
         // given
         // register a data class persistence manager first
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();
@@ -85,7 +86,7 @@ public class CacheManagerTest extends AndroidTestCase {
         }
     }
 
-    public void testGetObjectPersister_returns_no_persister_when_two_were_added_and_goog_persister_has_been_unregistered() {
+    public void testGetObjectPersister_returns_no_persister_when_2_were_added_and_good_is_gone() throws CacheCreationException {
         // given
         // register 2 data class persistence manager first
         MockStringPersistenceManager mockStringPersistenceManager = new MockStringPersistenceManager();

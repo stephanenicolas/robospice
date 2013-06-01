@@ -11,7 +11,8 @@ import com.octo.android.robospice.stub.IntegerPersisterStub;
 import com.octo.android.robospice.stub.StringPersisterStub;
 
 /**
- * Only used to test RoboSpice. Will not rely on network state. Multi-threaded spice service.
+ * Only used to test RoboSpice. Will not rely on network state. Multi-threaded
+ * spice service.
  * @author sni
  */
 public class SpiceTestService extends SpiceService {
