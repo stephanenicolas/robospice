@@ -8,7 +8,7 @@
     <language>en-us</language>
     <copyright>&#169;2012 - 2013</copyright>
     <item>
-      <title>File: 16,
+      <title>File: 27,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -30,6 +30,230 @@
                           <tr>
                 <td>
                   <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.ObjectPersisterFactory.java">com/octo/android/robospice/persistence/ObjectPersisterFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.Persister.java">com/octo/android/robospice/persistence/Persister.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheSavingException.java">com/octo/android/robospice/persistence/exception/CacheSavingException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBigInputStreamObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersister.java">com/octo/android/robospice/persistence/file/InFileObjectPersister.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterFactory.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.memory.BitmapLruCache.java">com/octo/android/robospice/persistence/memory/BitmapLruCache.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.ICacheManager.java">com/octo/android/robospice/persistence/ICacheManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.keysanitation.KeySanitizer.java">com/octo/android/robospice/persistence/keysanitation/KeySanitizer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheLoadingException.java">com/octo/android/robospice/persistence/exception/CacheLoadingException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheCreationException.java">com/octo/android/robospice/persistence/exception/CacheCreationException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.ObjectPersister.java">com/octo/android/robospice/persistence/ObjectPersister.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#roboguice.util.temp.Ln.java">roboguice/util/temp/Ln.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.memory.StringLruCache.java">com/octo/android/robospice/persistence/memory/StringLruCache.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileInputStreamObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileInputStreamObjectPersister.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheObjectPersister.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.keysanitation.DefaultKeySanitizer.java">com/octo/android/robospice/persistence/keysanitation/DefaultKeySanitizer.java</a>
                 </td>
                 <td>
                   0
@@ -85,48 +309,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.Persister.java">com/octo/android/robospice/persistence/Persister.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBigInputStreamObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheSavingException.java">com/octo/android/robospice/persistence/exception/CacheSavingException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.DurationInMillis.java">com/octo/android/robospice/persistence/DurationInMillis.java</a>
                 </td>
                 <td>
@@ -141,7 +323,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersister.java">com/octo/android/robospice/persistence/file/InFileObjectPersister.java</a>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheBitmapObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheBitmapObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -155,7 +337,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterFactory.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterFactory.java</a>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.memory.CacheItem.java">com/octo/android/robospice/persistence/memory/CacheItem.java</a>
                 </td>
                 <td>
                   0
@@ -169,7 +351,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.ICacheManager.java">com/octo/android/robospice/persistence/ICacheManager.java</a>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBitmapObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileBitmapObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -183,7 +365,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheLoadingException.java">com/octo/android/robospice/persistence/exception/CacheLoadingException.java</a>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheStringObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheStringObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -197,21 +379,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.ObjectPersister.java">com/octo/android/robospice/persistence/ObjectPersister.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#roboguice.util.temp.Ln.java">roboguice/util/temp/Ln.java</a>
+                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.CacheCleaner.java">com/octo/android/robospice/persistence/CacheCleaner.java</a>
                 </td>
                 <td>
                   0
@@ -226,20 +394,6 @@
                           <tr>
                 <td>
                   <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.CacheManager.java">com/octo/android/robospice/persistence/CacheManager.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-cache-parent/robospice-cache/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileInputStreamObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileInputStreamObjectPersister.java</a>
                 </td>
                 <td>
                   0
