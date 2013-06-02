@@ -1,7 +1,8 @@
 package com.octo.android.robospice.persistence.keysanitation;
 
-import java.nio.charset.Charset;
+import java.io.UnsupportedEncodingException;
 
+import roboguice.util.temp.Ln;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.util.Base64;
@@ -19,7 +20,7 @@ public class DefaultKeySanitizer implements KeySanitizer {
     // CONSTANTS
     // ----------------------------------
     private static final int BASE64_FLAGS = Base64.URL_SAFE + Base64.NO_WRAP + Base64.NO_PADDING;
-    private static final Charset UTF8_CHARSET = Charset.forName("utf-8");
+    private static final String UTF8_CHARSET_NAME = "UTF-8";
 
     // ----------------------------------
     // API
@@ -30,7 +31,12 @@ public class DefaultKeySanitizer implements KeySanitizer {
         if (!(cacheKey instanceof String)) {
             throw new RuntimeException(DefaultKeySanitizer.class.getSimpleName() + " can only be used with Strings cache keys.");
         }
-        return Base64.encodeToString(((String) cacheKey).getBytes(UTF8_CHARSET), BASE64_FLAGS);
+        try {
+            return Base64.encodeToString(((String) cacheKey).getBytes(UTF8_CHARSET_NAME), BASE64_FLAGS);
+        } catch (UnsupportedEncodingException e) {
+            Ln.e(e, "Key could not be sanitized.");
+            return null;
+        }
     }
 
     @Override
@@ -38,6 +44,11 @@ public class DefaultKeySanitizer implements KeySanitizer {
         if (!(sanitzedCacheKey instanceof String)) {
             throw new RuntimeException(DefaultKeySanitizer.class.getSimpleName() + " can only be used with Strings cache keys.");
         }
-        return new String(Base64.decode((String) sanitzedCacheKey, BASE64_FLAGS), UTF8_CHARSET);
+        try {
+            return new String(Base64.decode((String) sanitzedCacheKey, BASE64_FLAGS), UTF8_CHARSET_NAME);
+        } catch (UnsupportedEncodingException e) {
+            Ln.e(e, "Key could not be desanitized.");
+            return null;
+        }
     }
 }
