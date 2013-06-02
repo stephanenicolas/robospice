@@ -10,31 +10,32 @@
 
 <a class="jxr_linenumber" name="1" href="#1">1</a>   <strong class="jxr_keyword">package</strong> com.octo.android.robospice.springandroid.test;
 <a class="jxr_linenumber" name="2" href="#2">2</a>   
-<a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> org.springframework.web.client.RestTemplate;
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> java.io.File;
 <a class="jxr_linenumber" name="4" href="#4">4</a>   
-<a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> android.app.Application;
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> org.springframework.web.client.RestTemplate;
 <a class="jxr_linenumber" name="6" href="#6">6</a>   
-<a class="jxr_linenumber" name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.SpringAndroidSpiceService;
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.CacheManager;
-<a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory;
-<a class="jxr_linenumber" name="10" href="#10">10</a>  
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/springandroid/test/SpringAndroidTestService.html">SpringAndroidTestService</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/octo/android/robospice/SpringAndroidSpiceService.html">SpringAndroidSpiceService</a> {
-<a class="jxr_linenumber" name="12" href="#12">12</a>  
-<a class="jxr_linenumber" name="13" href="#13">13</a>      @Override
-<a class="jxr_linenumber" name="14" href="#14">14</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a> createCacheManager(Application application) {
-<a class="jxr_linenumber" name="15" href="#15">15</a>          <a href="../../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a> cacheManager = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a>();
-<a class="jxr_linenumber" name="16" href="#16">16</a>          <a href="../../../../../../com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersisterFactory.html">JacksonObjectPersisterFactory</a> jacksonObjectPersisterFactory = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersisterFactory.html">JacksonObjectPersisterFactory</a>(
-<a class="jxr_linenumber" name="17" href="#17">17</a>              application);
-<a class="jxr_linenumber" name="18" href="#18">18</a>          cacheManager.addPersister(jacksonObjectPersisterFactory);
-<a class="jxr_linenumber" name="19" href="#19">19</a>          <strong class="jxr_keyword">return</strong> cacheManager;
-<a class="jxr_linenumber" name="20" href="#20">20</a>      }
-<a class="jxr_linenumber" name="21" href="#21">21</a>  
-<a class="jxr_linenumber" name="22" href="#22">22</a>      @Override
-<a class="jxr_linenumber" name="23" href="#23">23</a>      <strong class="jxr_keyword">public</strong> RestTemplate createRestTemplate() {
-<a class="jxr_linenumber" name="24" href="#24">24</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RestTemplate();
-<a class="jxr_linenumber" name="25" href="#25">25</a>      }
-<a class="jxr_linenumber" name="26" href="#26">26</a>  
-<a class="jxr_linenumber" name="27" href="#27">27</a>  }
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> android.app.Application;
+<a class="jxr_linenumber" name="8" href="#8">8</a>   
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.SpringAndroidSpiceService;
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.CacheManager;
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.exception.CacheCreationException;
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory;
+<a class="jxr_linenumber" name="13" href="#13">13</a>  
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/springandroid/test/SpringAndroidTestService.html">SpringAndroidTestService</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/octo/android/robospice/SpringAndroidSpiceService.html">SpringAndroidSpiceService</a> {
+<a class="jxr_linenumber" name="15" href="#15">15</a>  
+<a class="jxr_linenumber" name="16" href="#16">16</a>      @Override
+<a class="jxr_linenumber" name="17" href="#17">17</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a> createCacheManager(Application application) <strong class="jxr_keyword">throws</strong> CacheCreationException {
+<a class="jxr_linenumber" name="18" href="#18">18</a>          <a href="../../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a> cacheManager = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a>();
+<a class="jxr_linenumber" name="19" href="#19">19</a>          cacheManager.addPersister(<strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersisterFactory.html">JacksonObjectPersisterFactory</a>(application, <strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"/"</span>)));
+<a class="jxr_linenumber" name="20" href="#20">20</a>          <strong class="jxr_keyword">return</strong> cacheManager;
+<a class="jxr_linenumber" name="21" href="#21">21</a>      }
+<a class="jxr_linenumber" name="22" href="#22">22</a>  
+<a class="jxr_linenumber" name="23" href="#23">23</a>      @Override
+<a class="jxr_linenumber" name="24" href="#24">24</a>      <strong class="jxr_keyword">public</strong> RestTemplate createRestTemplate() {
+<a class="jxr_linenumber" name="25" href="#25">25</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RestTemplate();
+<a class="jxr_linenumber" name="26" href="#26">26</a>      }
+<a class="jxr_linenumber" name="27" href="#27">27</a>  
+<a class="jxr_linenumber" name="28" href="#28">28</a>  }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

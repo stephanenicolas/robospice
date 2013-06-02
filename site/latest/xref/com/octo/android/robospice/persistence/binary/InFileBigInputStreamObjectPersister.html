@@ -10,51 +10,64 @@
 
 <a class="jxr_linenumber" name="1" href="#1">1</a>   <strong class="jxr_keyword">package</strong> com.octo.android.robospice.persistence.binary;
 <a class="jxr_linenumber" name="2" href="#2">2</a>   
-<a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> java.io.FileInputStream;
-<a class="jxr_linenumber" name="4" href="#4">4</a>   <strong class="jxr_keyword">import</strong> java.io.FileOutputStream;
-<a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> java.io.IOException;
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">import</strong> java.io.InputStream;
-<a class="jxr_linenumber" name="7" href="#7">7</a>   
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.io.IOUtils;
-<a class="jxr_linenumber" name="9" href="#9">9</a>   
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> android.app.Application;
-<a class="jxr_linenumber" name="11" href="#11">11</a>  
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.exception.CacheSavingException;
-<a class="jxr_linenumber" name="13" href="#13">13</a>  
-<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.html">InFileBigInputStreamObjectPersister</a> <strong class="jxr_keyword">extends</strong>
-<a class="jxr_linenumber" name="15" href="#15">15</a>      <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileInputStreamObjectPersister.html">InFileInputStreamObjectPersister</a> {
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> java.io.File;
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <strong class="jxr_keyword">import</strong> java.io.FileInputStream;
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> java.io.FileOutputStream;
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> java.io.InputStream;
+<a class="jxr_linenumber" name="8" href="#8">8</a>   
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.io.IOUtils;
+<a class="jxr_linenumber" name="10" href="#10">10</a>  
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> android.app.Application;
+<a class="jxr_linenumber" name="12" href="#12">12</a>  
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.ObjectPersister;
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.exception.CacheCreationException;
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.exception.CacheSavingException;
 <a class="jxr_linenumber" name="16" href="#16">16</a>  
-<a class="jxr_linenumber" name="17" href="#17">17</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.html">InFileBigInputStreamObjectPersister</a>(Application application) {
-<a class="jxr_linenumber" name="18" href="#18">18</a>          <strong class="jxr_keyword">super</strong>(application);
-<a class="jxr_linenumber" name="19" href="#19">19</a>      }
-<a class="jxr_linenumber" name="20" href="#20">20</a>  
-<a class="jxr_linenumber" name="21" href="#21">21</a>      @Override
-<a class="jxr_linenumber" name="22" href="#22">22</a>      <strong class="jxr_keyword">public</strong> InputStream saveDataToCacheAndReturnData(InputStream data,
-<a class="jxr_linenumber" name="23" href="#23">23</a>          Object cacheKey) <strong class="jxr_keyword">throws</strong> CacheSavingException {
-<a class="jxr_linenumber" name="24" href="#24">24</a>          <em class="jxr_comment">// special case for big inputstream object : as it can be read</em>
-<a class="jxr_linenumber" name="25" href="#25">25</a>          <em class="jxr_comment">// only once and is too big to be locally</em>
-<a class="jxr_linenumber" name="26" href="#26">26</a>          <em class="jxr_comment">// duplicated,</em>
-<a class="jxr_linenumber" name="27" href="#27">27</a>          <em class="jxr_comment">// 1) we save it in file</em>
-<a class="jxr_linenumber" name="28" href="#28">28</a>          <em class="jxr_comment">// 2) we load and return it from the file</em>
-<a class="jxr_linenumber" name="29" href="#29">29</a>          <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="30" href="#30">30</a>              FileOutputStream output = <strong class="jxr_keyword">new</strong> FileOutputStream(
-<a class="jxr_linenumber" name="31" href="#31">31</a>                  getCacheFile(cacheKey));
-<a class="jxr_linenumber" name="32" href="#32">32</a>              IOUtils.copy(data, output);
-<a class="jxr_linenumber" name="33" href="#33">33</a>              IOUtils.closeQuietly(output);
-<a class="jxr_linenumber" name="34" href="#34">34</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> FileInputStream(getCacheFile(cacheKey));
-<a class="jxr_linenumber" name="35" href="#35">35</a>          } <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="36" href="#36">36</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/exception/CacheSavingException.html">CacheSavingException</a>(e);
-<a class="jxr_linenumber" name="37" href="#37">37</a>          }
-<a class="jxr_linenumber" name="38" href="#38">38</a>      }
-<a class="jxr_linenumber" name="39" href="#39">39</a>  
-<a class="jxr_linenumber" name="40" href="#40">40</a>      @Override
-<a class="jxr_linenumber" name="41" href="#41">41</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setAsyncSaveEnabled(<strong class="jxr_keyword">boolean</strong> isAsyncSaveEnabled) {
-<a class="jxr_linenumber" name="42" href="#42">42</a>          <strong class="jxr_keyword">if</strong> (isAsyncSaveEnabled) {
-<a class="jxr_linenumber" name="43" href="#43">43</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(
-<a class="jxr_linenumber" name="44" href="#44">44</a>                  <span class="jxr_string">"Asynchronous saving operation not supported."</span>);
-<a class="jxr_linenumber" name="45" href="#45">45</a>          }
-<a class="jxr_linenumber" name="46" href="#46">46</a>      }
-<a class="jxr_linenumber" name="47" href="#47">47</a>  }
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="18" href="#18">18</a>  <em class="jxr_javadoccomment"> * Stores / retrieves data in file system. This {@link ObjectPersister} is</em>
+<a class="jxr_linenumber" name="19" href="#19">19</a>  <em class="jxr_javadoccomment"> * optimized for memory. It will only use file system to save the data, without</em>
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <em class="jxr_javadoccomment"> * allocating large memory space to transfert a given binary to the cache. It</em>
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <em class="jxr_javadoccomment"> * should be preferred to {@link InFileInputStreamObjectPersister} for low</em>
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <em class="jxr_javadoccomment"> * memory devices or memory intensive usages.</em>
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <em class="jxr_javadoccomment"> * @author SNI</em>
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.html">InFileBigInputStreamObjectPersister</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileInputStreamObjectPersister.html">InFileInputStreamObjectPersister</a> {
+<a class="jxr_linenumber" name="26" href="#26">26</a>  
+<a class="jxr_linenumber" name="27" href="#27">27</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.html">InFileBigInputStreamObjectPersister</a>(Application application) <strong class="jxr_keyword">throws</strong> CacheCreationException {
+<a class="jxr_linenumber" name="28" href="#28">28</a>          <strong class="jxr_keyword">super</strong>(application);
+<a class="jxr_linenumber" name="29" href="#29">29</a>      }
+<a class="jxr_linenumber" name="30" href="#30">30</a>  
+<a class="jxr_linenumber" name="31" href="#31">31</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.html">InFileBigInputStreamObjectPersister</a>(Application application, File cacheFolder) <strong class="jxr_keyword">throws</strong> CacheCreationException {
+<a class="jxr_linenumber" name="32" href="#32">32</a>          <strong class="jxr_keyword">super</strong>(application, cacheFolder);
+<a class="jxr_linenumber" name="33" href="#33">33</a>      }
+<a class="jxr_linenumber" name="34" href="#34">34</a>  
+<a class="jxr_linenumber" name="35" href="#35">35</a>      @Override
+<a class="jxr_linenumber" name="36" href="#36">36</a>      <strong class="jxr_keyword">public</strong> InputStream saveDataToCacheAndReturnData(InputStream data, Object cacheKey) <strong class="jxr_keyword">throws</strong> CacheSavingException {
+<a class="jxr_linenumber" name="37" href="#37">37</a>          FileOutputStream output = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="38" href="#38">38</a>          <em class="jxr_comment">// special case for big inputstream object : as it can be read</em>
+<a class="jxr_linenumber" name="39" href="#39">39</a>          <em class="jxr_comment">// only once and is too big to be locally</em>
+<a class="jxr_linenumber" name="40" href="#40">40</a>          <em class="jxr_comment">// duplicated,</em>
+<a class="jxr_linenumber" name="41" href="#41">41</a>          <em class="jxr_comment">// 1) we save it in file</em>
+<a class="jxr_linenumber" name="42" href="#42">42</a>          <em class="jxr_comment">// 2) we load and return it from the file</em>
+<a class="jxr_linenumber" name="43" href="#43">43</a>          <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="44" href="#44">44</a>              output = <strong class="jxr_keyword">new</strong> FileOutputStream(getCacheFile(cacheKey));
+<a class="jxr_linenumber" name="45" href="#45">45</a>              IOUtils.copy(data, output);
+<a class="jxr_linenumber" name="46" href="#46">46</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> FileInputStream(getCacheFile(cacheKey));
+<a class="jxr_linenumber" name="47" href="#47">47</a>          } <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="48" href="#48">48</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/exception/CacheSavingException.html">CacheSavingException</a>(e);
+<a class="jxr_linenumber" name="49" href="#49">49</a>          } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="50" href="#50">50</a>              IOUtils.closeQuietly(output);
+<a class="jxr_linenumber" name="51" href="#51">51</a>          }
+<a class="jxr_linenumber" name="52" href="#52">52</a>      }
+<a class="jxr_linenumber" name="53" href="#53">53</a>  
+<a class="jxr_linenumber" name="54" href="#54">54</a>      @Override
+<a class="jxr_linenumber" name="55" href="#55">55</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setAsyncSaveEnabled(<strong class="jxr_keyword">boolean</strong> isAsyncSaveEnabled) {
+<a class="jxr_linenumber" name="56" href="#56">56</a>          <strong class="jxr_keyword">if</strong> (isAsyncSaveEnabled) {
+<a class="jxr_linenumber" name="57" href="#57">57</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Asynchronous saving operation not supported."</span>);
+<a class="jxr_linenumber" name="58" href="#58">58</a>          }
+<a class="jxr_linenumber" name="59" href="#59">59</a>      }
+<a class="jxr_linenumber" name="60" href="#60">60</a>  }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

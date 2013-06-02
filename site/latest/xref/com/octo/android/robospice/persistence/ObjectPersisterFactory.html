@@ -14,116 +14,119 @@
 <a class="jxr_linenumber" name="4" href="#4">4</a>   
 <a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> android.app.Application;
 <a class="jxr_linenumber" name="6" href="#6">6</a>   
-<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_javadoccomment"> * Super class of all factories of {@link ObjectPersisterFactory} classes. They</em>
-<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment"> * are responsible for creating {@link ObjectPersister} classes that will</em>
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_javadoccomment"> * save/load data for a given class. Such factories are useful because we</em>
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_javadoccomment"> * sometimes need to create {@link ObjectPersister} dynamically. For instance</em>
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_javadoccomment"> * when we serialize items as JSON, we need to create a new</em>
-<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_javadoccomment"> * {@link ObjectPersister} class for every class of items saved/loaded into</em>
-<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_javadoccomment"> * cache. A unique {@link ObjectPersister} would not be able to strongly type</em>
-<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_javadoccomment"> * the load/save method and we would have to cast the result of both operations,</em>
-<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_javadoccomment"> * leading to less robust and less convenient code.</em>
-<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment"> * @author sni</em>
-<a class="jxr_linenumber" name="18" href="#18">18</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="19" href="#19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/octo/android/robospice/persistence/ObjectPersisterFactory.html">ObjectPersisterFactory</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../com/octo/android/robospice/persistence/Persister.html">Persister</a> {
-<a class="jxr_linenumber" name="20" href="#20">20</a>  
-<a class="jxr_linenumber" name="21" href="#21">21</a>      <strong class="jxr_keyword">private</strong> Application mApplication;
-<a class="jxr_linenumber" name="22" href="#22">22</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isAsyncSaveEnabled;
-<a class="jxr_linenumber" name="23" href="#23">23</a>      <strong class="jxr_keyword">private</strong> List&lt;Class&lt;?&gt;&gt; listHandledClasses;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  
-<a class="jxr_linenumber" name="25" href="#25">25</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <em class="jxr_javadoccomment">     * Creates an {@link ObjectPersisterFactory} given an Android application.</em>
-<a class="jxr_linenumber" name="27" href="#27">27</a>  <em class="jxr_javadoccomment">     * As no list of handled classes is specified, it will act has if it can</em>
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <em class="jxr_javadoccomment">     * handle all classes.</em>
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <em class="jxr_javadoccomment">     * @param application</em>
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment">     *            the android context needed to access android file system or</em>
-<a class="jxr_linenumber" name="31" href="#31">31</a>  <em class="jxr_javadoccomment">     *            databases to store.</em>
-<a class="jxr_linenumber" name="32" href="#32">32</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="33" href="#33">33</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/octo/android/robospice/persistence/ObjectPersisterFactory.html">ObjectPersisterFactory</a>(Application application) {
-<a class="jxr_linenumber" name="34" href="#34">34</a>          <strong class="jxr_keyword">this</strong>(application, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="35" href="#35">35</a>      }
-<a class="jxr_linenumber" name="36" href="#36">36</a>  
-<a class="jxr_linenumber" name="37" href="#37">37</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="38" href="#38">38</a>  <em class="jxr_javadoccomment">     * Creates an {@link ObjectPersisterFactory} given an Android application</em>
-<a class="jxr_linenumber" name="39" href="#39">39</a>  <em class="jxr_javadoccomment">     * and a list of handled classes.</em>
-<a class="jxr_linenumber" name="40" href="#40">40</a>  <em class="jxr_javadoccomment">     * @param application</em>
-<a class="jxr_linenumber" name="41" href="#41">41</a>  <em class="jxr_javadoccomment">     *            the android context needed to access android file system or</em>
-<a class="jxr_linenumber" name="42" href="#42">42</a>  <em class="jxr_javadoccomment">     *            databases to store.</em>
-<a class="jxr_linenumber" name="43" href="#43">43</a>  <em class="jxr_javadoccomment">     * @param listHandledClasses</em>
-<a class="jxr_linenumber" name="44" href="#44">44</a>  <em class="jxr_javadoccomment">     *            the list of classes that is handled by the factory. The</em>
-<a class="jxr_linenumber" name="45" href="#45">45</a>  <em class="jxr_javadoccomment">     *            factory will try to produce an {@link ObjectPersister} for</em>
-<a class="jxr_linenumber" name="46" href="#46">46</a>  <em class="jxr_javadoccomment">     *            each element of the list.</em>
-<a class="jxr_linenumber" name="47" href="#47">47</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="48" href="#48">48</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/octo/android/robospice/persistence/ObjectPersisterFactory.html">ObjectPersisterFactory</a>(Application application,
-<a class="jxr_linenumber" name="49" href="#49">49</a>          List&lt;Class&lt;?&gt;&gt; listHandledClasses) {
-<a class="jxr_linenumber" name="50" href="#50">50</a>          <strong class="jxr_keyword">this</strong>.mApplication = application;
-<a class="jxr_linenumber" name="51" href="#51">51</a>          <strong class="jxr_keyword">this</strong>.listHandledClasses = listHandledClasses;
-<a class="jxr_linenumber" name="52" href="#52">52</a>      }
-<a class="jxr_linenumber" name="53" href="#53">53</a>  
-<a class="jxr_linenumber" name="54" href="#54">54</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> Application getApplication() {
-<a class="jxr_linenumber" name="55" href="#55">55</a>          <strong class="jxr_keyword">return</strong> mApplication;
-<a class="jxr_linenumber" name="56" href="#56">56</a>      }
-<a class="jxr_linenumber" name="57" href="#57">57</a>  
-<a class="jxr_linenumber" name="58" href="#58">58</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment">     * Wether or not this bus element can persist/unpersist objects of the given</em>
-<a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment">     * class clazz.</em>
-<a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment">     * @param clazz</em>
-<a class="jxr_linenumber" name="62" href="#62">62</a>  <em class="jxr_javadoccomment">     *            the class of objets we are looking forward to persist.</em>
-<a class="jxr_linenumber" name="63" href="#63">63</a>  <em class="jxr_javadoccomment">     * @return true if this bus element can persist/unpersist objects of the</em>
-<a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment">     *         given class clazz. False otherwise.</em>
-<a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="66" href="#66">66</a>      @Override
-<a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> canHandleClass(Class&lt;?&gt; clazz) {
-<a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">if</strong> (listHandledClasses == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="69" href="#69">69</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="70" href="#70">70</a>          } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="71" href="#71">71</a>              <strong class="jxr_keyword">return</strong> listHandledClasses.contains(clazz);
-<a class="jxr_linenumber" name="72" href="#72">72</a>          }
-<a class="jxr_linenumber" name="73" href="#73">73</a>      }
-<a class="jxr_linenumber" name="74" href="#74">74</a>  
-<a class="jxr_linenumber" name="75" href="#75">75</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="76" href="#76">76</a>  <em class="jxr_javadoccomment">     * Creates a {@link ObjectPersister} for a given class.</em>
-<a class="jxr_linenumber" name="77" href="#77">77</a>  <em class="jxr_javadoccomment">     * @param clazz</em>
-<a class="jxr_linenumber" name="78" href="#78">78</a>  <em class="jxr_javadoccomment">     *            the class of the items that need to be saved/loaded from</em>
-<a class="jxr_linenumber" name="79" href="#79">79</a>  <em class="jxr_javadoccomment">     *            cache.</em>
-<a class="jxr_linenumber" name="80" href="#80">80</a>  <em class="jxr_javadoccomment">     * @return a {@link ObjectPersister} able to load/save instances of class</em>
-<a class="jxr_linenumber" name="81" href="#81">81</a>  <em class="jxr_javadoccomment">     *         clazz.</em>
-<a class="jxr_linenumber" name="82" href="#82">82</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="83" href="#83">83</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> &lt;DATA&gt; ObjectPersister&lt;DATA&gt; createObjectPersister(
-<a class="jxr_linenumber" name="84" href="#84">84</a>          Class&lt;DATA&gt; clazz);
-<a class="jxr_linenumber" name="85" href="#85">85</a>  
-<a class="jxr_linenumber" name="86" href="#86">86</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="87" href="#87">87</a>  <em class="jxr_javadoccomment">     * Set whether this {@link ObjectPersisterFactory} will set the</em>
-<a class="jxr_linenumber" name="88" href="#88">88</a>  <em class="jxr_javadoccomment">     * {@link ObjectPersister} instances it produces to save data asynchronously</em>
-<a class="jxr_linenumber" name="89" href="#89">89</a>  <em class="jxr_javadoccomment">     * or not.</em>
-<a class="jxr_linenumber" name="90" href="#90">90</a>  <em class="jxr_javadoccomment">     * @param isAsyncSaveEnabled</em>
-<a class="jxr_linenumber" name="91" href="#91">91</a>  <em class="jxr_javadoccomment">     *            whether or not data will be saved asynchronously by</em>
-<a class="jxr_linenumber" name="92" href="#92">92</a>  <em class="jxr_javadoccomment">     *            {@link ObjectPersister} instances produced by this factory.</em>
-<a class="jxr_linenumber" name="93" href="#93">93</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="94" href="#94">94</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setAsyncSaveEnabled(<strong class="jxr_keyword">boolean</strong> isAsyncSaveEnabled) {
-<a class="jxr_linenumber" name="95" href="#95">95</a>          <strong class="jxr_keyword">this</strong>.isAsyncSaveEnabled = isAsyncSaveEnabled;
-<a class="jxr_linenumber" name="96" href="#96">96</a>      }
-<a class="jxr_linenumber" name="97" href="#97">97</a>  
-<a class="jxr_linenumber" name="98" href="#98">98</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="99" href="#99">99</a>  <em class="jxr_javadoccomment">     * Indicates whether this {@link ObjectPersisterFactory} will set the</em>
-<a class="jxr_linenumber" name="100" href="#100">100</a> <em class="jxr_javadoccomment">     * {@link ObjectPersister} instances it produces to save data asynchronously</em>
-<a class="jxr_linenumber" name="101" href="#101">101</a> <em class="jxr_javadoccomment">     * or not.</em>
-<a class="jxr_linenumber" name="102" href="#102">102</a> <em class="jxr_javadoccomment">     * @return true if the {@link ObjectPersister} instances it produces to save</em>
-<a class="jxr_linenumber" name="103" href="#103">103</a> <em class="jxr_javadoccomment">     *         data asynchronously. False otherwise.</em>
-<a class="jxr_linenumber" name="104" href="#104">104</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="105" href="#105">105</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isAsyncSaveEnabled() {
-<a class="jxr_linenumber" name="106" href="#106">106</a>         <strong class="jxr_keyword">return</strong> isAsyncSaveEnabled;
-<a class="jxr_linenumber" name="107" href="#107">107</a>     }
-<a class="jxr_linenumber" name="108" href="#108">108</a> 
-<a class="jxr_linenumber" name="109" href="#109">109</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="110" href="#110">110</a> <em class="jxr_javadoccomment">     * Return the list of classes persisted by this factory.</em>
-<a class="jxr_linenumber" name="111" href="#111">111</a> <em class="jxr_javadoccomment">     * @return the list of classes persisted by this factory.</em>
-<a class="jxr_linenumber" name="112" href="#112">112</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="113" href="#113">113</a>     <strong class="jxr_keyword">protected</strong> List&lt;Class&lt;?&gt;&gt; getListHandledClasses() {
-<a class="jxr_linenumber" name="114" href="#114">114</a>         <strong class="jxr_keyword">return</strong> listHandledClasses;
-<a class="jxr_linenumber" name="115" href="#115">115</a>     }
-<a class="jxr_linenumber" name="116" href="#116">116</a> }
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.exception.CacheCreationException;
+<a class="jxr_linenumber" name="8" href="#8">8</a>   
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_javadoccomment"> * Super class of all factories of {@link ObjectPersisterFactory} classes. They</em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_javadoccomment"> * are responsible for creating {@link ObjectPersister} classes that will</em>
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_javadoccomment"> * save/load data for a given class. Such factories are useful because we</em>
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_javadoccomment"> * sometimes need to create {@link ObjectPersister} dynamically. For instance</em>
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_javadoccomment"> * when we serialize items as JSON, we need to create a new</em>
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_javadoccomment"> * {@link ObjectPersister} class for every class of items saved/loaded into</em>
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_javadoccomment"> * cache. A unique {@link ObjectPersister} would not be able to strongly type</em>
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment"> * the load/save method and we would have to cast the result of both operations,</em>
+<a class="jxr_linenumber" name="18" href="#18">18</a>  <em class="jxr_javadoccomment"> * leading to less robust and less convenient code.</em>
+<a class="jxr_linenumber" name="19" href="#19">19</a>  <em class="jxr_javadoccomment"> * @author sni</em>
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/octo/android/robospice/persistence/ObjectPersisterFactory.html">ObjectPersisterFactory</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../com/octo/android/robospice/persistence/Persister.html">Persister</a> {
+<a class="jxr_linenumber" name="22" href="#22">22</a>  
+<a class="jxr_linenumber" name="23" href="#23">23</a>      <strong class="jxr_keyword">private</strong> Application mApplication;
+<a class="jxr_linenumber" name="24" href="#24">24</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isAsyncSaveEnabled;
+<a class="jxr_linenumber" name="25" href="#25">25</a>      <strong class="jxr_keyword">private</strong> List&lt;Class&lt;?&gt;&gt; listHandledClasses;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  
+<a class="jxr_linenumber" name="27" href="#27">27</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <em class="jxr_javadoccomment">     * Creates an {@link ObjectPersisterFactory} given an Android application.</em>
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <em class="jxr_javadoccomment">     * As no list of handled classes is specified, it will act has if it can</em>
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment">     * handle all classes.</em>
+<a class="jxr_linenumber" name="31" href="#31">31</a>  <em class="jxr_javadoccomment">     * @param application</em>
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <em class="jxr_javadoccomment">     *            the android context needed to access android file system or</em>
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <em class="jxr_javadoccomment">     *            databases to store.</em>
+<a class="jxr_linenumber" name="34" href="#34">34</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="35" href="#35">35</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/octo/android/robospice/persistence/ObjectPersisterFactory.html">ObjectPersisterFactory</a>(Application application) {
+<a class="jxr_linenumber" name="36" href="#36">36</a>          <strong class="jxr_keyword">this</strong>(application, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="37" href="#37">37</a>      }
+<a class="jxr_linenumber" name="38" href="#38">38</a>  
+<a class="jxr_linenumber" name="39" href="#39">39</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="40" href="#40">40</a>  <em class="jxr_javadoccomment">     * Creates an {@link ObjectPersisterFactory} given an Android application</em>
+<a class="jxr_linenumber" name="41" href="#41">41</a>  <em class="jxr_javadoccomment">     * and a list of handled classes.</em>
+<a class="jxr_linenumber" name="42" href="#42">42</a>  <em class="jxr_javadoccomment">     * @param application</em>
+<a class="jxr_linenumber" name="43" href="#43">43</a>  <em class="jxr_javadoccomment">     *            the android context needed to access android file system or</em>
+<a class="jxr_linenumber" name="44" href="#44">44</a>  <em class="jxr_javadoccomment">     *            databases to store.</em>
+<a class="jxr_linenumber" name="45" href="#45">45</a>  <em class="jxr_javadoccomment">     * @param listHandledClasses</em>
+<a class="jxr_linenumber" name="46" href="#46">46</a>  <em class="jxr_javadoccomment">     *            the list of classes that is handled by the factory. The</em>
+<a class="jxr_linenumber" name="47" href="#47">47</a>  <em class="jxr_javadoccomment">     *            factory will try to produce an {@link ObjectPersister} for</em>
+<a class="jxr_linenumber" name="48" href="#48">48</a>  <em class="jxr_javadoccomment">     *            each element of the list.</em>
+<a class="jxr_linenumber" name="49" href="#49">49</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="50" href="#50">50</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/octo/android/robospice/persistence/ObjectPersisterFactory.html">ObjectPersisterFactory</a>(Application application, List&lt;Class&lt;?&gt;&gt; listHandledClasses) {
+<a class="jxr_linenumber" name="51" href="#51">51</a>          <strong class="jxr_keyword">this</strong>.mApplication = application;
+<a class="jxr_linenumber" name="52" href="#52">52</a>          <strong class="jxr_keyword">this</strong>.listHandledClasses = listHandledClasses;
+<a class="jxr_linenumber" name="53" href="#53">53</a>      }
+<a class="jxr_linenumber" name="54" href="#54">54</a>  
+<a class="jxr_linenumber" name="55" href="#55">55</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> Application getApplication() {
+<a class="jxr_linenumber" name="56" href="#56">56</a>          <strong class="jxr_keyword">return</strong> mApplication;
+<a class="jxr_linenumber" name="57" href="#57">57</a>      }
+<a class="jxr_linenumber" name="58" href="#58">58</a>  
+<a class="jxr_linenumber" name="59" href="#59">59</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment">     * Wether or not this bus element can persist/unpersist objects of the given</em>
+<a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment">     * class clazz.</em>
+<a class="jxr_linenumber" name="62" href="#62">62</a>  <em class="jxr_javadoccomment">     * @param clazz</em>
+<a class="jxr_linenumber" name="63" href="#63">63</a>  <em class="jxr_javadoccomment">     *            the class of objets we are looking forward to persist.</em>
+<a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment">     * @return true if this bus element can persist/unpersist objects of the</em>
+<a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment">     *         given class clazz. False otherwise.</em>
+<a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="67" href="#67">67</a>      @Override
+<a class="jxr_linenumber" name="68" href="#68">68</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> canHandleClass(Class&lt;?&gt; clazz) {
+<a class="jxr_linenumber" name="69" href="#69">69</a>          <strong class="jxr_keyword">if</strong> (listHandledClasses == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="70" href="#70">70</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="71" href="#71">71</a>          } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="72" href="#72">72</a>              <strong class="jxr_keyword">return</strong> listHandledClasses.contains(clazz);
+<a class="jxr_linenumber" name="73" href="#73">73</a>          }
+<a class="jxr_linenumber" name="74" href="#74">74</a>      }
+<a class="jxr_linenumber" name="75" href="#75">75</a>  
+<a class="jxr_linenumber" name="76" href="#76">76</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="77" href="#77">77</a>  <em class="jxr_javadoccomment">     * Creates a {@link ObjectPersister} for a given class.</em>
+<a class="jxr_linenumber" name="78" href="#78">78</a>  <em class="jxr_javadoccomment">     * @param clazz</em>
+<a class="jxr_linenumber" name="79" href="#79">79</a>  <em class="jxr_javadoccomment">     *            the class of the items that need to be saved/loaded from</em>
+<a class="jxr_linenumber" name="80" href="#80">80</a>  <em class="jxr_javadoccomment">     *            cache.</em>
+<a class="jxr_linenumber" name="81" href="#81">81</a>  <em class="jxr_javadoccomment">     * @return a {@link ObjectPersister} able to load/save instances of class</em>
+<a class="jxr_linenumber" name="82" href="#82">82</a>  <em class="jxr_javadoccomment">     *         clazz.</em>
+<a class="jxr_linenumber" name="83" href="#83">83</a>  <em class="jxr_javadoccomment">     * @throws CacheCreationException</em>
+<a class="jxr_linenumber" name="84" href="#84">84</a>  <em class="jxr_javadoccomment">     *             if the persist fails to create its cache (it may also create</em>
+<a class="jxr_linenumber" name="85" href="#85">85</a>  <em class="jxr_javadoccomment">     *             it later, but it is suggested to fail as fast as possible).</em>
+<a class="jxr_linenumber" name="86" href="#86">86</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="87" href="#87">87</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> &lt;DATA&gt; ObjectPersister&lt;DATA&gt; createObjectPersister(Class&lt;DATA&gt; clazz) <strong class="jxr_keyword">throws</strong> CacheCreationException;
+<a class="jxr_linenumber" name="88" href="#88">88</a>  
+<a class="jxr_linenumber" name="89" href="#89">89</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="90" href="#90">90</a>  <em class="jxr_javadoccomment">     * Set whether this {@link ObjectPersisterFactory} will set the</em>
+<a class="jxr_linenumber" name="91" href="#91">91</a>  <em class="jxr_javadoccomment">     * {@link ObjectPersister} instances it produces to save data asynchronously</em>
+<a class="jxr_linenumber" name="92" href="#92">92</a>  <em class="jxr_javadoccomment">     * or not.</em>
+<a class="jxr_linenumber" name="93" href="#93">93</a>  <em class="jxr_javadoccomment">     * @param isAsyncSaveEnabled</em>
+<a class="jxr_linenumber" name="94" href="#94">94</a>  <em class="jxr_javadoccomment">     *            whether or not data will be saved asynchronously by</em>
+<a class="jxr_linenumber" name="95" href="#95">95</a>  <em class="jxr_javadoccomment">     *            {@link ObjectPersister} instances produced by this factory.</em>
+<a class="jxr_linenumber" name="96" href="#96">96</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="97" href="#97">97</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setAsyncSaveEnabled(<strong class="jxr_keyword">boolean</strong> isAsyncSaveEnabled) {
+<a class="jxr_linenumber" name="98" href="#98">98</a>          <strong class="jxr_keyword">this</strong>.isAsyncSaveEnabled = isAsyncSaveEnabled;
+<a class="jxr_linenumber" name="99" href="#99">99</a>      }
+<a class="jxr_linenumber" name="100" href="#100">100</a> 
+<a class="jxr_linenumber" name="101" href="#101">101</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="102" href="#102">102</a> <em class="jxr_javadoccomment">     * Indicates whether this {@link ObjectPersisterFactory} will set the</em>
+<a class="jxr_linenumber" name="103" href="#103">103</a> <em class="jxr_javadoccomment">     * {@link ObjectPersister} instances it produces to save data asynchronously</em>
+<a class="jxr_linenumber" name="104" href="#104">104</a> <em class="jxr_javadoccomment">     * or not.</em>
+<a class="jxr_linenumber" name="105" href="#105">105</a> <em class="jxr_javadoccomment">     * @return true if the {@link ObjectPersister} instances it produces to save</em>
+<a class="jxr_linenumber" name="106" href="#106">106</a> <em class="jxr_javadoccomment">     *         data asynchronously. False otherwise.</em>
+<a class="jxr_linenumber" name="107" href="#107">107</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="108" href="#108">108</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isAsyncSaveEnabled() {
+<a class="jxr_linenumber" name="109" href="#109">109</a>         <strong class="jxr_keyword">return</strong> isAsyncSaveEnabled;
+<a class="jxr_linenumber" name="110" href="#110">110</a>     }
+<a class="jxr_linenumber" name="111" href="#111">111</a> 
+<a class="jxr_linenumber" name="112" href="#112">112</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="113" href="#113">113</a> <em class="jxr_javadoccomment">     * Return the list of classes persisted by this factory.</em>
+<a class="jxr_linenumber" name="114" href="#114">114</a> <em class="jxr_javadoccomment">     * @return the list of classes persisted by this factory.</em>
+<a class="jxr_linenumber" name="115" href="#115">115</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="116" href="#116">116</a>     <strong class="jxr_keyword">protected</strong> List&lt;Class&lt;?&gt;&gt; getListHandledClasses() {
+<a class="jxr_linenumber" name="117" href="#117">117</a>         <strong class="jxr_keyword">return</strong> listHandledClasses;
+<a class="jxr_linenumber" name="118" href="#118">118</a>     }
+<a class="jxr_linenumber" name="119" href="#119">119</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
