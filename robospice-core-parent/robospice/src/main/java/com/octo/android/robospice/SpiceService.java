@@ -22,6 +22,7 @@ import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
+import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.RequestProcessor;
@@ -249,6 +250,10 @@ public abstract class SpiceService extends Service {
 
     public <T> T getDataFromCache(final Class<T> clazz, final Object cacheKey) throws CacheLoadingException, CacheCreationException {
         return cacheManager.loadDataFromCache(clazz, cacheKey, DurationInMillis.ALWAYS_RETURNED);
+    }
+
+    public <T> T putDataInCache(final Object cacheKey, T data) throws CacheSavingException, CacheCreationException {
+        return cacheManager.saveDataToCacheAndReturnData(data, cacheKey);
     }
 
     public void removeAllDataFromCache() {

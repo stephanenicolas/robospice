@@ -10,6 +10,7 @@ import com.octo.android.robospice.core.test.SpiceTestService;
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
+import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestProgress;
@@ -235,7 +236,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     }
 
-    public void test_addToCache_should_put_some_data_in_cache() throws InterruptedException, CacheLoadingException, ExecutionException {
+    public void test_putInCache_should_put_some_data_in_cache() throws InterruptedException, CacheLoadingException, ExecutionException {
         // given
         // we use double to get some in memory cache implementation
         spiceManager.start(getInstrumentation().getTargetContext());
@@ -247,6 +248,20 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
+        assertEquals(TEST_RETURNED_DATA3, spiceManager.getDataFromCache(TEST_CLASS3, TEST_CACHE_KEY).get());
+    }
+
+    public void test_putDataInCache_should_put_some_data_in_cache() throws InterruptedException, SpiceException, ExecutionException {
+        // given
+        // we use double to get some in memory cache implementation
+        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.removeDataFromCache(TEST_CLASS3);
+
+        // when
+        Double dataInCache = spiceManager.putDataInCache(TEST_CACHE_KEY, TEST_RETURNED_DATA3).get();
+
+        // test
+        assertEquals(TEST_RETURNED_DATA3, dataInCache);
         assertEquals(TEST_RETURNED_DATA3, spiceManager.getDataFromCache(TEST_CLASS3, TEST_CACHE_KEY).get());
     }
 
