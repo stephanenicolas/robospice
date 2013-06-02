@@ -11,6 +11,7 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -547,6 +548,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertFalse(stubRequest.isLoadDataFromNetworkCalled());
         assertTrue(mockRequestListener.isExecutedInUIThread());
         assertFalse(mockRequestListener.isSuccessful());
+        assertTrue(mockRequestListener.getReceivedException() instanceof NoNetworkException);
     }
 
     public void testAddRequest_should_process_offline_request_even_if_network_is_down() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
@@ -809,6 +811,21 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertFalse(stubRequest.isLoadDataFromNetworkCalled());
         assertTrue(mockRequestListener.isExecutedInUIThread());
         assertFalse(mockRequestListener.isSuccessful());
+        assertTrue(mockRequestListener.getReceivedException() instanceof NoNetworkException);
+    }
+
+    // ============================================================================================
+    // NETWORK STATE CHECKER DEPENDENCY
+    // ============================================================================================
+
+    public void testExecute_when_there_is_no_network() {
+        // given
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+
+        // when
+
+        // then
+
     }
 
     // ============================================================================================
