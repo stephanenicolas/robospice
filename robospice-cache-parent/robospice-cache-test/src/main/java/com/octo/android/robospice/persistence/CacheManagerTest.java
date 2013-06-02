@@ -3,15 +3,12 @@ package com.octo.android.robospice.persistence;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Application;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.persistence.string.InFileStringObjectPersister;
 
 @SmallTest
 public class CacheManagerTest extends AndroidTestCase {
@@ -127,32 +124,6 @@ public class CacheManagerTest extends AndroidTestCase {
         assertEquals(mockIntegerPersistenceManager, persisterInteger);
     }
 
-    public void testRemoveAllDataFromCache_cleans_cache_before_a_factory_creates_persisters() throws SpiceException {
-        // given
-        // create a persister but don't register it, use it directly to create cache content
-        InFileStringObjectPersister inFileStringObjectPersister = new InFileStringObjectPersister((Application) getContext()
-                .getApplicationContext());
-        inFileStringObjectPersister.saveDataToCacheAndReturnData(TEST_PERSISTED_STRING, TEST_CACHE_KEY);
-        // create a factory
-        MockFactoryPersistenceManager mockFactoryPersistenceManager = new MockFactoryPersistenceManager(
-                (Application) getContext().getApplicationContext());
-        cacheManager.addPersister(mockFactoryPersistenceManager);
-
-        // when
-        String dataInCache = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
-
-        // then
-        assertEquals(TEST_PERSISTED_STRING, dataInCache);
-
-        // when
-        cacheManager.removeAllDataFromCache();
-        String dataInCacheAfterClean = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY,
-                DurationInMillis.ALWAYS_RETURNED);
-
-        // then
-        assertNull(TEST_PERSISTED_STRING, dataInCacheAfterClean);
-    }
-
     // ----------------------------------
     // CLASSES UNDER TEST
     // ----------------------------------
@@ -252,20 +223,4 @@ public class CacheManagerTest extends AndroidTestCase {
         }
     }
 
-    private class MockFactoryPersistenceManager extends ObjectPersisterFactory {
-
-        public MockFactoryPersistenceManager(Application application) {
-            super(application);
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public <DATA> ObjectPersister<DATA> createObjectPersister(Class<DATA> clazz) throws CacheCreationException {
-            if (clazz.equals(String.class)) {
-                return (ObjectPersister<DATA>) new InFileStringObjectPersister(getApplication());
-            } else {
-                return null;
-            }
-        }
-    }
 }
