@@ -6,13 +6,13 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
-		<version>1.4.3</version>
+		<version>1.4.4-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 
 	<groupId>com.octo.android.robospice</groupId>
 	<artifactId>robospice-ui-spicelist-parent</artifactId>
-	<version>1.4.3</version>
+	<version>1.4.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Robospice - Extension UI SpiceList Parent</name>
 	<description>RoboSpice UI SpiceList module parent</description>

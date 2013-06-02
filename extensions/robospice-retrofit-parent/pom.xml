@@ -6,13 +6,13 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
-		<version>1.4.3</version>
+		<version>1.4.4-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 
 	<groupId>com.octo.android.robospice</groupId>
 	<artifactId>robospice-retrofit-parent</artifactId>
-	<version>1.4.3</version>
+	<version>1.4.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Robospice - Extension Retrofit Module Parent</name>
 	<description>RoboSpice Retrofit module parent</description>
