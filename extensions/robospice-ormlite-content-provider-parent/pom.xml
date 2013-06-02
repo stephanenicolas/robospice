@@ -25,7 +25,7 @@
 	</modules>
 
 	<properties>
-		<ormlite.version>4.43</ormlite.version>
+		<ormlite.version>4.45</ormlite.version>
 		<ormlite-content-provider.version>1.0.0-SNAPSHOT</ormlite-content-provider.version>
 	</properties>
 

@@ -17,12 +17,13 @@ Thanks to Volley for inspiring us on this feature. Richard Hyndman and Nick Butc
 * Add cachekey sanitation. Sanitation can be used to safely convert strings to cache keys persisted on a file system. Issue https://github.com/octo-online/robospice/issues/97  
 * Retry Policy is now built into RoboSpice. Requests default to a non null retry policy that can be customized.
 https://github.com/octo-online/robospice/issues/99
-* RoboSpice file caching now uses a customizable cache folder to store data. https://github.com/octo-online/robospice/issues/103 
+* RoboSpice file caching now uses a customizable cache folder to store data. https://github.com/octo-online/robospice/issues/103. Thx to David Sobreira Marques for this feature. 
 * new SpiceManager method : putDataInCache, equivalent to putInCache but synchronous.
-* Retrofit module's API improved. RetrofitSpiceRequest optimize creation of retrofit services. 
+* Retrofit module's API improved. RetrofitSpiceRequest optimize creation of retrofit services. Thx to Jake Wharton for his feedback on this module.
 
-Bug fixes : 
-* RoboSpice can now clean file cache at startup using removeAllDataFromCache. https://github.com/octo-online/robospice/issues/98
+** Bug fixes : 
+* RoboSpice can now clean file cache at startup using removeAllDataFromCache. https://github.com/octo-online/robospice/issues/98.
+Thx to David Sobreira Marques for this bug fix.
 
 
 Version 1.4.2 (May 20th 2013)

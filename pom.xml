@@ -97,10 +97,10 @@
 		<android-platform.version>16</android-platform.version>
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
-		<easymock.version>2.5.2</easymock.version>
-		<mockwebserver.version>20130303</mockwebserver.version>
+		<easymock.version>3.1</easymock.version>
+		<mockwebserver.version>20130505</mockwebserver.version>
 		<junit.version>4.11</junit.version>
-		<commons-logging.version>1.1.1</commons-logging.version>
+		<commons-logging.version>1.1.3</commons-logging.version>
 
 		<!-- PLUGINS VERSIONS -->
 		<android-maven-plugin.version>3.6.0</android-maven-plugin.version>
