@@ -23,8 +23,7 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     private boolean isAcceptingDirtyCache;
     private boolean isOffline;
 
-    public CachedSpiceRequest(final SpiceRequest<RESULT> spiceRequest, final Object requestCacheKey,
-        final long cacheDuration) {
+    public CachedSpiceRequest(final SpiceRequest<RESULT> spiceRequest, final Object requestCacheKey, final long cacheDuration) {
         super(spiceRequest.getResultType());
         this.requestCacheKey = requestCacheKey;
         this.cacheDuration = cacheDuration;
@@ -118,8 +117,7 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
 
     @Override
     public String toString() {
-        return "CachedSpiceRequest [requestCacheKey=" + requestCacheKey + ", cacheDuration=" + cacheDuration
-            + ", spiceRequest=" + spiceRequest + "]";
+        return "CachedSpiceRequest [requestCacheKey=" + requestCacheKey + ", cacheDuration=" + cacheDuration + ", spiceRequest=" + spiceRequest + "]";
     }
 
     @Override
@@ -139,7 +137,8 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        // http://stackoverflow.com/q/596462/693752
+        if (!(obj instanceof CachedSpiceRequest)) {
             return false;
         }
         final CachedSpiceRequest<?> other = (CachedSpiceRequest<?>) obj;

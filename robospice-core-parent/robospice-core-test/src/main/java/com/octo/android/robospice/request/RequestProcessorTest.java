@@ -191,6 +191,42 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.isComplete());
     }
 
+    // TDD for issue #70
+    public void testAddRequest_when_just_executed_addListenerIfPending() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
+        // given
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, TEST_DURATION);
+
+        RequestListenerStub<String> mockRequestListener = new RequestListenerStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        // create a addlistener if pending request
+        final CachedSpiceRequest<String> addListenerIfPendingCachedRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, DurationInMillis.ALWAYS_EXPIRED, null);
+        addListenerIfPendingCachedRequest.setProcessable(false);
+
+        RequestListenerStub<String> mockRequestListener2 = new RequestListenerStub<String>();
+        Set<RequestListener<?>> requestListenerSet2 = new HashSet<RequestListener<?>>();
+        requestListenerSet2.add(mockRequestListener2);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.replay(mockCacheManager);
+
+        // when
+        requestProcessorUnderTest.addRequest(addListenerIfPendingCachedRequest, requestListenerSet2);
+        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
+
+        mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+        mockRequestListener2.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // then
+        EasyMock.verify(mockCacheManager);
+        assertTrue(stubRequest.isLoadDataFromNetworkCalled());
+        assertTrue(mockRequestListener.isExecutedInUIThread());
+        assertTrue(mockRequestListener.isSuccessful());
+        assertNull(mockRequestListener2.isSuccessful());
+    }
+
     public void testAddRequest_when_request_is_cancelled_and_new_one_relaunched_with_same_key() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
