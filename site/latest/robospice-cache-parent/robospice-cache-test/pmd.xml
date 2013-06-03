@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2013-02-03T23:09:42.041">
+<pmd version="4.3" timestamp="2013-06-03T09:08:16.186">
+<file name="/Users/stephanenicolas/git/robospice/robospice-cache-parent/robospice-cache-test/src/main/java/com/octo/android/robospice/persistence/CacheManagerTest.java">
+<violation beginline="15" endline="15" begincolumn="33" endcolumn="46" rule="UnusedPrivateField" ruleset="Unused Code Rules" package="com.octo.android.robospice.persistence" class="CacheManagerTest" variable="TEST_CACHE_KEY" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateField" priority="3">
+Avoid unused private fields such as 'TEST_CACHE_KEY'.
+</violation>
+</file>
 </pmd>
