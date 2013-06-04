@@ -3,7 +3,6 @@ package com.octo.android.robospice.request;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.easymock.EasyMock;
 
@@ -61,7 +60,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
             public void allRequestComplete() {
             }
         };
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        ExecutorService executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
         requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker);
     }

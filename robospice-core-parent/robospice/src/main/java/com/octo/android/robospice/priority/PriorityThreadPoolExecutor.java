@@ -1,5 +1,6 @@
 package com.octo.android.robospice.priority;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.RunnableFuture;
 
 /**
@@ -42,14 +43,26 @@ public final class PriorityThreadPoolExecutor extends PausableThreadPoolExecutor
     // OVVERRIDEN METHODS
     // ----------------------------------
     @Override
+    // thanks to
+    // http://binkley.blogspot.fr/2009/04/jumping-work-queue-in-executor.html
+    // for backward compat to SDK 8 (JDK 5)
     protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
         // makes findbugs happy, there must be some @Nullable
         // annotation in JDK..
         if (runnable == null) {
             return null;
         }
-        RunnableFuture<T> runnableFuture = super.newTaskFor(runnable, value);
-        return new PriorityFuture<T>(runnableFuture, ((PriorityRunnable) runnable).getPriority());
+        return new PriorityFuture<T>(runnable, ((PriorityRunnable) runnable).getPriority(), value);
     }
 
+    // form JDK 1.6, to ensure backward compatibility
+    @Override
+    public Future<?> submit(Runnable task) {
+        if (task == null) {
+            throw new NullPointerException();
+        }
+        RunnableFuture<Object> ftask = newTaskFor(task, null);
+        execute(ftask);
+        return ftask;
+    }
 }
