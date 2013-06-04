@@ -13,6 +13,7 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
+import com.octo.android.robospice.persistence.exception.KeySanitationExcepion;
 import com.octo.android.robospice.persistence.keysanitation.KeySanitizer;
 
 /**
@@ -204,7 +205,12 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
      */
     protected final String toKey(String cacheKey) {
         if (isUsingKeySanitizer()) {
-            return (String) keySanitizer.sanitizeKey(cacheKey);
+            try {
+                return (String) keySanitizer.sanitizeKey(cacheKey);
+            } catch (KeySanitationExcepion e) {
+                Ln.e(e, "Key could not be sanitized, falling back on original key.");
+                return cacheKey;
+            }
         } else {
             return cacheKey;
         }
@@ -220,7 +226,12 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
      */
     protected final String fromKey(String cacheKey) {
         if (isUsingKeySanitizer()) {
-            return (String) keySanitizer.desanitizeKey(cacheKey);
+            try {
+                return (String) keySanitizer.desanitizeKey(cacheKey);
+            } catch (KeySanitationExcepion e) {
+                Ln.e(e, "Key could not be desanitized, falling back on original key.");
+                return cacheKey;
+            }
         } else {
             return cacheKey;
         }

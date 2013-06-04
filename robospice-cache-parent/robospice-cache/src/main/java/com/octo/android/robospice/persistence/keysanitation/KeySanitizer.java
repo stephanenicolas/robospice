@@ -1,5 +1,7 @@
 package com.octo.android.robospice.persistence.keysanitation;
 
+import com.octo.android.robospice.persistence.exception.KeySanitationExcepion;
+
 /**
  * Describes the behavior of an entity responsible for sanitizing keys.
  * Basically, it will take a cache key and encrypt/decrypt to/from a string that
@@ -18,7 +20,7 @@ public interface KeySanitizer {
      *            the cache key to sanitize.
      * @return the sanitized cache key.
      */
-    Object sanitizeKey(Object cacheKey);
+    Object sanitizeKey(Object cacheKey) throws KeySanitationExcepion;
 
     /**
      * Will de-sanitize a given sanitized cache key.
@@ -26,5 +28,5 @@ public interface KeySanitizer {
      *            the cache key to de-sanitize.
      * @return the de-sanitized cache key.
      */
-    Object desanitizeKey(Object sanitizedCacheKey);
+    Object desanitizeKey(Object sanitizedCacheKey) throws KeySanitationExcepion;
 }
