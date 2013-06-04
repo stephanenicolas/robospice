@@ -6,13 +6,13 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
-		<version>1.4.4</version>
+		<version>1.4.5-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 
 	<groupId>com.octo.android.robospice</groupId>
 	<artifactId>robospice-google-http-client-parent</artifactId>
-	<version>1.4.4</version>
+	<version>1.4.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Robospice - Extension Google Http Java Client Module Parent</name>
 	<description>RoboSpice Extension Google Http Java Client module parent</description>
