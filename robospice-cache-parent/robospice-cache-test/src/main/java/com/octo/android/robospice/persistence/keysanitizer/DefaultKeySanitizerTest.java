@@ -1,5 +1,6 @@
 package com.octo.android.robospice.persistence.keysanitizer;
 
+import com.octo.android.robospice.persistence.exception.KeySanitationExcepion;
 import com.octo.android.robospice.persistence.keysanitation.DefaultKeySanitizer;
 
 public class DefaultKeySanitizerTest extends AbstractKeySanitizerTest {
@@ -13,22 +14,22 @@ public class DefaultKeySanitizerTest extends AbstractKeySanitizerTest {
         super.setUp(new DefaultKeySanitizer());
     }
 
-    public void testSanitizeKey() {
+    public void testSanitizeKey() throws KeySanitationExcepion {
         super.testSanitizeKey(TEST_SANITIZED_KEY, TEST_UNSANITIZED_KEY);
     }
 
-    public void testDesanitizeKey() {
+    public void testDesanitizeKey() throws KeySanitationExcepion {
         super.testDesanitizeKey(TEST_UNSANITIZED_KEY, TEST_SANITIZED_KEY);
     }
 
-    public void testSanitizeKey_should_throw_exception_when_cacheKey_is_not_a_string() {
+    public void testSanitizeKey_should_throw_exception_when_cacheKey_is_not_a_string() throws KeySanitationExcepion {
         // given
 
         // when
         try {
             keySanitizer.sanitizeKey(TEST_BAD_KEY);
             fail();
-        } catch (RuntimeException ex) {
+        } catch (KeySanitationExcepion ex) {
             // check style happy
             assertTrue(true);
         }
@@ -36,19 +37,18 @@ public class DefaultKeySanitizerTest extends AbstractKeySanitizerTest {
         // then
     }
 
-    public void testDesanitizeKey_should_throw_exception_when_cacheKey_is_not_a_string() {
+    public void testDesanitizeKey_should_throw_exception_when_cacheKey_is_not_a_string() throws KeySanitationExcepion {
         // given
 
         // when
         try {
             keySanitizer.desanitizeKey(TEST_BAD_KEY);
             fail();
-        } catch (RuntimeException ex) {
+        } catch (KeySanitationExcepion ex) {
             // check style happy
             assertTrue(true);
         }
 
         // then
     }
-
 }

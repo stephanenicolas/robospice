@@ -2,6 +2,7 @@ package com.octo.android.robospice.persistence.keysanitizer;
 
 import android.test.AndroidTestCase;
 
+import com.octo.android.robospice.persistence.exception.KeySanitationExcepion;
 import com.octo.android.robospice.persistence.keysanitation.KeySanitizer;
 
 public abstract class AbstractKeySanitizerTest extends AndroidTestCase {
@@ -13,7 +14,7 @@ public abstract class AbstractKeySanitizerTest extends AndroidTestCase {
         this.keySanitizer = keySanitizer;
     }
 
-    public void testSanitizeKey(Object expectedSanitizedKey, Object cacheKeyToSanitize) {
+    public void testSanitizeKey(Object expectedSanitizedKey, Object cacheKeyToSanitize) throws KeySanitationExcepion {
         // given
 
         // when
@@ -23,7 +24,7 @@ public abstract class AbstractKeySanitizerTest extends AndroidTestCase {
         assertEquals(expectedSanitizedKey, sanitized);
     }
 
-    public void testDesanitizeKey(Object expectedDesanitizedKey, Object cacheKeyToDesanitize) {
+    public void testDesanitizeKey(Object expectedDesanitizedKey, Object cacheKeyToDesanitize) throws KeySanitationExcepion {
         // given
 
         // when

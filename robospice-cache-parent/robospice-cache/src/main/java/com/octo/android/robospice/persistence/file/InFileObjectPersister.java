@@ -171,7 +171,10 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
      * @param keySanitizer
      *            the new key sanitizer to be used by this
      *            {@link InFileObjectPersister}. May be null, in that case no
-     *            key sanitation will be used default).
+     *            key sanitation will be used default). If key sanitation fails
+     *            on a given cache key (by throwing a
+     *            {@link KeySanitationExcepion}, original (unsanitized) cache
+     *            keys will be used directly.
      */
     public void setKeySanitizer(KeySanitizer keySanitizer) {
         this.keySanitizer = keySanitizer;

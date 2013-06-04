@@ -12,7 +12,6 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
 @SmallTest
 public class CacheManagerTest extends AndroidTestCase {
-    private static final String TEST_CACHE_KEY = "FOO";
     private static final String TEST_PERSISTED_STRING = "TEST";
     private static final Integer TEST_PERSISTED_INTEGER = Integer.valueOf(0);
 
