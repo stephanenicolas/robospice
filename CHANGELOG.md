@@ -1,7 +1,13 @@
 Release notes for RoboSpice
 ===========================
 
-Version 1.4.3 (Planned)
+Version 1.4.4 (June 3rd 2013)
+-------------
+* Bug fix release: 
+Request priorization would fail on SDK 8 due to JDK 5 backward compatibility issues.
+This bug is solved. RS is still compatible with Android SDK 8+.
+
+Version 1.4.3 (June 3rd 2013)
 -------------
 ** New module : AndroidORMLiteContentProvider
 * Integration with AndroidORMLiteContentProvider
