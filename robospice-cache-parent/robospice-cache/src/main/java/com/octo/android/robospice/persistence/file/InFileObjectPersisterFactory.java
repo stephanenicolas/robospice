@@ -135,6 +135,9 @@ public abstract class InFileObjectPersisterFactory extends ObjectPersisterFactor
         });
 
         boolean allDeleted = true;
+        if (cacheFileList == null || cacheFileList.length == 0) {
+            return;
+        }
         for (File cacheFile : cacheFileList) {
             allDeleted = cacheFile.delete() && allDeleted;
         }
