@@ -1,7 +1,12 @@
 Release notes for RoboSpice
 ===========================
 
-Version 1.4.4 (June 3rd 2013)
+Version 1.4.5 (June 6th 2013)
+-------------
+** Bug Fixes
+* Correct bug of cache removal when there cache folder doesn't exist or is empty.
+
+Version 1.4.4 (June 4th 2013)
 -------------
 * Bug fix release: 
 Request priorization would fail on SDK 8 due to JDK 5 backward compatibility issues.
