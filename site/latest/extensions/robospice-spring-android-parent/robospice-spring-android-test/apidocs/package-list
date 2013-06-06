@@ -1,0 +1,9 @@
+com.octo.android.robospice
+com.octo.android.robospice.persistence.springandroid.json.gson
+com.octo.android.robospice.persistence.springandroid.json.jackson
+com.octo.android.robospice.persistence.springandroid.json.jackson2
+com.octo.android.robospice.persistence.springandroid.xml
+com.octo.android.robospice.springandroid.test
+com.octo.android.robospice.springandroid.test.model.json
+com.octo.android.robospice.springandroid.test.model.xml
+com.octo.android.robospice.springandroid.test.stub
