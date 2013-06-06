@@ -1,0 +1,5 @@
+com.octo.android.robospice.persistence.retrofit
+com.octo.android.robospice.retrofit
+com.octo.android.robospice.retrofit.test
+com.octo.android.robospice.retrofit.test.model
+com.octo.android.robospice.retrofit.test.stub
