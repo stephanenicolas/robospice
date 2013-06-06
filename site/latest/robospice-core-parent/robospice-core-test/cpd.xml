@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
-<duplication lines="21" tokens="138">
-<file line="176" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="315" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<duplication lines="18" tokens="189">
+<file line="598" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="645" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
-    public void testAddRequest_when_saving_to_cache_throws_exception() throws CacheLoadingException,
-        CacheSavingException, InterruptedException {
+        stubRequestHighPriority.setPriority(SpiceRequest.PRIORITY_HIGH);
+
+        RequestListenerStub<String> mockRequestListener = new RequestListenerStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.anyObject(), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA2), EasyMock.eq(TEST_CACHE_KEY2))).andReturn(TEST_RETURNED_DATA2);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(mockCacheManager);
+
+        executorService.pause();
+        final int lowRequestCount = 10;
+        for (int i = 0; i < lowRequestCount; i++) {
+            CachedSpiceRequestStub<String> stubRequestLowPriority = createSuccessfulRequest(TEST_CLASS, TEST_RETURNED_DATA);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="14" tokens="136">
+<file line="119" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="295" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
-        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION,
-            TEST_RETURNED_DATA);
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
 
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
         Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
         requestListenerSet.add(mockRequestListener);
 
-        EasyMock.expect(
-            mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY),
-                EasyMock.eq(TEST_DURATION))).andReturn(null);
-        EasyMock
-            .expect(
-                mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA),
-                    EasyMock.eq(TEST_CACHE_KEY))).andThrow(new CacheSavingException(""));
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
         EasyMock.replay(mockCacheManager);
 
         // when
@@ -29,43 +48,13 @@
 ]]>
 </codefragment>
 </duplication>
-<duplication lines="21" tokens="134">
-<file line="117" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="254" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<duplication lines="10" tokens="126">
+<file line="414" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="451" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
-    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
-        CacheSavingException, InterruptedException {
-        // given
-        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION,
-            TEST_RETURNED_DATA);
-
-        RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
-        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
-        requestListenerSet.add(mockRequestListener);
-
-        EasyMock.expect(
-            mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY),
-                EasyMock.eq(TEST_DURATION))).andReturn(null);
-        EasyMock
-            .expect(
-                mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA),
-                    EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
-        EasyMock.replay(mockCacheManager);
-
-        // when
-        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
-]]>
-</codefragment>
-</duplication>
-<duplication lines="13" tokens="126">
-<file line="393" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="438" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<codefragment>
-<![CDATA[
-            TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
-        CachedSpiceRequestStub<String> stubRequest2 = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2,
-            TEST_DURATION, TEST_RETURNED_DATA);
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
+        CachedSpiceRequestStub<String> stubRequest2 = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA);
         RequestListenerWithProgressStub<String> requestListenerStub = new RequestListenerWithProgressStub<String>();
         RequestListenerWithProgressStub<String> requestListenerStub2 = new RequestListenerWithProgressStub<String>();
         Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
@@ -73,62 +62,155 @@
         Set<RequestListener<?>> requestListenerSet2 = new HashSet<RequestListener<?>>();
         requestListenerSet2.add(requestListenerStub2);
 
-        EasyMock.expect(
-            mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY2),
-                EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY2), EasyMock.eq(TEST_DURATION))).andReturn(null);
 ]]>
 </codefragment>
 </duplication>
-<duplication lines="17" tokens="122">
-<file line="117" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="176" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="254" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="315" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<duplication lines="10" tokens="124">
+<file line="119" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="169" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="295" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
-    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
-        CacheSavingException, InterruptedException {
+    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
-        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION,
-            TEST_RETURNED_DATA);
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
 
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
         Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
         requestListenerSet.add(mockRequestListener);
 
-        EasyMock.expect(
-            mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY),
-                EasyMock.eq(TEST_DURATION))).andReturn(null);
-        EasyMock
-            .expect(
-                mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA),
-                    EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
 ]]>
 </codefragment>
 </duplication>
-<duplication lines="15" tokens="100">
-<file line="117" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="176" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="208" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="254" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="315" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<duplication lines="12" tokens="114">
+<file line="171" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="349" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
-    public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException,
-        CacheSavingException, InterruptedException {
-        // given
-        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION,
-            TEST_RETURNED_DATA);
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
 
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
         Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
         requestListenerSet.add(mockRequestListener);
 
-        EasyMock.expect(
-            mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY),
-                EasyMock.eq(TEST_DURATION))).andReturn(null);
-        EasyMock
-            .expect(
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andThrow(new CacheSavingException(""));
+        EasyMock.replay(mockCacheManager);
+
+        // when
+        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="9" tokens="107">
+<file line="232" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="757" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<codefragment>
+<![CDATA[
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
+
+        RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="105">
+<file line="299" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="557" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<codefragment>
+<![CDATA[
+        RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.replay(mockCacheManager);
+
+        // when
+        requestProcessorUnderTest.setFailOnCacheError(true);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="11" tokens="104">
+<file line="724" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="753" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testAddRequest_when_fail_on_error_true_and_request_has_retry_policy_loading_from_cache_throws_exception() throws SpiceException, InterruptedException {
+        // given
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+        DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(TEST_RETRY_COUNT, TEST_DELAY_BEFORE_RETRY, TEST_RETRY_BACKOFF_MULTIPLIER);
+        stubRequest.setRetryPolicy(retryPolicy);
+
+        RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andThrow(new CacheLoadingException(""));
+]]>
+</codefragment>
+</duplication>
+<duplication lines="11" tokens="103">
+<file line="696" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="755" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<codefragment>
+<![CDATA[
+        CachedSpiceRequestStub<String> stubRequest = createFailedRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION);
+        DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(TEST_RETRY_COUNT, TEST_DELAY_BEFORE_RETRY, TEST_RETRY_BACKOFF_MULTIPLIER);
+        stubRequest.setRetryPolicy(retryPolicy);
+
+        RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(mockCacheManager);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="102">
+<file line="321" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="346" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testAddRequest_when_fail_on_error_true_loading_from_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
+        // given
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+        stubRequest.setRetryPolicy(null);
+
+        RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andThrow(new CacheLoadingException(""));
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="101">
+<file line="123" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="557" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<codefragment>
+<![CDATA[
+        RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.replay(mockCacheManager);
+
+        // when
+        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
 ]]>
 </codefragment>
 </duplication>
