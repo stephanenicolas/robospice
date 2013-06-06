@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rss version="0.91">
+  <channel>
+    <title>Robospice - Extension Retrofit Module - Checkstyle report</title>
+    <link>https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit</link>
+    <description>Robospice - Extension Retrofit Module - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2012 - 2013</copyright>
+    <item>
+      <title>File: 6,
+             Errors: 0,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitSpiceService.java">com/octo/android/robospice/retrofit/RetrofitSpiceService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit/checkstyle.html#com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFactory.java">com/octo/android/robospice/persistence/retrofit/RetrofitObjectPersisterFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit/checkstyle.html#com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest.java">com/octo/android/robospice/request/retrofit/RetrofitSpiceRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitGsonSpiceService.java">com/octo/android/robospice/retrofit/RetrofitGsonSpiceService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit/checkstyle.html#com.octo.android.robospice.persistence.retrofit.GsonRetrofitObjectPersisterFactory.java">com/octo/android/robospice/persistence/retrofit/GsonRetrofitObjectPersisterFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-retrofit-parent/robospice-retrofit/checkstyle.html#com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersister.java">com/octo/android/robospice/persistence/retrofit/RetrofitObjectPersister.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
