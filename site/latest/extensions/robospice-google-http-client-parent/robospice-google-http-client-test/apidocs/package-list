@@ -1,0 +1,5 @@
+com.octo.android.robospice
+com.octo.android.robospice.googlehttpclient.test
+com.octo.android.robospice.googlehttpclient.test.model
+com.octo.android.robospice.googlehttpclient.test.stub
+com.octo.android.robospice.persistence.googlehttpclient.json
