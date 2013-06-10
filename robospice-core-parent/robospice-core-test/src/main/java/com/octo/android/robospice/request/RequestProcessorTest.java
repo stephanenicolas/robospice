@@ -53,6 +53,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        // http://stackoverflow.com/q/6516441/693752
+        getInstrumentation().waitForIdleSync();
         mockCacheManager = EasyMock.createMock(ICacheManager.class);
         requestProcessorListener = new RequestProcessorListener() {
 

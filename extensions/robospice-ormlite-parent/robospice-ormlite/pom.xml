@@ -26,7 +26,6 @@
 		<dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice-cache</artifactId>
-			<version>1.4.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.j256.ormlite</groupId>

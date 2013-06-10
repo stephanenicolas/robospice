@@ -10,10 +10,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -91,7 +93,15 @@ public class SpiceManager implements Runnable {
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapPendingRequestToRequestListener = Collections
         .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
+
+        @Override
+        public Thread newThread(Runnable arg0) {
+            Thread t = new Thread(arg0);
+            t.setPriority(Thread.MIN_PRIORITY);
+            return t;
+        }
+    });
 
     /**
      * Lock used to synchronize binding to / unbinding from the
@@ -235,6 +245,7 @@ public class SpiceManager implements Runnable {
         this.isStopped = true;
         this.runner.interrupt();
         this.runner = null;
+        this.executorService.shutdown();
         this.contextWeakReference.clear();
         Ln.d("SpiceManager stopped.");
     }
@@ -897,25 +908,36 @@ public class SpiceManager implements Runnable {
      *            the type of data you want to remove from cache.
      */
     public <T> void removeDataFromCache(final Class<T> clazz) {
+    }
+
+    /**
+     * Remove some specific content from cache
+     * @param clazz
+     *            the type of data you want to remove from cache.
+     * @param wait
+     *            whether or not to wait for this method's return.
+     */
+    public <T> void removeDataFromCache(final Class<T> clazz, boolean wait) {
         if (clazz == null) {
-            throw new IllegalArgumentException("Both parameters must be non null.");
+            throw new IllegalArgumentException("Clazz must be non null.");
         }
 
-        executorService.execute(new Runnable() {
+        final CountDownLatch latch = new CountDownLatch(1);
 
+        executorService.execute(new SpiceManagerCommand(latch) {
             @Override
-            public void run() {
-                try {
-                    waitForServiceToBeBound();
-                    if (spiceService == null) {
-                        return;
-                    }
-                    spiceService.removeAllDataFromCache(clazz);
-                } catch (final InterruptedException e) {
-                    Ln.e(e, "Interrupted while waiting for acquiring service.");
-                }
+            protected void executeWhenBound() {
+                spiceService.removeAllDataFromCache(clazz);
             }
         });
+
+        if (wait) {
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                Ln.e(e);
+            }
+        }
     }
 
     /**
@@ -1083,8 +1105,18 @@ public class SpiceManager implements Runnable {
                 final Intent intentService = new Intent(context, spiceServiceClass);
                 Ln.v("Binding to service.");
                 spiceServiceConnection = new SpiceServiceConnection();
-                context.getApplicationContext().bindService(intentService, spiceServiceConnection, Context.BIND_AUTO_CREATE);
+                boolean bound = context.getApplicationContext().bindService(intentService, spiceServiceConnection, Context.BIND_AUTO_CREATE);
+                if (!bound) {
+                    Ln.v("Binding to service failed.");
+                } else {
+                    Ln.v("Binding to service succeeded.");
+                }
             }
+        } catch (Exception t) {
+            // this should not happen in apps, but can happen during tests.
+            Ln.d(t, "Binding to service failed.");
+            Ln.d("Context is" + context);
+            Ln.d("ApplicationContext is " + context.getApplicationContext() + context.getApplicationContext());
         } finally {
             lockAcquireService.unlock();
         }
@@ -1127,6 +1159,7 @@ public class SpiceManager implements Runnable {
             while (spiceService == null && !isStopped) {
                 conditionServiceBound.await();
             }
+            Ln.d("Bound ok.");
         } finally {
             lockAcquireService.unlock();
         }
@@ -1180,5 +1213,48 @@ public class SpiceManager implements Runnable {
             stringBuilder.append(']');
             stringBuilder.append('\n');
         }
+    }
+
+    // ----------------------------------
+    // INNER CLASS
+    // ----------------------------------
+    public abstract class SpiceManagerCommand implements Runnable {
+        private CountDownLatch countDownLatch;
+
+        public SpiceManagerCommand() {
+            this(null);
+        }
+
+        public SpiceManagerCommand(CountDownLatch countDownLatch) {
+            this.countDownLatch = countDownLatch;
+        }
+
+        @Override
+        public void run() {
+            // TODO refuse to execute if spiceManager is stopped.
+            try {
+                waitForServiceToBeBound();
+                if (spiceService == null) {
+                    return;
+                }
+            } catch (InterruptedException e) {
+                Ln.e(e);
+            }
+
+            if (countDownLatch == null) {
+                executeWhenBound();
+                return;
+            }
+
+            try {
+                executeWhenBound();
+            } catch (Exception e) {
+                Ln.e(e);
+            } finally {
+                countDownLatch.countDown();
+            }
+        }
+
+        protected abstract void executeWhenBound();
     }
 }

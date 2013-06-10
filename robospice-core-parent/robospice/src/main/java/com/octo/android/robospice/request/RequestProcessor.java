@@ -125,12 +125,12 @@ public class RequestProcessor {
 
             if (listRequestListenerForThisRequest == null) {
                 if (request.isProcessable()) {
-                    Ln.d(String.format("Adding entry for type %s and cacheKey %s.", request.getResultType(), request.getRequestCacheKey()));
+                    Ln.d("Adding entry for type %s and cacheKey %s.", request.getResultType(), request.getRequestCacheKey());
                     listRequestListenerForThisRequest = new HashSet<RequestListener<?>>();
                     this.mapRequestToRequestListener.put(request, listRequestListenerForThisRequest);
                 }
             } else {
-                Ln.d(String.format("Request for type %s and cacheKey %s already exists.", request.getResultType(), request.getRequestCacheKey()));
+                Ln.d("Request for type %s and cacheKey %s already exists.", request.getResultType(), request.getRequestCacheKey());
                 aggregated = true;
             }
 

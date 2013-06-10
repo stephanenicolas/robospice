@@ -31,15 +31,13 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.simple.BitmapRequest;
 
 /**
- * An adapter that is optimized for {@link SpiceListView} instances. It offers
- * to update ImageViews contained in {@link SpiceListItemView} instances with
- * images loaded from the network. All you have to do is to Override
- * {@link #createRequest(Object)} to define a bitmapRequest for each object in
- * the list that is associated an image to display. Also please note that in
- * your {@link #getView(int, android.view.View, android.view.ViewGroup)} method,
- * you must call
- * {@link #updateListItemViewAsynchronously(Object, SpiceListItemView)} in order
- * for your {@link SpiceListItemView} to be updated automagically.
+ * An adapter that is optimized for {@link SpiceListView} instances. It offers to update ImageViews
+ * contained in {@link SpiceListItemView} instances with images loaded from the network. All you
+ * have to do is to Override {@link #createRequest(Object)} to define a bitmapRequest for each
+ * object in the list that is associated an image to display. Also please note that in your
+ * {@link #getView(int, android.view.View, android.view.ViewGroup)} method, you must call
+ * {@link #updateListItemViewAsynchronously(Object, SpiceListItemView)} in order for your
+ * {@link SpiceListItemView} to be updated automagically.
  * @author sni
  * @param <T>
  *            the type of data displayed by the list.
@@ -50,25 +48,22 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
     private int imageHeight = 0;
 
     /**
-     * Indicates wether to use the network to update data. This is set by the
-     * {@link SpiceListView}.
+     * Indicates wether to use the network to update data. This is set by the {@link SpiceListView}.
      */
     private boolean isNetworkFetchingAllowed = true;
     /**
-     * A {@link SpiceManager} that will be used to fetch binaries. It's
-     * lifecycle has to be managed at the context level (usually fragment or
-     * activity).
+     * A {@link SpiceManager} that will be used to fetch binaries. It's lifecycle has to be managed
+     * at the context level (usually fragment or activity).
      */
     private SpiceManager spiceManagerBinary;
     /**
-     * List of event listeners to get notified of network fetching allowed
-     * changes.
+     * List of event listeners to get notified of network fetching allowed changes.
      */
     private List<NetworkFetchingAuthorizationStateChangeAdapter> networkFetchingAuthorizationStateChangeListenerList = Collections
-        .synchronizedList(new ArrayList<NetworkFetchingAuthorizationStateChangeAdapter>());
+            .synchronizedList(new ArrayList<NetworkFetchingAuthorizationStateChangeAdapter>());
     /**
-     * Contains all images that have been added recently to the list. They will
-     * be animated when first displayed.
+     * Contains all images that have been added recently to the list. They will be animated when
+     * first displayed.
      */
     private Set<Object> freshDrawableSet = new HashSet<Object>();
     /** The default drawable to display during image loading from the network. */
@@ -116,15 +111,13 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
 
     /**
      * Updates a {@link SpiceListItemView} containing some data. The method
-     * {@link #createRequest(Object)} will be applied to data to know which
-     * bitmapRequest to execute to get data from network if needed. This method
-     * must be called during
+     * {@link #createRequest(Object)} will be applied to data to know which bitmapRequest to execute
+     * to get data from network if needed. This method must be called during
      * {@link #getView(int, android.view.View, android.view.ViewGroup)}.
      * @param data
      *            the data to update the {@link SpiceListItemView} with.
      * @param spiceListItemView
-     *            the {@link SpiceListItemView} that displays an image to
-     *            represent data.
+     *            the {@link SpiceListItemView} that displays an image to represent data.
      */
     protected void updateListItemViewAsynchronously(T data, SpiceListItemView<T> spiceListItemView) {
         if (!registered(spiceListItemView)) {
@@ -137,7 +130,7 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public final View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         SpiceListItemView<T> spiceListItemView;
 
         T currentItem = getItem(position);
@@ -165,7 +158,8 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
     // ----------------------------
 
     private void addSpiceListItemView(SpiceListItemView<T> spiceListItemView) {
-        this.networkFetchingAuthorizationStateChangeListenerList.add(new NetworkFetchingAuthorizationStateChangeAdapter(spiceListItemView));
+        this.networkFetchingAuthorizationStateChangeListenerList.add(new NetworkFetchingAuthorizationStateChangeAdapter(
+                spiceListItemView));
     }
 
     private boolean registered(SpiceListItemView<T> view) {
@@ -292,18 +286,21 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
             data = (T) params[0];
             spiceListItemView = (SpiceListItemView<T>) params[1];
 
-            File tempThumbnailImageFile = bitmapRequest.getCacheFile();
-            tempThumbnailImageFileName = tempThumbnailImageFile.getAbsolutePath();
-            Ln.d("Filename : " + tempThumbnailImageFileName);
+            if (bitmapRequest != null) {
 
-            if (!tempThumbnailImageFile.exists()) {
-                if (isNetworkFetchingAllowed) {
-                    OctoImageRequestListener octoImageRequestListener = new OctoImageRequestListener(data, spiceListItemView,
-                        tempThumbnailImageFileName);
-                    spiceManagerBinary.execute(bitmapRequest, "THUMB_IMAGE_" + data.hashCode(), DurationInMillis.ALWAYS_EXPIRED,
-                        octoImageRequestListener);
+                File tempThumbnailImageFile = bitmapRequest.getCacheFile();
+                tempThumbnailImageFileName = tempThumbnailImageFile.getAbsolutePath();
+                Ln.d("Filename : " + tempThumbnailImageFileName);
+
+                if (!tempThumbnailImageFile.exists()) {
+                    if (isNetworkFetchingAllowed) {
+                        OctoImageRequestListener octoImageRequestListener = new OctoImageRequestListener(data, spiceListItemView,
+                                tempThumbnailImageFileName);
+                        spiceManagerBinary.execute(bitmapRequest, "THUMB_IMAGE_" + data.hashCode(),
+                                DurationInMillis.ALWAYS_EXPIRED, octoImageRequestListener);
+                    }
+                    return false;
                 }
-                return false;
             }
             return true;
         }

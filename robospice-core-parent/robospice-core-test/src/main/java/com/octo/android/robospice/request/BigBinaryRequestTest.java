@@ -28,6 +28,8 @@ public class BigBinaryRequestTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        // http://stackoverflow.com/q/6516441/693752
+        getInstrumentation().waitForIdleSync();
         mockWebServer = new MockWebServer();
         cacheFile = new File(getInstrumentation().getContext().getCacheDir(), "test");
         cacheFile.delete();

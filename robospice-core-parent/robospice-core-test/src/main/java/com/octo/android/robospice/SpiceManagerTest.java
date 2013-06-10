@@ -43,6 +43,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        // http://stackoverflow.com/q/6516441/693752
+        getInstrumentation().waitForIdleSync();
         spiceManager = new SpiceManagerUnderTest(SpiceTestService.class);
     }
 
@@ -240,14 +242,16 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // given
         // we use double to get some in memory cache implementation
         spiceManager.start(getInstrumentation().getTargetContext());
-        spiceManager.removeDataFromCache(TEST_CLASS3);
+        spiceManager.removeDataFromCache(TEST_CLASS3, true);
         RequestListenerStub<Double> requestListenerStub = new RequestListenerStub<Double>();
 
         // when
         spiceManager.putInCache(TEST_CLASS3, TEST_CACHE_KEY, TEST_RETURNED_DATA3, requestListenerStub);
-        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(100 * REQUEST_COMPLETION_TIME_OUT);
 
         // test
+        assertTrue(requestListenerStub.isExecutedInUIThread());
+        assertTrue(requestListenerStub.isSuccessful());
         assertEquals(TEST_RETURNED_DATA3, spiceManager.getDataFromCache(TEST_CLASS3, TEST_CACHE_KEY).get());
     }
 
@@ -255,7 +259,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // given
         // we use double to get some in memory cache implementation
         spiceManager.start(getInstrumentation().getTargetContext());
-        spiceManager.removeDataFromCache(TEST_CLASS3);
+        spiceManager.removeDataFromCache(TEST_CLASS3, true);
 
         // when
         Double dataInCache = spiceManager.putDataInCache(TEST_CACHE_KEY, TEST_RETURNED_DATA3).get();

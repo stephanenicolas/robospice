@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import roboguice.util.temp.Ln;
 import android.app.Application;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -22,6 +23,8 @@ public class DoubleInMemoryPersisterStub extends ObjectPersister<Double> {
 
     public DoubleInMemoryPersisterStub(Application application) {
         super(application, Double.class);
+        Ln.d("New memory cache created");
+        setAsyncSaveEnabled(false);
     }
 
     @Override
@@ -29,6 +32,7 @@ public class DoubleInMemoryPersisterStub extends ObjectPersister<Double> {
         if (maxTimeInCache == DurationInMillis.ALWAYS_EXPIRED || maxTimeInCache > DurationInMillis.ONE_MINUTE) {
             return null;
         }
+        Ln.d("Value in cache for " + cacheKey + " is " + map.get(cacheKey));
         return map.get(cacheKey);
     }
 
@@ -45,18 +49,21 @@ public class DoubleInMemoryPersisterStub extends ObjectPersister<Double> {
 
     @Override
     public Double saveDataToCacheAndReturnData(Double data, Object cacheKey) throws CacheSavingException {
+        Ln.d("Adding " + data + " to cache at " + cacheKey);
         map.put(cacheKey, data);
         return data;
     }
 
     @Override
     public boolean removeDataFromCache(Object cacheKey) {
+        Ln.d("Clearing cache at" + cacheKey);
         map.remove(cacheKey);
         return true;
     }
 
     @Override
     public void removeAllDataFromCache() {
+        Ln.d("Clearing all cache");
         map.clear();
     }
 

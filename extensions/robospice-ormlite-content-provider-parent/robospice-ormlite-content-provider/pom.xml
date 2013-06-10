@@ -6,7 +6,6 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-ormlite-content-provider-parent</artifactId>
-		<version>1.4.4-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>robospice-ormlite-content-provider</artifactId>
