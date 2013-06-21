@@ -81,7 +81,7 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
     }
 
     @Override
-    public final Bitmap loadDataFromNetwork() throws Exception {
+    public Bitmap loadDataFromNetwork() throws Exception {
         try {
             final HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
             processStream(httpURLConnection.getContentLength(), httpURLConnection.getInputStream());

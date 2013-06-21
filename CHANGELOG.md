@@ -1,6 +1,17 @@
 Release notes for RoboSpice
 ===========================
 
+Version 1.5.0 (planned)
+-------------
+** Enhancements
+* Enhanced threading model for the SpiceManager and SpiceService. Decreased priority to increase UI Thread performance and 
+enhance user experience.
+* BitmapRequests, SimpleTextRequests have non final methods to allow developpers to extend them
+
+
+** Bug fixes
+* Cache folder creation is now thread safe.
+
 Version 1.4.5 (June 6th 2013)
 -------------
 ** Bug Fixes

@@ -168,8 +168,16 @@ public class RequestProcessor {
         }
     }
 
-    protected <T> void processRequest(final CachedSpiceRequest<T> request) {
+    private static String getTimeString(long millis) {
+        return String.format("%02d ms", millis);
+    }
 
+    private void printRequestProcessingDuration(long startTime, CachedSpiceRequest<?> request) {
+        Ln.d("It tooks %s to process request %s.", getTimeString(System.currentTimeMillis() - startTime), request.toString());
+    }
+
+    protected <T> void processRequest(final CachedSpiceRequest<T> request) {
+        final long startTime = System.currentTimeMillis();
         Ln.d("Processing request : " + request);
 
         T result = null;
@@ -196,6 +204,7 @@ public class RequestProcessor {
                 if (result != null) {
                     Ln.d("Request loaded from cache : " + request + " result=" + result);
                     notifyListenersOfRequestSuccess(request, result);
+                    printRequestProcessingDuration(startTime, request);
                     return;
                 } else if (request.isAcceptingDirtyCache()) {
                     // as a fallback, some request may accept whatever is in the
@@ -210,6 +219,7 @@ public class RequestProcessor {
                 Ln.d(e, "Cache file could not be read.");
                 if (failOnCacheError) {
                     handleRetry(request, e);
+                    printRequestProcessingDuration(startTime, request);
                     return;
                 }
                 cacheManager.removeDataFromCache(request.getResultType(), request.getRequestCacheKey());
@@ -222,12 +232,14 @@ public class RequestProcessor {
         if (!isNetworkAvailable(applicationContext) && !request.isOffline()) {
             Ln.e("Network is down.");
             handleRetry(request, new NoNetworkException());
+            printRequestProcessingDuration(startTime, request);
             return;
         }
 
         // network is ok, load data from network
         try {
             if (request.isCancelled()) {
+                printRequestProcessingDuration(startTime, request);
                 return;
             }
             Ln.d("Calling netwok request.");
@@ -241,6 +253,7 @@ public class RequestProcessor {
             } else {
                 Ln.e("An exception occured during request network execution but request was cancelled, so listeners are not called.");
             }
+            printRequestProcessingDuration(startTime, request);
             return;
         }
 
@@ -249,23 +262,28 @@ public class RequestProcessor {
             // it to cache
             try {
                 if (request.isCancelled()) {
+                    printRequestProcessingDuration(startTime, request);
                     return;
                 }
                 Ln.d("Start caching content...");
                 request.setStatus(RequestStatus.WRITING_TO_CACHE);
                 result = saveDataToCacheAndReturnData(result, request.getRequestCacheKey());
                 if (request.isCancelled()) {
+                    printRequestProcessingDuration(startTime, request);
                     return;
                 }
                 notifyListenersOfRequestSuccess(request, result);
+                printRequestProcessingDuration(startTime, request);
                 return;
             } catch (final SpiceException e) {
                 Ln.d("An exception occured during service execution :" + e.getMessage(), e);
                 if (failOnCacheError) {
                     handleRetry(request, e);
+                    printRequestProcessingDuration(startTime, request);
                     return;
                 } else {
                     if (request.isCancelled()) {
+                        printRequestProcessingDuration(startTime, request);
                         return;
                     }
                     // result can't be saved to
@@ -283,6 +301,7 @@ public class RequestProcessor {
             // that point after a success of load data from
             // network
             notifyListenersOfRequestSuccess(request, result);
+            printRequestProcessingDuration(startTime, request);
             return;
         }
     }

@@ -74,8 +74,10 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
         if (cacheFolder == null) {
             cacheFolder = new File(getApplication().getCacheDir(), DEFAULT_ROOT_CACHE_DIR);
         }
-        if (!cacheFolder.exists() && !cacheFolder.mkdirs()) {
-            throw new CacheCreationException("The cache folder " + cacheFolder.getAbsolutePath() + " could not be created.");
+        synchronized (cacheFolder.getAbsolutePath().intern()) {
+            if (!cacheFolder.exists() && !cacheFolder.mkdirs()) {
+                throw new CacheCreationException("The cache folder " + cacheFolder.getAbsolutePath() + " could not be created.");
+            }
         }
         this.cacheFolder = cacheFolder;
     }

@@ -247,7 +247,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         // when
         spiceManager.putInCache(TEST_CLASS3, TEST_CACHE_KEY, TEST_RETURNED_DATA3, requestListenerStub);
-        requestListenerStub.await(100 * REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertTrue(requestListenerStub.isExecutedInUIThread());

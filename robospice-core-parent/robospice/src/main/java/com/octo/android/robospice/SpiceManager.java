@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -28,6 +27,14 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import com.octo.android.robospice.SpiceService.SpiceServiceBinder;
+import com.octo.android.robospice.command.GetAllCacheKeysCommand;
+import com.octo.android.robospice.command.GetAllDataFromCacheCommand;
+import com.octo.android.robospice.command.GetDataFromCacheCommand;
+import com.octo.android.robospice.command.PutDataInCacheCommand;
+import com.octo.android.robospice.command.RemoveAllDataFromCacheCommand;
+import com.octo.android.robospice.command.RemoveDataClassFromCacheCommand;
+import com.octo.android.robospice.command.RemoveDataFromCacheCommand;
+import com.octo.android.robospice.command.SetFailOnCacheErrorCommand;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
@@ -58,6 +65,8 @@ import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
  * Tremblay (from EasyMock) for his happy code review.
  */
 public class SpiceManager implements Runnable {
+
+    private static final int DEFAULT_THREAD_COUNT = 3;
 
     /** The class of the {@link SpiceService} to bind to. */
     private final Class<? extends SpiceService> spiceServiceClass;
@@ -93,7 +102,7 @@ public class SpiceManager implements Runnable {
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapPendingRequestToRequestListener = Collections
         .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
+    private final ExecutorService executorService = Executors.newFixedThreadPool(getThreadCount(), new ThreadFactory() {
 
         @Override
         public Thread newThread(Runnable arg0) {
@@ -101,6 +110,7 @@ public class SpiceManager implements Runnable {
             t.setPriority(Thread.MIN_PRIORITY);
             return t;
         }
+
     });
 
     /**
@@ -147,6 +157,15 @@ public class SpiceManager implements Runnable {
     }
 
     /**
+     * Number of threads used internally by this spice manager to communicate
+     * commands to the SpiceService it is bound to
+     * @return the thread count. Defaults to {@link #DEFAULT_THREAD_COUNT}.
+     */
+    protected int getThreadCount() {
+        return DEFAULT_THREAD_COUNT;
+    }
+
+    /**
      * Start the {@link SpiceManager}. It will bind asynchronously to the
      * {@link SpiceService}.
      * @param contextWeakReference
@@ -162,6 +181,7 @@ public class SpiceManager implements Runnable {
 
             // start the binding to the service
             runner = new Thread(this);
+            runner.setPriority(Thread.MIN_PRIORITY);
             isStopped = false;
             runner.start();
 
@@ -783,32 +803,12 @@ public class SpiceManager implements Runnable {
         }
     }
 
-    public <T> Future<List<Object>> getAllCacheKeys(final Class<T> clazz) {
-        return executorService.submit(new Callable<List<Object>>() {
-
-            @Override
-            public List<Object> call() throws Exception {
-                waitForServiceToBeBound();
-                if (spiceService == null) {
-                    return new ArrayList<Object>();
-                }
-                return spiceService.getAllCacheKeys(clazz);
-            }
-        });
+    public Future<List<Object>> getAllCacheKeys(final Class<?> clazz) {
+        return executeCommand(new GetAllCacheKeysCommand(this, clazz));
     }
 
     public <T> Future<List<T>> getAllDataFromCache(final Class<T> clazz) throws CacheLoadingException {
-        return executorService.submit(new Callable<List<T>>() {
-
-            @Override
-            public List<T> call() throws Exception {
-                waitForServiceToBeBound();
-                if (spiceService == null) {
-                    return new ArrayList<T>();
-                }
-                return spiceService.loadAllDataFromCache(clazz);
-            }
-        });
+        return executeCommand(new GetAllDataFromCacheCommand<T>(this, clazz));
     }
 
     /**
@@ -828,18 +828,8 @@ public class SpiceManager implements Runnable {
      *             Exception thrown when a problem occurs while loading data
      *             from cache.
      */
-    public <T> Future<T> getDataFromCache(final Class<T> clazz, final Object cacheKey) throws CacheLoadingException, CacheLoadingException {
-        return executorService.submit(new Callable<T>() {
-
-            @Override
-            public T call() throws Exception {
-                waitForServiceToBeBound();
-                if (spiceService == null) {
-                    return null;
-                }
-                return spiceService.getDataFromCache(clazz, cacheKey);
-            }
-        });
+    public <T> Future<T> getDataFromCache(final Class<T> clazz, final Object cacheKey) throws CacheLoadingException {
+        return executeCommand(new GetDataFromCacheCommand<T>(this, clazz, cacheKey));
     }
 
     /**
@@ -860,17 +850,7 @@ public class SpiceManager implements Runnable {
      *             from cache.
      */
     public <T> Future<T> putDataInCache(final Object cacheKey, final T data) throws CacheSavingException, CacheCreationException {
-        return executorService.submit(new Callable<T>() {
-
-            @Override
-            public T call() throws Exception {
-                waitForServiceToBeBound();
-                if (spiceService == null) {
-                    return null;
-                }
-                return spiceService.putDataInCache(cacheKey, data);
-            }
-        });
+        return executeCommand(new PutDataInCacheCommand<T>(this, data, cacheKey));
     }
 
     /**
@@ -885,21 +865,7 @@ public class SpiceManager implements Runnable {
             throw new IllegalArgumentException("Both parameters must be non null.");
         }
 
-        executorService.execute(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    waitForServiceToBeBound();
-                    if (spiceService == null) {
-                        return;
-                    }
-                    spiceService.removeDataFromCache(clazz, cacheKey);
-                } catch (final InterruptedException e) {
-                    Ln.e(e, "Interrupted while waiting for acquiring service.");
-                }
-            }
-        });
+        executeCommand(new RemoveDataFromCacheCommand(this, clazz, cacheKey));
     }
 
     /**
@@ -907,59 +873,19 @@ public class SpiceManager implements Runnable {
      * @param clazz
      *            the type of data you want to remove from cache.
      */
-    public <T> void removeDataFromCache(final Class<T> clazz) {
-    }
-
-    /**
-     * Remove some specific content from cache
-     * @param clazz
-     *            the type of data you want to remove from cache.
-     * @param wait
-     *            whether or not to wait for this method's return.
-     */
-    public <T> void removeDataFromCache(final Class<T> clazz, boolean wait) {
+    public <T> Future<?> removeDataFromCache(final Class<T> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Clazz must be non null.");
         }
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        executorService.execute(new SpiceManagerCommand(latch) {
-            @Override
-            protected void executeWhenBound() {
-                spiceService.removeAllDataFromCache(clazz);
-            }
-        });
-
-        if (wait) {
-            try {
-                latch.await();
-            } catch (InterruptedException e) {
-                Ln.e(e);
-            }
-        }
+        return executeCommand(new RemoveDataClassFromCacheCommand(this, clazz));
     }
 
     /**
      * Remove all data from cache. This will clear all data stored by the
      * {@link CacheManager} of the {@link SpiceService}.
      */
-    public void removeAllDataFromCache() {
-        executorService.execute(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    waitForServiceToBeBound();
-                    if (spiceService == null) {
-                        return;
-                    }
-                    spiceService.removeAllDataFromCache();
-                } catch (final InterruptedException e) {
-                    Ln.e(e, "Interrupted while waiting for acquiring service.");
-                }
-            }
-        });
+    public Future<?> removeAllDataFromCache() {
+        return executeCommand(new RemoveAllDataFromCacheCommand(this));
     }
 
     /**
@@ -969,21 +895,7 @@ public class SpiceManager implements Runnable {
      *            true if an error must fail the process
      */
     public void setFailOnCacheError(final boolean failOnCacheError) {
-        executorService.execute(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    waitForServiceToBeBound();
-                    if (spiceService == null) {
-                        return;
-                    }
-                    spiceService.setFailOnCacheError(failOnCacheError);
-                } catch (final InterruptedException e) {
-                    Ln.e(e, "Interrupted while waiting for acquiring service.");
-                }
-            }
-        });
+        executeCommand(new SetFailOnCacheErrorCommand(this, failOnCacheError));
     }
 
     private <T> void addRequestListenerToListOfRequestListeners(final CachedSpiceRequest<T> cachedSpiceRequest, final RequestListener<T> requestListener) {
@@ -1183,6 +1095,13 @@ public class SpiceManager implements Runnable {
         }
     }
 
+    private <T> Future<T> executeCommand(SpiceManagerCommand<T> spiceManagerCommand) {
+        if (executorService.isShutdown()) {
+            return null;
+        }
+        return executorService.submit(spiceManagerCommand);
+    }
+
     private void checkServiceIsProperlyDeclaredInAndroidManifest(final Context context) {
         final Intent intentCheck = new Intent(context, spiceServiceClass);
         if (context.getPackageManager().queryIntentServices(intentCheck, 0).isEmpty()) {
@@ -1218,43 +1137,50 @@ public class SpiceManager implements Runnable {
     // ----------------------------------
     // INNER CLASS
     // ----------------------------------
-    public abstract class SpiceManagerCommand implements Runnable {
-        private CountDownLatch countDownLatch;
+    public abstract static class SpiceManagerCommand<T> implements Callable<T> {
+        protected SpiceManager spiceManager;
+        private boolean successFull;
+        private Exception exception;
 
-        public SpiceManagerCommand() {
-            this(null);
-        }
-
-        public SpiceManagerCommand(CountDownLatch countDownLatch) {
-            this.countDownLatch = countDownLatch;
+        public SpiceManagerCommand(SpiceManager spiceManager) {
+            this.spiceManager = spiceManager;
         }
 
         @Override
-        public void run() {
-            // TODO refuse to execute if spiceManager is stopped.
-            try {
-                waitForServiceToBeBound();
-                if (spiceService == null) {
-                    return;
+        public T call() {
+            synchronized (spiceManager) {
+                if (spiceManager.isStopped) {
+                    return null;
                 }
-            } catch (InterruptedException e) {
-                Ln.e(e);
-            }
+                try {
+                    spiceManager.waitForServiceToBeBound();
+                    if (spiceManager.spiceService == null) {
+                        return null;
+                    }
+                } catch (InterruptedException e) {
+                    Ln.e(e, "Spice command %s couldn't bind to service.", getClass().getName());
+                }
 
-            if (countDownLatch == null) {
-                executeWhenBound();
-                return;
-            }
-
-            try {
-                executeWhenBound();
-            } catch (Exception e) {
-                Ln.e(e);
-            } finally {
-                countDownLatch.countDown();
+                try {
+                    T result = executeWhenBound(spiceManager.spiceService);
+                    successFull = true;
+                    return result;
+                } catch (Exception e) {
+                    Ln.e(e);
+                    this.exception = e;
+                    return null;
+                }
             }
         }
 
-        protected abstract void executeWhenBound();
+        protected abstract T executeWhenBound(SpiceService service) throws Exception;
+
+        public boolean isSuccessFull() {
+            return successFull;
+        }
+
+        public Exception getException() {
+            return exception;
+        }
     }
 }

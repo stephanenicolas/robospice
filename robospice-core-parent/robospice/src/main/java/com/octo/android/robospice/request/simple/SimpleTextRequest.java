@@ -24,11 +24,10 @@ public class SimpleTextRequest extends SpiceRequest<String> {
     // can't use activity here or any non serializable field
     // will be invoked in remote service
     @Override
-    public final String loadDataFromNetwork() throws Exception {
+    public String loadDataFromNetwork() throws Exception {
         try {
             Ln.d("Call web service " + url);
-            return IOUtils.toString(new InputStreamReader(new URL(url)
-                .openStream(), CharEncoding.UTF_8));
+            return IOUtils.toString(new InputStreamReader(new URL(url).openStream(), CharEncoding.UTF_8));
         } catch (final MalformedURLException e) {
             Ln.e(e, "Unable to create URL");
             return null;
