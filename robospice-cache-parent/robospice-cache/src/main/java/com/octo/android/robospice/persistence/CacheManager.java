@@ -77,6 +77,15 @@ public class CacheManager implements ICacheManager {
 
     /**
      * {@inheritDoc}
+     * @throws CacheCreationException
+     */
+    @Override
+    public boolean isDataInCache(Class<?> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheCreationException {
+        return getObjectPersister(clazz).isDataInCache(cacheKey, maxTimeInCacheBeforeExpiry);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public boolean removeDataFromCache(Class<?> clazz, Object cacheKey) {
@@ -169,4 +178,5 @@ public class CacheManager implements ICacheManager {
         }
         throw new RuntimeException("Class " + clazz.getName() + " is not handled by any registered factoryList");
     }
+
 }

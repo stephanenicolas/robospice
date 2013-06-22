@@ -172,6 +172,11 @@ public class CacheManagerTest extends AndroidTestCase {
         public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
             return 0;
         }
+
+        @Override
+        public boolean isDataInCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) {
+            return true;
+        }
     }
 
     private class MockIntegerPersistenceManager extends ObjectPersister<Integer> {
@@ -219,6 +224,11 @@ public class CacheManagerTest extends AndroidTestCase {
         @Override
         public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
             return 0;
+        }
+
+        @Override
+        public boolean isDataInCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) {
+            return true;
         }
     }
 

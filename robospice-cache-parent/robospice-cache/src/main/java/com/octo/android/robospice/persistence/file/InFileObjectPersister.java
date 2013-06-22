@@ -161,6 +161,12 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
         return null;
     }
 
+    @Override
+    public boolean isDataInCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) {
+        File file = getCacheFile(cacheKey);
+        return isCachedAndNotExpired(file, maxTimeInCacheBeforeExpiry);
+    }
+
     /**
      * @return Whether or not this {@link InFileObjectPersister} uses a
      *         {@link KeySanitizer}.

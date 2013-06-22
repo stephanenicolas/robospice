@@ -23,19 +23,19 @@ public class InFileBigInputStreamObjectPersisterTest extends InstrumentationTest
 
     private static final String TEST_CACHE_KEY = "TEST_CACHE_KEY";
 
-    private InFileBigInputStreamObjectPersister inputStreamCacheManager;
+    private InFileBigInputStreamObjectPersister inputStreamPersister;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
-        inputStreamCacheManager = new InFileBigInputStreamObjectPersister(application);
+        inputStreamPersister = new InFileBigInputStreamObjectPersister(application);
     }
 
     public void testSaveDataToCacheAndReturnData() throws Exception {
-        inputStreamCacheManager.saveDataToCacheAndReturnData(new ByteArrayInputStream("coucou".getBytes()), TEST_CACHE_KEY);
+        inputStreamPersister.saveDataToCacheAndReturnData(new ByteArrayInputStream("coucou".getBytes()), TEST_CACHE_KEY);
 
-        File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
+        File cachedFile = inputStreamPersister.getCacheFile(TEST_CACHE_KEY);
         assertTrue(cachedFile.exists());
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -44,35 +44,35 @@ public class InFileBigInputStreamObjectPersisterTest extends InstrumentationTest
     }
 
     public void testLoadDataFromCache_no_expiracy() throws Exception {
-        File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
+        File cachedFile = inputStreamPersister.getCacheFile(TEST_CACHE_KEY);
         IOUtils.write("coucou", new FileOutputStream(cachedFile));
 
-        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
+        InputStream inputStream = inputStreamPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
         byte[] actual = IOUtils.toByteArray(inputStream);
         assertTrue(Arrays.equals("coucou".getBytes(), actual));
     }
 
     public void testLoadDataFromCache_not_expired() throws Exception {
-        File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
+        File cachedFile = inputStreamPersister.getCacheFile(TEST_CACHE_KEY);
         IOUtils.write("coucou", new FileOutputStream(cachedFile));
 
-        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(TEST_CACHE_KEY, FIVE_SECONDS);
+        InputStream inputStream = inputStreamPersister.loadDataFromCache(TEST_CACHE_KEY, FIVE_SECONDS);
         byte[] actual = IOUtils.toByteArray(inputStream);
         assertTrue(Arrays.equals("coucou".getBytes(), actual));
     }
 
     public void testLoadDataFromCache_expired() throws Exception {
-        File cachedFile = inputStreamCacheManager.getCacheFile(TEST_CACHE_KEY);
+        File cachedFile = inputStreamPersister.getCacheFile(TEST_CACHE_KEY);
         IOUtils.write("coucou", new FileOutputStream(cachedFile));
         cachedFile.setLastModified(System.currentTimeMillis() - FIVE_SECONDS);
 
-        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
+        InputStream inputStream = inputStreamPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
         assertNull(inputStream);
     }
 
     @Override
     protected void tearDown() throws Exception {
-        inputStreamCacheManager.removeAllDataFromCache();
+        inputStreamPersister.removeAllDataFromCache();
         super.tearDown();
     }
 

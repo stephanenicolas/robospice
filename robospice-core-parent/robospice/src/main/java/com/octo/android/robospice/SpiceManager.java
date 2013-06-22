@@ -30,6 +30,7 @@ import com.octo.android.robospice.SpiceService.SpiceServiceBinder;
 import com.octo.android.robospice.command.GetAllCacheKeysCommand;
 import com.octo.android.robospice.command.GetAllDataFromCacheCommand;
 import com.octo.android.robospice.command.GetDataFromCacheCommand;
+import com.octo.android.robospice.command.IsDataInCacheCommand;
 import com.octo.android.robospice.command.PutDataInCacheCommand;
 import com.octo.android.robospice.command.RemoveAllDataFromCacheCommand;
 import com.octo.android.robospice.command.RemoveDataClassFromCacheCommand;
@@ -851,6 +852,29 @@ public class SpiceManager implements Runnable {
      */
     public <T> Future<T> putDataInCache(final Object cacheKey, final T data) throws CacheSavingException, CacheCreationException {
         return executeCommand(new PutDataInCacheCommand<T>(this, data, cacheKey));
+    }
+
+    /**
+     * Tests whether some data is present in cache or not.
+     * @param clazz
+     *            the class of the result to retrieve from cache.
+     * @param cacheKey
+     *            the key used to store and retrieve the result of the request
+     *            in the cache
+     * @param cacheExpiryDuration
+     *            duration in milliseconds after which the content of the cache
+     *            will be considered to be expired.
+     *            {@link DurationInMillis#ALWAYS_RETURNED} means data in cache
+     *            is always returned if it exists.
+     *            {@link DurationInMillis#ALWAYS_EXPIRED} means data in cache is
+     *            never returned.(see {@link DurationInMillis})
+     * @return the data has it has been saved by an ObjectPersister in cache.
+     * @throws CacheLoadingException
+     *             Exception thrown when a problem occurs while loading data
+     *             from cache.
+     */
+    public Future<Boolean> isDataInCache(Class<?> clazz, final Object cacheKey, long cacheExpiryDuration) throws CacheCreationException {
+        return executeCommand(new IsDataInCacheCommand(this, clazz, cacheKey, cacheExpiryDuration));
     }
 
     /**

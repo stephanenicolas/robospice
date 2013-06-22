@@ -63,4 +63,9 @@ public class IntegerPersisterStub extends ObjectPersister<Integer> {
         return 0;
     }
 
+    @Override
+    public boolean isDataInCache(Object cacheKey, long maxTimeInCache) {
+        return maxTimeInCache != DurationInMillis.ALWAYS_EXPIRED && maxTimeInCache < DurationInMillis.ONE_MINUTE;
+    }
+
 }

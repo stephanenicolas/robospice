@@ -256,6 +256,10 @@ public abstract class SpiceService extends Service {
         return cacheManager.saveDataToCacheAndReturnData(data, cacheKey);
     }
 
+    public boolean isDataInCache(Class<?> clazz, Object cacheKey, long cacheExpiryDuration) throws CacheCreationException {
+        return cacheManager.isDataInCache(clazz, cacheKey, cacheExpiryDuration);
+    }
+
     public void removeAllDataFromCache() {
         requestProcessor.removeAllDataFromCache();
     }

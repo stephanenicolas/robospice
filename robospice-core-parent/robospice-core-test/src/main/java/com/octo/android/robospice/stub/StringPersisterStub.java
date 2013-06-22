@@ -54,4 +54,9 @@ public class StringPersisterStub extends ObjectPersister<String> {
         return 0;
     }
 
+    @Override
+    public boolean isDataInCache(Object cacheKey, long maxTimeInCache) {
+        return false;
+    }
+
 }

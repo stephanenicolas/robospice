@@ -131,6 +131,21 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
     }
 
     @Override
+    public boolean isDataInCache(Object cacheKey, long maxTimeInCache) {
+        try {
+            CacheEntry cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(String.valueOf(cacheKey));
+            if (cacheEntry == null) {
+                return false;
+            }
+            long timeInCache = System.currentTimeMillis() - cacheEntry.getTimestamp();
+            return maxTimeInCache == DurationInMillis.ALWAYS_RETURNED || timeInCache <= maxTimeInCache;
+        } catch (SQLException e) {
+            Ln.e(e, "SQL error");
+            return false;
+        }
+    }
+
+    @Override
     public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
         CacheEntry cacheEntry = null;
         try {
@@ -291,4 +306,5 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
             return null;
         }
     }
+
 }

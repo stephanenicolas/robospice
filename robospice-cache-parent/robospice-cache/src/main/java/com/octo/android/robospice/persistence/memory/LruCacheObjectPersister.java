@@ -82,6 +82,22 @@ public class LruCacheObjectPersister<T> extends ObjectPersister<T> {
     }
 
     @Override
+    public boolean isDataInCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) {
+        CacheItem<T> cacheItem = lruCache.get(cacheKey);
+
+        if (cacheItem == null) {
+            if (decoratedPersister != null) {
+                return decoratedPersister.isDataInCache(cacheKey, maxTimeInCacheBeforeExpiry);
+            }
+            return false;
+        } else {
+            boolean dataCanExpire = maxTimeInCacheBeforeExpiry != DurationInMillis.ALWAYS_RETURNED;
+            boolean dataIsNotExpired = System.currentTimeMillis() - cacheItem.getCreationDate() <= maxTimeInCacheBeforeExpiry;
+            return !dataCanExpire || dataIsNotExpired;
+        }
+    }
+
+    @Override
     public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
         CacheItem<T> cacheItem = lruCache.get(cacheKey);
 
@@ -130,4 +146,5 @@ public class LruCacheObjectPersister<T> extends ObjectPersister<T> {
             decoratedPersister.removeAllDataFromCache();
         }
     }
+
 }

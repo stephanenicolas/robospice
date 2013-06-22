@@ -68,6 +68,22 @@ public interface ICacheManager {
     <T> T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheCreationException, CacheSavingException;
 
     /**
+     * Test whether or not some data is in cache.
+     * @param clazz
+     *            the class of the object that is supposed to be stored in
+     *            cache.
+     * @param cacheKey
+     *            the key used to identify this item in cache.
+     * @param maxTimeInCacheBeforeExpiry
+     *            the maximum time (in ms) an item can be stored in cache before
+     *            being considered expired.
+     * @return a boolean indicating whether or not the given data is in the
+     *         cache.
+     * @throws CacheCreationException
+     */
+    boolean isDataInCache(Class<?> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheCreationException;
+
+    /**
      * Removes a given data in the cache that is an instance of class clazz.
      * @param clazz
      *            the class of the data to be removed.

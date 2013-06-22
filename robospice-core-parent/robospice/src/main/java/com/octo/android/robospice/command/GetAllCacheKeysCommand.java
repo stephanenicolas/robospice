@@ -12,6 +12,7 @@ public class GetAllCacheKeysCommand extends SpiceManager.SpiceManagerCommand<Lis
 
     public GetAllCacheKeysCommand(SpiceManager spiceManager, Class<?> clazz) {
         super(spiceManager);
+        this.clazz = clazz;
     }
 
     @Override

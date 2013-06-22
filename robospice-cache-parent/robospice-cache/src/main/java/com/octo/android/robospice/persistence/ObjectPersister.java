@@ -82,4 +82,6 @@ public abstract class ObjectPersister<T> implements Persister, CacheCleaner {
         this.isAsyncSaveEnabled = isAsyncSaveEnabled;
     }
 
+    public abstract boolean isDataInCache(Object cacheKey, long maxTimeInCacheBeforeExpiry);
+
 }

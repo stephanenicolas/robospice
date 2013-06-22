@@ -10,6 +10,7 @@ import android.test.suitebuilder.annotation.MediumTest;
 @MediumTest
 public abstract class AbstractInFileObjectPersisterTest extends InstrumentationTestCase {
 
+    private static final long TEST_EXPIRATION_DURATION = 1000;
     protected InFileObjectPersister<Object> inFileObjectPersister;
 
     protected void setUp(InFileObjectPersister<Object> inFileObjectPersister) throws Exception {
@@ -83,6 +84,33 @@ public abstract class AbstractInFileObjectPersisterTest extends InstrumentationT
 
         allCacheKeys.removeAll(mapDataToCacheKey.values());
         assertTrue(allCacheKeys.isEmpty());
+    }
+
+    public void testIsDataInCache_not_expired(Object data, Object cacheKey) throws Exception {
+        inFileObjectPersister.saveDataToCacheAndReturnData(data, cacheKey);
+        assertTrue(inFileObjectPersister.isDataInCache(cacheKey, Long.MAX_VALUE));
+    }
+
+    public void testIsDataInCache_expired(Object data, Object cacheKey) throws Exception {
+        inFileObjectPersister.saveDataToCacheAndReturnData(data, cacheKey);
+        Thread.sleep(TEST_EXPIRATION_DURATION);
+        assertFalse(inFileObjectPersister.isDataInCache(cacheKey, TEST_EXPIRATION_DURATION));
+    }
+
+    public void testIsDataInCache_with_removal(Object data, Object cacheKey) throws Exception {
+        // given
+
+        // when
+        inFileObjectPersister.saveDataToCacheAndReturnData(data, cacheKey);
+
+        // then
+        assertTrue(inFileObjectPersister.isDataInCache(cacheKey, TEST_EXPIRATION_DURATION));
+
+        // when
+        inFileObjectPersister.removeDataFromCache(cacheKey);
+
+        // then
+        assertFalse(inFileObjectPersister.isDataInCache(cacheKey, Long.MAX_VALUE));
     }
 
 }

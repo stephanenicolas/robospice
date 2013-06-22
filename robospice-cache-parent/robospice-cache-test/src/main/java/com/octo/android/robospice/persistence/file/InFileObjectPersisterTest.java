@@ -38,6 +38,18 @@ public class InFileObjectPersisterTest extends AbstractInFileObjectPersisterTest
         super.testRemoveAllDataFromCache(mapDataToCacheKey);
     }
 
+    public void testIsDataInCache_not_expired() throws Exception {
+        super.testIsDataInCache_not_expired(new Object(), TEST_CACHE_KEY);
+    }
+
+    public void testIsDataInCache_expired() throws Exception {
+        super.testIsDataInCache_expired(new Object(), TEST_CACHE_KEY);
+    }
+
+    public void testIsDataInCache_with_removal() throws Exception {
+        super.testIsDataInCache_with_removal(new Object(), TEST_CACHE_KEY);
+    }
+
     // ============================================================================================
     // CLASS UNDER TEST
     // ============================================================================================
