@@ -3,6 +3,7 @@ package com.octo.android.robospice.persistence;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,16 @@ public class CacheManager implements ICacheManager {
     @Override
     public boolean isDataInCache(Class<?> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheCreationException {
         return getObjectPersister(clazz).isDataInCache(cacheKey, maxTimeInCacheBeforeExpiry);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws CacheLoadingException
+     * @throws CacheCreationException
+     */
+    @Override
+    public Date getDateOfDataInCache(Class<?> clazz, Object cacheKey) throws CacheLoadingException, CacheCreationException {
+        return new Date(getObjectPersister(clazz).getCreationDateInCache(cacheKey));
     }
 
     /**

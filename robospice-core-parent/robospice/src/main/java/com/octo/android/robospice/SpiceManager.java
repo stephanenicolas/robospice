@@ -3,6 +3,7 @@ package com.octo.android.robospice;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import com.octo.android.robospice.SpiceService.SpiceServiceBinder;
 import com.octo.android.robospice.command.GetAllCacheKeysCommand;
 import com.octo.android.robospice.command.GetAllDataFromCacheCommand;
 import com.octo.android.robospice.command.GetDataFromCacheCommand;
+import com.octo.android.robospice.command.GetDateOfDataInCacheCommand;
 import com.octo.android.robospice.command.IsDataInCacheCommand;
 import com.octo.android.robospice.command.PutDataInCacheCommand;
 import com.octo.android.robospice.command.RemoveAllDataFromCacheCommand;
@@ -869,12 +871,29 @@ public class SpiceManager implements Runnable {
      *            {@link DurationInMillis#ALWAYS_EXPIRED} means data in cache is
      *            never returned.(see {@link DurationInMillis})
      * @return the data has it has been saved by an ObjectPersister in cache.
+     * @throws CacheCreationException
+     *             Exception thrown when a problem occurs while looking for data
+     *             in cache.
+     */
+    public Future<Boolean> isDataInCache(Class<?> clazz, final Object cacheKey, long cacheExpiryDuration) throws CacheCreationException {
+        return executeCommand(new IsDataInCacheCommand(this, clazz, cacheKey, cacheExpiryDuration));
+    }
+
+    /**
+     * Returns the last date of storage of a given data into the cache.
+     * @param clazz
+     *            the class of the result to retrieve from cache.
+     * @param cacheKey
+     *            the key used to store and retrieve the result of the request
+     *            in the cache
+     * @return the date at which data has been stored in cache. Null if no such
+     *         data is in Cache.
      * @throws CacheLoadingException
      *             Exception thrown when a problem occurs while loading data
      *             from cache.
      */
-    public Future<Boolean> isDataInCache(Class<?> clazz, final Object cacheKey, long cacheExpiryDuration) throws CacheCreationException {
-        return executeCommand(new IsDataInCacheCommand(this, clazz, cacheKey, cacheExpiryDuration));
+    public Future<Date> getDateOfDataInCache(Class<?> clazz, final Object cacheKey) throws CacheCreationException {
+        return executeCommand(new GetDateOfDataInCacheCommand(this, clazz, cacheKey));
     }
 
     /**

@@ -51,7 +51,7 @@ public class StringPersisterStub extends ObjectPersister<String> {
 
     @Override
     public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
-        return 0;
+        throw new CacheLoadingException("This persisters stores no data.");
     }
 
     @Override

@@ -296,6 +296,31 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertFalse(spiceManager.isDataInCache(TEST_CLASS, TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED).get(SPICE_MANAGER_WAIT_TIMEOUT, TimeUnit.MILLISECONDS));
     }
 
+    public void test_getDateOfDataInCache_when_there_is_some_data_in_cache() throws InterruptedException, SpiceException, ExecutionException, TimeoutException {
+        // given
+        // we use double to get some in memory cache implementation
+        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.removeDataFromCache(TEST_CLASS3, true);
+
+        // when
+        spiceManager.putDataInCache(TEST_CACHE_KEY, TEST_RETURNED_DATA3).get();
+
+        // test
+        assertNotNull(spiceManager.getDateOfDataInCache(TEST_CLASS3, TEST_CACHE_KEY).get(SPICE_MANAGER_WAIT_TIMEOUT, TimeUnit.MILLISECONDS));
+    }
+
+    public void test_getDateOfDataInCache_when_there_is_no_data_in_cache() throws InterruptedException, SpiceException, ExecutionException, TimeoutException {
+        // given
+        // we use double to get some in memory cache implementation
+        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.removeDataFromCache(TEST_CLASS, true);
+
+        // when
+
+        // test
+        assertNull(spiceManager.getDateOfDataInCache(TEST_CLASS, TEST_CACHE_KEY).get(SPICE_MANAGER_WAIT_TIMEOUT, TimeUnit.MILLISECONDS));
+    }
+
     public void test_cancel_cancels_1_request() throws InterruptedException {
         // given
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(String.class, TEST_RETURNED_DATA);

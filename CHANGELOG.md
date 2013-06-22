@@ -6,6 +6,7 @@ Version 1.5.0 (planned)
 ** Enhancements
 * Enhanced threading model for the SpiceManager and SpiceService. Decreased priority to increase UI Thread performance and 
 enhance user experience.
+* Add isDataInCache and getDateOfDataInCache to spiceManager. Thx to Onyx Mueller and Mathieu Castets for suggesting this feature.
 * BitmapRequests, SimpleTextRequests have non final methods to allow developpers to extend them
 
 

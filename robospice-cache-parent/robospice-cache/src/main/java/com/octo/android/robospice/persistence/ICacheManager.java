@@ -1,5 +1,6 @@
 package com.octo.android.robospice.persistence;
 
+import java.util.Date;
 import java.util.List;
 
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
@@ -82,6 +83,20 @@ public interface ICacheManager {
      * @throws CacheCreationException
      */
     boolean isDataInCache(Class<?> clazz, Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheCreationException;
+
+    /**
+     * The date at which given data has been stored last in cache.
+     * @param clazz
+     *            the class of the object that is supposed to be stored in
+     *            cache.
+     * @param cacheKey
+     *            the key used to identify this item in cache.
+     * @return the date at which data has been stored last in cache. Null if no
+     *         such data exists.
+     * @throws CacheCreationException
+     * @throws CacheLoadingException
+     */
+    Date getDateOfDataInCache(Class<?> clazz, Object cacheKey) throws CacheCreationException, CacheLoadingException;
 
     /**
      * Removes a given data in the cache that is an instance of class clazz.

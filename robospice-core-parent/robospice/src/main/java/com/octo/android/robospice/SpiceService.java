@@ -3,6 +3,7 @@ package com.octo.android.robospice;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -260,6 +261,10 @@ public abstract class SpiceService extends Service {
         return cacheManager.isDataInCache(clazz, cacheKey, cacheExpiryDuration);
     }
 
+    public Date getDateOfDataInCache(Class<?> clazz, Object cacheKey) throws CacheLoadingException, CacheCreationException {
+        return cacheManager.getDateOfDataInCache(clazz, cacheKey);
+    }
+
     public void removeAllDataFromCache() {
         requestProcessor.removeAllDataFromCache();
     }
@@ -351,5 +356,4 @@ public abstract class SpiceService extends Service {
             Ln.e(e, "Unable to start a service in foreground");
         }
     }
-
 }

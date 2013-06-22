@@ -50,6 +50,16 @@ public class InFileObjectPersisterTest extends AbstractInFileObjectPersisterTest
         super.testIsDataInCache_with_removal(new Object(), TEST_CACHE_KEY);
     }
 
+    @Override
+    public void testGetDateOfDataInCache_when_there_is_some_data_in_cache(Object data, Object cacheKey) throws Exception {
+        super.testGetDateOfDataInCache_when_there_is_some_data_in_cache(new Object(), TEST_CACHE_KEY);
+    }
+
+    @Override
+    public void testGetDateOfDataInCache_when_there_is_no_data_in_cache(Object data, Object cacheKey) throws Exception {
+        super.testGetDateOfDataInCache_when_there_is_no_data_in_cache(new Object(), TEST_CACHE_KEY);
+    }
+
     // ============================================================================================
     // CLASS UNDER TEST
     // ============================================================================================
