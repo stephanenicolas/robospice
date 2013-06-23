@@ -238,7 +238,7 @@ public class SpiceManager implements Runnable {
     private void sendRequestToService(final CachedSpiceRequest<?> spiceRequest) {
         lockSendRequestsToService.lock();
         try {
-            if (spiceRequest != null) {
+            if (spiceRequest != null && spiceService != null) {
                 final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener.remove(spiceRequest);
                 mapPendingRequestToRequestListener.put(spiceRequest, listRequestListener);
                 Ln.d("Sending request to service : " + spiceRequest.getClass().getSimpleName());
