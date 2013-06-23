@@ -123,9 +123,12 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
         if (!registered(spiceListItemView)) {
             addSpiceListItemView(spiceListItemView);
         }
-        imageWidth = Math.max(imageWidth, spiceListItemView.getImageView().getWidth());
-        imageHeight = Math.max(imageHeight, spiceListItemView.getImageView().getHeight());
-        new ThumbnailAsynTask(createRequest(data, imageWidth, imageHeight)).execute(data, spiceListItemView);
+        for (int imageIndex = 0; imageIndex < spiceListItemView.getImageViewCount(); imageIndex++) {
+            imageWidth = Math.max(imageWidth, spiceListItemView.getImageView(imageIndex).getWidth());
+            imageHeight = Math.max(imageHeight, spiceListItemView.getImageView(imageIndex).getHeight());
+            new ThumbnailAsynTask(createRequest(data, imageIndex, imageWidth, imageHeight)).execute(data, spiceListItemView,
+                    imageIndex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -151,7 +154,7 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
 
     public abstract SpiceListItemView<T> createView(Context context, ViewGroup parent);
 
-    public abstract BitmapRequest createRequest(T data, int requestImageWidth, int requestImageHeight);
+    public abstract BitmapRequest createRequest(T data, int imageIndex, int requestImageWidth, int requestImageHeight);
 
     // ----------------------------
     // --- PRIVATE API
@@ -191,19 +194,18 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
     // --- INNER CLASSES
     // ----------------------------
 
-    private class OctoImageRequestListener implements RequestListener<Bitmap> {
+    private class ImageRequestListener implements RequestListener<Bitmap> {
 
         private SpiceListItemView<T> spiceListItemView;
         private T data;
         private ImageView thumbImageView;
         private String imageFileName;
 
-        public OctoImageRequestListener(T data, SpiceListItemView<T> spiceListItemView, String imageFileName) {
+        public ImageRequestListener(T data, SpiceListItemView<T> spiceListItemView, int imageIndex, String imageFileName) {
             this.data = data;
             this.spiceListItemView = spiceListItemView;
-            this.thumbImageView = spiceListItemView.getImageView();
+            this.thumbImageView = spiceListItemView.getImageView(imageIndex);
             this.imageFileName = imageFileName;
-
         }
 
         @Override
@@ -275,6 +277,7 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
         private SpiceListItemView<T> spiceListItemView;
         private String tempThumbnailImageFileName = "";
         private BitmapRequest bitmapRequest;
+        private int imageIndex;
 
         public ThumbnailAsynTask(BitmapRequest request) {
             this.bitmapRequest = request;
@@ -285,6 +288,7 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
         protected Boolean doInBackground(Object... params) {
             data = (T) params[0];
             spiceListItemView = (SpiceListItemView<T>) params[1];
+            imageIndex = (Integer) params[2];
 
             if (bitmapRequest != null) {
 
@@ -294,10 +298,10 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
 
                 if (!tempThumbnailImageFile.exists()) {
                     if (isNetworkFetchingAllowed) {
-                        OctoImageRequestListener octoImageRequestListener = new OctoImageRequestListener(data, spiceListItemView,
+                        ImageRequestListener imageRequestListener = new ImageRequestListener(data, spiceListItemView, imageIndex,
                                 tempThumbnailImageFileName);
                         spiceManagerBinary.execute(bitmapRequest, "THUMB_IMAGE_" + data.hashCode(),
-                                DurationInMillis.ALWAYS_EXPIRED, octoImageRequestListener);
+                                DurationInMillis.ALWAYS_EXPIRED, imageRequestListener);
                     }
                     return false;
                 }
@@ -308,9 +312,9 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
         @Override
         protected void onPostExecute(Boolean isImageAvailableInCache) {
             if (isImageAvailableInCache) {
-                loadBitmapAsynchronously(data, spiceListItemView.getImageView(), tempThumbnailImageFileName);
+                loadBitmapAsynchronously(data, spiceListItemView.getImageView(imageIndex), tempThumbnailImageFileName);
             } else {
-                spiceListItemView.getImageView().setImageDrawable(defaultDrawable);
+                spiceListItemView.getImageView(imageIndex).setImageDrawable(defaultDrawable);
             }
         }
     }
@@ -378,7 +382,10 @@ public abstract class SpiceArrayAdapter<T> extends ArrayAdapter<T> {
             SpiceListItemView<T> spiceListItemView = weakReferenceSpiceListItemView.get();
             if (spiceListItemView != null) {
                 T data = spiceListItemView.getData();
-                new ThumbnailAsynTask(createRequest(data, imageWidth, imageHeight)).execute(data, spiceListItemView);
+                for (int imageIndex = 0; imageIndex < spiceListItemView.getImageViewCount(); imageIndex++) {
+                    new ThumbnailAsynTask(createRequest(data, imageIndex, imageWidth, imageHeight)).execute(data,
+                            spiceListItemView, imageIndex);
+                }
             }
         }
 
