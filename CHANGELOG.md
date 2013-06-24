@@ -3,6 +3,9 @@ Release notes for RoboSpice
 
 Version 1.5.0 (planned)
 -------------
+
+Version 1.4.5 (June 24th 2013)
+-------------
 ** Enhancements
 * Enhanced threading model for the SpiceManager and SpiceService. Decreased priority to increase UI Thread performance and 
 enhance user experience.
@@ -12,10 +15,6 @@ enhance user experience.
 
 ** Bug fixes
 * Cache folder creation is now thread safe.
-
-Version 1.4.5 (June 6th 2013)
--------------
-** Bug Fixes
 * Correct bug of cache removal when there cache folder doesn't exist or is empty.
 * SpiceArrayAdapter's getView method is not final any more to allow subclasses to customize adapters (adding sections for instance).
 Thanks to Christopher Parola for this suggestion.
