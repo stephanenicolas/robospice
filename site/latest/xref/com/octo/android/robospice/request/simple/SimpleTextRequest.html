@@ -34,27 +34,26 @@
 <a class="jxr_linenumber" name="24" href="#24">24</a>      <em class="jxr_comment">// can't use activity here or any non serializable field</em>
 <a class="jxr_linenumber" name="25" href="#25">25</a>      <em class="jxr_comment">// will be invoked in remote service</em>
 <a class="jxr_linenumber" name="26" href="#26">26</a>      @Override
-<a class="jxr_linenumber" name="27" href="#27">27</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> String loadDataFromNetwork() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="27" href="#27">27</a>      <strong class="jxr_keyword">public</strong> String loadDataFromNetwork() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="28" href="#28">28</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="29" href="#29">29</a>              Ln.d(<span class="jxr_string">"Call web service "</span> + url);
-<a class="jxr_linenumber" name="30" href="#30">30</a>              <strong class="jxr_keyword">return</strong> IOUtils.toString(<strong class="jxr_keyword">new</strong> InputStreamReader(<strong class="jxr_keyword">new</strong> URL(url)
-<a class="jxr_linenumber" name="31" href="#31">31</a>                  .openStream(), CharEncoding.UTF_8));
-<a class="jxr_linenumber" name="32" href="#32">32</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> MalformedURLException e) {
-<a class="jxr_linenumber" name="33" href="#33">33</a>              Ln.e(e, <span class="jxr_string">"Unable to create URL"</span>);
-<a class="jxr_linenumber" name="34" href="#34">34</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="35" href="#35">35</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> IOException e) {
-<a class="jxr_linenumber" name="36" href="#36">36</a>              Ln.e(e, <span class="jxr_string">"Unable to download content"</span>);
-<a class="jxr_linenumber" name="37" href="#37">37</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="38" href="#38">38</a>          }
-<a class="jxr_linenumber" name="39" href="#39">39</a>      }
-<a class="jxr_linenumber" name="40" href="#40">40</a>  
-<a class="jxr_linenumber" name="41" href="#41">41</a>      <em class="jxr_comment">// can't use activity here or any non serializable field</em>
-<a class="jxr_linenumber" name="42" href="#42">42</a>      <em class="jxr_comment">// will be invoked in remote service</em>
-<a class="jxr_linenumber" name="43" href="#43">43</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String getUrl() {
-<a class="jxr_linenumber" name="44" href="#44">44</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.url;
-<a class="jxr_linenumber" name="45" href="#45">45</a>      }
-<a class="jxr_linenumber" name="46" href="#46">46</a>  
-<a class="jxr_linenumber" name="47" href="#47">47</a>  }
+<a class="jxr_linenumber" name="30" href="#30">30</a>              <strong class="jxr_keyword">return</strong> IOUtils.toString(<strong class="jxr_keyword">new</strong> InputStreamReader(<strong class="jxr_keyword">new</strong> URL(url).openStream(), CharEncoding.UTF_8));
+<a class="jxr_linenumber" name="31" href="#31">31</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> MalformedURLException e) {
+<a class="jxr_linenumber" name="32" href="#32">32</a>              Ln.e(e, <span class="jxr_string">"Unable to create URL"</span>);
+<a class="jxr_linenumber" name="33" href="#33">33</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="34" href="#34">34</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> IOException e) {
+<a class="jxr_linenumber" name="35" href="#35">35</a>              Ln.e(e, <span class="jxr_string">"Unable to download content"</span>);
+<a class="jxr_linenumber" name="36" href="#36">36</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="37" href="#37">37</a>          }
+<a class="jxr_linenumber" name="38" href="#38">38</a>      }
+<a class="jxr_linenumber" name="39" href="#39">39</a>  
+<a class="jxr_linenumber" name="40" href="#40">40</a>      <em class="jxr_comment">// can't use activity here or any non serializable field</em>
+<a class="jxr_linenumber" name="41" href="#41">41</a>      <em class="jxr_comment">// will be invoked in remote service</em>
+<a class="jxr_linenumber" name="42" href="#42">42</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String getUrl() {
+<a class="jxr_linenumber" name="43" href="#43">43</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.url;
+<a class="jxr_linenumber" name="44" href="#44">44</a>      }
+<a class="jxr_linenumber" name="45" href="#45">45</a>  
+<a class="jxr_linenumber" name="46" href="#46">46</a>  }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

@@ -1,4 +1,5 @@
 com.octo.android.robospice
+com.octo.android.robospice.command
 com.octo.android.robospice.exception
 com.octo.android.robospice.networkstate
 com.octo.android.robospice.notification

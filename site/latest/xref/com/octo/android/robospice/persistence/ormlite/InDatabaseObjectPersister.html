@@ -141,167 +141,183 @@
 <a class="jxr_linenumber" name="131" href="#131">131</a>     }
 <a class="jxr_linenumber" name="132" href="#132">132</a> 
 <a class="jxr_linenumber" name="133" href="#133">133</a>     @Override
-<a class="jxr_linenumber" name="134" href="#134">134</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">long</strong> getCreationDateInCache(Object cacheKey) <strong class="jxr_keyword">throws</strong> CacheLoadingException {
-<a class="jxr_linenumber" name="135" href="#135">135</a>         <a href="../../../../../../com/octo/android/robospice/persistence/ormlite/CacheEntry.html">CacheEntry</a> cacheEntry = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="136" href="#136">136</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="137" href="#137">137</a>             cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(String.valueOf(cacheKey));
-<a class="jxr_linenumber" name="138" href="#138">138</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
-<a class="jxr_linenumber" name="139" href="#139">139</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/exception/CacheLoadingException.html">CacheLoadingException</a>(<span class="jxr_string">"Data could not be found in cache for cacheKey="</span> + cacheKey, e);
-<a class="jxr_linenumber" name="140" href="#140">140</a>         }
-<a class="jxr_linenumber" name="141" href="#141">141</a>         <strong class="jxr_keyword">if</strong> (cacheEntry == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="142" href="#142">142</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/exception/CacheLoadingException.html">CacheLoadingException</a>(<span class="jxr_string">"Data could not be found in cache for cacheKey="</span> + cacheKey);
-<a class="jxr_linenumber" name="143" href="#143">143</a>         }
-<a class="jxr_linenumber" name="144" href="#144">144</a>         <strong class="jxr_keyword">return</strong> cacheEntry.getTimestamp();
-<a class="jxr_linenumber" name="145" href="#145">145</a>     }
-<a class="jxr_linenumber" name="146" href="#146">146</a> 
-<a class="jxr_linenumber" name="147" href="#147">147</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="148" href="#148">148</a> <em class="jxr_javadoccomment">     * During this operation, we must save a new POJO (parent) into the database. The problem is</em>
-<a class="jxr_linenumber" name="149" href="#149">149</a> <em class="jxr_javadoccomment">     * that is the POJO contains children POJOs, then saving the parent would not work as the parent</em>
-<a class="jxr_linenumber" name="150" href="#150">150</a> <em class="jxr_javadoccomment">     * must exist in the database prior to saving the children. SO :</em>
-<a class="jxr_linenumber" name="151" href="#151">151</a> <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
-<a class="jxr_linenumber" name="152" href="#152">152</a> <em class="jxr_javadoccomment">     * &lt;li&gt;we copy the children into memory,</em>
-<a class="jxr_linenumber" name="153" href="#153">153</a> <em class="jxr_javadoccomment">     * &lt;li&gt;put the children to null on parent</em>
-<a class="jxr_linenumber" name="154" href="#154">154</a> <em class="jxr_javadoccomment">     * &lt;li&gt;save the parent to the database</em>
-<a class="jxr_linenumber" name="155" href="#155">155</a> <em class="jxr_javadoccomment">     * &lt;li&gt;if saving filled the parent with previous children, we remove them</em>
-<a class="jxr_linenumber" name="156" href="#156">156</a> <em class="jxr_javadoccomment">     * &lt;li&gt;re inject the children into the parent</em>
-<a class="jxr_linenumber" name="157" href="#157">157</a> <em class="jxr_javadoccomment">     * &lt;li&gt;save the children (as the parent now exists in database).</em>
-<a class="jxr_linenumber" name="158" href="#158">158</a> <em class="jxr_javadoccomment">     * &lt;/ul&gt;</em>
-<a class="jxr_linenumber" name="159" href="#159">159</a> <em class="jxr_javadoccomment">     * @param data</em>
-<a class="jxr_linenumber" name="160" href="#160">160</a> <em class="jxr_javadoccomment">     *            the parent POJO to save in the database.</em>
-<a class="jxr_linenumber" name="161" href="#161">161</a> <em class="jxr_javadoccomment">     * @throws SQLException</em>
-<a class="jxr_linenumber" name="162" href="#162">162</a> <em class="jxr_javadoccomment">     * @throws IllegalArgumentException</em>
-<a class="jxr_linenumber" name="163" href="#163">163</a> <em class="jxr_javadoccomment">     * @throws IllegalAccessException</em>
-<a class="jxr_linenumber" name="164" href="#164">164</a> <em class="jxr_javadoccomment">     * @throws InvocationTargetException</em>
-<a class="jxr_linenumber" name="165" href="#165">165</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="166" href="#166">166</a>     @SuppressWarnings({ <span class="jxr_string">"unchecked"</span>, <span class="jxr_string">"rawtypes"</span> })
-<a class="jxr_linenumber" name="167" href="#167">167</a>     <strong class="jxr_keyword">protected</strong> &lt;E&gt; <strong class="jxr_keyword">void</strong> saveAllForeignObjectsToCache(E data) <strong class="jxr_keyword">throws</strong> SQLException, IllegalAccessException, InvocationTargetException {
-<a class="jxr_linenumber" name="168" href="#168">168</a>         <em class="jxr_comment">// copy children on memory</em>
-<a class="jxr_linenumber" name="169" href="#169">169</a>         <em class="jxr_comment">// set children to null on parents so that we can save the parent</em>
-<a class="jxr_linenumber" name="170" href="#170">170</a>         <em class="jxr_comment">// without cascade</em>
-<a class="jxr_linenumber" name="171" href="#171">171</a>         Map&lt;Field, Collection&lt;?&gt;&gt; mapFieldToCollection = <strong class="jxr_keyword">new</strong> HashMap&lt;Field, Collection&lt;?&gt;&gt;();
-<a class="jxr_linenumber" name="172" href="#172">172</a>         Class&lt;? <strong class="jxr_keyword">extends</strong> Object&gt; parentClass = data.getClass();
-<a class="jxr_linenumber" name="173" href="#173">173</a>         <strong class="jxr_keyword">for</strong> (Field field : parentClass.getDeclaredFields()) {
-<a class="jxr_linenumber" name="174" href="#174">174</a>             ForeignCollectionField annotation = field.getAnnotation(ForeignCollectionField.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="175" href="#175">175</a>             <strong class="jxr_keyword">if</strong> (annotation != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="176" href="#176">176</a>                 Collection&lt;?&gt; collectionCopy = <strong class="jxr_keyword">new</strong> ArrayList();
-<a class="jxr_linenumber" name="177" href="#177">177</a>                 Method getMethod = DatabaseFieldConfig.findGetMethod(field, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="178" href="#178">178</a>                 Collection collectionInObject = (Collection&lt;?&gt;) getMethod.invoke(data);
-<a class="jxr_linenumber" name="179" href="#179">179</a>                 <strong class="jxr_keyword">if</strong> (collectionInObject != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="180" href="#180">180</a>                     collectionCopy.addAll(collectionInObject);
-<a class="jxr_linenumber" name="181" href="#181">181</a>                 }
-<a class="jxr_linenumber" name="182" href="#182">182</a>                 Method setMethod = DatabaseFieldConfig.findSetMethod(field, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="183" href="#183">183</a>                 setMethod.invoke(data, (Object) <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="184" href="#184">184</a>                 mapFieldToCollection.put(field, collectionCopy);
-<a class="jxr_linenumber" name="185" href="#185">185</a>             }
-<a class="jxr_linenumber" name="186" href="#186">186</a>         }
-<a class="jxr_linenumber" name="187" href="#187">187</a> 
-<a class="jxr_linenumber" name="188" href="#188">188</a>         <em class="jxr_comment">// save parents without cascade</em>
-<a class="jxr_linenumber" name="189" href="#189">189</a>         databaseHelper.createOrUpdateInDatabase(data, (Class&lt;E&gt;) parentClass);
-<a class="jxr_linenumber" name="190" href="#190">190</a> 
-<a class="jxr_linenumber" name="191" href="#191">191</a>         <em class="jxr_comment">// get the child from a previous database record</em>
-<a class="jxr_linenumber" name="192" href="#192">192</a>         databaseHelper.refreshFromDatabase(data, (Class&lt;E&gt;) parentClass);
-<a class="jxr_linenumber" name="193" href="#193">193</a> 
-<a class="jxr_linenumber" name="194" href="#194">194</a>         <em class="jxr_comment">// future hook</em>
-<a class="jxr_linenumber" name="195" href="#195">195</a>         <em class="jxr_comment">// delete children obtained from previous database record</em>
-<a class="jxr_linenumber" name="196" href="#196">196</a>         <em class="jxr_comment">// we guess the type of children from the parametrized type of the</em>
-<a class="jxr_linenumber" name="197" href="#197">197</a>         <em class="jxr_comment">// collection field of the parent</em>
-<a class="jxr_linenumber" name="198" href="#198">198</a>         <strong class="jxr_keyword">for</strong> (Field field : parentClass.getDeclaredFields()) {
-<a class="jxr_linenumber" name="199" href="#199">199</a>             <strong class="jxr_keyword">if</strong> (field.getAnnotation(ForeignCollectionField.<strong class="jxr_keyword">class</strong>) != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="200" href="#200">200</a>                 Method getMethod = DatabaseFieldConfig.findGetMethod(field, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="201" href="#201">201</a>                 Collection collectionInObject = (Collection&lt;?&gt;) getMethod.invoke(data);
-<a class="jxr_linenumber" name="202" href="#202">202</a>                 <em class="jxr_comment">// lazy collection are not loaded from database, so we load them</em>
-<a class="jxr_linenumber" name="203" href="#203">203</a>                 <strong class="jxr_keyword">if</strong> (collectionInObject instanceof LazyForeignCollection) {
-<a class="jxr_linenumber" name="204" href="#204">204</a>                     ((LazyForeignCollection) collectionInObject).refreshCollection();
-<a class="jxr_linenumber" name="205" href="#205">205</a>                 }
-<a class="jxr_linenumber" name="206" href="#206">206</a>                 ParameterizedType listType = (ParameterizedType) field.getGenericType();
-<a class="jxr_linenumber" name="207" href="#207">207</a>                 Class&lt;?&gt; itemInListClass = (Class&lt;?&gt;) listType.getActualTypeArguments()[0];
-<a class="jxr_linenumber" name="208" href="#208">208</a>                 databaseHelper.deleteFromDataBase(collectionInObject, itemInListClass);
-<a class="jxr_linenumber" name="209" href="#209">209</a>             }
-<a class="jxr_linenumber" name="210" href="#210">210</a>         }
-<a class="jxr_linenumber" name="211" href="#211">211</a> 
-<a class="jxr_linenumber" name="212" href="#212">212</a>         <em class="jxr_comment">// recursive call on children</em>
-<a class="jxr_linenumber" name="213" href="#213">213</a>         <em class="jxr_comment">// we now saved the parent and can fill the foreign key of the children</em>
-<a class="jxr_linenumber" name="214" href="#214">214</a>         <strong class="jxr_keyword">for</strong> (Map.Entry&lt;Field, Collection&lt;?&gt;&gt; entry : mapFieldToCollection.entrySet()) {
-<a class="jxr_linenumber" name="215" href="#215">215</a>             Collection&lt;?&gt; collection = entry.getValue();
-<a class="jxr_linenumber" name="216" href="#216">216</a>             <em class="jxr_comment">// re-set complete children to the parent</em>
-<a class="jxr_linenumber" name="217" href="#217">217</a>             ConnectionSource connectionSource = databaseHelper.getConnectionSource();
-<a class="jxr_linenumber" name="218" href="#218">218</a>             <strong class="jxr_keyword">for</strong> (Object object : collection) {
-<a class="jxr_linenumber" name="219" href="#219">219</a>                 DatabaseTableConfig childDatabaseTableConfig = DatabaseTableConfig.fromClass(connectionSource, object.getClass());
-<a class="jxr_linenumber" name="220" href="#220">220</a>                 <strong class="jxr_keyword">for</strong> (FieldType childFieldType : childDatabaseTableConfig.getFieldTypes(<strong class="jxr_keyword">null</strong>)) {
-<a class="jxr_linenumber" name="221" href="#221">221</a>                     <strong class="jxr_keyword">if</strong> (parentClass.equals(childFieldType.getType()) &amp;&amp; childFieldType.isForeign()) {
-<a class="jxr_linenumber" name="222" href="#222">222</a>                         childFieldType.assignField(object, data, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="223" href="#223">223</a>                     }
-<a class="jxr_linenumber" name="224" href="#224">224</a>                 }
-<a class="jxr_linenumber" name="225" href="#225">225</a>                 <em class="jxr_comment">// save children recursively</em>
-<a class="jxr_linenumber" name="226" href="#226">226</a>                 saveAllForeignObjectsToCache(object);
-<a class="jxr_linenumber" name="227" href="#227">227</a> 
-<a class="jxr_linenumber" name="228" href="#228">228</a>             }
-<a class="jxr_linenumber" name="229" href="#229">229</a>         }
-<a class="jxr_linenumber" name="230" href="#230">230</a> 
-<a class="jxr_linenumber" name="231" href="#231">231</a>         <em class="jxr_comment">// future hook</em>
-<a class="jxr_linenumber" name="232" href="#232">232</a> 
-<a class="jxr_linenumber" name="233" href="#233">233</a>     }
-<a class="jxr_linenumber" name="234" href="#234">234</a> 
-<a class="jxr_linenumber" name="235" href="#235">235</a>     @Override
-<a class="jxr_linenumber" name="236" href="#236">236</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> removeDataFromCache(Object cacheKey) {
-<a class="jxr_linenumber" name="237" href="#237">237</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="238" href="#238">238</a>             String id = cacheKey.toString();
-<a class="jxr_linenumber" name="239" href="#239">239</a>             <a href="../../../../../../com/octo/android/robospice/persistence/ormlite/CacheEntry.html">CacheEntry</a> cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(id);
-<a class="jxr_linenumber" name="240" href="#240">240</a>             <strong class="jxr_keyword">if</strong> (cacheEntry == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="241" href="#241">241</a>                 <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="242" href="#242">242</a>             }
-<a class="jxr_linenumber" name="243" href="#243">243</a>             Class&lt;?&gt; clazz = Class.forName(cacheEntry.getResultClassName());
-<a class="jxr_linenumber" name="244" href="#244">244</a>             databaseHelper.deleteByIdFromDataBase(cacheEntry.getResultId(), clazz);
-<a class="jxr_linenumber" name="245" href="#245">245</a>             databaseHelper.deleteFromDataBase(cacheEntry, CacheEntry.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="246" href="#246">246</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="247" href="#247">247</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
-<a class="jxr_linenumber" name="248" href="#248">248</a>             Ln.d(e);
-<a class="jxr_linenumber" name="249" href="#249">249</a>             <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="250" href="#250">250</a>         } <strong class="jxr_keyword">catch</strong> (ClassNotFoundException e) {
-<a class="jxr_linenumber" name="251" href="#251">251</a>             Ln.d(e);
-<a class="jxr_linenumber" name="252" href="#252">252</a>             <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="253" href="#253">253</a>         }
-<a class="jxr_linenumber" name="254" href="#254">254</a>     }
-<a class="jxr_linenumber" name="255" href="#255">255</a> 
-<a class="jxr_linenumber" name="256" href="#256">256</a>     @Override
-<a class="jxr_linenumber" name="257" href="#257">257</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> removeAllDataFromCache() {
-<a class="jxr_linenumber" name="258" href="#258">258</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="259" href="#259">259</a>             databaseHelper.clearTableFromDataBase(getHandledClass());
-<a class="jxr_linenumber" name="260" href="#260">260</a>             databaseHelper.clearTableFromDataBase(CacheEntry.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="261" href="#261">261</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
-<a class="jxr_linenumber" name="262" href="#262">262</a>             Ln.d(e, <span class="jxr_string">"SQL Error"</span>);
-<a class="jxr_linenumber" name="263" href="#263">263</a>         }
-<a class="jxr_linenumber" name="264" href="#264">264</a>     }
-<a class="jxr_linenumber" name="265" href="#265">265</a> 
-<a class="jxr_linenumber" name="266" href="#266">266</a>     @Override
-<a class="jxr_linenumber" name="267" href="#267">267</a>     <strong class="jxr_keyword">public</strong> List&lt;T&gt; loadAllDataFromCache() <strong class="jxr_keyword">throws</strong> CacheLoadingException {
-<a class="jxr_linenumber" name="268" href="#268">268</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="269" href="#269">269</a>             List&lt;CacheEntry&gt; listCacheEntry = databaseHelper.queryForAllFromDatabase(CacheEntry.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="270" href="#270">270</a>             List&lt;T&gt; listObjectInCache = <strong class="jxr_keyword">new</strong> ArrayList&lt;T&gt;();
-<a class="jxr_linenumber" name="271" href="#271">271</a>             <strong class="jxr_keyword">for</strong> (CacheEntry cacheEntry : listCacheEntry) {
-<a class="jxr_linenumber" name="272" href="#272">272</a>                 listObjectInCache.add(loadDataFromCache(cacheEntry.getCacheKey(), DurationInMillis.ALWAYS_RETURNED));
-<a class="jxr_linenumber" name="273" href="#273">273</a>             }
-<a class="jxr_linenumber" name="274" href="#274">274</a>             <strong class="jxr_keyword">return</strong> listObjectInCache;
-<a class="jxr_linenumber" name="275" href="#275">275</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
-<a class="jxr_linenumber" name="276" href="#276">276</a>             Ln.d(e);
-<a class="jxr_linenumber" name="277" href="#277">277</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="134" href="#134">134</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isDataInCache(Object cacheKey, <strong class="jxr_keyword">long</strong> maxTimeInCache) {
+<a class="jxr_linenumber" name="135" href="#135">135</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="136" href="#136">136</a>             <a href="../../../../../../com/octo/android/robospice/persistence/ormlite/CacheEntry.html">CacheEntry</a> cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(String.valueOf(cacheKey));
+<a class="jxr_linenumber" name="137" href="#137">137</a>             <strong class="jxr_keyword">if</strong> (cacheEntry == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="138" href="#138">138</a>                 <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="139" href="#139">139</a>             }
+<a class="jxr_linenumber" name="140" href="#140">140</a>             <strong class="jxr_keyword">long</strong> timeInCache = System.currentTimeMillis() - cacheEntry.getTimestamp();
+<a class="jxr_linenumber" name="141" href="#141">141</a>             <strong class="jxr_keyword">return</strong> maxTimeInCache == DurationInMillis.ALWAYS_RETURNED || timeInCache &lt;= maxTimeInCache;
+<a class="jxr_linenumber" name="142" href="#142">142</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
+<a class="jxr_linenumber" name="143" href="#143">143</a>             Ln.e(e, <span class="jxr_string">"SQL error"</span>);
+<a class="jxr_linenumber" name="144" href="#144">144</a>             <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="145" href="#145">145</a>         }
+<a class="jxr_linenumber" name="146" href="#146">146</a>     }
+<a class="jxr_linenumber" name="147" href="#147">147</a> 
+<a class="jxr_linenumber" name="148" href="#148">148</a>     @Override
+<a class="jxr_linenumber" name="149" href="#149">149</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">long</strong> getCreationDateInCache(Object cacheKey) <strong class="jxr_keyword">throws</strong> CacheLoadingException {
+<a class="jxr_linenumber" name="150" href="#150">150</a>         <a href="../../../../../../com/octo/android/robospice/persistence/ormlite/CacheEntry.html">CacheEntry</a> cacheEntry = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="151" href="#151">151</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="152" href="#152">152</a>             cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(String.valueOf(cacheKey));
+<a class="jxr_linenumber" name="153" href="#153">153</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
+<a class="jxr_linenumber" name="154" href="#154">154</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/exception/CacheLoadingException.html">CacheLoadingException</a>(<span class="jxr_string">"Data could not be found in cache for cacheKey="</span> + cacheKey, e);
+<a class="jxr_linenumber" name="155" href="#155">155</a>         }
+<a class="jxr_linenumber" name="156" href="#156">156</a>         <strong class="jxr_keyword">if</strong> (cacheEntry == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="157" href="#157">157</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/exception/CacheLoadingException.html">CacheLoadingException</a>(<span class="jxr_string">"Data could not be found in cache for cacheKey="</span> + cacheKey);
+<a class="jxr_linenumber" name="158" href="#158">158</a>         }
+<a class="jxr_linenumber" name="159" href="#159">159</a>         <strong class="jxr_keyword">return</strong> cacheEntry.getTimestamp();
+<a class="jxr_linenumber" name="160" href="#160">160</a>     }
+<a class="jxr_linenumber" name="161" href="#161">161</a> 
+<a class="jxr_linenumber" name="162" href="#162">162</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="163" href="#163">163</a> <em class="jxr_javadoccomment">     * During this operation, we must save a new POJO (parent) into the database. The problem is</em>
+<a class="jxr_linenumber" name="164" href="#164">164</a> <em class="jxr_javadoccomment">     * that is the POJO contains children POJOs, then saving the parent would not work as the parent</em>
+<a class="jxr_linenumber" name="165" href="#165">165</a> <em class="jxr_javadoccomment">     * must exist in the database prior to saving the children. SO :</em>
+<a class="jxr_linenumber" name="166" href="#166">166</a> <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
+<a class="jxr_linenumber" name="167" href="#167">167</a> <em class="jxr_javadoccomment">     * &lt;li&gt;we copy the children into memory,</em>
+<a class="jxr_linenumber" name="168" href="#168">168</a> <em class="jxr_javadoccomment">     * &lt;li&gt;put the children to null on parent</em>
+<a class="jxr_linenumber" name="169" href="#169">169</a> <em class="jxr_javadoccomment">     * &lt;li&gt;save the parent to the database</em>
+<a class="jxr_linenumber" name="170" href="#170">170</a> <em class="jxr_javadoccomment">     * &lt;li&gt;if saving filled the parent with previous children, we remove them</em>
+<a class="jxr_linenumber" name="171" href="#171">171</a> <em class="jxr_javadoccomment">     * &lt;li&gt;re inject the children into the parent</em>
+<a class="jxr_linenumber" name="172" href="#172">172</a> <em class="jxr_javadoccomment">     * &lt;li&gt;save the children (as the parent now exists in database).</em>
+<a class="jxr_linenumber" name="173" href="#173">173</a> <em class="jxr_javadoccomment">     * &lt;/ul&gt;</em>
+<a class="jxr_linenumber" name="174" href="#174">174</a> <em class="jxr_javadoccomment">     * @param data</em>
+<a class="jxr_linenumber" name="175" href="#175">175</a> <em class="jxr_javadoccomment">     *            the parent POJO to save in the database.</em>
+<a class="jxr_linenumber" name="176" href="#176">176</a> <em class="jxr_javadoccomment">     * @throws SQLException</em>
+<a class="jxr_linenumber" name="177" href="#177">177</a> <em class="jxr_javadoccomment">     * @throws IllegalArgumentException</em>
+<a class="jxr_linenumber" name="178" href="#178">178</a> <em class="jxr_javadoccomment">     * @throws IllegalAccessException</em>
+<a class="jxr_linenumber" name="179" href="#179">179</a> <em class="jxr_javadoccomment">     * @throws InvocationTargetException</em>
+<a class="jxr_linenumber" name="180" href="#180">180</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="181" href="#181">181</a>     @SuppressWarnings({ <span class="jxr_string">"unchecked"</span>, <span class="jxr_string">"rawtypes"</span> })
+<a class="jxr_linenumber" name="182" href="#182">182</a>     <strong class="jxr_keyword">protected</strong> &lt;E&gt; <strong class="jxr_keyword">void</strong> saveAllForeignObjectsToCache(E data) <strong class="jxr_keyword">throws</strong> SQLException, IllegalAccessException, InvocationTargetException {
+<a class="jxr_linenumber" name="183" href="#183">183</a>         <em class="jxr_comment">// copy children on memory</em>
+<a class="jxr_linenumber" name="184" href="#184">184</a>         <em class="jxr_comment">// set children to null on parents so that we can save the parent</em>
+<a class="jxr_linenumber" name="185" href="#185">185</a>         <em class="jxr_comment">// without cascade</em>
+<a class="jxr_linenumber" name="186" href="#186">186</a>         Map&lt;Field, Collection&lt;?&gt;&gt; mapFieldToCollection = <strong class="jxr_keyword">new</strong> HashMap&lt;Field, Collection&lt;?&gt;&gt;();
+<a class="jxr_linenumber" name="187" href="#187">187</a>         Class&lt;? <strong class="jxr_keyword">extends</strong> Object&gt; parentClass = data.getClass();
+<a class="jxr_linenumber" name="188" href="#188">188</a>         <strong class="jxr_keyword">for</strong> (Field field : parentClass.getDeclaredFields()) {
+<a class="jxr_linenumber" name="189" href="#189">189</a>             ForeignCollectionField annotation = field.getAnnotation(ForeignCollectionField.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="190" href="#190">190</a>             <strong class="jxr_keyword">if</strong> (annotation != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="191" href="#191">191</a>                 Collection&lt;?&gt; collectionCopy = <strong class="jxr_keyword">new</strong> ArrayList();
+<a class="jxr_linenumber" name="192" href="#192">192</a>                 Method getMethod = DatabaseFieldConfig.findGetMethod(field, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="193" href="#193">193</a>                 Collection collectionInObject = (Collection&lt;?&gt;) getMethod.invoke(data);
+<a class="jxr_linenumber" name="194" href="#194">194</a>                 <strong class="jxr_keyword">if</strong> (collectionInObject != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="195" href="#195">195</a>                     collectionCopy.addAll(collectionInObject);
+<a class="jxr_linenumber" name="196" href="#196">196</a>                 }
+<a class="jxr_linenumber" name="197" href="#197">197</a>                 Method setMethod = DatabaseFieldConfig.findSetMethod(field, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="198" href="#198">198</a>                 setMethod.invoke(data, (Object) <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="199" href="#199">199</a>                 mapFieldToCollection.put(field, collectionCopy);
+<a class="jxr_linenumber" name="200" href="#200">200</a>             }
+<a class="jxr_linenumber" name="201" href="#201">201</a>         }
+<a class="jxr_linenumber" name="202" href="#202">202</a> 
+<a class="jxr_linenumber" name="203" href="#203">203</a>         <em class="jxr_comment">// save parents without cascade</em>
+<a class="jxr_linenumber" name="204" href="#204">204</a>         databaseHelper.createOrUpdateInDatabase(data, (Class&lt;E&gt;) parentClass);
+<a class="jxr_linenumber" name="205" href="#205">205</a> 
+<a class="jxr_linenumber" name="206" href="#206">206</a>         <em class="jxr_comment">// get the child from a previous database record</em>
+<a class="jxr_linenumber" name="207" href="#207">207</a>         databaseHelper.refreshFromDatabase(data, (Class&lt;E&gt;) parentClass);
+<a class="jxr_linenumber" name="208" href="#208">208</a> 
+<a class="jxr_linenumber" name="209" href="#209">209</a>         <em class="jxr_comment">// future hook</em>
+<a class="jxr_linenumber" name="210" href="#210">210</a>         <em class="jxr_comment">// delete children obtained from previous database record</em>
+<a class="jxr_linenumber" name="211" href="#211">211</a>         <em class="jxr_comment">// we guess the type of children from the parametrized type of the</em>
+<a class="jxr_linenumber" name="212" href="#212">212</a>         <em class="jxr_comment">// collection field of the parent</em>
+<a class="jxr_linenumber" name="213" href="#213">213</a>         <strong class="jxr_keyword">for</strong> (Field field : parentClass.getDeclaredFields()) {
+<a class="jxr_linenumber" name="214" href="#214">214</a>             <strong class="jxr_keyword">if</strong> (field.getAnnotation(ForeignCollectionField.<strong class="jxr_keyword">class</strong>) != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="215" href="#215">215</a>                 Method getMethod = DatabaseFieldConfig.findGetMethod(field, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="216" href="#216">216</a>                 Collection collectionInObject = (Collection&lt;?&gt;) getMethod.invoke(data);
+<a class="jxr_linenumber" name="217" href="#217">217</a>                 <em class="jxr_comment">// lazy collection are not loaded from database, so we load them</em>
+<a class="jxr_linenumber" name="218" href="#218">218</a>                 <strong class="jxr_keyword">if</strong> (collectionInObject instanceof LazyForeignCollection) {
+<a class="jxr_linenumber" name="219" href="#219">219</a>                     ((LazyForeignCollection) collectionInObject).refreshCollection();
+<a class="jxr_linenumber" name="220" href="#220">220</a>                 }
+<a class="jxr_linenumber" name="221" href="#221">221</a>                 ParameterizedType listType = (ParameterizedType) field.getGenericType();
+<a class="jxr_linenumber" name="222" href="#222">222</a>                 Class&lt;?&gt; itemInListClass = (Class&lt;?&gt;) listType.getActualTypeArguments()[0];
+<a class="jxr_linenumber" name="223" href="#223">223</a>                 databaseHelper.deleteFromDataBase(collectionInObject, itemInListClass);
+<a class="jxr_linenumber" name="224" href="#224">224</a>             }
+<a class="jxr_linenumber" name="225" href="#225">225</a>         }
+<a class="jxr_linenumber" name="226" href="#226">226</a> 
+<a class="jxr_linenumber" name="227" href="#227">227</a>         <em class="jxr_comment">// recursive call on children</em>
+<a class="jxr_linenumber" name="228" href="#228">228</a>         <em class="jxr_comment">// we now saved the parent and can fill the foreign key of the children</em>
+<a class="jxr_linenumber" name="229" href="#229">229</a>         <strong class="jxr_keyword">for</strong> (Map.Entry&lt;Field, Collection&lt;?&gt;&gt; entry : mapFieldToCollection.entrySet()) {
+<a class="jxr_linenumber" name="230" href="#230">230</a>             Collection&lt;?&gt; collection = entry.getValue();
+<a class="jxr_linenumber" name="231" href="#231">231</a>             <em class="jxr_comment">// re-set complete children to the parent</em>
+<a class="jxr_linenumber" name="232" href="#232">232</a>             ConnectionSource connectionSource = databaseHelper.getConnectionSource();
+<a class="jxr_linenumber" name="233" href="#233">233</a>             <strong class="jxr_keyword">for</strong> (Object object : collection) {
+<a class="jxr_linenumber" name="234" href="#234">234</a>                 DatabaseTableConfig childDatabaseTableConfig = DatabaseTableConfig.fromClass(connectionSource, object.getClass());
+<a class="jxr_linenumber" name="235" href="#235">235</a>                 <strong class="jxr_keyword">for</strong> (FieldType childFieldType : childDatabaseTableConfig.getFieldTypes(<strong class="jxr_keyword">null</strong>)) {
+<a class="jxr_linenumber" name="236" href="#236">236</a>                     <strong class="jxr_keyword">if</strong> (parentClass.equals(childFieldType.getType()) &amp;&amp; childFieldType.isForeign()) {
+<a class="jxr_linenumber" name="237" href="#237">237</a>                         childFieldType.assignField(object, data, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="238" href="#238">238</a>                     }
+<a class="jxr_linenumber" name="239" href="#239">239</a>                 }
+<a class="jxr_linenumber" name="240" href="#240">240</a>                 <em class="jxr_comment">// save children recursively</em>
+<a class="jxr_linenumber" name="241" href="#241">241</a>                 saveAllForeignObjectsToCache(object);
+<a class="jxr_linenumber" name="242" href="#242">242</a> 
+<a class="jxr_linenumber" name="243" href="#243">243</a>             }
+<a class="jxr_linenumber" name="244" href="#244">244</a>         }
+<a class="jxr_linenumber" name="245" href="#245">245</a> 
+<a class="jxr_linenumber" name="246" href="#246">246</a>         <em class="jxr_comment">// future hook</em>
+<a class="jxr_linenumber" name="247" href="#247">247</a> 
+<a class="jxr_linenumber" name="248" href="#248">248</a>     }
+<a class="jxr_linenumber" name="249" href="#249">249</a> 
+<a class="jxr_linenumber" name="250" href="#250">250</a>     @Override
+<a class="jxr_linenumber" name="251" href="#251">251</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> removeDataFromCache(Object cacheKey) {
+<a class="jxr_linenumber" name="252" href="#252">252</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="253" href="#253">253</a>             String id = cacheKey.toString();
+<a class="jxr_linenumber" name="254" href="#254">254</a>             <a href="../../../../../../com/octo/android/robospice/persistence/ormlite/CacheEntry.html">CacheEntry</a> cacheEntry = databaseHelper.queryCacheKeyForIdFromDatabase(id);
+<a class="jxr_linenumber" name="255" href="#255">255</a>             <strong class="jxr_keyword">if</strong> (cacheEntry == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="256" href="#256">256</a>                 <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="257" href="#257">257</a>             }
+<a class="jxr_linenumber" name="258" href="#258">258</a>             Class&lt;?&gt; clazz = Class.forName(cacheEntry.getResultClassName());
+<a class="jxr_linenumber" name="259" href="#259">259</a>             databaseHelper.deleteByIdFromDataBase(cacheEntry.getResultId(), clazz);
+<a class="jxr_linenumber" name="260" href="#260">260</a>             databaseHelper.deleteFromDataBase(cacheEntry, CacheEntry.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="261" href="#261">261</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="262" href="#262">262</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
+<a class="jxr_linenumber" name="263" href="#263">263</a>             Ln.d(e);
+<a class="jxr_linenumber" name="264" href="#264">264</a>             <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="265" href="#265">265</a>         } <strong class="jxr_keyword">catch</strong> (ClassNotFoundException e) {
+<a class="jxr_linenumber" name="266" href="#266">266</a>             Ln.d(e);
+<a class="jxr_linenumber" name="267" href="#267">267</a>             <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="268" href="#268">268</a>         }
+<a class="jxr_linenumber" name="269" href="#269">269</a>     }
+<a class="jxr_linenumber" name="270" href="#270">270</a> 
+<a class="jxr_linenumber" name="271" href="#271">271</a>     @Override
+<a class="jxr_linenumber" name="272" href="#272">272</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> removeAllDataFromCache() {
+<a class="jxr_linenumber" name="273" href="#273">273</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="274" href="#274">274</a>             databaseHelper.clearTableFromDataBase(getHandledClass());
+<a class="jxr_linenumber" name="275" href="#275">275</a>             databaseHelper.clearTableFromDataBase(CacheEntry.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="276" href="#276">276</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
+<a class="jxr_linenumber" name="277" href="#277">277</a>             Ln.d(e, <span class="jxr_string">"SQL Error"</span>);
 <a class="jxr_linenumber" name="278" href="#278">278</a>         }
 <a class="jxr_linenumber" name="279" href="#279">279</a>     }
 <a class="jxr_linenumber" name="280" href="#280">280</a> 
 <a class="jxr_linenumber" name="281" href="#281">281</a>     @Override
-<a class="jxr_linenumber" name="282" href="#282">282</a>     <strong class="jxr_keyword">public</strong> List&lt;Object&gt; getAllCacheKeys() {
+<a class="jxr_linenumber" name="282" href="#282">282</a>     <strong class="jxr_keyword">public</strong> List&lt;T&gt; loadAllDataFromCache() <strong class="jxr_keyword">throws</strong> CacheLoadingException {
 <a class="jxr_linenumber" name="283" href="#283">283</a>         <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="284" href="#284">284</a>             List&lt;CacheEntry&gt; listCacheEntry = databaseHelper.queryForAllFromDatabase(CacheEntry.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="285" href="#285">285</a>             List&lt;Object&gt; listCacheKey = <strong class="jxr_keyword">new</strong> ArrayList&lt;Object&gt;();
+<a class="jxr_linenumber" name="285" href="#285">285</a>             List&lt;T&gt; listObjectInCache = <strong class="jxr_keyword">new</strong> ArrayList&lt;T&gt;();
 <a class="jxr_linenumber" name="286" href="#286">286</a>             <strong class="jxr_keyword">for</strong> (CacheEntry cacheEntry : listCacheEntry) {
-<a class="jxr_linenumber" name="287" href="#287">287</a>                 listCacheKey.add(cacheEntry.getCacheKey());
+<a class="jxr_linenumber" name="287" href="#287">287</a>                 listObjectInCache.add(loadDataFromCache(cacheEntry.getCacheKey(), DurationInMillis.ALWAYS_RETURNED));
 <a class="jxr_linenumber" name="288" href="#288">288</a>             }
-<a class="jxr_linenumber" name="289" href="#289">289</a>             <strong class="jxr_keyword">return</strong> listCacheKey;
+<a class="jxr_linenumber" name="289" href="#289">289</a>             <strong class="jxr_keyword">return</strong> listObjectInCache;
 <a class="jxr_linenumber" name="290" href="#290">290</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
-<a class="jxr_linenumber" name="291" href="#291">291</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="292" href="#292">292</a>         }
-<a class="jxr_linenumber" name="293" href="#293">293</a>     }
-<a class="jxr_linenumber" name="294" href="#294">294</a> }
+<a class="jxr_linenumber" name="291" href="#291">291</a>             Ln.d(e);
+<a class="jxr_linenumber" name="292" href="#292">292</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="293" href="#293">293</a>         }
+<a class="jxr_linenumber" name="294" href="#294">294</a>     }
+<a class="jxr_linenumber" name="295" href="#295">295</a> 
+<a class="jxr_linenumber" name="296" href="#296">296</a>     @Override
+<a class="jxr_linenumber" name="297" href="#297">297</a>     <strong class="jxr_keyword">public</strong> List&lt;Object&gt; getAllCacheKeys() {
+<a class="jxr_linenumber" name="298" href="#298">298</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="299" href="#299">299</a>             List&lt;CacheEntry&gt; listCacheEntry = databaseHelper.queryForAllFromDatabase(CacheEntry.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="300" href="#300">300</a>             List&lt;Object&gt; listCacheKey = <strong class="jxr_keyword">new</strong> ArrayList&lt;Object&gt;();
+<a class="jxr_linenumber" name="301" href="#301">301</a>             <strong class="jxr_keyword">for</strong> (CacheEntry cacheEntry : listCacheEntry) {
+<a class="jxr_linenumber" name="302" href="#302">302</a>                 listCacheKey.add(cacheEntry.getCacheKey());
+<a class="jxr_linenumber" name="303" href="#303">303</a>             }
+<a class="jxr_linenumber" name="304" href="#304">304</a>             <strong class="jxr_keyword">return</strong> listCacheKey;
+<a class="jxr_linenumber" name="305" href="#305">305</a>         } <strong class="jxr_keyword">catch</strong> (SQLException e) {
+<a class="jxr_linenumber" name="306" href="#306">306</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="307" href="#307">307</a>         }
+<a class="jxr_linenumber" name="308" href="#308">308</a>     }
+<a class="jxr_linenumber" name="309" href="#309">309</a> 
+<a class="jxr_linenumber" name="310" href="#310">310</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

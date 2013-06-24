@@ -13,13 +13,13 @@
 <a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> android.widget.ImageView;
 <a class="jxr_linenumber" name="4" href="#4">4</a>   
 <a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * Describes the behavior of a "List Item View" that contains an ImageView that</em>
-<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment"> * is used to display a given piece of data. The image will be download from the</em>
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_javadoccomment"> * network and will be managed &lt;i&gt;in an optimal way&lt;/i&gt; via RoboSpice.</em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * Describes the behavior of a "List Item View" that contains an ImageView that is used to display a</em>
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment"> * given piece of data. The image will be download from the network and will be managed &lt;i&gt;in an</em>
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_javadoccomment"> * optimal way&lt;/i&gt; via RoboSpice.</em>
 <a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment"> * @param &lt;T&gt;</em>
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_javadoccomment"> *            the type of the data displayed in this {@link SpiceListItemView}.</em>
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_javadoccomment"> *            This class has to respect the general contrat of</em>
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_javadoccomment"> *            {@link Object#equals(Object)} and {@link Object#hashCode()}.</em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_javadoccomment"> *            the type of the data displayed in this {@link SpiceListItemView}. This class has to</em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_javadoccomment"> *            respect the general contrat of {@link Object#equals(Object)} and</em>
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_javadoccomment"> *            {@link Object#hashCode()}.</em>
 <a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_javadoccomment"> * @author sni</em>
 <a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> SpiceListItemView&lt;T&gt; {
@@ -30,18 +30,26 @@
 <a class="jxr_linenumber" name="20" href="#20">20</a>      T getData();
 <a class="jxr_linenumber" name="21" href="#21">21</a>  
 <a class="jxr_linenumber" name="22" href="#22">22</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <em class="jxr_javadoccomment">     * @return the imageView that is displaying the drawable associated to this</em>
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <em class="jxr_javadoccomment">     *         view's data. This ImageView will be update by the SpiceManager.</em>
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="26" href="#26">26</a>      ImageView getImageView();
-<a class="jxr_linenumber" name="27" href="#27">27</a>  
-<a class="jxr_linenumber" name="28" href="#28">28</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <em class="jxr_javadoccomment">     * Updates the view with given data. Overrides of this method should not</em>
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment">     * deal with images. Only update other fields here.</em>
-<a class="jxr_linenumber" name="31" href="#31">31</a>  <em class="jxr_javadoccomment">     * @param data</em>
-<a class="jxr_linenumber" name="32" href="#32">32</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="33" href="#33">33</a>      <strong class="jxr_keyword">void</strong> update(T data);
-<a class="jxr_linenumber" name="34" href="#34">34</a>  }
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <em class="jxr_javadoccomment">     * @param imageIndex</em>
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <em class="jxr_javadoccomment">     *            the index of the image in case there are multiple bitmap used to represent every</em>
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <em class="jxr_javadoccomment">     *            piece of data.</em>
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <em class="jxr_javadoccomment">     * @return the imageView that is displaying the drawable associated to this view's data. This</em>
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <em class="jxr_javadoccomment">     *         ImageView will be update by the SpiceManager.</em>
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="29" href="#29">29</a>      ImageView getImageView(<strong class="jxr_keyword">int</strong> imageIndex);
+<a class="jxr_linenumber" name="30" href="#30">30</a>  
+<a class="jxr_linenumber" name="31" href="#31">31</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <em class="jxr_javadoccomment">     * @return the number of image views used to represent each piece of data. Usually 1.</em>
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="34" href="#34">34</a>      <strong class="jxr_keyword">int</strong> getImageViewCount();
+<a class="jxr_linenumber" name="35" href="#35">35</a>  
+<a class="jxr_linenumber" name="36" href="#36">36</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="37" href="#37">37</a>  <em class="jxr_javadoccomment">     * Updates the view with given data. Overrides of this method should not deal with images. Only</em>
+<a class="jxr_linenumber" name="38" href="#38">38</a>  <em class="jxr_javadoccomment">     * update other fields here.</em>
+<a class="jxr_linenumber" name="39" href="#39">39</a>  <em class="jxr_javadoccomment">     * @param data</em>
+<a class="jxr_linenumber" name="40" href="#40">40</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="41" href="#41">41</a>      <strong class="jxr_keyword">void</strong> update(T data);
+<a class="jxr_linenumber" name="42" href="#42">42</a>  }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

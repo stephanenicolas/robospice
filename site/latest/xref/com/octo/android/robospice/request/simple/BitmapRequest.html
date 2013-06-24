@@ -91,7 +91,7 @@
 <a class="jxr_linenumber" name="81" href="#81">81</a>      }
 <a class="jxr_linenumber" name="82" href="#82">82</a>  
 <a class="jxr_linenumber" name="83" href="#83">83</a>      @Override
-<a class="jxr_linenumber" name="84" href="#84">84</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> Bitmap loadDataFromNetwork() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="84" href="#84">84</a>      <strong class="jxr_keyword">public</strong> Bitmap loadDataFromNetwork() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="85" href="#85">85</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="86" href="#86">86</a>              <strong class="jxr_keyword">final</strong> HttpURLConnection httpURLConnection = (HttpURLConnection) <strong class="jxr_keyword">new</strong> URL(url).openConnection();
 <a class="jxr_linenumber" name="87" href="#87">87</a>              processStream(httpURLConnection.getContentLength(), httpURLConnection.getInputStream());
