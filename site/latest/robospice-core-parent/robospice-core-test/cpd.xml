@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
+<duplication lines="35" tokens="259">
+<file line="491" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="525" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testAddRequest_when_something_is_found_in_cache_after_expiry_and_requests_accepts_dirty_cache() throws CacheLoadingException, CacheSavingException, InterruptedException,
+        CacheCreationException {
+        // given
+        CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
+        stubRequest.setAcceptingDirtyCache(true);
+
+        RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.anyLong())).andReturn(TEST_RETURNED_DATA);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(mockCacheManager);
+
+        // when
+        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
+
+        mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // then
+        EasyMock.verify(mockCacheManager);
+        assertTrue(mockRequestListener.isExecutedInUIThread());
+        assertTrue(mockRequestListener.isSuccessful());
+
+        // when
+        mockRequestListener.resetSuccess();
+        mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+        assertTrue(mockRequestListener.isExecutedInUIThread());
+        assertTrue(stubRequest.isLoadDataFromNetworkCalled());
+        assertTrue(mockRequestListener.isSuccessful());
+    }
+
+    public void testAddRequest_when_nothing_is_found_in_cache_after_expiry_and_requests_accepts_dirty_cache() throws CacheLoadingException, CacheSavingException, InterruptedException,
+]]>
+</codefragment>
+</duplication>
 <duplication lines="18" tokens="189">
-<file line="598" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="645" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="672" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="719" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
         stubRequestHighPriority.setPriority(SpiceRequest.PRIORITY_HIGH);
@@ -27,8 +70,8 @@
 </codefragment>
 </duplication>
 <duplication lines="14" tokens="136">
-<file line="119" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="295" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="121" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="297" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
     public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
@@ -49,8 +92,8 @@
 </codefragment>
 </duplication>
 <duplication lines="10" tokens="126">
-<file line="414" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="451" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="416" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="453" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
@@ -67,9 +110,9 @@
 </codefragment>
 </duplication>
 <duplication lines="10" tokens="124">
-<file line="119" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="169" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="295" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="121" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="171" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="297" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
     public void testAddRequest_when_nothing_is_found_in_cache_and_request_succeeds() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
@@ -86,8 +129,8 @@
 </codefragment>
 </duplication>
 <duplication lines="12" tokens="114">
-<file line="171" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="349" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="173" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="351" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
@@ -106,8 +149,8 @@
 </codefragment>
 </duplication>
 <duplication lines="9" tokens="107">
-<file line="232" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="757" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="234" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="831" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
@@ -123,8 +166,8 @@
 </codefragment>
 </duplication>
 <duplication lines="10" tokens="105">
-<file line="299" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="557" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="301" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="631" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
@@ -141,8 +184,8 @@
 </codefragment>
 </duplication>
 <duplication lines="11" tokens="104">
-<file line="724" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="753" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="798" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="827" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
     public void testAddRequest_when_fail_on_error_true_and_request_has_retry_policy_loading_from_cache_throws_exception() throws SpiceException, InterruptedException {
@@ -160,8 +203,8 @@
 </codefragment>
 </duplication>
 <duplication lines="11" tokens="103">
-<file line="696" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="755" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="770" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="829" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
         CachedSpiceRequestStub<String> stubRequest = createFailedRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION);
@@ -179,8 +222,8 @@
 </codefragment>
 </duplication>
 <duplication lines="10" tokens="102">
-<file line="321" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="346" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="323" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="348" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
     public void testAddRequest_when_fail_on_error_true_loading_from_cache_throws_exception() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
@@ -197,8 +240,8 @@
 </codefragment>
 </duplication>
 <duplication lines="10" tokens="101">
-<file line="123" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
-<file line="557" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="125" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
+<file line="631" path="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java"/>
 <codefragment>
 <![CDATA[
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
