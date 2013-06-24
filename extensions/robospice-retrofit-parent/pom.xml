@@ -24,7 +24,7 @@
 	</modules>
 
 	<properties>
-		<retrofit.version>1.0.2</retrofit.version>
+		<retrofit.version>1.1.0</retrofit.version>
 	</properties>
 
 	<dependencyManagement>
