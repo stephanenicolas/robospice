@@ -8,7 +8,7 @@
     <language>en-us</language>
     <copyright>&#169;2012 - 2013</copyright>
     <item>
-      <title>File: 35,
+      <title>File: 45,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -71,6 +71,20 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.GetAllDataFromCacheCommand.java">com/octo/android/robospice/command/GetAllDataFromCacheCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityThreadPoolExecutor.java">com/octo/android/robospice/priority/PriorityThreadPoolExecutor.java</a>
                 </td>
                 <td>
@@ -86,6 +100,20 @@
                           <tr>
                 <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BigBinaryRequest.java">com/octo/android/robospice/request/simple/BigBinaryRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.SetFailOnCacheErrorCommand.java">com/octo/android/robospice/command/SetFailOnCacheErrorCommand.java</a>
                 </td>
                 <td>
                   0
@@ -169,6 +197,20 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.GetDateOfDataInCacheCommand.java">com/octo/android/robospice/command/GetDateOfDataInCacheCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.priority.PausableThreadPoolExecutor.java">com/octo/android/robospice/priority/PausableThreadPoolExecutor.java</a>
                 </td>
                 <td>
@@ -211,20 +253,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.priority.CustomizablePriorityThreadFactory.java">com/octo/android/robospice/priority/CustomizablePriorityThreadFactory.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.exception.NoNetworkException.java">com/octo/android/robospice/exception/NoNetworkException.java</a>
                 </td>
                 <td>
@@ -239,7 +267,49 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.priority.CustomizablePriorityThreadFactory.java">com/octo/android/robospice/priority/CustomizablePriorityThreadFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveDataFromCacheCommand.java">com/octo/android/robospice/command/RemoveDataFromCacheCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.networkstate.NetworkStateChecker.java">com/octo/android/robospice/networkstate/NetworkStateChecker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveAllDataFromCacheCommand.java">com/octo/android/robospice/command/RemoveAllDataFromCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -309,20 +379,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.notification.SpiceNotificationService.java">com/octo/android/robospice/notification/SpiceNotificationService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestStatus.java">com/octo/android/robospice/request/listener/RequestStatus.java</a>
                 </td>
                 <td>
@@ -337,7 +393,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityRunnable.java">com/octo/android/robospice/priority/PriorityRunnable.java</a>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.notification.SpiceNotificationService.java">com/octo/android/robospice/notification/SpiceNotificationService.java</a>
                 </td>
                 <td>
                   0
@@ -352,6 +408,20 @@
                           <tr>
                 <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.exception.RequestCancelledException.java">com/octo/android/robospice/exception/RequestCancelledException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityRunnable.java">com/octo/android/robospice/priority/PriorityRunnable.java</a>
                 </td>
                 <td>
                   0
@@ -407,6 +477,20 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.IsDataInCacheCommand.java">com/octo/android/robospice/command/IsDataInCacheCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.priority.PausablePriorityBlockingQueue.java">com/octo/android/robospice/priority/PausablePriorityBlockingQueue.java</a>
                 </td>
                 <td>
@@ -449,6 +533,20 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.GetDataFromCacheCommand.java">com/octo/android/robospice/command/GetDataFromCacheCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.SpiceActivity.java">com/octo/android/robospice/SpiceActivity.java</a>
                 </td>
                 <td>
@@ -477,20 +575,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.ProgressByteProcessor.java">com/octo/android/robospice/request/ProgressByteProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessorListener.java">com/octo/android/robospice/request/RequestProcessorListener.java</a>
                 </td>
                 <td>
@@ -505,7 +589,63 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.ProgressByteProcessor.java">com/octo/android/robospice/request/ProgressByteProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessor.java">com/octo/android/robospice/request/RequestProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveDataClassFromCacheCommand.java">com/octo/android/robospice/command/RemoveDataClassFromCacheCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.PutDataInCacheCommand.java">com/octo/android/robospice/command/PutDataInCacheCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice/checkstyle.html#com.octo.android.robospice.command.GetAllCacheKeysCommand.java">com/octo/android/robospice/command/GetAllCacheKeysCommand.java</a>
                 </td>
                 <td>
                   0
