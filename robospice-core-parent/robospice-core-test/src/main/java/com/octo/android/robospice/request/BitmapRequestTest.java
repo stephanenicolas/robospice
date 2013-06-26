@@ -2,9 +2,11 @@ package com.octo.android.robospice.request;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpStatus;
 
 import android.graphics.Bitmap;
 import android.test.InstrumentationTestCase;
@@ -77,5 +79,24 @@ public class BitmapRequestTest extends InstrumentationTestCase {
         assertTrue(IOUtils.contentEquals(cacheInputStream, getInstrumentation().getContext().getResources().openRawResource(R.raw.binary)));
         assertEquals(TEST_BITMAP_REDUCED_WIDTH, bitmapReturned.getWidth());
         assertEquals(TEST_BITMAP_REDUCED_HEIGHT, bitmapReturned.getHeight());
+    }
+
+    public void test_loadDataFromNetwork_throws_exception() throws Exception {
+        // given;
+        mockWebServer.enqueue(new MockResponse().setResponseCode(HttpStatus.SC_NOT_FOUND));
+        mockWebServer.play();
+
+        // when
+        BitmapRequest binaryRequest = new BitmapRequest(mockWebServer.getUrl("/").toString(), null, cacheFile);
+
+        try {
+            Bitmap bitmapReturned = binaryRequest.loadDataFromNetwork();
+
+            // expected exception
+            fail();
+        } catch (FileNotFoundException e) {
+            // success
+            return;
+        }
     }
 }

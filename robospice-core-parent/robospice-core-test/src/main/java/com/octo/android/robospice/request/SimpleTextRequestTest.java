@@ -1,6 +1,9 @@
 package com.octo.android.robospice.request;
 
+import java.io.FileNotFoundException;
+
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpStatus;
 
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -47,5 +50,24 @@ public class SimpleTextRequestTest extends InstrumentationTestCase {
 
         // then
         assertTrue(stringReturned.startsWith("Lorem ipsum"));
+    }
+
+    public void test_loadDataFromNetwork_throws_exception() throws Exception {
+        // given;
+        mockWebServer.enqueue(new MockResponse().setResponseCode(HttpStatus.SC_NOT_FOUND));
+        mockWebServer.play();
+
+        // when
+        SimpleTextRequest loremIpsumTextRequest = new SimpleTextRequest(mockWebServer.getUrl("/").toString());
+
+        try {
+            String stringReturned = loremIpsumTextRequest.loadDataFromNetwork();
+
+            // expected exception
+            fail();
+        } catch (FileNotFoundException e) {
+            // success
+            return;
+        }
     }
 }
