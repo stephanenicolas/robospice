@@ -6,7 +6,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
  * Default {@link RetryPolicy} implementation. Proposes an exponential back off
  * algorithm. When {@link #getRetryCount()} returns 0, the request is not
  * retried anymore and will fail. Between each retry attempt, the request
- * processor will sleel for {@link #getDelayBeforeRetry()} milliseconds.
+ * processor will sleep for {@link #getDelayBeforeRetry()} milliseconds.
  * @author SNI
  */
 public class DefaultRetryPolicy implements RetryPolicy {
@@ -65,7 +65,7 @@ public class DefaultRetryPolicy implements RetryPolicy {
 
     @Override
     public long getDelayBeforeRetry() {
-        return 0;
+        return delayBeforeRetry;
     }
 
 }
