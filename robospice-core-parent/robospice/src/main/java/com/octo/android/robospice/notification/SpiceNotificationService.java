@@ -72,7 +72,7 @@ public abstract class SpiceNotificationService extends Service {
             new NotificationRequestListener());
 
         if (foreground) {
-            startForeground(startId, onCreateForegroundNotification());
+            startForeground(notificationId, onCreateForegroundNotification());
         }
     }
 
