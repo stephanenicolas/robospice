@@ -560,7 +560,7 @@ public class RequestProcessor {
     }
 
     public void removeSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
-        this.spiceServiceListenerSet.add(spiceServiceServiceListener);
+        this.spiceServiceListenerSet.remove(spiceServiceServiceListener);
     }
 
     protected void notifyOfRequestProcessed(final CachedSpiceRequest<?> request) {
