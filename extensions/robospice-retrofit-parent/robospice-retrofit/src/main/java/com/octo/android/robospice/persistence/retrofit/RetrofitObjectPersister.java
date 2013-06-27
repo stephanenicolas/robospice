@@ -48,50 +48,6 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
     // METHODS
     // ============================================================================================
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public final T loadDataFromCache(Object cacheKey, long maxTimeInCacheBeforeExpiry) throws CacheLoadingException {
-
-        File file = getCacheFile(cacheKey);
-        if (file.exists()) {
-            long timeInCache = System.currentTimeMillis() - file.lastModified();
-            if (maxTimeInCacheBeforeExpiry == 0 || timeInCache <= maxTimeInCacheBeforeExpiry) {
-                try {
-                    final byte[] body = IOUtils.toByteArray(new FileInputStream(getCacheFile(cacheKey)));
-                    TypedInput typedInput = new TypedInput() {
-
-                        @Override
-                        public String mimeType() {
-                            return "application/json";
-                        }
-
-                        @Override
-                        public long length() {
-                            return body.length;
-                        }
-
-                        @Override
-                        public InputStream in() throws IOException {
-                            return new ByteArrayInputStream(body);
-                        }
-                    };
-                    return (T) converter.fromBody(typedInput, getHandledClass());
-                } catch (FileNotFoundException e) {
-                    // Should not occur (we test before if file exists)
-                    // Do not throw, file is not cached
-                    Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
-                    return null;
-                } catch (Exception e) {
-                    throw new CacheLoadingException(e);
-                }
-            }
-            Ln.v("Cache content is expired since " + (maxTimeInCacheBeforeExpiry - timeInCache));
-            return null;
-        }
-        Ln.v("file " + file.getAbsolutePath() + " does not exists");
-        return null;
-    }
-
     @Override
     public T saveDataToCacheAndReturnData(final T data, final Object cacheKey) throws CacheSavingException {
 
@@ -137,6 +93,33 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
 
     @Override
     protected T readCacheDataFromFile(File file) throws CacheLoadingException {
-        return null;
+        try {
+            final byte[] body = IOUtils.toByteArray(new FileInputStream(file));
+            TypedInput typedInput = new TypedInput() {
+
+                @Override
+                public String mimeType() {
+                    return "application/json";
+                }
+
+                @Override
+                public long length() {
+                    return body.length;
+                }
+
+                @Override
+                public InputStream in() throws IOException {
+                    return new ByteArrayInputStream(body);
+                }
+            };
+            return (T) converter.fromBody(typedInput, getHandledClass());
+        } catch (FileNotFoundException e) {
+            // Should not occur (we test before if file exists)
+            // Do not throw, file is not cached
+            Ln.w("file " + file.getAbsolutePath() + " does not exists", e);
+            return null;
+        } catch (Exception e) {
+            throw new CacheLoadingException(e);
+        }
     }
 }
