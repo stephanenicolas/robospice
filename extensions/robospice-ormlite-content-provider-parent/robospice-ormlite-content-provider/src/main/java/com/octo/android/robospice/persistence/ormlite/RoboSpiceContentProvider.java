@@ -33,7 +33,7 @@ public abstract class RoboSpiceContentProvider extends OrmLiteSimpleContentProvi
                 int contentUriPatternMany = ContractHelper.getContentUriPatternMany(contractClazz);
                 int contentUriPatternOne = ContractHelper.getContentUriPatternOne(contractClazz);
                 controller.add(clazz, SubType.DIRECTORY, "", contentUriPatternMany);
-                controller.add(clazz, SubType.DIRECTORY, "#", contentUriPatternOne);
+                controller.add(clazz, SubType.ITEM, "#", contentUriPatternOne);
             } catch (Exception e) {
                 Ln.e(e);
             }
