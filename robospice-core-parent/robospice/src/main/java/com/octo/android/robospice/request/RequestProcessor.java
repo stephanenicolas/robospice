@@ -30,6 +30,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.priority.PriorityRunnable;
 import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestListener;
+import com.octo.android.robospice.request.listener.RequestNotFoundListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
@@ -137,8 +138,11 @@ public class RequestProcessor {
             if (listRequestListenerForThisRequest != null) {
                 listRequestListenerForThisRequest.addAll(listRequestListener);
             }
+
             if (request.isProcessable()) {
                 notifyListenersOfRequestProgress(request, listRequestListener, request.getProgress());
+            } else if (listRequestListenerForThisRequest == null) {
+                notifyListenersOfRequestNofFound(request, listRequestListener);
             }
         }
 
@@ -348,6 +352,21 @@ public class RequestProcessor {
 
     private void post(final Runnable r, final Object token) {
         handlerResponse.postAtTime(r, token, SystemClock.uptimeMillis());
+    }
+
+    private void notifyListenersOfRequestNofFound(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listRequestListener) {
+        Ln.d("Request was not found when adding request listeners to existing requests. Now try and call onRequestNotFound");
+    
+        for (final RequestListener<?> listener: listRequestListener) {
+            if (listener instanceof RequestNotFoundListener) {
+                post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((RequestNotFoundListener) listener).onRequestNotFound();
+                    }
+                }, request.getRequestCacheKey());
+            }
+        }
     }
 
     private <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners, final RequestStatus status) {
