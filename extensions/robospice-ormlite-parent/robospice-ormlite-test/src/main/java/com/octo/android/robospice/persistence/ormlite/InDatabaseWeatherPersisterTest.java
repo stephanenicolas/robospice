@@ -21,8 +21,11 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
     private ObjectPersister<Weather> dataPersistenceManager;
     private static final CurrenWeather TEST_TEMP = new CurrenWeather();
     private static final CurrenWeather TEST_TEMP2 = new CurrenWeather();
+    private static final int WEATHER_ID = 1;
+    private static final int WEATHER_ID2 = 2;
     private static final int CACHE_KEY = 1;
     private static final int CACHE_KEY2 = 2;
+    private static final String CACHE_KEY3_STRING = "cache_key_3";
 
     @Override
     protected void setUp() throws Exception {
@@ -64,7 +67,7 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_saveDataAndReturnData() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather(CACHE_KEY, TEST_TEMP);
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
 
         // WHEN
         Weather weatherReturned = dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, 1);
@@ -75,20 +78,20 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_loadDataFromCache_no_expiracy() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather(CACHE_KEY, TEST_TEMP);
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, CACHE_KEY);
 
         // WHEN
         Weather weatherReturned = dataPersistenceManager.loadDataFromCache(CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
 
         // THEN
-        assertEquals(CACHE_KEY, weatherReturned.getId());
+        assertEquals(WEATHER_ID, weatherReturned.getId());
         assertTrue(weatherReturned.getListWeather().contains(TEST_TEMP));
     }
 
     public void test_loadDataFromCache_not_expired() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather(CACHE_KEY, TEST_TEMP);
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, CACHE_KEY);
 
         // WHEN
@@ -100,7 +103,7 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_loadDataFromCache_expired() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather(CACHE_KEY, TEST_TEMP);
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, CACHE_KEY);
         Thread.sleep(DurationInMillis.ONE_SECOND);
         // WHEN
@@ -112,7 +115,7 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_loadAllDataFromCache_with_one_request_in_cache() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather(CACHE_KEY, TEST_TEMP);
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, CACHE_KEY);
 
         // WHEN
@@ -126,9 +129,9 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_loadAllDataFromCache_with_two_requests_in_cache() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather(CACHE_KEY, TEST_TEMP);
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, CACHE_KEY);
-        Weather weatherRequestStatus2 = buildWeather(CACHE_KEY2, TEST_TEMP2);
+        Weather weatherRequestStatus2 = buildWeather(WEATHER_ID2, TEST_TEMP2);
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus2, CACHE_KEY2);
 
         // WHEN
@@ -154,9 +157,9 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
 
     public void test_removeDataFromCache_when_two_requests_in_cache_and_one_removed() throws Exception {
         // GIVEN
-        Weather weatherRequestStatus = buildWeather(CACHE_KEY, TEST_TEMP);
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, CACHE_KEY);
-        Weather weatherRequestStatus2 = buildWeather(CACHE_KEY2, TEST_TEMP2);
+        Weather weatherRequestStatus2 = buildWeather(WEATHER_ID2, TEST_TEMP2);
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus2, CACHE_KEY2);
 
         dataPersistenceManager.removeDataFromCache(CACHE_KEY2);
@@ -169,6 +172,22 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
         assertEquals(1, listWeatherResult.size());
         assertTrue(listWeatherResult.contains(weatherRequestStatus));
         assertFalse(listWeatherResult.contains(weatherRequestStatus2));
+    }
+
+    public void test_cacheKey_can_be_string_when_object_type_has_int_id() throws Exception {
+        // GIVEN
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
+        dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, CACHE_KEY3_STRING);
+
+        // WHEN
+        Weather weatherReturned = dataPersistenceManager.loadDataFromCache(CACHE_KEY3_STRING, DurationInMillis.ALWAYS_RETURNED);
+        List<Weather> listWeatherResult = dataPersistenceManager.loadAllDataFromCache();
+
+        // THEN
+        assertNotNull(listWeatherResult);
+        assertEquals(1, listWeatherResult.size());
+        assertTrue(listWeatherResult.contains(weatherRequestStatus));
+        assertEquals(WEATHER_ID, weatherReturned.getId());
     }
 
     private Weather buildWeather(int id, CurrenWeather currenWeather) {
