@@ -8,7 +8,7 @@ public class RetrofitSpiceTestService extends RetrofitGsonSpiceService {
 
     @Override
     protected String getServerUrl() {
-        return "";
+        return "non-blank.random.server";
     }
 
     @Override
