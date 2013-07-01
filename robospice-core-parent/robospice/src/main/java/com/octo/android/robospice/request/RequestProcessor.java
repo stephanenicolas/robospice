@@ -314,8 +314,7 @@ public class RequestProcessor {
                     processRequest(request);
                 } catch (final Throwable t) {
                     Ln.d(t, "An unexpected error occured when processsing request %s", request.toString());
-                }
-                finally {
+                } finally {
                     request.setRequestCancellationListener(null);
                 }
             }
