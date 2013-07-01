@@ -887,6 +887,27 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(mockRequestListener.getReceivedException() instanceof NoNetworkException);
     }
 
+    public void testDefaultRetryPolicy_implements_retry_countdown_and_exponential_backoff() throws Exception {
+        // define local values since class constant values didn't reveal incremental backoff
+        final long localDelayBeforeRetry = 200;
+        final float localRetryBackoffMultiplier = 5.0f;
+        final int localRetryCount = 3;
+
+        // given
+        DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(localRetryCount, localDelayBeforeRetry, localRetryBackoffMultiplier);
+
+        assertEquals(localRetryCount, retryPolicy.getRetryCount());
+        assertEquals(localDelayBeforeRetry, retryPolicy.getDelayBeforeRetry());
+
+        // when
+        SpiceException e = null;
+        retryPolicy.retry(e);
+
+        // then
+        assertEquals(localRetryCount - 1, retryPolicy.getRetryCount());
+        assertEquals(((long) (localDelayBeforeRetry * localRetryBackoffMultiplier)), retryPolicy.getDelayBeforeRetry());
+    }
+
     // ============================================================================================
     // NETWORK STATE CHECKER DEPENDENCY
     // ============================================================================================
