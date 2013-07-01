@@ -315,6 +315,9 @@ public class RequestProcessor {
                 } catch (final Throwable t) {
                     Ln.d(t, "An unexpected error occured when processsing request %s", request.toString());
                 }
+                finally {
+                    request.setRequestCancellationListener(null);
+                }
             }
 
             @Override
