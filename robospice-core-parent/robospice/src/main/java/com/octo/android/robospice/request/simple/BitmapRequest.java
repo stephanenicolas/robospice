@@ -99,10 +99,10 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
             }
         } catch (final MalformedURLException e) {
             Ln.e(e, "Unable to create URL");
-            return null;
+            throw e;
         } catch (final IOException e) {
             Ln.e(e, "Unable to download binary");
-            return null;
+            throw e;
         }
     }
 

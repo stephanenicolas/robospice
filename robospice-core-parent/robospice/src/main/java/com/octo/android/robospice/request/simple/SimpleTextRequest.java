@@ -30,10 +30,10 @@ public class SimpleTextRequest extends SpiceRequest<String> {
             return IOUtils.toString(new InputStreamReader(new URL(url).openStream(), CharEncoding.UTF_8));
         } catch (final MalformedURLException e) {
             Ln.e(e, "Unable to create URL");
-            return null;
+            throw e;
         } catch (final IOException e) {
             Ln.e(e, "Unable to download content");
-            return null;
+            throw e;
         }
     }
 
