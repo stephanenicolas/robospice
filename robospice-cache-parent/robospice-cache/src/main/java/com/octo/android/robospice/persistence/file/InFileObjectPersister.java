@@ -88,10 +88,12 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
 
     @Override
     public long getCreationDateInCache(Object cacheKey) throws CacheLoadingException {
-        try {
-            return getCacheFile(cacheKey).lastModified();
-        } catch (Exception e) {
-            throw new CacheLoadingException("Data could not be found in cache for cacheKey=" + cacheKey);
+        File cacheFile = getCacheFile(cacheKey);
+        if (cacheFile.exists()) {
+            return cacheFile.lastModified();
+        } else {
+            throw new CacheLoadingException(
+                "Data could not be found in cache for cacheKey=" + cacheKey);
         }
     }
 
