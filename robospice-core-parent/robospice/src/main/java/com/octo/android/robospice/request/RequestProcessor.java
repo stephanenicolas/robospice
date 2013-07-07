@@ -276,7 +276,7 @@ public class RequestProcessor {
                 printRequestProcessingDuration(startTime, request);
                 return;
             } catch (final SpiceException e) {
-                Ln.d("An exception occured during service execution :" + e.getMessage(), e);
+                Ln.d("An exception occured during service execution :" + e.getMessage());
                 if (failOnCacheError) {
                     handleRetry(request, e);
                     printRequestProcessingDuration(startTime, request);
