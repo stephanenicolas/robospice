@@ -4,6 +4,15 @@ Release notes for RoboSpice
 Version 1.5.0 (planned)
 -------------
 
+Version 1.4.6 (Planned July 14th 2013)
+-------------
+
+** Enhancements
+
+** Bug fixes
+* Spelling correction in logs by Joel Steres
+
+
 Version 1.4.5 (June 24th 2013)
 -------------
 ** Enhancements
