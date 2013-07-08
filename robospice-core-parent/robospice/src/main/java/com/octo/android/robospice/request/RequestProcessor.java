@@ -248,10 +248,10 @@ public class RequestProcessor {
             Ln.d("Network request call ended.");
         } catch (final Exception e) {
             if (!request.isCancelled()) {
-                Ln.e(e, "An exception occured during request network execution :" + e.getMessage());
-                handleRetry(request, new NetworkException("Exception occured during invocation of web service.", e));
+                Ln.e(e, "An exception occurred during request network execution :" + e.getMessage());
+                handleRetry(request, new NetworkException("Exception occurred during invocation of web service.", e));
             } else {
-                Ln.e("An exception occured during request network execution but request was cancelled, so listeners are not called.");
+                Ln.e("An exception occurred during request network execution but request was cancelled, so listeners are not called.");
             }
             printRequestProcessingDuration(startTime, request);
             return;
@@ -276,7 +276,7 @@ public class RequestProcessor {
                 printRequestProcessingDuration(startTime, request);
                 return;
             } catch (final SpiceException e) {
-                Ln.d("An exception occured during service execution :" + e.getMessage(), e);
+                Ln.d("An exception occurred during service execution :" + e.getMessage());
                 if (failOnCacheError) {
                     handleRetry(request, e);
                     printRequestProcessingDuration(startTime, request);
@@ -313,7 +313,7 @@ public class RequestProcessor {
                 try {
                     processRequest(request);
                 } catch (final Throwable t) {
-                    Ln.d(t, "An unexpected error occured when processsing request %s", request.toString());
+                    Ln.d(t, "An unexpected error occurred when processsing request %s", request.toString());
                 } finally {
                     request.setRequestCancellationListener(null);
                 }
