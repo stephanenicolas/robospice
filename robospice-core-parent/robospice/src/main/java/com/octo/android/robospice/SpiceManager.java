@@ -604,8 +604,8 @@ public class SpiceManager implements Runnable {
      *            Request for which listeners are to unregistered.
      */
     protected void dontNotifyRequestListenersForRequestInternal(final SpiceRequest<?> request) {
+        lockSendRequestsToService.lock();
         try {
-            lockSendRequestsToService.lock();
 
             final boolean requestNotPassedToServiceYet = removeListenersOfCachedRequestToLaunch(request);
             Ln.v("Removed from requests to launch list : " + requestNotPassedToServiceYet);
@@ -692,8 +692,8 @@ public class SpiceManager implements Runnable {
      * remove their listeners.
      */
     protected void dontNotifyAnyRequestListenersInternal() {
+        lockSendRequestsToService.lock();
         try {
-            lockSendRequestsToService.lock();
 
             mapRequestToLaunchToRequestListener.clear();
             Ln.v("Cleared listeners of all requests to launch");
@@ -779,8 +779,8 @@ public class SpiceManager implements Runnable {
     }
 
     private void cancelAllRequestsInternal() {
+        lockSendRequestsToService.lock();
         try {
-            lockSendRequestsToService.lock();
             // cancel each request that to be sent to service, and
             // keep
             // listening for
@@ -1053,8 +1053,10 @@ public class SpiceManager implements Runnable {
             // fix issue 40. Thx Shussu
             return;
         }
+
+        lockAcquireService.lock();
+        lockSendRequestsToService.lock();
         try {
-            lockAcquireService.lock();
 
             if (spiceService == null) {
                 final Intent intentService = new Intent(context, spiceServiceClass);
@@ -1073,6 +1075,7 @@ public class SpiceManager implements Runnable {
             Ln.d("Context is" + context);
             Ln.d("ApplicationContext is " + context.getApplicationContext() + context.getApplicationContext());
         } finally {
+            lockSendRequestsToService.unlock();
             lockAcquireService.unlock();
         }
     }
@@ -1082,9 +1085,11 @@ public class SpiceManager implements Runnable {
             return;
         }
 
+        lockAcquireService.lock();
+        // fix issue 144 and 86
+        lockSendRequestsToService.lock();
         try {
             Ln.v("Unbinding from service start.");
-            lockAcquireService.lock();
             if (spiceService != null && !isUnbinding) {
                 isUnbinding = true;
                 spiceService.removeSpiceServiceListener(removerSpiceServiceListener);
@@ -1097,6 +1102,7 @@ public class SpiceManager implements Runnable {
         } catch (final Exception e) {
             Ln.e(e, "Could not unbind from service.");
         } finally {
+            lockSendRequestsToService.unlock();
             lockAcquireService.unlock();
         }
     }

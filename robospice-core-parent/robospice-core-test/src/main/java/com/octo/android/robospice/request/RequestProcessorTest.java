@@ -888,7 +888,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     }
 
     public void testDefaultRetryPolicy_implements_retry_countdown_and_exponential_backoff() throws Exception {
-        // define local values since class constant values didn't reveal incremental backoff
+        // define local values since class constant values didn't reveal
+        // incremental backoff
         final long localDelayBeforeRetry = 200;
         final float localRetryBackoffMultiplier = 5.0f;
         final int localRetryCount = 3;
@@ -905,7 +906,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
 
         // then
         assertEquals(localRetryCount - 1, retryPolicy.getRetryCount());
-        assertEquals(((long) (localDelayBeforeRetry * localRetryBackoffMultiplier)), retryPolicy.getDelayBeforeRetry());
+        assertEquals((long) (localDelayBeforeRetry * localRetryBackoffMultiplier), retryPolicy.getDelayBeforeRetry());
     }
 
     // ============================================================================================

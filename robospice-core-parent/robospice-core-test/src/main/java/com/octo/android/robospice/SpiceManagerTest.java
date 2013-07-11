@@ -489,7 +489,6 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
         spiceManager.dontNotifyAnyRequestListenersInternal();
 
-        spiceManager.dumpState();
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
 
