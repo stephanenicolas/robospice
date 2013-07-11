@@ -14,11 +14,6 @@ import com.octo.android.robospice.persistence.googlehttpclient.json.GsonObjectPe
 public class GsonGoogleHttpClientSpiceService extends GoogleHttpClientSpiceService {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    @Override
     public CacheManager createCacheManager(Application application) throws CacheCreationException {
         CacheManager cacheManager = new CacheManager();
         cacheManager.addPersister(new GsonObjectPersisterFactory(application));

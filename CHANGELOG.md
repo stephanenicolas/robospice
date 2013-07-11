@@ -8,6 +8,8 @@ Version 1.4.6 (Planned July 14th 2013)
 -------------
 
 ** Enhancements
+* Google Http Client module now has pre-set services for Jackson,Jackson2 and Gson.
+
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
