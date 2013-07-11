@@ -11,7 +11,8 @@ Version 1.4.6 (Planned July 14th 2013)
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
-
+* Pull requests 134 : https://github.com/octo-online/robospice/pull/134 by Andrew Clark
+* Pull requests 140 : https://github.com/octo-online/robospice/pull/ by Andrew Clark
 
 Version 1.4.5 (June 24th 2013)
 -------------

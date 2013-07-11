@@ -1231,5 +1231,7 @@ public class SpiceManager implements Runnable {
         public Exception getException() {
             return exception;
         }
+
     }
+
 }

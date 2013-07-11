@@ -20,7 +20,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
  */
 public abstract class GoogleHttpClientSpiceService extends SpiceService {
 
-    private HttpRequestFactory httpRequestFactory;
+    protected HttpRequestFactory httpRequestFactory;
 
     @Override
     public void onCreate() {
