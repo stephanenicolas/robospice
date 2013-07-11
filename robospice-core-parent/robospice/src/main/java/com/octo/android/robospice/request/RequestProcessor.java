@@ -126,7 +126,7 @@ public class RequestProcessor {
             if (listRequestListenerForThisRequest == null) {
                 if (request.isProcessable()) {
                     Ln.d("Adding entry for type %s and cacheKey %s.", request.getResultType(), request.getRequestCacheKey());
-                    listRequestListenerForThisRequest = new HashSet<RequestListener<?>>();
+                    listRequestListenerForThisRequest = Collections.synchronizedSet(new HashSet<RequestListener<?>>());
                     this.mapRequestToRequestListener.put(request, listRequestListenerForThisRequest);
                 }
             } else {
@@ -481,10 +481,12 @@ public class RequestProcessor {
             }
 
             Ln.v("Notifying " + listeners.size() + " listeners of progress " + progress);
-            for (final RequestListener<?> listener : listeners) {
-                if (listener != null && listener instanceof RequestProgressListener) {
-                    Ln.v("Notifying %s", listener.getClass().getSimpleName());
-                    ((RequestProgressListener) listener).onRequestProgressUpdate(progress);
+            synchronized (listeners) {
+                for (final RequestListener<?> listener : listeners) {
+                    if (listener != null && listener instanceof RequestProgressListener) {
+                        Ln.v("Notifying %s", listener.getClass().getSimpleName());
+                        ((RequestProgressListener) listener).onRequestProgressUpdate(progress);
+                    }
                 }
             }
         }
@@ -514,15 +516,17 @@ public class RequestProcessor {
 
             final String resultMsg = spiceException == null ? "success" : "failure";
             Ln.v("Notifying " + listeners.size() + " listeners of request " + resultMsg);
-            for (final RequestListener<?> listener : listeners) {
-                if (listener != null) {
-                    @SuppressWarnings("unchecked")
-                    final RequestListener<T> listenerOfT = (RequestListener<T>) listener;
-                    Ln.v("Notifying %s", listener.getClass().getSimpleName());
-                    if (spiceException == null) {
-                        listenerOfT.onRequestSuccess(result);
-                    } else {
-                        listener.onRequestFailure(spiceException);
+            synchronized (listeners) {
+                for (final RequestListener<?> listener : listeners) {
+                    if (listener != null) {
+                        @SuppressWarnings("unchecked")
+                        final RequestListener<T> listenerOfT = (RequestListener<T>) listener;
+                        Ln.v("Notifying %s", listener.getClass().getSimpleName());
+                        if (spiceException == null) {
+                            listenerOfT.onRequestSuccess(result);
+                        } else {
+                            listener.onRequestFailure(spiceException);
+                        }
                     }
                 }
             }
