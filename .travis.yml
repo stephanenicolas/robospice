@@ -1,8 +1,9 @@
 #Thanks to https://raw.github.com/embarkmobile/android-maven-example/master/.travis.yml
 
 branches:
-  except:
-    - repository
+  only:
+    - master
+    - release
 
 language: java
 jdk: oraclejdk7
