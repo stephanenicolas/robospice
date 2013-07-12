@@ -13,13 +13,11 @@ import android.os.SystemClock;
 
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.PendingRequestListener;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
-import com.octo.android.robospice.request.observer.IObserverManager;
 
 public class RequestProgressBroadcaster {
     // ============================================================================================
@@ -31,39 +29,22 @@ public class RequestProgressBroadcaster {
     private final Set<SpiceServiceServiceListener> spiceServiceListenerSet;
 
     private final RequestProcessorListener requestProcessorListener;
-    private final IObserverManager observerManager;
 
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
 
-    public RequestProgressBroadcaster(IObserverManager observerManager,
-            final RequestProcessorListener requestProcessorListener, Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener) {
+    public RequestProgressBroadcaster(final RequestProcessorListener requestProcessorListener, 
+        Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener) {
 
         this.requestProcessorListener = requestProcessorListener;
         this.mapRequestToRequestListener = mapRequestToRequestListener;
         handlerResponse = new Handler(Looper.getMainLooper());
         spiceServiceListenerSet = Collections.synchronizedSet(new HashSet<SpiceServiceServiceListener>());
-        this.observerManager = observerManager;
     }
 
     private void post(final Runnable r, final Object token) {
         handlerResponse.postAtTime(r, token, SystemClock.uptimeMillis());
-    }
-
-    protected void notifyListenersOfRequestNofFound(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listRequestListener) {
-        Ln.d("Request was not found when adding request listeners to existing requests. Now try and call onRequestNotFound");
-    
-        for (final RequestListener<?> listener: listRequestListener) {
-            if (listener instanceof PendingRequestListener) {
-                post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((PendingRequestListener<?>) listener).onRequestNotFound();
-                    }
-                }, request.getRequestCacheKey());
-            }
-        }
     }
 
     protected <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners, final RequestStatus status) {
@@ -72,7 +53,6 @@ public class RequestProgressBroadcaster {
 
     protected <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners, final RequestProgress progress) {
         Ln.d("Sending progress %s", progress.getStatus());
-        observerManager.notifyObserversOfRequestProgress(request, listeners, progress);
 
         post(new ProgressRunnable(listeners, progress), request.getRequestCacheKey());
         checkAllRequestComplete();
@@ -93,8 +73,6 @@ public class RequestProgressBroadcaster {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected <T> void notifyListenersOfRequestSuccess(final CachedSpiceRequest<T> request, final T result) {
 
-        observerManager.notifyObserversOfRequestSuccess(request, result);
-
         final Set<RequestListener<?>> listeners = mapRequestToRequestListener.get(request);
         notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
         post(new ResultRunnable(listeners, result), request.getRequestCacheKey());
@@ -103,8 +81,6 @@ public class RequestProgressBroadcaster {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected <T> void notifyListenersOfRequestFailure(final CachedSpiceRequest<T> request, final SpiceException e) {
-        observerManager.notifyObserversOfRequestFailure(request, e);
-
         final Set<RequestListener<?>> listeners = mapRequestToRequestListener.get(request);
         notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
         post(new ResultRunnable(listeners, e), request.getRequestCacheKey());
@@ -113,8 +89,6 @@ public class RequestProgressBroadcaster {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void notifyListenersOfRequestCancellation(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners) {
-        observerManager.notifyObserversOfRequestCancellation(request, listeners);
-
         Ln.d("Not calling network request : " + request + " as it is cancelled. ");
         notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
         post(new ResultRunnable(listeners, new RequestCancelledException("Request has been cancelled explicitely.")), request.getRequestCacheKey());
@@ -222,10 +196,6 @@ public class RequestProgressBroadcaster {
 
     public void removeSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
         this.spiceServiceListenerSet.remove(spiceServiceServiceListener);
-    }
-
-    protected void prepareObserversForRequest(final CachedSpiceRequest<?> request) {
-        observerManager.prepareObserversForRequest(request);
     }
 
     protected void notifyOfRequestProcessed(final CachedSpiceRequest<?> request) {
