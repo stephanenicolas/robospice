@@ -28,9 +28,9 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.priority.PriorityRunnable;
+import com.octo.android.robospice.request.listener.PendingRequestListener;
 import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestListener;
-import com.octo.android.robospice.request.listener.RequestNotFoundListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
@@ -358,11 +358,11 @@ public class RequestProcessor {
         Ln.d("Request was not found when adding request listeners to existing requests. Now try and call onRequestNotFound");
     
         for (final RequestListener<?> listener: listRequestListener) {
-            if (listener instanceof RequestNotFoundListener) {
+            if (listener instanceof PendingRequestListener) {
                 post(new Runnable() {
                     @Override
                     public void run() {
-                        ((RequestNotFoundListener) listener).onRequestNotFound();
+                        ((PendingRequestListener<?>) listener).onRequestNotFound();
                     }
                 }, request.getRequestCacheKey());
             }
