@@ -18,8 +18,6 @@ import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
 import com.octo.android.robospice.request.reporter.RequestProgressReporter;
-import com.octo.android.robospice.request.runner.RequestProgressManager;
-import com.octo.android.robospice.request.runner.RequestRunner;
 
 /**
  * Delegate class of the {@link SpiceService}, easier to test than an Android

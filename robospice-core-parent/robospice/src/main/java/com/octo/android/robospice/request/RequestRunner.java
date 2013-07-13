@@ -1,4 +1,4 @@
-package com.octo.android.robospice.request.runner;
+package com.octo.android.robospice.request;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -17,7 +17,6 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.priority.PriorityRunnable;
-import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
