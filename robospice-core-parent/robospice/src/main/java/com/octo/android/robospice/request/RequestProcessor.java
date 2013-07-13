@@ -29,7 +29,7 @@ public class RequestProcessor {
     // ============================================================================================
 
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener = Collections.synchronizedMap(new LinkedHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
-    private final RequestProgressBroadcaster progressMonitor;
+    private final RequestProgressManager progressMonitor;
     private final RequestRunner requestRunner;
     private final ICacheManager cacheManager;
 
@@ -58,10 +58,11 @@ public class RequestProcessor {
     public RequestProcessor(final Context context, final ICacheManager cacheManager,
             final ExecutorService executorService,
             final RequestProcessorListener requestProcessorListener,
-            final NetworkStateChecker networkStateChecker) {
+            final NetworkStateChecker networkStateChecker,
+            final RequestProgressReporter requestProgressReporter) {
 
         this.cacheManager = cacheManager;
-        this.progressMonitor = new RequestProgressBroadcaster(requestProcessorListener, mapRequestToRequestListener);
+        this.progressMonitor = new RequestProgressManager(requestProcessorListener, mapRequestToRequestListener, requestProgressReporter);
         this.requestRunner = new RequestRunner(context, cacheManager, executorService, progressMonitor, networkStateChecker);
     }
 
@@ -102,7 +103,7 @@ public class RequestProcessor {
             }
 
             if (request.isProcessable()) {
-                progressMonitor.notifyListenersOfRequestProgress(request, listRequestListener, request.getProgress());
+                progressMonitor.notifyListenersOfRequestAdded(request, listRequestListener);
             }
         }
 
@@ -128,7 +129,7 @@ public class RequestProcessor {
             progressMonitor.notifyOfRequestProcessed(request);
             return;
         } else {
-            requestRunner.planRequestExecution(request);
+            requestRunner.executeRequest(request);
         }
     }
 
@@ -165,10 +166,6 @@ public class RequestProcessor {
     public void setFailOnCacheError(final boolean failOnCacheError) {
         requestRunner.setFailOnCacheError(failOnCacheError);
     }
-
-    // ============================================================================================
-    // PRIVATE
-    // ============================================================================================
 
     @Override
     public String toString() {

@@ -35,7 +35,7 @@ public class RequestRunner {
     private final Context applicationContext;
     private boolean failOnCacheError;
     private final NetworkStateChecker networkStateChecker;
-    private final RequestProgressBroadcaster progressMonitor;
+    private final RequestProgressManager progressMonitor;
 
     // ============================================================================================
     // CONSTRUCTOR
@@ -43,7 +43,7 @@ public class RequestRunner {
 
     public RequestRunner(final Context context, final ICacheManager cacheManager,
             final ExecutorService executorService, 
-            final RequestProgressBroadcaster requestProgressBroadcaster,
+            final RequestProgressManager requestProgressBroadcaster,
             final NetworkStateChecker networkStateChecker) {
         this.applicationContext = context;
         this.cacheManager = cacheManager;
@@ -53,6 +53,10 @@ public class RequestRunner {
         this.progressMonitor = requestProgressBroadcaster;
 
         this.networkStateChecker.checkPermissions(context);
+    }
+
+    public void executeRequest(CachedSpiceRequest<?> request) {
+        planRequestExecution(request);
     }
 
     private static String getTimeString(long millis) {
