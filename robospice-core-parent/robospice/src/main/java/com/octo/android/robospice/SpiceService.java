@@ -26,12 +26,12 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.CachedSpiceRequest;
-import com.octo.android.robospice.request.RequestProgressReporter;
 import com.octo.android.robospice.request.RequestProcessor;
 import com.octo.android.robospice.request.RequestProcessorListener;
-import com.octo.android.robospice.request.DefaultRequestProgressReporter;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
+import com.octo.android.robospice.request.reporter.DefaultRequestProgressReporter;
+import com.octo.android.robospice.request.reporter.RequestProgressReporter;
 
 /**
  * This is an abstract class used to manage the cache and provide web service

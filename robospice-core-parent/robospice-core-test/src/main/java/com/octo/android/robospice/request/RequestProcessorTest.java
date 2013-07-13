@@ -22,6 +22,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.priority.PausableThreadPoolExecutor;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.listener.RequestListener;
+import com.octo.android.robospice.request.reporter.DefaultRequestProgressReporter;
 import com.octo.android.robospice.retry.DefaultRetryPolicy;
 import com.octo.android.robospice.stub.CachedSpiceRequestStub;
 import com.octo.android.robospice.stub.RequestListenerStub;

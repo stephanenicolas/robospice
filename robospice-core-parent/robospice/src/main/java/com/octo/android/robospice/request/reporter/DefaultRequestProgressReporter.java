@@ -1,4 +1,4 @@
-package com.octo.android.robospice.request;
+package com.octo.android.robospice.request.reporter;
 
 import java.util.Set;
 
@@ -9,6 +9,7 @@ import android.os.SystemClock;
 
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;

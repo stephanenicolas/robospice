@@ -1,8 +1,9 @@
-package com.octo.android.robospice.request;
+package com.octo.android.robospice.request.reporter;
 
 import java.util.Set;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 
