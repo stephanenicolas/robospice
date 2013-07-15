@@ -44,6 +44,7 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
+import com.octo.android.robospice.request.listener.PendingRequestListener;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
 
@@ -350,17 +351,9 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * Add listener to a pending request if it exists. If no such request
-     * exists, this method does nothing. If a request identified by clazz and
-     * requestCacheKey, it will receive an additional listener.
-     * @param clazz
-     *            the class of the result of the pending request to look for.
-     * @param requestCacheKey
-     *            the key used to store and retrieve the result of the request
-     *            in the cache
-     * @param requestListener
-     *            the listener to notify when the request will finish.
-     */
+    * @Deprecated 
+    * @See #addListenerIfPending(PendingRequestListener)
+    */
     public <T> void addListenerIfPending(final Class<T> clazz, final Object requestCacheKey, final RequestListener<T> requestListener) {
         final SpiceRequest<T> request = new SpiceRequest<T>(clazz) {
 
@@ -372,6 +365,23 @@ public class SpiceManager implements Runnable {
         final CachedSpiceRequest<T> cachedSpiceRequest = new CachedSpiceRequest<T>(request, requestCacheKey, DurationInMillis.ALWAYS_EXPIRED);
         cachedSpiceRequest.setProcessable(false);
         execute(cachedSpiceRequest, requestListener);
+    }
+
+    /**
+     * Add listener to a pending request if it exists. If no such request
+     * exists, this method calls onRequestNotFound on the listener. If a
+     * request identified by clazz and requestCacheKey, it will receive an
+     * additional listener.
+     * @param clazz
+     *            the class of the result of the pending request to look for.
+     * @param requestCacheKey
+     *            the key used to store and retrieve the result of the request
+     *            in the cache
+     * @param requestListener
+     *            the listener to notify when the request will finish.
+     */
+    public <T> void addListenerIfPending(final Class<T> clazz, final Object requestCacheKey, final PendingRequestListener<T> requestListener) {
+        addListenerIfPending(clazz, requestCacheKey, (RequestListener<T>) requestListener);
     }
 
     /**

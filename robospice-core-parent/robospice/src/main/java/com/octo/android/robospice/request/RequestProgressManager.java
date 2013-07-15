@@ -40,6 +40,11 @@ public class RequestProgressManager {
         spiceServiceListenerSet = Collections.synchronizedSet(new HashSet<SpiceServiceServiceListener>());
     }
 
+    public void notifyListenersOfRequestNotFound(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners) {
+        Ln.d("Request was not found when adding request listeners to existing requests. Now try and call onRequestNotFound");
+        requestProgressReporter.notifyListenersOfRequestNotFound(request, listeners);
+    }
+
     public <T> void notifyListenersOfRequestAdded(CachedSpiceRequest<T> request,
             Set<RequestListener<?>> listeners) {
 

@@ -10,6 +10,7 @@ import android.os.SystemClock;
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.CachedSpiceRequest;
+import com.octo.android.robospice.request.listener.PendingRequestListener;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
@@ -31,7 +32,24 @@ public class DefaultRequestProgressReporter implements RequestProgressReporter {
         handlerResponse.postAtTime(r, token, SystemClock.uptimeMillis());
     }
 
-    public <T> void notifyListenersOfRequestAdded(CachedSpiceRequest<T> request,
+    @Override
+    public <T> void notifyListenersOfRequestNotFound(final CachedSpiceRequest<T> request, 
+            final Set<RequestListener<?>> listRequestListener) {
+    
+        for (final RequestListener<?> listener: listRequestListener) {
+            if (listener instanceof PendingRequestListener) {
+                post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((PendingRequestListener<?>) listener).onRequestNotFound();
+                    }
+                }, request.getRequestCacheKey());
+            }
+        }
+    }
+
+    @Override
+    public <T> void notifyListenersOfRequestAdded(final CachedSpiceRequest<T> request,
             Set<RequestListener<?>> listeners) {
     }
 
@@ -69,7 +87,7 @@ public class DefaultRequestProgressReporter implements RequestProgressReporter {
     }
 
     @Override
-    public <T> void clearNotificationsForRequest(final CachedSpiceRequest<T> request, 
+    public <T> void clearNotificationsForRequest(final CachedSpiceRequest<T> request,
             final Set<RequestListener<?>> listeners) {
 
         handlerResponse.removeCallbacksAndMessages(request.getRequestCacheKey());

@@ -9,7 +9,10 @@ import com.octo.android.robospice.request.listener.RequestProgress;
 
 public interface RequestProgressReporter {
 
-    <T> void notifyListenersOfRequestAdded(CachedSpiceRequest<T> request,
+    <T> void notifyListenersOfRequestNotFound(final CachedSpiceRequest<T> request,
+            final Set<RequestListener<?>> listeners);
+
+    <T> void notifyListenersOfRequestAdded(final CachedSpiceRequest<T> request,
             final Set<RequestListener<?>> listeners);
 
     <T> void notifyListenersOfRequestSuccess(final CachedSpiceRequest<T> request,
@@ -27,5 +30,4 @@ public interface RequestProgressReporter {
 
     <T> void clearNotificationsForRequest(final CachedSpiceRequest<T> request, 
             final Set<RequestListener<?>> listeners);
-
 }

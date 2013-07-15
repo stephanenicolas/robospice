@@ -17,6 +17,7 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestStatus;
+import com.octo.android.robospice.stub.PendingRequestListenerWithProgressStub;
 import com.octo.android.robospice.stub.RequestListenerStub;
 import com.octo.android.robospice.stub.RequestListenerWithProgressHistoryStub;
 import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
@@ -382,11 +383,11 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     }
 
-    public void test_addListenerIfPending_receives_no_events_when_there_is_no_request_pending() throws InterruptedException {
+    public void test_addListenerIfPending_receives_no_events_except_request_not_found_when_there_is_no_request_pending() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS);
-        RequestListenerWithProgressStub<String> requestListenerStub = new RequestListenerWithProgressStub<String>();
+        PendingRequestListenerWithProgressStub<String> requestListenerStub = new PendingRequestListenerWithProgressStub<String>();
 
         // when
         spiceManager.addListenerIfPending(TEST_CLASS, TEST_CACHE_KEY, requestListenerStub);
@@ -397,6 +398,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertNull(requestListenerStub.isSuccessful());
         assertFalse(requestListenerStub.isComplete());
         assertNull(requestListenerStub.getReceivedException());
+        assertTrue(requestListenerStub.isRequestNotFound());
     }
 
     public void test_shouldStop_stops_requests_immediatly() throws InterruptedException {

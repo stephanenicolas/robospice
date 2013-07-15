@@ -105,6 +105,8 @@ public class RequestProcessor {
 
             if (request.isProcessable()) {
                 progressMonitor.notifyListenersOfRequestAdded(request, listRequestListener);
+            } else if (listRequestListenerForThisRequest == null) {
+                progressMonitor.notifyListenersOfRequestNotFound(request, listRequestListener);
             }
         }
 
