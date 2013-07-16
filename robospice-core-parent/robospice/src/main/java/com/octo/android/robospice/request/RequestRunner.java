@@ -20,6 +20,12 @@ import com.octo.android.robospice.priority.PriorityRunnable;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
+/**
+ * Processes requests. This class is massively multi-threaded and offers good
+ * performances when processing multiple requests simulaneously.
+ * @author SNI
+ * @author Andrew Clark
+ */
 public class RequestRunner {
     // ============================================================================================
     // ATTRIBUTES
@@ -35,36 +41,26 @@ public class RequestRunner {
     private final Context applicationContext;
     private boolean failOnCacheError;
     private final NetworkStateChecker networkStateChecker;
-    private final RequestProgressManager progressMonitor;
+    private final RequestProgressManager requestProgressManager;
 
     // ============================================================================================
     // CONSTRUCTOR
     // ====================================================================================
 
-    public RequestRunner(final Context context, final ICacheManager cacheManager,
-            final ExecutorService executorService, 
-            final RequestProgressManager requestProgressBroadcaster,
-            final NetworkStateChecker networkStateChecker) {
+    public RequestRunner(final Context context, final ICacheManager cacheManager, final ExecutorService executorService, final RequestProgressManager requestProgressBroadcaster,
+        final NetworkStateChecker networkStateChecker) {
         this.applicationContext = context;
         this.cacheManager = cacheManager;
         this.networkStateChecker = networkStateChecker;
 
         this.executorService = executorService;
-        this.progressMonitor = requestProgressBroadcaster;
+        this.requestProgressManager = requestProgressBroadcaster;
 
         this.networkStateChecker.checkPermissions(context);
     }
 
     public void executeRequest(CachedSpiceRequest<?> request) {
         planRequestExecution(request);
-    }
-
-    private static String getTimeString(long millis) {
-        return String.format("%02d ms", millis);
-    }
-
-    private void printRequestProcessingDuration(long startTime, CachedSpiceRequest<?> request) {
-        Ln.d("It tooks %s to process request %s.", getTimeString(System.currentTimeMillis() - startTime), request.toString());
     }
 
     protected <T> void processRequest(final CachedSpiceRequest<T> request) {
@@ -76,8 +72,7 @@ public class RequestRunner {
         // add a progress listener to the request to be notified of
         // progress during load data from network
 
-        final RequestProgressListener requestProgressListener = progressMonitor
-                .createProgressListener(request);
+        final RequestProgressListener requestProgressListener = requestProgressManager.createProgressListener(request);
 
         request.setRequestProgressListener(requestProgressListener);
 
@@ -91,7 +86,7 @@ public class RequestRunner {
                 // request
                 if (result != null) {
                     Ln.d("Request loaded from cache : " + request + " result=" + result);
-                    progressMonitor.notifyListenersOfRequestSuccess(request, result);
+                    requestProgressManager.notifyListenersOfRequestSuccess(request, result);
                     printRequestProcessingDuration(startTime, request);
                     return;
                 } else if (request.isAcceptingDirtyCache()) {
@@ -100,7 +95,7 @@ public class RequestRunner {
                     // want an update from network.
                     result = loadDataFromCache(request.getResultType(), request.getRequestCacheKey(), DurationInMillis.ALWAYS_RETURNED);
                     if (result != null) {
-                        progressMonitor.notifyListenersOfRequestSuccessButDontCompleteRequest(request, result);
+                        requestProgressManager.notifyListenersOfRequestSuccessButDontCompleteRequest(request, result);
                     }
                 }
             } catch (final SpiceException e) {
@@ -160,7 +155,7 @@ public class RequestRunner {
                     printRequestProcessingDuration(startTime, request);
                     return;
                 }
-                progressMonitor.notifyListenersOfRequestSuccess(request, result);
+                requestProgressManager.notifyListenersOfRequestSuccess(request, result);
                 printRequestProcessingDuration(startTime, request);
                 return;
             } catch (final SpiceException e) {
@@ -179,7 +174,7 @@ public class RequestRunner {
                     // point after a success of load
                     // data from
                     // network
-                    progressMonitor.notifyListenersOfRequestSuccess(request, result);
+                    requestProgressManager.notifyListenersOfRequestSuccess(request, result);
                 }
                 cacheManager.removeDataFromCache(request.getResultType(), request.getRequestCacheKey());
                 Ln.d(e, "Cache file deleted.");
@@ -188,7 +183,7 @@ public class RequestRunner {
             // result can't be saved to cache but we reached
             // that point after a success of load data from
             // network
-            progressMonitor.notifyListenersOfRequestSuccess(request, result);
+            requestProgressManager.notifyListenersOfRequestSuccess(request, result);
             printRequestProcessingDuration(startTime, request);
             return;
         }
@@ -215,27 +210,6 @@ public class RequestRunner {
         request.setFuture(future);
     }
 
-    private void handleRetry(final CachedSpiceRequest<?> request, final SpiceException e) {
-        if (request.getRetryPolicy() != null) {
-            request.getRetryPolicy().retry(e);
-            if (request.getRetryPolicy().getRetryCount() > 0) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(request.getRetryPolicy().getDelayBeforeRetry());
-                            planRequestExecution(request);
-                        } catch (InterruptedException e) {
-                            Ln.e(e, "Retry attempt failed for request " + request);
-                        }
-                    }
-                }).start();
-                return;
-            }
-        }
-        progressMonitor.notifyListenersOfRequestFailure(request, e);
-    }
-
     /**
      * @return true if network is available.
      */
@@ -250,7 +224,6 @@ public class RequestRunner {
     public static boolean hasNetworkPermission(final Context context) {
         return context.getPackageManager().checkPermission("android.permission.INTERNET", context.getPackageName()) == PackageManager.PERMISSION_GRANTED;
     }
-
 
     public boolean isFailOnCacheError() {
         return failOnCacheError;
@@ -270,5 +243,34 @@ public class RequestRunner {
 
     private <T> T saveDataToCacheAndReturnData(final T data, final Object cacheKey) throws CacheSavingException, CacheCreationException {
         return cacheManager.saveDataToCacheAndReturnData(data, cacheKey);
+    }
+
+    private void handleRetry(final CachedSpiceRequest<?> request, final SpiceException e) {
+        if (request.getRetryPolicy() != null) {
+            request.getRetryPolicy().retry(e);
+            if (request.getRetryPolicy().getRetryCount() > 0) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(request.getRetryPolicy().getDelayBeforeRetry());
+                            planRequestExecution(request);
+                        } catch (InterruptedException e) {
+                            Ln.e(e, "Retry attempt failed for request " + request);
+                        }
+                    }
+                }).start();
+                return;
+            }
+        }
+        requestProgressManager.notifyListenersOfRequestFailure(request, e);
+    }
+
+    private static String getTimeString(long millis) {
+        return String.format("%02d ms", millis);
+    }
+
+    private static void printRequestProcessingDuration(long startTime, CachedSpiceRequest<?> request) {
+        Ln.d("It tooks %s to process request %s.", getTimeString(System.currentTimeMillis() - startTime), request.toString());
     }
 }

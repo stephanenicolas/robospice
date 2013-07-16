@@ -21,8 +21,7 @@ public abstract class SpringAndroidObjectPersister<T> extends InFileObjectPersis
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-    public SpringAndroidObjectPersister(Application application, Class<T> clazz, File cacheFolder)
-        throws CacheCreationException {
+    public SpringAndroidObjectPersister(Application application, Class<T> clazz, File cacheFolder) throws CacheCreationException {
         super(application, clazz, cacheFolder);
     }
 
@@ -37,7 +36,10 @@ public abstract class SpringAndroidObjectPersister<T> extends InFileObjectPersis
     @Override
     protected T readCacheDataFromFile(File file) throws CacheLoadingException {
         try {
-            String resultJson = FileUtils.readFileToString(file, CharEncoding.UTF_8);
+            String resultJson = null;
+            synchronized (file.getAbsolutePath().intern()) {
+                resultJson = FileUtils.readFileToString(file, CharEncoding.UTF_8);
+            }
             if (!StringUtils.isEmpty(resultJson)) {
                 T result = deserializeData(resultJson);
                 return result;

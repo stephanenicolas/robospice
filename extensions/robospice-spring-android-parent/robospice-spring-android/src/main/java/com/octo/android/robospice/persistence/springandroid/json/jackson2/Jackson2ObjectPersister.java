@@ -27,8 +27,7 @@ public final class Jackson2ObjectPersister<T> extends SpringAndroidObjectPersist
     // CONSTRUCTOR
     // ============================================================================================
 
-    public Jackson2ObjectPersister(Application application, Class<T> clazz, File cacheFolder)
-        throws CacheCreationException {
+    public Jackson2ObjectPersister(Application application, Class<T> clazz, File cacheFolder) throws CacheCreationException {
         super(application, clazz, cacheFolder);
         this.mJsonMapper = new ObjectMapper();
     }
@@ -56,11 +55,13 @@ public final class Jackson2ObjectPersister<T> extends SpringAndroidObjectPersist
         // transform the content in json to store it in the cache
         resultJson = mJsonMapper.writeValueAsString(data);
 
-        // finally store the json in the cache
-        if (!StringUtils.isEmpty(resultJson)) {
-            FileUtils.writeStringToFile(getCacheFile(cacheKey), resultJson, CharEncoding.UTF_8);
-        } else {
-            throw new CacheSavingException("Data was null and could not be serialized in json");
+        synchronized (getCacheFile(cacheKey).getAbsolutePath().intern()) {
+            // finally store the json in the cache
+            if (!StringUtils.isEmpty(resultJson)) {
+                FileUtils.writeStringToFile(getCacheFile(cacheKey), resultJson, CharEncoding.UTF_8);
+            } else {
+                throw new CacheSavingException("Data was null and could not be serialized in json");
+            }
         }
     }
 

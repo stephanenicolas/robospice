@@ -15,6 +15,11 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 
+/**
+ * Default implementation of RequestProgressReporter. It will notify listeners
+ * on the ui thread.
+ * @author Andrew Clark
+ */
 public class DefaultRequestProgressReporter implements RequestProgressReporter {
     // ============================================================================================
     // ATTRIBUTES
@@ -33,10 +38,9 @@ public class DefaultRequestProgressReporter implements RequestProgressReporter {
     }
 
     @Override
-    public <T> void notifyListenersOfRequestNotFound(final CachedSpiceRequest<T> request, 
-            final Set<RequestListener<?>> listRequestListener) {
-    
-        for (final RequestListener<?> listener: listRequestListener) {
+    public <T> void notifyListenersOfRequestNotFound(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listRequestListener) {
+
+        for (final RequestListener<?> listener : listRequestListener) {
             if (listener instanceof PendingRequestListener) {
                 post(new Runnable() {
                     @Override
@@ -49,52 +53,42 @@ public class DefaultRequestProgressReporter implements RequestProgressReporter {
     }
 
     @Override
-    public <T> void notifyListenersOfRequestAdded(final CachedSpiceRequest<T> request,
-            Set<RequestListener<?>> listeners) {
+    public <T> void notifyListenersOfRequestAdded(final CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
+        // does nothing for now
     }
 
     @Override
-    public <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<T> request,
-            final Set<RequestListener<?>> listeners,
-            final RequestProgress progress) {
+    public <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listeners, final RequestProgress progress) {
 
-        post(new ProgressRunnable(listeners, progress),
-                request.getRequestCacheKey());
+        post(new ProgressRunnable(listeners, progress), request.getRequestCacheKey());
     }
 
     @Override
-    public <T> void notifyListenersOfRequestSuccess(final CachedSpiceRequest<T> request,
-            final T result, final Set<RequestListener<?>> listeners) {
+    public <T> void notifyListenersOfRequestSuccess(final CachedSpiceRequest<T> request, final T result, final Set<RequestListener<?>> listeners) {
 
-        post(new ResultRunnable<T>(listeners, result),
-                request.getRequestCacheKey());
+        post(new ResultRunnable<T>(listeners, result), request.getRequestCacheKey());
     }
 
     @Override
-    public <T> void notifyListenersOfRequestFailure(final CachedSpiceRequest<T> request,
-            final SpiceException e, final Set<RequestListener<?>> listeners) {
+    public <T> void notifyListenersOfRequestFailure(final CachedSpiceRequest<T> request, final SpiceException e, final Set<RequestListener<?>> listeners) {
 
         post(new ResultRunnable<T>(listeners, e), request.getRequestCacheKey());
     }
 
     @Override
-    public <T> void notifyListenersOfRequestCancellation(final CachedSpiceRequest<T> request,
-            final Set<RequestListener<?>> listeners) {
+    public <T> void notifyListenersOfRequestCancellation(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listeners) {
 
-        post(new ResultRunnable<T>(listeners, new RequestCancelledException(
-                "Request has been cancelled explicitely.")),
-                request.getRequestCacheKey());
+        post(new ResultRunnable<T>(listeners, new RequestCancelledException("Request has been cancelled explicitely.")), request.getRequestCacheKey());
     }
 
     @Override
-    public <T> void clearNotificationsForRequest(final CachedSpiceRequest<T> request,
-            final Set<RequestListener<?>> listeners) {
+    public <T> void clearNotificationsForRequest(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listeners) {
 
         handlerResponse.removeCallbacksAndMessages(request.getRequestCacheKey());
     }
 
     // ============================================================================================
-    // PRIVATE
+    // INNER CLASSES
     // ============================================================================================
 
     private static class ProgressRunnable implements Runnable {

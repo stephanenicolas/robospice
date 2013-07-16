@@ -30,7 +30,7 @@ public class RequestProcessor {
     // ============================================================================================
 
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener = Collections.synchronizedMap(new LinkedHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
-    private final RequestProgressManager progressMonitor;
+    private final RequestProgressManager requestProgressManager;
     private final RequestRunner requestRunner;
     private final ICacheManager cacheManager;
 
@@ -63,8 +63,8 @@ public class RequestProcessor {
             final RequestProgressReporter requestProgressReporter) {
 
         this.cacheManager = cacheManager;
-        this.progressMonitor = new RequestProgressManager(requestProcessorListener, mapRequestToRequestListener, requestProgressReporter);
-        this.requestRunner = new RequestRunner(context, cacheManager, executorService, progressMonitor, networkStateChecker);
+        this.requestProgressManager = new RequestProgressManager(requestProcessorListener, mapRequestToRequestListener, requestProgressReporter);
+        this.requestRunner = new RequestRunner(context, cacheManager, executorService, requestProgressManager, networkStateChecker);
     }
 
     // ============================================================================================
@@ -104,9 +104,9 @@ public class RequestProcessor {
             }
 
             if (request.isProcessable()) {
-                progressMonitor.notifyListenersOfRequestAdded(request, listRequestListener);
+                requestProgressManager.notifyListenersOfRequestAdded(request, listRequestListener);
             } else if (listRequestListenerForThisRequest == null) {
-                progressMonitor.notifyListenersOfRequestNotFound(request, listRequestListener);
+                requestProgressManager.notifyListenersOfRequestNotFound(request, listRequestListener);
             }
         }
 
@@ -119,17 +119,17 @@ public class RequestProcessor {
             @Override
             public void onRequestCancelled() {
                 mapRequestToRequestListener.remove(request);
-                progressMonitor.notifyListenersOfRequestCancellation(request, listRequestListener);
+                requestProgressManager.notifyListenersOfRequestCancellation(request, listRequestListener);
             }
         };
         request.setRequestCancellationListener(requestCancellationListener);
 
         if (request.isCancelled()) {
             mapRequestToRequestListener.remove(request);
-            progressMonitor.notifyListenersOfRequestCancellation(request, listRequestListener);
+            requestProgressManager.notifyListenersOfRequestCancellation(request, listRequestListener);
             return;
         } else if (!request.isProcessable()) {
-            progressMonitor.notifyOfRequestProcessed(request);
+            requestProgressManager.notifyOfRequestProcessed(request);
             return;
         } else {
             requestRunner.executeRequest(request);
@@ -147,7 +147,7 @@ public class RequestProcessor {
      *            notified
      */
     public void dontNotifyRequestListenersForRequest(final CachedSpiceRequest<?> request, final Collection<RequestListener<?>> listRequestListener) {
-        progressMonitor.dontNotifyRequestListenersForRequest(request, listRequestListener);
+        requestProgressManager.dontNotifyRequestListenersForRequest(request, listRequestListener);
     }
 
     public boolean removeDataFromCache(final Class<?> clazz, final Object cacheKey) {
@@ -199,10 +199,10 @@ public class RequestProcessor {
     }
 
     public void addSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
-        progressMonitor.addSpiceServiceListener(spiceServiceServiceListener);
+        requestProgressManager.addSpiceServiceListener(spiceServiceServiceListener);
     }
 
     public void removeSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
-        progressMonitor.removeSpiceServiceListener(spiceServiceServiceListener);
+        requestProgressManager.removeSpiceServiceListener(spiceServiceServiceListener);
     }
 }

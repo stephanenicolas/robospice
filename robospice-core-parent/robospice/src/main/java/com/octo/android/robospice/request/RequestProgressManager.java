@@ -16,6 +16,11 @@ import com.octo.android.robospice.request.listener.RequestStatus;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
 import com.octo.android.robospice.request.reporter.RequestProgressReporter;
 
+/**
+ * Entity responsible for managing request's progress and notifying associated
+ * listeners of any progress change.
+ * @author Andrew Clark
+ */
 public class RequestProgressManager {
     // ============================================================================================
     // ATTRIBUTES
@@ -30,8 +35,8 @@ public class RequestProgressManager {
     // CONSTRUCTOR
     // ============================================================================================
 
-    public RequestProgressManager(final RequestProcessorListener requestProcessorListener, 
-        Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener, final RequestProgressReporter requestProgressReporter) {
+    public RequestProgressManager(final RequestProcessorListener requestProcessorListener, Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener,
+        final RequestProgressReporter requestProgressReporter) {
 
         this.requestProcessorListener = requestProcessorListener;
         this.mapRequestToRequestListener = mapRequestToRequestListener;
@@ -41,13 +46,12 @@ public class RequestProgressManager {
     }
 
     public void notifyListenersOfRequestNotFound(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners) {
-        Ln.d("Request was not found when adding request listeners to existing requests. Now try and call onRequestNotFound");
+        Ln.d("Request was *NOT* found when adding request listeners to existing requests.");
         requestProgressReporter.notifyListenersOfRequestNotFound(request, listeners);
     }
 
-    public <T> void notifyListenersOfRequestAdded(CachedSpiceRequest<T> request,
-            Set<RequestListener<?>> listeners) {
-
+    public <T> void notifyListenersOfRequestAdded(CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
+        Ln.d("Request was found when adding request listeners to existing requests.");
         requestProgressReporter.notifyListenersOfRequestAdded(request, listeners);
         notifyListenersOfRequestProgress(request, listeners, request.getProgress());
     }
@@ -117,6 +121,7 @@ public class RequestProgressManager {
             setRequestListener.removeAll(listRequestListener);
         }
     }
+
     public void addSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
         this.spiceServiceListenerSet.add(spiceServiceServiceListener);
     }
