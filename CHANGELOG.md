@@ -17,6 +17,8 @@ Version 1.4.6 (Planned July 30th 2013)
 * Remove code duplication from RetrofitObjectPersister.loadDataFromCache and instead use readCacheDataFromFile. https://github.com/octo-online/robospice/pull/138. Thx to Jasco.
 * Gradle support, demoed in RoboSpice samples. 
 * Fix argument names in RoboSpiceDatabaseHelper.onUpdate. https://github.com/octo-online/robospice/pull/146. Thx to Joel Jasco for this fix.
+* Fixed exception when writing to cache with an uncached service. https://github.com/octo-online/robospice/pull/135. Thx to Andrew Clark.
+
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
@@ -24,6 +26,7 @@ Version 1.4.6 (Planned July 30th 2013)
 * Pull requests 140 : https://github.com/octo-online/robospice/pull/140 by Andrew Clark
 * SpiceManager could not be re-started properly. Bug fixed by issue https://github.com/octo-online/robospice/issues/128, thx to Bobby Jackson.
 * Remove RequestCancellationListener after requests https://github.com/octo-online/robospice/pull/148. Thx to Michael Greifeneder
+* FIX simple binary/text/bitmap requests indicated success completion when file not found orconnection failed (Issue 126). Thx to Andrew Clark
 
 Version 1.4.5 (June 24th 2013)
 -------------
