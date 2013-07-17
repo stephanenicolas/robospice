@@ -18,7 +18,7 @@ Version 1.4.6 (Planned July 30th 2013)
 * Gradle support, demoed in RoboSpice samples. 
 * Fix argument names in RoboSpiceDatabaseHelper.onUpdate. https://github.com/octo-online/robospice/pull/146. Thx to Joel Jasco for this fix.
 * Fixed exception when writing to cache with an uncached service. https://github.com/octo-online/robospice/pull/135. Thx to Andrew Clark.
-
+* DefaultRetryPolicy getDelayBeforeRetry returns fixed value of 0. https://github.com/octo-online/robospice/issues/129. Thx to Joel Jasco
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
