@@ -19,8 +19,9 @@ Version 1.4.6 (Planned July 30th 2013)
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
 * Pull requests 134 : https://github.com/octo-online/robospice/pull/134 by Andrew Clark
-* Pull requests 140 : https://github.com/octo-online/robospice/pull/ by Andrew Clark
+* Pull requests 140 : https://github.com/octo-online/robospice/pull/140 by Andrew Clark
 * SpiceManager could not be re-started properly. Bug fixed by issue https://github.com/octo-online/robospice/issues/128, thx to Bobby Jackson.
+* Remove RequestCancellationListener after requests https://github.com/octo-online/robospice/pull/148. Thx to Michael Greifeneder
 
 Version 1.4.5 (June 24th 2013)
 -------------
