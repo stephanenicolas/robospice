@@ -89,9 +89,6 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
 
     @Override
     public T saveDataToCacheAndReturnData(final T data, final Object cacheKey) throws CacheSavingException {
-        if (!this.idType.equals(cacheKey.getClass())) {
-            throw new IllegalArgumentException("cacheKey must be a " + idType.getSimpleName());
-        }
         try {
             dao.callBatchTasks(new Callable<Void>() {
                 @Override
