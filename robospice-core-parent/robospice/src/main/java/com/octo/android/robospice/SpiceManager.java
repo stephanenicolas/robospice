@@ -106,16 +106,7 @@ public class SpiceManager implements Runnable {
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapPendingRequestToRequestListener = Collections
         .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(getThreadCount(), new ThreadFactory() {
-
-        @Override
-        public Thread newThread(Runnable arg0) {
-            Thread t = new Thread(arg0);
-            t.setPriority(Thread.MIN_PRIORITY);
-            return t;
-        }
-
-    });
+    private ExecutorService executorService;
 
     /**
      * Lock used to synchronize binding to / unbinding from the
@@ -182,7 +173,16 @@ public class SpiceManager implements Runnable {
         if (runner != null) {
             throw new IllegalStateException("Already started.");
         } else {
+            executorService = Executors.newFixedThreadPool(getThreadCount(), new ThreadFactory() {
 
+                @Override
+                public Thread newThread(Runnable arg0) {
+                    Thread t = new Thread(arg0);
+                    t.setPriority(Thread.MIN_PRIORITY);
+                    return t;
+                }
+
+            });
             // start the binding to the service
             runner = new Thread(this);
             runner.setPriority(Thread.MIN_PRIORITY);
@@ -351,9 +351,9 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-    * @Deprecated 
-    * @See #addListenerIfPending(PendingRequestListener)
-    */
+     * @Deprecated
+     * @See #addListenerIfPending(PendingRequestListener)
+     */
     public <T> void addListenerIfPending(final Class<T> clazz, final Object requestCacheKey, final RequestListener<T> requestListener) {
         final SpiceRequest<T> request = new SpiceRequest<T>(clazz) {
 
@@ -369,9 +369,9 @@ public class SpiceManager implements Runnable {
 
     /**
      * Add listener to a pending request if it exists. If no such request
-     * exists, this method calls onRequestNotFound on the listener. If a
-     * request identified by clazz and requestCacheKey, it will receive an
-     * additional listener.
+     * exists, this method calls onRequestNotFound on the listener. If a request
+     * identified by clazz and requestCacheKey, it will receive an additional
+     * listener.
      * @param clazz
      *            the class of the result of the pending request to look for.
      * @param requestCacheKey
