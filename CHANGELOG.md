@@ -11,6 +11,8 @@ Version 1.4.6 (Planned July 30th 2013)
 * Google Http Client module now has pre-set services for Jackson,Jackson2 and Gson.
 * Complete refactor of the core of RoboSpice : Request processor has now been split into distinct entities. Thx to Andrew Clark. pull request #160
 * addListenerIfPending can nnow notify when no pending request has been found. Thx to Andrew Clark. pull request #160
+* Fix RoboSpiceContentProvider to declare single item URI type as ITEM rather than DIRECTORY. Thx to Joel Steres. Pull request #151
+
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
