@@ -13,7 +13,7 @@ Version 1.4.6 (Planned July 30th 2013)
 * addListenerIfPending can nnow notify when no pending request has been found. Thx to Andrew Clark. pull request #160
 * Fix RoboSpiceContentProvider to declare single item URI type as ITEM rather than DIRECTORY. Thx to Joel Steres. Pull request #151
 * Remove constraint that ormlite extension cacheKey type matches POJO id type. Thx to Joel Steres. Pull request #145
-
+* Update of the starter guide on GitHub. Issue https://github.com/octo-online/robospice/issues/162. Thks to Bobby-Jackson for this fix.
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
