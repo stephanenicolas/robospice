@@ -61,7 +61,7 @@ public class SimpleTextRequestTest extends InstrumentationTestCase {
         SimpleTextRequest loremIpsumTextRequest = new SimpleTextRequest(mockWebServer.getUrl("/").toString());
 
         try {
-            String stringReturned = loremIpsumTextRequest.loadDataFromNetwork();
+            loremIpsumTextRequest.loadDataFromNetwork();
 
             // expected exception
             fail();

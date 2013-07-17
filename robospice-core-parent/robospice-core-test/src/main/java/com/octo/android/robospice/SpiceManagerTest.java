@@ -425,6 +425,28 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertNull(requestListenerStub2.isSuccessful());
     }
 
+    public void test_spiceManager_can_be_stopped_and_restarted() throws InterruptedException {
+        // this has to work to accomadate fragment life cycles.
+
+        // issue https://github.com/octo-online/robospice/issues/128
+
+        // given
+        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.shouldStop();
+
+        spiceManager.start(getInstrumentation().getTargetContext());
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
+
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+
+        // then
+        assertNull(requestListenerStub.isSuccessful());
+    }
+
     public void test_shouldStop_doesnt_notify_listeners_after_requests_are_executed() throws InterruptedException {
         // given
         spiceManager.start(getInstrumentation().getTargetContext());

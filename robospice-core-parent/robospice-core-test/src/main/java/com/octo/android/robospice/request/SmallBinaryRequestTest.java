@@ -61,7 +61,7 @@ public class SmallBinaryRequestTest extends InstrumentationTestCase {
         SmallBinaryRequest binaryRequest = new SmallBinaryRequest(mockWebServer.getUrl("/").toString());
 
         try {
-            InputStream binaryReturned = binaryRequest.loadDataFromNetwork();
+            binaryRequest.loadDataFromNetwork();
 
             // expected exception
             fail();

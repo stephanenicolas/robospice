@@ -67,8 +67,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         ExecutorService executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
         progressReporter = new DefaultRequestProgressReporter();
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, 
-                networkStateChecker, progressReporter);
+        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter);
     }
 
     // ============================================================================================
@@ -670,8 +669,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         requestProcessorListener = EasyMock.createNiceMock(RequestProcessorListener.class);
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, 
-                progressReporter);
+        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter);
 
         CachedSpiceRequestStub<String> stubRequestHighPriority = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);
         stubRequestHighPriority.setPriority(SpiceRequest.PRIORITY_HIGH);
@@ -718,8 +716,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         requestProcessorListener = EasyMock.createNiceMock(RequestProcessorListener.class);
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker,
-                progressReporter);
+        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter);
 
         CachedSpiceRequestStub<String> stubRequestLowPriority = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);
         stubRequestLowPriority.setPriority(SpiceRequest.PRIORITY_LOW);

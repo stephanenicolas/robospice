@@ -90,7 +90,7 @@ public class BitmapRequestTest extends InstrumentationTestCase {
         BitmapRequest binaryRequest = new BitmapRequest(mockWebServer.getUrl("/").toString(), null, cacheFile);
 
         try {
-            Bitmap bitmapReturned = binaryRequest.loadDataFromNetwork();
+            binaryRequest.loadDataFromNetwork();
 
             // expected exception
             fail();
