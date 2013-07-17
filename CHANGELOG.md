@@ -15,7 +15,7 @@ Version 1.4.6 (Planned July 30th 2013)
 * Remove constraint that ormlite extension cacheKey type matches POJO id type. Thx to Joel Steres. Pull request #145
 * Update of the starter guide on GitHub. Issue https://github.com/octo-online/robospice/issues/162. Thks to Bobby-Jackson for this fix.
 * Remove code duplication from RetrofitObjectPersister.loadDataFromCache and instead use readCacheDataFromFile. https://github.com/octo-online/robospice/pull/138. Thx to Jasco.
- 
+* Gradle support, demoed in RoboSpice samples. 
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
