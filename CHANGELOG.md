@@ -16,6 +16,7 @@ Version 1.4.6 (Planned July 30th 2013)
 * Update of the starter guide on GitHub. Issue https://github.com/octo-online/robospice/issues/162. Thks to Bobby-Jackson for this fix.
 * Remove code duplication from RetrofitObjectPersister.loadDataFromCache and instead use readCacheDataFromFile. https://github.com/octo-online/robospice/pull/138. Thx to Jasco.
 * Gradle support, demoed in RoboSpice samples. 
+* Fix argument names in RoboSpiceDatabaseHelper.onUpdate. https://github.com/octo-online/robospice/pull/146. Thx to Joel Jasco for this fix.
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
