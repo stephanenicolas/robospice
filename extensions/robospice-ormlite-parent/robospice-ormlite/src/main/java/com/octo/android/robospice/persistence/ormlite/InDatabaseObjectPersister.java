@@ -32,7 +32,6 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
 public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
 
     private RoboSpiceDatabaseHelper databaseHelper;
-    private Class<ID> idType;
     private RuntimeExceptionDao<T, ID> dao;
     private Uri notificationUri;
 
@@ -40,18 +39,17 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
      * @param application
      *            the android context needed to access android file system or databases to store.
      */
-    public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType, Class<ID> idType) {
-        this(application, databaseHelper, modelObjectType, idType, null);
+    public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType) {
+        this(application, databaseHelper, modelObjectType, null);
     }
 
     /**
      * @param application
      *            the android context needed to access android file system or databases to store.
      */
-    public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType, Class<ID> idType, Uri notificationUri) {
+    public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType, Uri notificationUri) {
         super(application, modelObjectType);
         this.databaseHelper = databaseHelper;
-        this.idType = idType;
         this.notificationUri = notificationUri;
 
         try {
