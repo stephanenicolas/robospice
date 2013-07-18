@@ -10,8 +10,8 @@ import android.content.pm.PackageManager;
 import com.octo.android.robospice.exception.NetworkException;
 import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
+import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
-import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
@@ -37,7 +37,7 @@ public class RequestRunner {
      * >blog article</a>.
      */
     private ExecutorService executorService = null;
-    private final ICacheManager cacheManager;
+    private final CacheManager cacheManager;
     private final Context applicationContext;
     private boolean failOnCacheError;
     private final NetworkStateChecker networkStateChecker;
@@ -47,7 +47,7 @@ public class RequestRunner {
     // CONSTRUCTOR
     // ====================================================================================
 
-    public RequestRunner(final Context context, final ICacheManager cacheManager, final ExecutorService executorService, final RequestProgressManager requestProgressBroadcaster,
+    public RequestRunner(final Context context, final CacheManager cacheManager, final ExecutorService executorService, final RequestProgressManager requestProgressBroadcaster,
         final NetworkStateChecker networkStateChecker) {
         this.applicationContext = context;
         this.cacheManager = cacheManager;

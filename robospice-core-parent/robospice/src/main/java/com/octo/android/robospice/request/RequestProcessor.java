@@ -13,7 +13,7 @@ import android.content.Context;
 
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
-import com.octo.android.robospice.persistence.ICacheManager;
+import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
@@ -32,8 +32,7 @@ public class RequestProcessor {
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener = Collections.synchronizedMap(new LinkedHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
     private final RequestProgressManager requestProgressManager;
     private final RequestRunner requestRunner;
-    private final ICacheManager cacheManager;
-
+    private final CacheManager cacheManager;
 
     // ============================================================================================
     // CONSTRUCTOR
@@ -56,11 +55,8 @@ public class RequestProcessor {
      *            notified when no more requests are left, typically allowing
      *            the {@link SpiceService} to stop itself.
      */
-    public RequestProcessor(final Context context, final ICacheManager cacheManager,
-            final ExecutorService executorService,
-            final RequestProcessorListener requestProcessorListener,
-            final NetworkStateChecker networkStateChecker,
-            final RequestProgressReporter requestProgressReporter) {
+    public RequestProcessor(final Context context, final CacheManager cacheManager, final ExecutorService executorService, final RequestProcessorListener requestProcessorListener,
+        final NetworkStateChecker networkStateChecker, final RequestProgressReporter requestProgressReporter) {
 
         this.cacheManager = cacheManager;
         this.requestProgressManager = new RequestProgressManager(requestProcessorListener, mapRequestToRequestListener, requestProgressReporter);

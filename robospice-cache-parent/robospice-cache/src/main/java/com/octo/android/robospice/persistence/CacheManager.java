@@ -30,6 +30,7 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
  * created by factories at any time. Thx to Henri Tremblay from EasyMock for
  * peer review and concurrency checks.
  */
+@SuppressWarnings("deprecation")
 public class CacheManager implements ICacheManager {
 
     /** The Chain of Responsibility list of all {@link Persister}. */

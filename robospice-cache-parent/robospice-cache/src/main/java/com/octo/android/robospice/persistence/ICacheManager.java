@@ -13,7 +13,10 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
  * interface. Defines the behavior of a cache manager, a bus of
  * {@link ObjectPersister}.
  * @author sni
+ * @deprecated since version 1.4.6 of RS, easymock 3.2 makes this interface
+ *             obsolete.
  */
+@Deprecated
 public interface ICacheManager {
 
     void addPersister(Persister persister);

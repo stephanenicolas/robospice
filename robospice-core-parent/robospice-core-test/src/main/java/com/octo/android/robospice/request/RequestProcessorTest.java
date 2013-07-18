@@ -13,8 +13,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
+import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
-import com.octo.android.robospice.persistence.ICacheManager;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
@@ -46,7 +46,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     private static final long TEST_DELAY_BEFORE_RETRY = WAIT_BEFORE_REQUEST_EXECUTION;
     private static final int TEST_RETRY_COUNT = 3;
 
-    private ICacheManager mockCacheManager;
+    private CacheManager mockCacheManager;
     private RequestProcessor requestProcessorUnderTest;
     private RequestProcessorListener requestProcessorListener;
     private MockNetworkStateChecker networkStateChecker;
@@ -57,7 +57,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         super.setUp();
         // http://stackoverflow.com/q/6516441/693752
         getInstrumentation().waitForIdleSync();
-        mockCacheManager = EasyMock.createMock(ICacheManager.class);
+        mockCacheManager = EasyMock.createMock(CacheManager.class);
         requestProcessorListener = new RequestProcessorListener() {
 
             @Override
@@ -916,14 +916,29 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     // NETWORK STATE CHECKER DEPENDENCY
     // ============================================================================================
 
-    public void testExecute_when_there_is_no_network() {
+    public void testExecute_when_there_is_no_network() throws Exception {
         // given
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+        stubRequest.setRetryPolicy(null);
+
+        RequestListenerStub<String> mockRequestListener = new RequestListenerStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(mockCacheManager);
 
         // when
+        networkStateChecker.setNetworkAvailable(false);
+        requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
+        mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
 
         // then
-
+        EasyMock.verify(mockCacheManager);
+        assertFalse(stubRequest.isLoadDataFromNetworkCalled());
+        assertTrue(mockRequestListener.isExecutedInUIThread());
+        assertFalse(mockRequestListener.isSuccessful());
+        assertTrue(mockRequestListener.getReceivedException() instanceof NoNetworkException);
     }
 
     // ============================================================================================

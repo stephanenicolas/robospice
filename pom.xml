@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Sonatype config to publish on Maven Central -->
@@ -98,8 +99,9 @@
 		<android-platform.version>16</android-platform.version>
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<android-support.version>r7</android-support.version>
-		<easymock.version>3.1</easymock.version>
-		<mockwebserver.version>20130505</mockwebserver.version>
+		<easymock.version>3.2</easymock.version>
+		<dexmaker.version>1.0</dexmaker.version>
+		<mockwebserver.version>20130706</mockwebserver.version>
 		<junit.version>4.11</junit.version>
 		<commons-logging.version>1.1.3</commons-logging.version>
 
@@ -158,6 +160,11 @@
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
 				<version>${easymock.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.dexmaker</groupId>
+				<artifactId>dexmaker</artifactId>
+				<version>${dexmaker.version}</version>
 			</dependency>
 
 			<!-- http://stackoverflow.com/questions/5591811/ignoring-innerclasses-attribute-warning-is-killing-eclipse -->

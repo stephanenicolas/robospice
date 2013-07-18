@@ -25,7 +25,7 @@
 
 	<properties>
 		<spring-android.version>1.0.1.RELEASE</spring-android.version>
-		<simplexmlserializer.version>2.7</simplexmlserializer.version>
+		<simplexmlserializer.version>2.7.1</simplexmlserializer.version>
 		<gson.version>2.2.4</gson.version>
 		<jackson.version>1.9.11</jackson.version>
 		<jackson2.version>2.2.2</jackson2.version>

@@ -37,6 +37,11 @@
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 		</dependency>
+		    <dependency>
+        <groupId>com.google.dexmaker</groupId>
+        <artifactId>dexmaker</artifactId>
+        <optional>true</optional>
+    </dependency>  
 		<dependency>
 			<groupId>com.google.mockwebserver</groupId>
 			<artifactId>mockwebserver</artifactId>
