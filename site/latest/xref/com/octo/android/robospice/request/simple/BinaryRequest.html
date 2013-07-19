@@ -47,10 +47,10 @@
 <a class="jxr_linenumber" name="37" href="#37">37</a>                  httpURLConnection.getInputStream());
 <a class="jxr_linenumber" name="38" href="#38">38</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> MalformedURLException e) {
 <a class="jxr_linenumber" name="39" href="#39">39</a>              Ln.e(e, <span class="jxr_string">"Unable to create URL"</span>);
-<a class="jxr_linenumber" name="40" href="#40">40</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="40" href="#40">40</a>              <strong class="jxr_keyword">throw</strong> e;
 <a class="jxr_linenumber" name="41" href="#41">41</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> IOException e) {
 <a class="jxr_linenumber" name="42" href="#42">42</a>              Ln.e(e, <span class="jxr_string">"Unable to download binary"</span>);
-<a class="jxr_linenumber" name="43" href="#43">43</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="43" href="#43">43</a>              <strong class="jxr_keyword">throw</strong> e;
 <a class="jxr_linenumber" name="44" href="#44">44</a>          }
 <a class="jxr_linenumber" name="45" href="#45">45</a>      }
 <a class="jxr_linenumber" name="46" href="#46">46</a>  

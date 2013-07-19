@@ -22,6 +22,7 @@ com.octo.android.robospice.priority
 com.octo.android.robospice.request
 com.octo.android.robospice.request.googlehttpclient
 com.octo.android.robospice.request.listener
+com.octo.android.robospice.request.reporter
 com.octo.android.robospice.request.retrofit
 com.octo.android.robospice.request.simple
 com.octo.android.robospice.request.springandroid

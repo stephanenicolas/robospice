@@ -16,7 +16,7 @@
 <a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * Default {@link RetryPolicy} implementation. Proposes an exponential back off</em>
 <a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment"> * algorithm. When {@link #getRetryCount()} returns 0, the request is not</em>
 <a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_javadoccomment"> * retried anymore and will fail. Between each retry attempt, the request</em>
-<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment"> * processor will sleel for {@link #getDelayBeforeRetry()} milliseconds.</em>
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment"> * processor will sleep for {@link #getDelayBeforeRetry()} milliseconds.</em>
 <a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_javadoccomment"> * @author SNI</em>
 <a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/octo/android/robospice/retry/DefaultRetryPolicy.html">DefaultRetryPolicy</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../com/octo/android/robospice/retry/RetryPolicy.html">RetryPolicy</a> {
@@ -75,7 +75,7 @@
 <a class="jxr_linenumber" name="65" href="#65">65</a>  
 <a class="jxr_linenumber" name="66" href="#66">66</a>      @Override
 <a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">long</strong> getDelayBeforeRetry() {
-<a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">return</strong> 0;
+<a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">return</strong> delayBeforeRetry;
 <a class="jxr_linenumber" name="69" href="#69">69</a>      }
 <a class="jxr_linenumber" name="70" href="#70">70</a>  
 <a class="jxr_linenumber" name="71" href="#71">71</a>  }

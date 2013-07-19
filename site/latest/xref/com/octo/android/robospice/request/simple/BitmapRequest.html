@@ -109,10 +109,10 @@
 <a class="jxr_linenumber" name="99" href="#99">99</a>              }
 <a class="jxr_linenumber" name="100" href="#100">100</a>         } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> MalformedURLException e) {
 <a class="jxr_linenumber" name="101" href="#101">101</a>             Ln.e(e, <span class="jxr_string">"Unable to create URL"</span>);
-<a class="jxr_linenumber" name="102" href="#102">102</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="102" href="#102">102</a>             <strong class="jxr_keyword">throw</strong> e;
 <a class="jxr_linenumber" name="103" href="#103">103</a>         } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> IOException e) {
 <a class="jxr_linenumber" name="104" href="#104">104</a>             Ln.e(e, <span class="jxr_string">"Unable to download binary"</span>);
-<a class="jxr_linenumber" name="105" href="#105">105</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="105" href="#105">105</a>             <strong class="jxr_keyword">throw</strong> e;
 <a class="jxr_linenumber" name="106" href="#106">106</a>         }
 <a class="jxr_linenumber" name="107" href="#107">107</a>     }
 <a class="jxr_linenumber" name="108" href="#108">108</a> 
