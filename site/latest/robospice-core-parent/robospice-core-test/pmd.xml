@@ -1,8 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2013-06-24T10:01:11.897">
-<file name="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/request/RequestProcessorTest.java">
-<violation beginline="896" endline="896" begincolumn="40" endcolumn="50" rule="UnusedLocalVariable" ruleset="Unused Code Rules" package="com.octo.android.robospice.request" class="RequestProcessorTest" method="testExecute_when_there_is_no_network" variable="stubRequest" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedLocalVariable" priority="3">
-Avoid unused local variables such as 'stubRequest'.
-</violation>
-</file>
+<pmd version="4.3" timestamp="2013-07-19T08:20:46.447">
 </pmd>

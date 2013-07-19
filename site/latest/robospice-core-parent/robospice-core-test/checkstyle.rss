@@ -8,7 +8,7 @@
     <language>en-us</language>
     <copyright>&#169;2012 - 2013</copyright>
     <item>
-      <title>File: 22,
+      <title>File: 23,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -310,6 +310,20 @@
                           <tr>
                 <td>
                   <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice-core-test/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestStub.java">com/octo/android/robospice/stub/SpiceRequestStub.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/robospice-core-parent/robospice-core-test/checkstyle.html#com.octo.android.robospice.stub.PendingRequestListenerWithProgressStub.java">com/octo/android/robospice/stub/PendingRequestListenerWithProgressStub.java</a>
                 </td>
                 <td>
                   0
