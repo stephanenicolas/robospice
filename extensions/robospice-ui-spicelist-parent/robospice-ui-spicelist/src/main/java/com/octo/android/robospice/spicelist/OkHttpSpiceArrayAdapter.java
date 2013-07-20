@@ -10,7 +10,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
-import com.octo.android.robospice.request.simple.BitmapRequest;
+import com.octo.android.robospice.request.okhttp.simple.OkHttpBitmapRequest;
 
 /**
  * An adapter that is optimized for {@link SpiceListView} instances. It offers to update ImageViews
@@ -24,24 +24,24 @@ import com.octo.android.robospice.request.simple.BitmapRequest;
  * @param <T>
  *            the type of data displayed by the list.
  */
-public abstract class SpiceArrayAdapter<T> extends BaseSpiceArrayAdapter<T> {
+public abstract class OkHttpSpiceArrayAdapter<T> extends BaseSpiceArrayAdapter<T> {
 
     // ----------------------------
     // --- CONSTRUCTOR
     // ----------------------------
 
-    public SpiceArrayAdapter(Context context, BitmapSpiceManager spiceManagerBinary) {
+    public OkHttpSpiceArrayAdapter(Context context, OkHttpBitmapSpiceManager spiceManagerBinary) {
         this(context, spiceManagerBinary, new ArrayList<T>());
     }
 
-    public SpiceArrayAdapter(Context context, BitmapSpiceManager spiceManagerBinary, T[] objects) {
+    public OkHttpSpiceArrayAdapter(Context context, OkHttpBitmapSpiceManager spiceManagerBinary, T[] objects) {
         this(context, spiceManagerBinary, Arrays.asList(objects));
     }
 
     /**
      * Used for testing only.
      */
-    protected SpiceArrayAdapter(Context context, BitmapSpiceManager spiceManagerBinary, List<T> objects) {
+    protected OkHttpSpiceArrayAdapter(Context context, OkHttpBitmapSpiceManager spiceManagerBinary, List<T> objects) {
         super(context, spiceManagerBinary, objects);
     }
 
@@ -55,7 +55,7 @@ public abstract class SpiceArrayAdapter<T> extends BaseSpiceArrayAdapter<T> {
                 imageIndex);
     }
 
-    public abstract BitmapRequest createRequest(T data, int imageIndex, int requestImageWidth, int requestImageHeight);
+    public abstract OkHttpBitmapRequest createRequest(T data, int imageIndex, int requestImageWidth, int requestImageHeight);
 
     // ----------------------------------
     // INNER CLASSES
@@ -65,10 +65,10 @@ public abstract class SpiceArrayAdapter<T> extends BaseSpiceArrayAdapter<T> {
         private T data;
         private SpiceListItemView<T> spiceListItemView;
         private String tempThumbnailImageFileName = "";
-        private BitmapRequest bitmapRequest;
+        private OkHttpBitmapRequest bitmapRequest;
         private int imageIndex;
 
-        public ThumbnailAsynTask(BitmapRequest request) {
+        public ThumbnailAsynTask(OkHttpBitmapRequest request) {
             this.bitmapRequest = request;
         }
 

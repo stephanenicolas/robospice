@@ -7,11 +7,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- * This {@link ListView} is optimized to display some content that contains
- * image loaded from the network via RoboSpice. It uses a
- * {@link SpiceArrayAdapter} to hold data and create/update views. It can be
- * instanciated programmatically or via XML. Basically, it will load images only
- * when scrolling is stopped.
+ * This {@link ListView} is optimized to display some content that contains image loaded from the
+ * network via RoboSpice. It uses a {@link SpiceArrayAdapter} to hold data and create/update views.
+ * It can be instanciated programmatically or via XML. Basically, it will load images only when
+ * scrolling is stopped.
  * @author sni
  */
 public class SpiceListView extends ListView {
@@ -42,23 +41,21 @@ public class SpiceListView extends ListView {
     @Deprecated
     @Override
     public void setOnScrollListener(OnScrollListener l) {
-        throw new RuntimeException(
-            "OnScrollListener is already used internally by a SpliceListView.");
+        throw new RuntimeException("OnScrollListener is already used internally by a SpliceListView.");
     }
 
     @Override
     public void setAdapter(ListAdapter adapter) {
-        if (!(adapter instanceof SpiceArrayAdapter)) {
-            throw new IllegalArgumentException(
-                "SpiceLists only support SpiceArrayAdapters.");
+        if (!(adapter instanceof BaseSpiceArrayAdapter)) {
+            throw new IllegalArgumentException("SpiceLists only support SpiceArrayAdapters.");
         }
         super.setAdapter(adapter);
 
     }
 
     @Override
-    public SpiceArrayAdapter<?> getAdapter() {
-        return (SpiceArrayAdapter<?>) super.getAdapter();
+    public BaseSpiceArrayAdapter<?> getAdapter() {
+        return (BaseSpiceArrayAdapter<?>) super.getAdapter();
     }
 
     // ----------------------------
@@ -75,14 +72,12 @@ public class SpiceListView extends ListView {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             if (getAdapter() != null) {
-                getAdapter().setNetworkFetchingAllowed(
-                    scrollState == SCROLL_STATE_IDLE);
+                getAdapter().setNetworkFetchingAllowed(scrollState == SCROLL_STATE_IDLE);
             }
         }
 
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem,
-            int visibleItemCount, int totalItemCount) {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         }
     }
 
