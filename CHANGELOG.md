@@ -4,7 +4,18 @@ Release notes for RoboSpice
 Version 1.5.0 (planned)
 -------------
 
-Version 1.4.6 (Planned July 30th 2013)
+Version 1.4.7 (Planned on July 30th 2013)
+-------------
+
+** Enhancements
+* New OkHttp module that allows to use OkHttpClient inside a RoboSpice request.
+
+** Bug fixes
+* Documentation has been updated in RS Starter Guide thanks to Mathieu Castets.
+
+
+
+Version 1.4.6 (July 18th 2013)
 -------------
 
 ** Enhancements
