@@ -17,13 +17,14 @@ import android.graphics.BitmapFactory;
 
 import com.octo.android.robospice.request.ProgressByteProcessor;
 import com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest;
+import com.octo.android.robospice.request.simple.IBitmapRequest;
 
 /**
  * Downloads big images in size as bitmaps. All data is passed to the listener
  * using file system.
  * @author sni
  */
-public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> {
+public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> implements IBitmapRequest {
 
     private static final int BUF_SIZE = 4096;
 
@@ -35,7 +36,8 @@ public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> {
     private int width = -1;
 
     /**
-     * Creates a OkHttpBitmapRequest able to fetch a {@link Bitmap} from the network.
+     * Creates a OkHttpBitmapRequest able to fetch a {@link Bitmap} from the
+     * network.
      * @param url
      *            the url of the bitmap to fetch.
      * @param cacheFile
@@ -46,7 +48,8 @@ public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> {
     }
 
     /**
-     * Creates a OkHttpBitmapRequest able to fetch a {@link Bitmap} from the network.
+     * Creates a OkHttpBitmapRequest able to fetch a {@link Bitmap} from the
+     * network.
      * @param url
      *            the url of the bitmap to fetch.
      * @param options
@@ -62,7 +65,8 @@ public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> {
     }
 
     /**
-     * Creates a OkHttpBitmapRequest able to fetch a {@link Bitmap} from the network.
+     * Creates a OkHttpBitmapRequest able to fetch a {@link Bitmap} from the
+     * network.
      * @param url
      *            the url of the bitmap to fetch.
      * @param width
@@ -110,6 +114,7 @@ public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> {
         return this.url;
     }
 
+    @Override
     public File getCacheFile() {
         return cacheFile;
     }

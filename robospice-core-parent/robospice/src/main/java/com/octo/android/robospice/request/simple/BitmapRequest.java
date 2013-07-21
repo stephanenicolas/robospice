@@ -23,7 +23,7 @@ import com.octo.android.robospice.request.SpiceRequest;
  * using file system.
  * @author sni
  */
-public class BitmapRequest extends SpiceRequest<Bitmap> {
+public class BitmapRequest extends SpiceRequest<Bitmap> implements IBitmapRequest {
 
     private static final int BUF_SIZE = 4096;
 
@@ -110,6 +110,12 @@ public class BitmapRequest extends SpiceRequest<Bitmap> {
         return this.url;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * com.octo.android.robospice.request.simple.IBitmapRequest#getCacheFile()
+     */
+    @Override
     public File getCacheFile() {
         return cacheFile;
     }

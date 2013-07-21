@@ -1,5 +1,7 @@
 package com.octo.android.robospice.spicelist;
 
+import com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.AbsListView;

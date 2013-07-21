@@ -1,5 +1,6 @@
 package com.octo.android.robospice.spicelist;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,8 +25,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
+import com.octo.android.robospice.request.simple.IBitmapRequest;
 
 /**
  * An adapter that is optimized for {@link SpiceListView} instances. It offers to update ImageViews
@@ -146,7 +150,14 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         return (View) spiceListItemView;
     }
 
+    public void performBitmapRequestAsync(SpiceListItemView<T> spiceListItemView, T data, int imageIndex) {
+        new ThumbnailAsynTask(createRequest(data, imageIndex, imageWidth, imageHeight)).execute(data, spiceListItemView,
+                imageIndex);
+    }
+
     public abstract SpiceListItemView<T> createView(Context context, ViewGroup parent);
+
+    public abstract IBitmapRequest createRequest(T data, int imageIndex, int requestImageWidth, int requestImageHeight);
 
     // ----------------------------
     // --- PRIVATE API
@@ -260,11 +271,56 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         return null;
     }
 
-    public abstract void performBitmapRequestAsync(SpiceListItemView<T> spiceListItemView, T data, int imageIndex);
-
     // ----------------------------------
     // INNER CLASSES
     // ----------------------------------
+    protected class ThumbnailAsynTask extends AsyncTask<Object, Void, Boolean> {
+
+        private T data;
+        private SpiceListItemView<T> spiceListItemView;
+        private String tempThumbnailImageFileName = "";
+        private IBitmapRequest bitmapRequest;
+        private int imageIndex;
+
+        public ThumbnailAsynTask(IBitmapRequest request) {
+            this.bitmapRequest = request;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Boolean doInBackground(Object... params) {
+            data = (T) params[0];
+            spiceListItemView = (SpiceListItemView<T>) params[1];
+            imageIndex = (Integer) params[2];
+
+            if (bitmapRequest != null) {
+
+                File tempThumbnailImageFile = bitmapRequest.getCacheFile();
+                tempThumbnailImageFileName = tempThumbnailImageFile.getAbsolutePath();
+                Ln.d("Filename : " + tempThumbnailImageFileName);
+
+                if (!tempThumbnailImageFile.exists()) {
+                    if (isNetworkFetchingAllowed) {
+                        ImageRequestListener imageRequestListener = new ImageRequestListener(data, spiceListItemView, imageIndex,
+                                tempThumbnailImageFileName);
+                        spiceManagerBinary.execute((SpiceRequest<Bitmap>) bitmapRequest, "THUMB_IMAGE_" + data.hashCode(),
+                                DurationInMillis.ALWAYS_EXPIRED, imageRequestListener);
+                    }
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isImageAvailableInCache) {
+            if (isImageAvailableInCache) {
+                loadBitmapAsynchronously(data, spiceListItemView.getImageView(imageIndex), tempThumbnailImageFileName);
+            } else {
+                spiceListItemView.getImageView(imageIndex).setImageDrawable(defaultDrawable);
+            }
+        }
+    }
 
     private class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         private final WeakReference<ImageView> imageViewReference;

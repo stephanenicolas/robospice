@@ -1,4 +1,4 @@
-package com.octo.android.robospice.spicelist;
+package com.octo.android.robospice.spicelist.okhttp;
 
 import android.app.Application;
 

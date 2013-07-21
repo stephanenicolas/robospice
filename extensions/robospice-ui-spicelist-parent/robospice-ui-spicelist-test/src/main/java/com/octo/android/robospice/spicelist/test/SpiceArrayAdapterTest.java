@@ -25,9 +25,9 @@ import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
 import com.octo.android.robospice.request.simple.BitmapRequest;
-import com.octo.android.robospice.spicelist.BitmapSpiceManager;
-import com.octo.android.robospice.spicelist.SpiceArrayAdapter;
 import com.octo.android.robospice.spicelist.SpiceListItemView;
+import com.octo.android.robospice.spicelist.simple.BitmapSpiceManager;
+import com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter;
 
 public class SpiceArrayAdapterTest extends InstrumentationTestCase {
 
