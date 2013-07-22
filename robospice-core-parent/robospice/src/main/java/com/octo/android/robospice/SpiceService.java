@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
@@ -30,9 +31,16 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.RequestProcessor;
 import com.octo.android.robospice.request.RequestProcessorListener;
 import com.octo.android.robospice.request.listener.RequestListener;
+import com.octo.android.robospice.request.listener.RequestStatus;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
+import com.octo.android.robospice.request.observer.ObserverManager;
+import com.octo.android.robospice.request.observer.ObserversNotSupportedException;
+import com.octo.android.robospice.request.observer.RequestObserverFactory;
 import com.octo.android.robospice.request.reporter.DefaultRequestProgressReporter;
 import com.octo.android.robospice.request.reporter.RequestProgressReporter;
+import com.octo.android.robospice.request.reporter.RequestProgressReporterWithObserverSupport;
+import com.octo.android.robospice.request.tracker.RequestTracker;
+import com.octo.android.robospice.request.tracker.RequestTrackerService;
 
 /**
  * This is an abstract class used to manage the cache and provide web service
@@ -79,7 +87,12 @@ public abstract class SpiceService extends Service {
     /** Responsible for persisting data. */
     private CacheManager cacheManager;
 
+    private ObserverManager observerManager;
+    private RequestProgressReporter progressReporter;
+
     private final SelfStopperRequestProcessorListener requestProcessorListener = new SelfStopperRequestProcessorListener();
+
+    private RequestTracker requestTracker;
 
     // ----------------------------------
     // CONSTRUCTOR
@@ -107,6 +120,15 @@ public abstract class SpiceService extends Service {
             Ln.e(new CacheCreationException("createCacheManager() can't create a null cacheManager"));
             stopSelf();
             return;
+        }
+
+        progressReporter = createRequestProgressReporter();
+
+        if (progressReporter instanceof RequestProgressReporterWithObserverSupport)
+        {
+            observerManager = createObserverManager();
+
+            ((RequestProgressReporterWithObserverSupport) progressReporter).setObserverManager(observerManager);
         }
 
         final ExecutorService executorService = getExecutorService();
@@ -140,8 +162,6 @@ public abstract class SpiceService extends Service {
      * @return a {@link RequestProcessor} that will be used to process requests.
      */
     protected RequestProcessor createRequestProcessor(ExecutorService executorService, NetworkStateChecker networkStateChecker) {
-        RequestProgressReporter progressReporter = createRequestProgressReporter();
-
         return new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener,
             networkStateChecker, progressReporter);
     }
@@ -197,6 +217,14 @@ public abstract class SpiceService extends Service {
     }
 
     /**
+     * Creates the Observer Manager. This method is only called if the RequestReporter implements {@linkRequestReporterWithObserverSupport)
+     * @return ({@link ObserverManager)
+     */
+    protected ObserverManager createObserverManager() {
+        return new ObserverManager();
+    }
+
+    /**
      * This method can be overriden in order to create a foreground
      * SpiceService. By default, it will create a notification that can be
      * used to set a spiceService to foreground (depending on the versions of Android, the behavior is different : 
@@ -228,6 +256,9 @@ public abstract class SpiceService extends Service {
     @Override
     public void onDestroy() {
         Ln.d("SpiceService instance destroyed.");
+        if (observerManager != null) {
+            observerManager.stop();
+        }
         super.onDestroy();
     }
 
@@ -256,6 +287,45 @@ public abstract class SpiceService extends Service {
      */
     public int getThreadPriority() {
         return DEFAULT_THREAD_PRIORITY;
+    }
+
+    /**
+     * Registers an Observer Factory so that it will be informed of new requests and can observe them if necessary
+     * @param observerFactory
+     * @throws ObserversNotSupportedException
+     */
+    public void registerObserver(final RequestObserverFactory observerFactory) throws ObserversNotSupportedException {
+        if (!(progressReporter instanceof RequestProgressReporterWithObserverSupport)) {
+            throw new ObserversNotSupportedException();
+        } else {
+            ((RequestProgressReporterWithObserverSupport) progressReporter).registerObserver(observerFactory);
+        }
+    }
+    
+    /**
+     * Enables Request Tracking so that getActiveRequests() can be called.
+     * This will only work if you have used a request progress reporter which suppports (@link RequestProgressReporterWithObserverSupport)
+     * @throws ObserversNotSupportedException
+     */
+    public void enableRequestTracking() throws ObserversNotSupportedException {
+        if (requestTracker == null) {
+            registerObserver(RequestTrackerService.getRequestTrackerFactory());
+
+            // exception may have been thrown if observers not supported
+            requestTracker = RequestTrackerService.getRequestTracker();
+        }
+    }
+
+    /**
+     * 
+     * @return active requests if request tracking is enabled
+     * @throws IllegalStateException otherwise
+     */
+    public Map<CachedSpiceRequest<?>, RequestStatus> getActiveRequests() {
+        if (requestTracker == null) {
+            throw new IllegalStateException("Request Tracker not enabled, please call enableRequestTracking");
+        }
+        return requestTracker.getActiveRequests();
     }
 
     public void addRequest(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listRequestListener) {

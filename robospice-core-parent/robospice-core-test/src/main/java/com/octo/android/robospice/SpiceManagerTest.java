@@ -1,5 +1,6 @@
 package com.octo.android.robospice;
 
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.test.InstrumentationTestCase;
 
 import com.octo.android.robospice.core.test.SpiceTestService;
+import com.octo.android.robospice.core.test.SpiceTestServiceWithObserverAndRequestTrackerSupport;
 import com.octo.android.robospice.exception.RequestCancelledException;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
@@ -24,6 +26,7 @@ import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 import com.octo.android.robospice.stub.SpiceRequestFailingStub;
 import com.octo.android.robospice.stub.SpiceRequestStub;
 import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
+import com.octo.android.robospice.stub.SpiceRequestSucceedingWithSemaphoresStub;
 
 public class SpiceManagerTest extends InstrumentationTestCase {
 
@@ -127,6 +130,39 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
         assertTrue(requestListenerStub.isSuccessful());
         assertTrue(requestListenerStub.isExecutedInUIThread());
+    }
+
+    public void test_execute_2_requests_and_get_active_requests() throws InterruptedException, ExecutionException {
+        // when
+        spiceManager = new SpiceManagerUnderTest(SpiceTestServiceWithObserverAndRequestTrackerSupport.class);
+
+        spiceManager.start(getInstrumentation().getTargetContext());
+
+        SpiceRequestSucceedingWithSemaphoresStub<String> spiceRequestStub = new SpiceRequestSucceedingWithSemaphoresStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
+        RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
+        CachedSpiceRequest<String> cachedRequest = new CachedSpiceRequest<String>(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION);
+
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
+        RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
+        CachedSpiceRequest<String> cachedRequest2 = new CachedSpiceRequest<String>(spiceRequestStub, TEST_CACHE_KEY2, TEST_DURATION);
+
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
+
+        spiceRequestStub.waitForLoadFromNetwork();
+
+        // wait for half a second (observers)
+        Thread.sleep(SPICE_MANAGER_WAIT_TIMEOUT);
+
+        // test
+        Map<CachedSpiceRequest<?>, RequestStatus> activeRequests = spiceManager.getActiveRequests().get();
+
+        assertEquals(2, activeRequests.size());
+        assertEquals(RequestStatus.LOADING_FROM_NETWORK, activeRequests.get(cachedRequest));
+        assertEquals(RequestStatus.PENDING, activeRequests.get(cachedRequest2));
+
+        spiceRequestStub.allowRequestToFinish();
     }
 
     public void test_execute_executes_1_request_that_fails() throws InterruptedException {

@@ -21,11 +21,13 @@
         <service
             android:name=".SpiceTestService"
             android:exported="false" />
-
         <service
             android:name=".InvalidSpiceTestService"
             android:exported="false" />
-
+        <service android:name="SpiceTestServiceWithObserverAndRequestTrackerSupport" >
+        </service>
+        <service android:name="SpiceTestServiceWithObserverSupport" >
+        </service>
     </application>
 
     <instrumentation

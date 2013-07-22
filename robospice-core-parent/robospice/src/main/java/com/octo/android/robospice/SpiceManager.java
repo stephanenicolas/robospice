@@ -28,6 +28,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import com.octo.android.robospice.SpiceService.SpiceServiceBinder;
+import com.octo.android.robospice.command.GetActiveRequestsCommand;
 import com.octo.android.robospice.command.GetAllCacheKeysCommand;
 import com.octo.android.robospice.command.GetAllDataFromCacheCommand;
 import com.octo.android.robospice.command.GetDataFromCacheCommand;
@@ -46,6 +47,7 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.PendingRequestListener;
 import com.octo.android.robospice.request.listener.RequestListener;
+import com.octo.android.robospice.request.listener.RequestStatus;
 import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
 
 /**
@@ -816,6 +818,14 @@ public class SpiceManager implements Runnable {
         }
     }
 
+    /**
+     * 
+     * @return Future object which will contain the active CachedSpiceRequests and their status
+     */
+    public Future<Map<CachedSpiceRequest<?>, RequestStatus>> getActiveRequests() {
+        return executeCommand(new GetActiveRequestsCommand(this));
+    }
+
     public Future<List<Object>> getAllCacheKeys(final Class<?> clazz) {
         return executeCommand(new GetAllCacheKeysCommand(this, clazz));
     }
@@ -1154,7 +1164,7 @@ public class SpiceManager implements Runnable {
         }
     }
 
-    private <T> Future<T> executeCommand(SpiceManagerCommand<T> spiceManagerCommand) {
+    protected <T> Future<T> executeCommand(SpiceManagerCommand<T> spiceManagerCommand) {
         if (executorService.isShutdown()) {
             return null;
         }
