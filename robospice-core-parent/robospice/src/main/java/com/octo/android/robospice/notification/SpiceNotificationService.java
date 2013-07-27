@@ -33,11 +33,8 @@ public abstract class SpiceNotificationService extends Service {
     private NotificationManager notificationManager;
     private SpiceManager spiceManager;
 
-    public static Intent createIntent(final Context context,
-        final Class<? extends SpiceNotificationService> clazz,
-        final Class<? extends SpiceService> spiceServiceClass,
-        final int notificationId, final Class<?> requestResultType,
-        final String cacheKey, final boolean foreground) {
+    public static Intent createIntent(final Context context, final Class<? extends SpiceNotificationService> clazz, final Class<? extends SpiceService> spiceServiceClass, final int notificationId,
+        final Class<?> requestResultType, final String cacheKey, final boolean foreground) {
         final Intent intent = new Intent(context, clazz);
         intent.putExtra(BUNDLE_KEY_NOTIFICATION_ID, notificationId);
         intent.putExtra(BUNDLE_KEY_SERVICE_CLASS, spiceServiceClass);
@@ -56,20 +53,16 @@ public abstract class SpiceNotificationService extends Service {
     @Override
     public final void onStart(final Intent intent, final int startId) {
         super.onStart(intent, startId);
-        notificationId = intent.getIntExtra(BUNDLE_KEY_NOTIFICATION_ID,
-            DEFAULT_ROBOSPICE_NOTIFICATION_ID);
-        requestClass = (Class<?>) intent
-            .getSerializableExtra(BUNDLE_KEY_REQUEST_CLASS);
+        notificationId = intent.getIntExtra(BUNDLE_KEY_NOTIFICATION_ID, DEFAULT_ROBOSPICE_NOTIFICATION_ID);
+        requestClass = (Class<?>) intent.getSerializableExtra(BUNDLE_KEY_REQUEST_CLASS);
         requestCacheKey = intent.getStringExtra(BUNDLE_KEY_REQUEST_CACHE_KEY);
-        spiceServiceClass = (Class<? extends SpiceService>) intent
-            .getSerializableExtra(BUNDLE_KEY_SERVICE_CLASS);
+        spiceServiceClass = (Class<? extends SpiceService>) intent.getSerializableExtra(BUNDLE_KEY_SERVICE_CLASS);
         foreground = intent.getBooleanExtra(BUNDLE_KEY_FOREGROUND, true);
 
         spiceManager = new SpiceManager(spiceServiceClass);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         spiceManager.start(this);
-        spiceManager.addListenerIfPending(requestClass, requestCacheKey,
-            new NotificationRequestListener());
+        spiceManager.addListenerIfPending(requestClass, requestCacheKey, new NotificationRequestListener());
 
         if (foreground) {
             startForeground(notificationId, onCreateForegroundNotification());
@@ -83,20 +76,16 @@ public abstract class SpiceNotificationService extends Service {
     }
 
     public Notification onCreateForegroundNotification() {
-        throw new RuntimeException(
-            "If you use foreground = true, then you must override onCreateForegroundNotification().");
+        throw new RuntimeException("If you use foreground = true, then you must override onCreateForegroundNotification().");
     }
 
-    public abstract Notification onCreateNotificationForRequestFailure(
-        SpiceException ex);
+    public abstract Notification onCreateNotificationForRequestFailure(SpiceException ex);
 
     public abstract Notification onCreateNotificationForRequestSuccess();
 
-    public abstract Notification onCreateNotificationForRequestProgress(
-        RequestProgress requestProgress);
+    public abstract Notification onCreateNotificationForRequestProgress(RequestProgress requestProgress);
 
-    private class NotificationRequestListener<T> implements RequestListener<T>,
-        RequestProgressListener {
+    private class NotificationRequestListener<T> implements RequestListener<T>, RequestProgressListener {
 
         @Override
         public void onRequestFailure(final SpiceException arg0) {

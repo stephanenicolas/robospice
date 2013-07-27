@@ -9,7 +9,6 @@ import com.octo.android.robospice.persistence.exception.CacheSavingException;
 /***
  * Concrete implementation of {@link SpiceService} with an empty CacheManager.
  * Using this class, requests will not be cached.
- * 
  * @author rciovati
  */
 public class UncachedSpiceService extends SpiceService {
@@ -19,8 +18,7 @@ public class UncachedSpiceService extends SpiceService {
         // Just return an empty CacheManager
         return new CacheManager() {
             @Override
-            public <T> T saveDataToCacheAndReturnData(T data, Object cacheKey)
-                throws CacheSavingException, CacheCreationException {
+            public <T> T saveDataToCacheAndReturnData(T data, Object cacheKey) throws CacheSavingException, CacheCreationException {
 
                 return data;
             }

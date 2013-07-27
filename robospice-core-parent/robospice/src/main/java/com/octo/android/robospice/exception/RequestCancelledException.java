@@ -14,8 +14,7 @@ public class RequestCancelledException extends SpiceException {
         super(detailMessage);
     }
 
-    public RequestCancelledException(final String detailMessage,
-        final Throwable throwable) {
+    public RequestCancelledException(final String detailMessage, final Throwable throwable) {
         super(detailMessage, throwable);
     }
 

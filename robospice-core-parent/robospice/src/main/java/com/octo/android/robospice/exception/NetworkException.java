@@ -14,8 +14,7 @@ public class NetworkException extends SpiceException {
         super(detailMessage);
     }
 
-    public NetworkException(final String detailMessage,
-        final Throwable throwable) {
+    public NetworkException(final String detailMessage, final Throwable throwable) {
         super(detailMessage, throwable);
     }
 

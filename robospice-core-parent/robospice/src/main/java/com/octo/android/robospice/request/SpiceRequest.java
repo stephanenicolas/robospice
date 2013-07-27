@@ -79,10 +79,8 @@ public abstract class SpiceRequest<RESULT> implements Comparable<SpiceRequest<RE
         // thanx to Cyril Mottier for this contribution
         // prevent devs from creating memory leaks by using inner
         // classes of contexts
-        if (getClass().isMemberClass() && Context.class.isAssignableFrom(getClass().getDeclaringClass())
-            && !Modifier.isStatic(getClass().getModifiers())) {
-            throw new IllegalArgumentException(
-                "Requests must be either non-inner classes or a static inner member class of Context : " + getClass());
+        if (getClass().isMemberClass() && Context.class.isAssignableFrom(getClass().getDeclaringClass()) && !Modifier.isStatic(getClass().getModifiers())) {
+            throw new IllegalArgumentException("Requests must be either non-inner classes or a static inner member class of Context : " + getClass());
         }
     }
 

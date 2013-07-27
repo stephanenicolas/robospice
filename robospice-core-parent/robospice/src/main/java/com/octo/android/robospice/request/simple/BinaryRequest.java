@@ -31,10 +31,8 @@ public abstract class BinaryRequest extends SpiceRequest<InputStream> {
     @Override
     public final InputStream loadDataFromNetwork() throws Exception {
         try {
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(
-                url).openConnection();
-            return processStream(httpURLConnection.getContentLength(),
-                httpURLConnection.getInputStream());
+            final HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
+            return processStream(httpURLConnection.getContentLength(), httpURLConnection.getInputStream());
         } catch (final MalformedURLException e) {
             Ln.e(e, "Unable to create URL");
             throw e;
@@ -56,14 +54,12 @@ public abstract class BinaryRequest extends SpiceRequest<InputStream> {
      *            stream of the download
      * @return an inputstream containing the download
      */
-    public abstract InputStream processStream(int contentLength,
-        InputStream inputStream) throws IOException;
+    public abstract InputStream processStream(int contentLength, InputStream inputStream) throws IOException;
 
     /**
      * Inspired from Guava com.google.common.io.ByteStreams
      */
-    protected void readBytes(final InputStream in,
-        final ProgressByteProcessor processor) throws IOException {
+    protected void readBytes(final InputStream in, final ProgressByteProcessor processor) throws IOException {
         final byte[] buf = new byte[BUF_SIZE];
         try {
             int amt;

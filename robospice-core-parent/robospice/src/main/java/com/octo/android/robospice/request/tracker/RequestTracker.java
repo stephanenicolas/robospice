@@ -8,7 +8,6 @@ import com.octo.android.robospice.request.listener.RequestStatus;
 /**
  * Request Tracker provides access to the currently active requests
  * @author Andrew.Clark
- *
  */
 public interface RequestTracker {
 

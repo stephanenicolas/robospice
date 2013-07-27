@@ -4,10 +4,10 @@ import com.octo.android.robospice.request.observer.ObserverManager;
 import com.octo.android.robospice.request.observer.RequestObserverFactory;
 
 /**
- * Defines the behaviour of a Request Reporter which supports observers.
- * An instance of a class supporting this interface is required before observers can be used 
+ * Defines the behaviour of a Request Reporter which supports observers. An
+ * instance of a class supporting this interface is required before observers
+ * can be used
  * @author Andrew.Clark
- *
  */
 public interface RequestProgressReporterWithObserverSupport extends RequestProgressReporter {
 

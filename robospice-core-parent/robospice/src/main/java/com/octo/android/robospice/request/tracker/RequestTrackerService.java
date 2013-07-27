@@ -13,11 +13,10 @@ import com.octo.android.robospice.request.observer.RequestObserver;
 import com.octo.android.robospice.request.observer.RequestObserverFactory;
 
 /**
- * The Request Tracker Service is a Request Observer that monitors the progress of all requests
- * and supports obtaining the list of currently active requests and their status.
- * 
+ * The Request Tracker Service is a Request Observer that monitors the progress
+ * of all requests and supports obtaining the list of currently active requests
+ * and their status.
  * @author Andrew.Clark
- *
  */
 public class RequestTrackerService implements RequestObserver, RequestTracker {
 
@@ -30,8 +29,7 @@ public class RequestTrackerService implements RequestObserver, RequestTracker {
         }
     };
 
-    private Map<CachedSpiceRequest<?>, RequestStatus> activeRequestStatus = Collections
-            .synchronizedMap(new HashMap<CachedSpiceRequest<?>, RequestStatus>());
+    private Map<CachedSpiceRequest<?>, RequestStatus> activeRequestStatus = Collections.synchronizedMap(new HashMap<CachedSpiceRequest<?>, RequestStatus>());
 
     // package private for tests
     RequestTrackerService() {
@@ -50,8 +48,7 @@ public class RequestTrackerService implements RequestObserver, RequestTracker {
         Map<CachedSpiceRequest<?>, RequestStatus> activeRequestsSnapshot = new HashMap<CachedSpiceRequest<?>, RequestStatus>();
 
         synchronized (activeRequestStatus) {
-            for (Entry<CachedSpiceRequest<?>, RequestStatus> mapEntry : activeRequestStatus.entrySet())
-            {
+            for (Entry<CachedSpiceRequest<?>, RequestStatus> mapEntry : activeRequestStatus.entrySet()) {
                 activeRequestsSnapshot.put(mapEntry.getKey(), mapEntry.getValue());
             }
         }
@@ -60,8 +57,7 @@ public class RequestTrackerService implements RequestObserver, RequestTracker {
     }
 
     @Override
-    public <RESULT> void onRequestCompleted(CachedSpiceRequest<RESULT> request,
-            RESULT result) {
+    public <RESULT> void onRequestCompleted(CachedSpiceRequest<RESULT> request, RESULT result) {
 
         activeRequestStatus.remove(request);
     }
@@ -77,8 +73,7 @@ public class RequestTrackerService implements RequestObserver, RequestTracker {
     }
 
     @Override
-    public void onRequestProgressUpdated(CachedSpiceRequest<?> request,
-            RequestProgress progress) {
+    public void onRequestProgressUpdated(CachedSpiceRequest<?> request, RequestProgress progress) {
 
         activeRequestStatus.put(request, progress.getStatus());
     }

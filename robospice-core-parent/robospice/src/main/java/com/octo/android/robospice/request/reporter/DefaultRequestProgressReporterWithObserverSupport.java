@@ -10,15 +10,12 @@ import com.octo.android.robospice.request.observer.ObserverManager;
 import com.octo.android.robospice.request.observer.RequestObserverFactory;
 
 /**
- * Default implementation of RequestProgressReporterWithObserverSupport. It will notify listeners
- * on the ui thread and notify the Observer Manager of request changes
- * 
+ * Default implementation of RequestProgressReporterWithObserverSupport. It will
+ * notify listeners on the ui thread and notify the Observer Manager of request
+ * changes
  * @author Andrew.Clark
- *
  */
-public class DefaultRequestProgressReporterWithObserverSupport extends
-        DefaultRequestProgressReporter implements
-        RequestProgressReporterWithObserverSupport {
+public class DefaultRequestProgressReporterWithObserverSupport extends DefaultRequestProgressReporter implements RequestProgressReporterWithObserverSupport {
 
     private ObserverManager observerManager;
 
@@ -31,7 +28,8 @@ public class DefaultRequestProgressReporterWithObserverSupport extends
     }
 
     /**
-     * Called by the Spice service to when an observer factory is being registered
+     * Called by the Spice service to when an observer factory is being
+     * registered
      */
     @Override
     public void registerObserver(RequestObserverFactory observerFactory) {
@@ -39,8 +37,7 @@ public class DefaultRequestProgressReporterWithObserverSupport extends
     }
 
     @Override
-    public <T> void notifyListenersOfRequestAdded(
-            CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
+    public <T> void notifyListenersOfRequestAdded(CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
 
         observerManager.notifyObserversOfRequestAdded(request);
 
@@ -48,8 +45,7 @@ public class DefaultRequestProgressReporterWithObserverSupport extends
     }
 
     @Override
-    public <T> void notifyListenersOfRequestCancellation(
-            CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
+    public <T> void notifyListenersOfRequestCancellation(CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
 
         observerManager.notifyObserversOfRequestCancellation(request);
 
@@ -57,9 +53,7 @@ public class DefaultRequestProgressReporterWithObserverSupport extends
     }
 
     @Override
-    public <T> void notifyListenersOfRequestFailure(
-            CachedSpiceRequest<T> request, SpiceException e,
-            Set<RequestListener<?>> listeners) {
+    public <T> void notifyListenersOfRequestFailure(CachedSpiceRequest<T> request, SpiceException e, Set<RequestListener<?>> listeners) {
 
         observerManager.notifyObserversOfRequestFailure(request, e);
 
@@ -67,9 +61,7 @@ public class DefaultRequestProgressReporterWithObserverSupport extends
     }
 
     @Override
-    public <T> void notifyListenersOfRequestProgress(
-            CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners,
-            RequestProgress progress) {
+    public <T> void notifyListenersOfRequestProgress(CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners, RequestProgress progress) {
 
         observerManager.notifyObserversOfRequestProgress(request, progress);
 
@@ -77,9 +69,7 @@ public class DefaultRequestProgressReporterWithObserverSupport extends
     }
 
     @Override
-    public <T> void notifyListenersOfRequestSuccess(
-            final CachedSpiceRequest<T> request, final T result,
-            final Set<RequestListener<?>> listeners) {
+    public <T> void notifyListenersOfRequestSuccess(final CachedSpiceRequest<T> request, final T result, final Set<RequestListener<?>> listeners) {
 
         observerManager.notifyObserversOfRequestSuccess(request, result);
 

@@ -7,7 +7,6 @@ import com.octo.android.robospice.request.listener.RequestProgress;
 /**
  * An observer which receives request event updates
  * @author Andrew.Clark
- *
  */
 public interface RequestObserver {
 
@@ -36,8 +35,7 @@ public interface RequestObserver {
      * @param request
      * @param progress
      */
-    void onRequestProgressUpdated(CachedSpiceRequest<?> request,
-            RequestProgress progress);
+    void onRequestProgressUpdated(CachedSpiceRequest<?> request, RequestProgress progress);
 
     /**
      * Request has been added

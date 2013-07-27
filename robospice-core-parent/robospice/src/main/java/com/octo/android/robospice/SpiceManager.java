@@ -819,8 +819,8 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * 
-     * @return Future object which will contain the active CachedSpiceRequests and their status
+     * @return Future object which will contain the active CachedSpiceRequests
+     *         and their status
      */
     public Future<Map<CachedSpiceRequest<?>, RequestStatus>> getActiveRequests() {
         return executeCommand(new GetActiveRequestsCommand(this));

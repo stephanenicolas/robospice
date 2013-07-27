@@ -13,15 +13,13 @@ public class ProgressByteProcessor {
     private final long total;
     private SpiceRequest<?> spiceRequest;
 
-    public ProgressByteProcessor(SpiceRequest<?> spiceRequest,
-        final OutputStream bos, final long total) {
+    public ProgressByteProcessor(SpiceRequest<?> spiceRequest, final OutputStream bos, final long total) {
         this.bos = bos;
         this.total = total;
         this.spiceRequest = spiceRequest;
     }
 
-    public boolean processBytes(final byte[] buffer, final int offset,
-        final int length) throws IOException {
+    public boolean processBytes(final byte[] buffer, final int offset, final int length) throws IOException {
         bos.write(buffer, offset, length);
         progress += length - offset;
         spiceRequest.publishProgress((float) progress / total);

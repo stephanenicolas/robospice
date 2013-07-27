@@ -21,11 +21,9 @@ public class SmallBinaryRequest extends BinaryRequest {
     }
 
     @Override
-    public InputStream processStream(final int contentLength,
-        final InputStream inputStream) throws IOException {
+    public InputStream processStream(final int contentLength, final InputStream inputStream) throws IOException {
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        readBytes(inputStream, new ProgressByteProcessor(this, bos,
-            contentLength));
+        readBytes(inputStream, new ProgressByteProcessor(this, bos, contentLength));
 
         final byte[] bytes = bos.toByteArray();
         return new ByteArrayInputStream(bytes);

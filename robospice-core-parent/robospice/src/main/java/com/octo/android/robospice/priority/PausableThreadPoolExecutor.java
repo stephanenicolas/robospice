@@ -22,8 +22,7 @@ public class PausableThreadPoolExecutor extends ThreadPoolExecutor {
      *            {@link Thread#setPriority(int)}.
      */
     public PausableThreadPoolExecutor(int poolSize, int threadPriority) {
-        super(poolSize, poolSize, 0, TimeUnit.NANOSECONDS, new PausablePriorityBlockingQueue<Runnable>(),
-            new CustomizablePriorityThreadFactory(threadPriority));
+        super(poolSize, poolSize, 0, TimeUnit.NANOSECONDS, new PausablePriorityBlockingQueue<Runnable>(), new CustomizablePriorityThreadFactory(threadPriority));
     }
 
     /**
@@ -33,8 +32,7 @@ public class PausableThreadPoolExecutor extends ThreadPoolExecutor {
      *            the size of the pool of threads.
      */
     public PausableThreadPoolExecutor(int poolSize) {
-        super(poolSize, poolSize, 0, TimeUnit.NANOSECONDS, new PausablePriorityBlockingQueue<Runnable>(),
-            new CustomizablePriorityThreadFactory());
+        super(poolSize, poolSize, 0, TimeUnit.NANOSECONDS, new PausablePriorityBlockingQueue<Runnable>(), new CustomizablePriorityThreadFactory());
     }
 
     // ----------------------------------

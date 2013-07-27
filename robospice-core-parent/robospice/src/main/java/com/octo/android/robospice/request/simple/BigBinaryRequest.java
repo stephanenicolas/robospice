@@ -37,21 +37,16 @@ public class BigBinaryRequest extends BinaryRequest {
     }
 
     @Override
-    public InputStream processStream(final int contentLength,
-        final InputStream inputStream) throws IOException {
+    public InputStream processStream(final int contentLength, final InputStream inputStream) throws IOException {
         OutputStream fileOutputStream = null;
         try {
             // touch
-            boolean isTouchedNow = cacheFile.setLastModified(System
-                .currentTimeMillis());
+            boolean isTouchedNow = cacheFile.setLastModified(System.currentTimeMillis());
             if (!isTouchedNow) {
-                Ln.d(
-                    "Modification time of file %s could not be changed normally ",
-                    cacheFile.getAbsolutePath());
+                Ln.d("Modification time of file %s could not be changed normally ", cacheFile.getAbsolutePath());
             }
             fileOutputStream = new FileOutputStream(cacheFile);
-            readBytes(inputStream, new ProgressByteProcessor(this,
-                fileOutputStream, contentLength));
+            readBytes(inputStream, new ProgressByteProcessor(this, fileOutputStream, contentLength));
             return new FileInputStream(cacheFile);
         } finally {
             IOUtils.closeQuietly(fileOutputStream);

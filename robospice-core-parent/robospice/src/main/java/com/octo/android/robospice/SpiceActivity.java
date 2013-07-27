@@ -14,8 +14,7 @@ import android.app.Activity;
  */
 public class SpiceActivity extends Activity {
 
-    private final SpiceManager spiceManager = new SpiceManager(
-        SpiceService.class);
+    private final SpiceManager spiceManager = new SpiceManager(SpiceService.class);
 
     @Override
     protected void onStart() {

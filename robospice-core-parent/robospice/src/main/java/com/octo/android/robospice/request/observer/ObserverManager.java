@@ -21,19 +21,17 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.listener.RequestProgress;
 
 /**
- * The Observer Manager manages observers and passes on request events to the interested observers 
+ * The Observer Manager manages observers and passes on request events to the
+ * interested observers.
  * @author Andrew.Clark
- *
  */
 public class ObserverManager {
 
     private static final int MESSAGE_QUIT = 'X';
 
-    private final Map<CachedSpiceRequest<?>, List<RequestObserver>> mapRequestToObservers = Collections
-            .synchronizedMap(new HashMap<CachedSpiceRequest<?>, List<RequestObserver>>());
+    private final Map<CachedSpiceRequest<?>, List<RequestObserver>> mapRequestToObservers = Collections.synchronizedMap(new HashMap<CachedSpiceRequest<?>, List<RequestObserver>>());
 
-    private final Set<RequestObserverFactory> observerFactories = Collections
-            .synchronizedSet(new HashSet<RequestObserverFactory>());
+    private final Set<RequestObserverFactory> observerFactories = Collections.synchronizedSet(new HashSet<RequestObserverFactory>());
 
     private Handler messageQueue;
     private boolean isQuitLooperRequired = false;
@@ -51,7 +49,8 @@ public class ObserverManager {
     }
 
     /**
-     * Register an observer with the observer manager so that it'll be informed when a new request starts 
+     * Register an observer with the observer manager so that it'll be informed
+     * when a new request starts
      * @param observerFactory
      */
     public void registerObserver(RequestObserverFactory observerFactory) {
@@ -75,6 +74,7 @@ public class ObserverManager {
 
     protected void createMessageQueue(Looper looper) {
         messageQueue = new Handler(looper) {
+            @Override
             public void handleMessage(android.os.Message msg) {
                 if (msg.what == MESSAGE_QUIT) {
                     Ln.d("Observer Message Thread stopped");
@@ -89,7 +89,8 @@ public class ObserverManager {
     }
 
     /**
-     * Stop the observer manager and kill the thread when all messages have been processed
+     * Stop the observer manager and kill the thread when all messages have been
+     * processed
      */
     public void stop() {
         if (messageQueue != null) {
@@ -100,8 +101,8 @@ public class ObserverManager {
     }
 
     /**
-     * Inform the observers of a request. The observers can optionally observe the new request if required
-     *
+     * Inform the observers of a request. The observers can optionally observe
+     * the new request if required
      * @param request
      */
     public void notifyObserversOfRequestAdded(CachedSpiceRequest<?> request) {
@@ -115,11 +116,10 @@ public class ObserverManager {
     }
 
     /**
-     * Ask all the observers if they wish to observer a request and generate a set of interested observers
+     * Ask all the observers if they wish to observer a request and generate a
+     * set of interested observers
      * @param request
-     *
      * @return List of interested observers or empty List if none interested
-     *
      */
     private List<RequestObserver> createObserversForRequest(CachedSpiceRequest<?> request) {
         Ln.d("Creating observers for request");
@@ -161,7 +161,8 @@ public class ObserverManager {
     /**
      * Notify interested observers that the request succeeded
      * @param request
-     * @param result data
+     * @param result
+     *            data
      */
     public <T> void notifyObserversOfRequestSuccess(CachedSpiceRequest<T> request, T result) {
 
@@ -219,7 +220,6 @@ public class ObserverManager {
     /**
      * Runnable to inform interested observers of request added
      * @author Andrew.Clark
-     *
      */
     private static class RequestAddedNotifier implements Runnable {
         private List<RequestObserver> observersForRequest;
@@ -231,6 +231,7 @@ public class ObserverManager {
             this.request = request;
         }
 
+        @Override
         public void run() {
             Ln.d("Processing request added: %s", request);
 
@@ -243,21 +244,20 @@ public class ObserverManager {
     /**
      * Runnable to inform interested observers of request failed
      * @author Andrew.Clark
-     *
      */
     private static class RequestFailedNotifier implements Runnable {
         private List<RequestObserver> observersForRequest;
         private CachedSpiceRequest<?> request;
         private SpiceException e;
 
-        public RequestFailedNotifier(CachedSpiceRequest<?> request, SpiceException e,
-                List<RequestObserver> observersForRequest) {
+        public RequestFailedNotifier(CachedSpiceRequest<?> request, SpiceException e, List<RequestObserver> observersForRequest) {
 
             this.observersForRequest = observersForRequest;
             this.request = request;
             this.e = e;
         }
 
+        @Override
         public void run() {
             Ln.d("Processing request failed: %s due to %s", request, ExceptionUtils.getRootCause(e));
 
@@ -270,7 +270,6 @@ public class ObserverManager {
     /**
      * Runnable to inform interested observers of request completed
      * @author Andrew.Clark
-     *
      * @param <T>
      */
     private static class RequestCompletedNotifier<T> implements Runnable {
@@ -278,14 +277,14 @@ public class ObserverManager {
         private CachedSpiceRequest<T> request;
         private T result;
 
-        public RequestCompletedNotifier(CachedSpiceRequest<T> request, T result,
-                List<RequestObserver> observersForRequest) {
+        public RequestCompletedNotifier(CachedSpiceRequest<T> request, T result, List<RequestObserver> observersForRequest) {
 
             this.observersForRequest = observersForRequest;
             this.request = request;
             this.result = result;
         }
 
+        @Override
         public void run() {
             Ln.d("Processing request completed: %s with result %s", request, result);
 
@@ -298,7 +297,6 @@ public class ObserverManager {
     /**
      * Runnable to inform interested observers of request cancelled
      * @author Andrew.Clark
-     *
      */
     private static class RequestCancelledNotifier implements Runnable {
         private List<RequestObserver> observersForRequest;
@@ -309,6 +307,7 @@ public class ObserverManager {
             this.request = request;
         }
 
+        @Override
         public void run() {
             Ln.d("Processing request cancelled: %s", request);
 
@@ -321,21 +320,20 @@ public class ObserverManager {
     /**
      * Runnable to inform interested observers of request progress
      * @author Andrew.Clark
-     *
      */
     private static class RequestProgressNotifier implements Runnable {
         private List<RequestObserver> observersForRequest;
         private CachedSpiceRequest<?> request;
         private RequestProgress progress;
 
-        public RequestProgressNotifier(CachedSpiceRequest<?> request, RequestProgress progress,
-                List<RequestObserver> observersForRequest) {
+        public RequestProgressNotifier(CachedSpiceRequest<?> request, RequestProgress progress, List<RequestObserver> observersForRequest) {
 
             this.observersForRequest = observersForRequest;
             this.request = request;
             this.progress = progress;
         }
 
+        @Override
         public void run() {
             Ln.d("Processing request progress: %s with %f", request, progress.getProgress());
 
