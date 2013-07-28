@@ -28,7 +28,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import com.octo.android.robospice.SpiceService.SpiceServiceBinder;
-import com.octo.android.robospice.command.GetActiveRequestsCommand;
+import com.octo.android.robospice.command.AddSpiceServiceListenerCommand;
 import com.octo.android.robospice.command.GetAllCacheKeysCommand;
 import com.octo.android.robospice.command.GetAllDataFromCacheCommand;
 import com.octo.android.robospice.command.GetDataFromCacheCommand;
@@ -38,6 +38,7 @@ import com.octo.android.robospice.command.PutDataInCacheCommand;
 import com.octo.android.robospice.command.RemoveAllDataFromCacheCommand;
 import com.octo.android.robospice.command.RemoveDataClassFromCacheCommand;
 import com.octo.android.robospice.command.RemoveDataFromCacheCommand;
+import com.octo.android.robospice.command.RemoveSpiceServiceListenerCommand;
 import com.octo.android.robospice.command.SetFailOnCacheErrorCommand;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
@@ -47,8 +48,8 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.PendingRequestListener;
 import com.octo.android.robospice.request.listener.RequestListener;
-import com.octo.android.robospice.request.listener.RequestStatus;
-import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
+import com.octo.android.robospice.request.listener.SpiceServiceAdapter;
+import com.octo.android.robospice.request.listener.SpiceServiceListener;
 
 /**
  * The instances of this class allow to acces the {@link SpiceService}. <br/>
@@ -818,12 +819,12 @@ public class SpiceManager implements Runnable {
         }
     }
 
-    /**
-     * @return Future object which will contain the active CachedSpiceRequests
-     *         and their status
-     */
-    public Future<Map<CachedSpiceRequest<?>, RequestStatus>> getActiveRequests() {
-        return executeCommand(new GetActiveRequestsCommand(this));
+    public void addSpiceServiceListener(SpiceServiceListener spiceServiceListener) {
+        executeCommand(new AddSpiceServiceListenerCommand(this, spiceServiceListener));
+    }
+
+    public void removeSpiceServiceListener(SpiceServiceListener spiceServiceListener) {
+        executeCommand(new RemoveSpiceServiceListenerCommand(this, spiceServiceListener));
     }
 
     public Future<List<Object>> getAllCacheKeys(final Class<?> clazz) {
@@ -1050,7 +1051,7 @@ public class SpiceManager implements Runnable {
     /**
      * Called when a request has been processed by the {@link SpiceService}.
      */
-    private class RequestRemoverSpiceServiceListener implements SpiceServiceServiceListener {
+    private class RequestRemoverSpiceServiceListener extends SpiceServiceAdapter {
         @Override
         public void onRequestProcessed(final CachedSpiceRequest<?> cachedSpiceRequest) {
             synchronized (mapPendingRequestToRequestListener) {

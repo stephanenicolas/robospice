@@ -1,4 +1,4 @@
-package com.octo.android.robospice.request.reporter;
+package com.octo.android.robospice.request.notifier;
 
 import java.util.Set;
 
@@ -16,11 +16,11 @@ import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 
 /**
- * Default implementation of RequestProgressReporter. It will notify listeners
+ * Default implementation of RequestListenerNotifier. It will notify listeners
  * on the ui thread.
  * @author Andrew Clark
  */
-public class DefaultRequestProgressReporter implements RequestProgressReporter {
+public class DefaultRequestListenerNotifier implements RequestListenerNotifier {
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================
@@ -29,7 +29,7 @@ public class DefaultRequestProgressReporter implements RequestProgressReporter {
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
-    public DefaultRequestProgressReporter() {
+    public DefaultRequestListenerNotifier() {
         handlerResponse = new Handler(Looper.getMainLooper());
     }
 

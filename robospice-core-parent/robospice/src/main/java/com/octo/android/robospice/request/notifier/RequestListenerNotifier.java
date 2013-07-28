@@ -1,4 +1,4 @@
-package com.octo.android.robospice.request.reporter;
+package com.octo.android.robospice.request.notifier;
 
 import java.util.Set;
 
@@ -16,7 +16,7 @@ import com.octo.android.robospice.request.listener.RequestProgressListener;
  * a given {@link RequestProcessor}.
  * @author SNI
  */
-public interface RequestProgressReporter {
+public interface RequestListenerNotifier {
 
     /**
      * Notify listeners that no pending request is found (used by

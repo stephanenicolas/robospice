@@ -7,8 +7,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.core.test.SpiceTestService;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
-import com.octo.android.robospice.request.observer.ObserverTestHelper.MyObserverFactory;
-import com.octo.android.robospice.request.observer.ObserversNotSupportedException;
 
 //Thanks to http://stackoverflow.com/questions/2300029/servicetestcaset-getservice
 @SmallTest
@@ -71,65 +69,4 @@ public class SpiceServiceTest extends ServiceTestCase<SpiceTestService> {
         assertEquals(getService().getThreadPriority(), executorService.getThreadFactory().newThread(null).getPriority());
     }
 
-    public void testRegisterObserverShouldFailIfReporterDoesntSupportObservers() {
-        // when
-        Intent startIntent = new Intent();
-        startIntent.setClass(getContext(), SpiceTestService.class);
-        startService(startIntent);
-
-        try {
-            getService().registerObserver(
-                    new MyObserverFactory(null, 0, null, null, null, null));
-
-            // expected ObserversNotSupportedException
-            fail();
-        } catch (ObserversNotSupportedException e) {
-            // got exception we expected so ok
-            return;
-        }
-    }
-
-    public void testObserverManagerShouldntBeCreatedIfReporterDoesntSupportObservers() {
-        // when
-        Intent startIntent = new Intent();
-        startIntent.setClass(getContext(), SpiceTestService.class);
-        startService(startIntent);
-
-        assertTrue(getService().isRequestReporterCreated());
-        assertFalse(getService().isObserverManagerCreated());
-    }
-
-    public void testEnableRequestTrackingShouldFailIfReporterDoesntSupportObservers() {
-        // when
-        Intent startIntent = new Intent();
-        startIntent.setClass(getContext(), SpiceTestService.class);
-        startService(startIntent);
-
-        try {
-            getService().enableRequestTracking();
-
-            // expected ObserversNotSupportedException
-            fail();
-        } catch (ObserversNotSupportedException e) {
-            // got exception we expected so ok
-            return;
-        }
-    }
-
-    public void testGetActiveRequestsShouldFailIfReporterDoesntSupportObservers() {
-        // when
-        Intent startIntent = new Intent();
-        startIntent.setClass(getContext(), SpiceTestService.class);
-        startService(startIntent);
-
-        try {
-            getService().getActiveRequests();
-
-            // expected IllegalStateException
-            fail();
-        } catch (IllegalStateException e) {
-            // got exception we expected so ok
-            return;
-        }
-    }
 }

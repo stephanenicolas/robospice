@@ -16,8 +16,9 @@ import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestListener;
-import com.octo.android.robospice.request.listener.SpiceServiceServiceListener;
-import com.octo.android.robospice.request.reporter.RequestProgressReporter;
+import com.octo.android.robospice.request.listener.SpiceServiceListener;
+import com.octo.android.robospice.request.notifier.RequestListenerNotifier;
+import com.octo.android.robospice.request.notifier.SpiceServiceListenerNotifier;
 
 /**
  * Delegate class of the {@link SpiceService}, easier to test than an Android
@@ -56,10 +57,10 @@ public class RequestProcessor {
      *            the {@link SpiceService} to stop itself.
      */
     public RequestProcessor(final Context context, final CacheManager cacheManager, final ExecutorService executorService, final RequestProcessorListener requestProcessorListener,
-        final NetworkStateChecker networkStateChecker, final RequestProgressReporter requestProgressReporter) {
+        final NetworkStateChecker networkStateChecker, final RequestListenerNotifier requestListenerNotifier, final SpiceServiceListenerNotifier spiceServiceListenerNotifier) {
 
         this.cacheManager = cacheManager;
-        this.requestProgressManager = new RequestProgressManager(requestProcessorListener, mapRequestToRequestListener, requestProgressReporter);
+        this.requestProgressManager = new RequestProgressManager(requestProcessorListener, mapRequestToRequestListener, requestListenerNotifier, spiceServiceListenerNotifier);
         this.requestRunner = new RequestRunner(context, cacheManager, executorService, requestProgressManager, networkStateChecker);
     }
 
@@ -194,11 +195,11 @@ public class RequestProcessor {
         return stringBuilder.toString();
     }
 
-    public void addSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
-        requestProgressManager.addSpiceServiceListener(spiceServiceServiceListener);
+    public void addSpiceServiceListener(final SpiceServiceListener spiceServiceListener) {
+        requestProgressManager.addSpiceServiceListener(spiceServiceListener);
     }
 
-    public void removeSpiceServiceListener(final SpiceServiceServiceListener spiceServiceServiceListener) {
-        requestProgressManager.removeSpiceServiceListener(spiceServiceServiceListener);
+    public void removeSpiceServiceListener(final SpiceServiceListener spiceServiceListener) {
+        requestProgressManager.removeSpiceServiceListener(spiceServiceListener);
     }
 }

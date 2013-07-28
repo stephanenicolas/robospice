@@ -6,8 +6,6 @@ import android.content.Context;
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
-import com.octo.android.robospice.request.observer.ObserverManager;
-import com.octo.android.robospice.request.reporter.RequestProgressReporter;
 import com.octo.android.robospice.stub.DoubleInMemoryPersisterStub;
 import com.octo.android.robospice.stub.IntegerPersisterStub;
 import com.octo.android.robospice.stub.StringPersisterStub;
@@ -15,15 +13,12 @@ import com.octo.android.robospice.stub.StringPersisterStub;
 /**
  * Only used to test RoboSpice. Will not rely on network state. Multi-threaded
  * spice service.
- * 
  * @author sni
  */
 public class SpiceTestService extends SpiceService {
 
     private static final int TEST_THREAD_COUNT = 3;
     private static final int TEST_THREAD_PRIORITY = Thread.NORM_PRIORITY;
-    private boolean observerManagerCreated = false;
-    private boolean requestReporterCreated = false;
 
     @Override
     public CacheManager createCacheManager(Application application) {
@@ -54,20 +49,6 @@ public class SpiceTestService extends SpiceService {
     }
 
     @Override
-    protected ObserverManager createObserverManager() {
-        observerManagerCreated = true;
-
-        return super.createObserverManager();
-    }
-
-    @Override
-    protected RequestProgressReporter createRequestProgressReporter() {
-        requestReporterCreated = true;
-
-        return super.createRequestProgressReporter();
-    }
-
-    @Override
     public int getThreadCount() {
         return TEST_THREAD_COUNT;
     }
@@ -80,13 +61,5 @@ public class SpiceTestService extends SpiceService {
     @Override
     public boolean isFailOnCacheError() {
         return true;
-    }
-
-    public boolean isObserverManagerCreated() {
-        return observerManagerCreated;
-    }
-
-    public boolean isRequestReporterCreated() {
-        return requestReporterCreated;
     }
 }
