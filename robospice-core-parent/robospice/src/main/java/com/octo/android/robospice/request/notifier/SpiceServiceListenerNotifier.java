@@ -78,8 +78,7 @@ public class SpiceServiceListenerNotifier {
      *            data
      */
     public <T> void notifyObserversOfRequestSuccess(CachedSpiceRequest<T> request) {
-
-        post(new RequestCompletedNotifier<T>(request, spiceServiceListenerList, Thread.currentThread()));
+        post(new RequestSucceededNotifier<T>(request, spiceServiceListenerList, Thread.currentThread()));
     }
 
     /**
@@ -196,12 +195,12 @@ public class SpiceServiceListenerNotifier {
      * @author Andrew.Clark
      * @param <T>
      */
-    private static class RequestCompletedNotifier<T> implements Runnable {
+    private static class RequestSucceededNotifier<T> implements Runnable {
         private List<SpiceServiceListener> spiceServiceListenerList;
         private CachedSpiceRequest<T> request;
         private Thread currentThread;
 
-        public RequestCompletedNotifier(CachedSpiceRequest<T> request, List<SpiceServiceListener> spiceServiceListenerList, Thread currentThread) {
+        public RequestSucceededNotifier(CachedSpiceRequest<T> request, List<SpiceServiceListener> spiceServiceListenerList, Thread currentThread) {
 
             this.spiceServiceListenerList = spiceServiceListenerList;
             this.request = request;
@@ -211,7 +210,7 @@ public class SpiceServiceListenerNotifier {
         @Override
         public void run() {
             for (SpiceServiceListener listener : spiceServiceListenerList) {
-                listener.onRequestCompleted(request, currentThread);
+                listener.onRequestSucceeded(request, currentThread);
             }
         }
     }

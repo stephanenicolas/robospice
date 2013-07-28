@@ -1,7 +1,5 @@
 package com.octo.android.robospice.request.listener;
 
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.SpiceManager.SpiceManagerCommand;
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 
@@ -12,7 +10,7 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
  */
 public class SpiceServiceAdapter implements SpiceServiceListener {
     @Override
-    public void onRequestCompleted(CachedSpiceRequest<?> request, Thread thread) {
+    public void onRequestSucceeded(CachedSpiceRequest<?> request, Thread thread) {
     }
 
     @Override
@@ -33,18 +31,6 @@ public class SpiceServiceAdapter implements SpiceServiceListener {
 
     @Override
     public void onRequestNotFound(CachedSpiceRequest<?> request, Thread thread) {
-    }
-
-    @Override
-    public void onSpiceManagerBound(SpiceManager spiceManager) {
-    }
-
-    @Override
-    public void onSpiceManagerUnBound(SpiceManager spiceManager) {
-    }
-
-    @Override
-    public void onSpiceManagerExecuteCommand(SpiceManagerCommand<?> command, Thread thread) {
     }
 
     @Override

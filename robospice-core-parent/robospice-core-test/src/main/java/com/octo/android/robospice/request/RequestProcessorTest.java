@@ -669,7 +669,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     }
 
     // ============================================================================================
-    // TESTING NETWORK MANAGER DEPENDENCY
+    // TESTING NETWORK MANAGER DEPENDENCY & SPICE LISTENER
     // ============================================================================================
     public void testAddRequestWhenNetworkIsDown() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given
@@ -684,10 +684,10 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         EasyMock.replay(mockCacheManager);
 
         SpiceServiceListener mockSpiceServiceListener = EasyMock.createMock(SpiceServiceListener.class);
-        mockSpiceServiceListener.onRequestAdded((CachedSpiceRequest<String>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
-        mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<String>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestAdded((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
         EasyMock.expectLastCall().anyTimes();
-        mockSpiceServiceListener.onRequestFailed((CachedSpiceRequest<String>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestFailed((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
         EasyMock.replay(mockSpiceServiceListener);
         requestProcessorUnderTest.addSpiceServiceListener(mockSpiceServiceListener);
 
@@ -720,6 +720,14 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
         EasyMock.replay(mockCacheManager);
 
+        SpiceServiceListener mockSpiceServiceListener = EasyMock.createMock(SpiceServiceListener.class);
+        mockSpiceServiceListener.onRequestAdded((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        EasyMock.expectLastCall().anyTimes();
+        mockSpiceServiceListener.onRequestSucceeded((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        EasyMock.replay(mockSpiceServiceListener);
+        requestProcessorUnderTest.addSpiceServiceListener(mockSpiceServiceListener);
+
         // when
         requestProcessorUnderTest.setFailOnCacheError(true);
         networkStateChecker.setNetworkAvailable(false);
@@ -732,11 +740,18 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertTrue(stubRequest.isLoadDataFromNetworkCalled());
         assertTrue(mockRequestListener.isExecutedInUIThread());
         assertTrue(mockRequestListener.isSuccessful());
+        EasyMock.verify(mockSpiceServiceListener);
     }
 
     // ============================================================================================
     // TESTING REQUEST PRIORITY
     // ============================================================================================
+
+    // TODO
+    // both tests need some rewrite. There is no reason to receive 21 times the
+    // success result. They can be received twice before 1 reset, thus
+    // one will be missing.
+    // TODO
 
     /*
      * Those tests are really tricky. We want to test request priority. There
