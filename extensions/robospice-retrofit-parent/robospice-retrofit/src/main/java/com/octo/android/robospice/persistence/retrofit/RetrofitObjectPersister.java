@@ -33,14 +33,12 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
     // CONSTRUCTOR
     // ============================================================================================
 
-    public RetrofitObjectPersister(Application application, Converter converter, Class<T> clazz, File cacheFolder)
-        throws CacheCreationException {
+    public RetrofitObjectPersister(Application application, Converter converter, Class<T> clazz, File cacheFolder) throws CacheCreationException {
         super(application, clazz, cacheFolder);
         this.converter = converter;
     }
 
-    public RetrofitObjectPersister(Application application, Converter converter, Class<T> clazz)
-        throws CacheCreationException {
+    public RetrofitObjectPersister(Application application, Converter converter, Class<T> clazz) throws CacheCreationException {
         this(application, converter, clazz, null);
     }
 
@@ -91,6 +89,7 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected T readCacheDataFromFile(File file) throws CacheLoadingException {
         try {
