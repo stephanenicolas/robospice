@@ -1,5 +1,6 @@
 package com.octo.android.robospice.notification;
 
+import roboguice.util.temp.Ln;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -55,6 +56,10 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
         super.onStart(intent, startId);
         notificationId = intent.getIntExtra(BUNDLE_KEY_NOTIFICATION_ID, DEFAULT_ROBOSPICE_NOTIFICATION_ID);
         spiceServiceClass = (Class<? extends SpiceService>) intent.getSerializableExtra(BUNDLE_KEY_SERVICE_CLASS);
+
+        if (spiceServiceClass == null) {
+            throw new RuntimeException("Please specify a service class to monitor. Use #createIntent as helper.");
+        }
         foreground = intent.getBooleanExtra(BUNDLE_KEY_FOREGROUND, true);
 
         spiceManager = new SpiceManager(spiceServiceClass);
@@ -65,6 +70,7 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
         if (foreground) {
             startForeground(notificationId, onCreateForegroundNotification());
         }
+        Ln.d(getClass().getSimpleName() + " started.");
     }
 
     @Override
@@ -73,7 +79,7 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
         super.onDestroy();
     }
 
-    public SpiceNotification onCreateForegroundNotification() {
+    public Notification onCreateForegroundNotification() {
         throw new RuntimeException("If you use foreground = true, then you must override onCreateForegroundNotification().");
     }
 
@@ -97,15 +103,21 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
     // INNER CLASS
     // ----------------------------------
 
-    public class SpiceNotification extends Notification {
+    public class SpiceNotification {
         private int id;
+        private Notification notification;
 
-        public SpiceNotification(int id) {
+        public SpiceNotification(int id, Notification notification) {
             this.id = id;
+            this.notification = notification;
         }
 
         public int getId() {
             return id;
+        }
+
+        public Notification getNotification() {
+            return notification;
         }
     }
 
@@ -114,49 +126,49 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
         @Override
         public void onRequestSucceeded(CachedSpiceRequest<?> request, Thread thread) {
             final SpiceNotification notification = onCreateNotificationForRequestSucceeded(request, thread);
-            notificationManager.notify(notification.getId(), notification);
+            notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
         public void onRequestFailed(CachedSpiceRequest<?> request, Thread thread) {
             final SpiceNotification notification = onCreateNotificationForRequestFailed(request, thread);
-            notificationManager.notify(notification.getId(), notification);
+            notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
         public void onRequestCancelled(CachedSpiceRequest<?> request, Thread thread) {
             final SpiceNotification notification = onCreateNotificationForRequestCancelled(request, thread);
-            notificationManager.notify(notification.getId(), notification);
+            notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
         public void onRequestProgressUpdated(CachedSpiceRequest<?> request, Thread thread) {
             final SpiceNotification notification = onCreateNotificationForRequestProgressUpdate(request, thread);
-            notificationManager.notify(notification.getId(), notification);
+            notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
         public void onRequestAdded(CachedSpiceRequest<?> request, Thread thread) {
             final SpiceNotification notification = onCreateNotificationForRequestAdded(request, thread);
-            notificationManager.notify(notification.getId(), notification);
+            notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
         public void onRequestNotFound(CachedSpiceRequest<?> request, Thread thread) {
             final SpiceNotification notification = onCreateNotificationForRequestNotFound(request, thread);
-            notificationManager.notify(notification.getId(), notification);
+            notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
         public void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest) {
             final SpiceNotification notification = onCreateNotificationForRequestProcessed(cachedSpiceRequest);
-            notificationManager.notify(notification.getId(), notification);
+            notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
         public void onServiceStopped() {
             final SpiceNotification notification = onCreateNotificationForServiceStopped();
-            notificationManager.notify(notification.getId(), notification);
+            notificationManager.notify(notification.getId(), notification.getNotification());
             stopSelf();
         }
 

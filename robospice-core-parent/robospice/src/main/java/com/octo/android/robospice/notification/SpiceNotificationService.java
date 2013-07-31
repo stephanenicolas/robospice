@@ -64,6 +64,9 @@ public abstract class SpiceNotificationService extends Service {
         super.onStart(intent, startId);
         notificationId = intent.getIntExtra(BUNDLE_KEY_NOTIFICATION_ID, DEFAULT_ROBOSPICE_NOTIFICATION_ID);
         requestClass = (Class<?>) intent.getSerializableExtra(BUNDLE_KEY_REQUEST_CLASS);
+        if (spiceServiceClass == null) {
+            throw new RuntimeException("Please specify a service class to monitor. Use #createIntent as helper.");
+        }
         requestCacheKey = intent.getStringExtra(BUNDLE_KEY_REQUEST_CACHE_KEY);
         spiceServiceClass = (Class<? extends SpiceService>) intent.getSerializableExtra(BUNDLE_KEY_SERVICE_CLASS);
         foreground = intent.getBooleanExtra(BUNDLE_KEY_FOREGROUND, true);
