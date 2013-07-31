@@ -50,6 +50,10 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
         return null;
     }
 
+    public Class<? extends SpiceService> getSpiceServiceClass() {
+        return spiceServiceClass;
+    }
+
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Override
     public final void onStart(final Intent intent, final int startId) {
