@@ -15,6 +15,15 @@ import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.RequestProgressListener;
 import com.octo.android.robospice.request.listener.RequestStatus;
 
+/**
+ * Will create notifications to display the progress of a given request. This
+ * class is a base class to create such a service. Implementations will only
+ * focus on creating notifications to "follow" the status of given request. All
+ * informations about the request to track are provided to the service via an
+ * Intent. This services will be automatically stopped when the requests has
+ * been fully processed.
+ * @author SNI
+ */
 public abstract class SpiceNotificationService extends Service {
 
     private static final int DEFAULT_ROBOSPICE_NOTIFICATION_ID = 70;
@@ -84,6 +93,10 @@ public abstract class SpiceNotificationService extends Service {
     public abstract Notification onCreateNotificationForRequestSuccess();
 
     public abstract Notification onCreateNotificationForRequestProgress(RequestProgress requestProgress);
+
+    // ----------------------------------
+    // INNER CLASS
+    // ----------------------------------
 
     private class NotificationRequestListener<T> implements RequestListener<T>, RequestProgressListener {
 

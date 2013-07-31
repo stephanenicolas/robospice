@@ -36,4 +36,8 @@ public class SpiceServiceAdapter implements SpiceServiceListener {
     @Override
     public void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest) {
     }
+
+    @Override
+    public void onServiceStopped() {
+    }
 }

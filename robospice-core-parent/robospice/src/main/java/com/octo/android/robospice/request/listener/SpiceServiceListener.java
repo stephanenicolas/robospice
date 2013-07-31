@@ -22,4 +22,6 @@ public interface SpiceServiceListener {
     void onRequestNotFound(CachedSpiceRequest<?> request, Thread thread);
 
     void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest);
+
+    void onServiceStopped();
 }
