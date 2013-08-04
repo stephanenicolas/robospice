@@ -51,19 +51,21 @@ public class RequestProgressManager {
     }
 
     public <T> void notifyListenersOfRequestAdded(CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
-        Ln.d("Request was found when adding request listeners to existing requests.");
+        Ln.d("Added a new request ready for executing");
+        requestProcessorListener.requestsInProgress();
+
         requestProgressReporter.notifyListenersOfRequestAdded(request, listeners);
-        notifyListenersOfRequestProgress(request, listeners, request.getProgress());
+        notifyListenersOfRequestProgress(request, listeners, request.getProgress().getStatus());
     }
 
     protected <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners, final RequestStatus status) {
         notifyListenersOfRequestProgress(request, listeners, new RequestProgress(status));
+        checkAllRequestComplete();
     }
 
     public <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners, final RequestProgress progress) {
         Ln.d("Sending progress %s", progress.getStatus());
         requestProgressReporter.notifyListenersOfRequestProgress(request, listeners, progress);
-        checkAllRequestComplete();
     }
 
     protected void checkAllRequestComplete() {

@@ -15,8 +15,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-
 import com.octo.android.robospice.networkstate.DefaultNetworkStateChecker;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
@@ -50,7 +48,7 @@ public abstract class SpiceService extends Service {
     // ----------------------------------
     // CONSTANTS
     // ----------------------------------
-    private static final int NOTIFICATION_ID = 42;
+    protected static final int DEFAULT_NOTIFICATION_ID = 42;
 
     protected static final int DEFAULT_THREAD_COUNT = 1;
     protected static final int DEFAULT_THREAD_PRIORITY = Thread.MIN_PRIORITY;
@@ -111,7 +109,6 @@ public abstract class SpiceService extends Service {
         requestProcessor.setFailOnCacheError(DEFAULT_FAIL_ON_CACHE_ERROR);
 
         notification = createDefaultNotification();
-        startForeground(notification);
 
         Ln.d("SpiceService instance created.");
     }
@@ -201,13 +198,11 @@ public abstract class SpiceService extends Service {
      *         running and processing requests.
      */
     public Notification createDefaultNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(0);
-        builder.setTicker(null);
-        builder.setWhen(System.currentTimeMillis());
-        final Notification note = builder.getNotification();
-        note.flags |= Notification.FLAG_NO_CLEAR;
-        return note;
+        return null;
+    }
+
+    protected int getNotificationId() {
+        return DEFAULT_NOTIFICATION_ID;
     }
 
     @Override
@@ -316,6 +311,13 @@ public abstract class SpiceService extends Service {
 
     private final class SelfStopperRequestProcessorListener implements RequestProcessorListener {
         @Override
+        public void requestsInProgress() {
+            if (notification != null) {
+                startForeground(notification);
+            }
+        }
+
+        @Override
         public void allRequestComplete() {
             currentPendingRequestCount = 0;
             stopIfNotBoundAndHasNoPendingRequests();
@@ -348,8 +350,12 @@ public abstract class SpiceService extends Service {
 
     private void stopIfNotBoundAndHasNoPendingRequests() {
         Ln.v("Pending requests : " + currentPendingRequestCount);
-        if (currentPendingRequestCount == 0 && !isBound) {
-            stopSelf();
+        if (currentPendingRequestCount == 0) {
+            if (!isBound) {
+                stopSelf();
+            } else {
+                stopForeground(true);
+            }
         }
     }
 
@@ -358,7 +364,7 @@ public abstract class SpiceService extends Service {
     private void startForeground(final Notification notification) {
         try {
             final Method setForegroundMethod = Service.class.getMethod("startForeground", int.class, Notification.class);
-            setForegroundMethod.invoke(this, NOTIFICATION_ID, notification);
+            setForegroundMethod.invoke(this, getNotificationId(), notification);
         } catch (final SecurityException e) {
             Ln.e(e, "Unable to start a service in foreground");
         } catch (final NoSuchMethodException e) {

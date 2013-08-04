@@ -63,6 +63,10 @@ public class RequestProcessorTest extends InstrumentationTestCase {
             @Override
             public void allRequestComplete() {
             }
+
+            @Override
+            public void requestsInProgress() {
+            }
         };
         ExecutorService executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
