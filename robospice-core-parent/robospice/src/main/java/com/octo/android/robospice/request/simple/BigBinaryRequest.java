@@ -24,6 +24,13 @@ public class BigBinaryRequest extends BinaryRequest {
 
     protected File cacheFile;
 
+    /**
+     * Creates a BigBinaryRequest using its own cache file to prevent any downloaded data to be stored in memory.
+     * All file received from the network (via a simple http GET request) will be stored directly in the cache file to prevent memory loss.
+     * @param url the url to get the image data from.
+     * @param cacheFile a file used to store image data. Developers will have to handle the cache file erasure by themselves. 
+     * <b>This cache file is not handled by RS caching mechanism in the "normal way". </b>
+     */
     public BigBinaryRequest(final String url, final File cacheFile) {
         super(url);
         this.cacheFile = cacheFile;

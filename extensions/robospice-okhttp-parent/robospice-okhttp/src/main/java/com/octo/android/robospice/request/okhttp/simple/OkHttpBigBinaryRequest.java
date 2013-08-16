@@ -18,12 +18,19 @@ import com.octo.android.robospice.request.ProgressByteProcessor;
  * system. This class is meant to help download big images. If you wish to
  * download smaller documents, you would be better using
  * {@link OkHttpSmallBinaryRequest}.
- * @author sni & jva
+ * @author sni 
  */
 public class OkHttpBigBinaryRequest extends OkHttpBinaryRequest {
 
     protected File cacheFile;
 
+    /**
+     * Creates a OkHttpBigBinaryRequest using its own cache file to prevent any downloaded data to be stored in memory.
+     * All file received from the network (via a simple http GET request) will be stored directly in the cache file to prevent memory loss.
+     * @param url the url to get the image data from.
+     * @param cacheFile a file used to store image data. Developers will have to handle the cache file erasure by themselves.
+     * <b>This cache file is not handled by RS caching mechanism in the "normal way". </b>
+     */
     public OkHttpBigBinaryRequest(final String url, final File cacheFile) {
         super(url);
         this.cacheFile = cacheFile;
