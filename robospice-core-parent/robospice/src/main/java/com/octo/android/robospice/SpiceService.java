@@ -241,6 +241,7 @@ public abstract class SpiceService extends Service {
     public void addRequest(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listRequestListener) {
         currentPendingRequestCount++;
         requestProcessor.addRequest(request, listRequestListener);
+        showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification();
     }
 
     public boolean removeDataFromCache(final Class<?> clazz, final Object cacheKey) {
@@ -298,23 +299,28 @@ public abstract class SpiceService extends Service {
     @Override
     public IBinder onBind(final Intent intent) {
         isBound = true;
+        showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification();
         return mSpiceServiceBinder;
     }
 
     @Override
+    public void onRebind(Intent intent) {
+        isBound = true;
+        showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification();
+        super.onRebind(intent);
+    }
+
+    @Override
     public boolean onUnbind(final Intent intent) {
-        final boolean result = super.onUnbind(intent);
         isBound = false;
+        showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification();
         stopIfNotBoundAndHasNoPendingRequests();
-        return result;
+        return true;
     }
 
     private final class SelfStopperRequestProcessorListener implements RequestProcessorListener {
         @Override
         public void requestsInProgress() {
-            if (notification != null) {
-                startForeground(notification);
-            }
         }
 
         @Override
@@ -353,9 +359,21 @@ public abstract class SpiceService extends Service {
         if (currentPendingRequestCount == 0) {
             if (!isBound) {
                 stopSelf();
-            } else {
-                stopForeground(true);
             }
+        }
+    }
+
+    private void showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification() {
+        if (notification == null) {
+            return;
+        }
+        Ln.v("Pending requests : " + currentPendingRequestCount);
+        if (isBound || currentPendingRequestCount == 0) {
+            Ln.v("Stop foreground");
+            stopForeground(true);
+        } else {
+            Ln.v("Start foreground");
+            startForeground(notification);
         }
     }
 
