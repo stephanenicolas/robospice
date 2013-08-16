@@ -234,6 +234,7 @@
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
+
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
