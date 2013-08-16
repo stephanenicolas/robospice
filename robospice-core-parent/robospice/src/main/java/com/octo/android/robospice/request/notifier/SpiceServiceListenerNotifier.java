@@ -10,7 +10,9 @@ import android.os.Looper;
 import android.os.SystemClock;
 
 import com.octo.android.robospice.request.CachedSpiceRequest;
+import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.SpiceServiceListener;
+import com.octo.android.robospice.request.listener.SpiceServiceListener.RequestProcessingContext;
 
 /**
  * The Observer Manager manages observers and passes on request events to the
@@ -50,7 +52,9 @@ public class SpiceServiceListenerNotifier {
      * @param request
      */
     public void notifyObserversOfRequestNotFound(CachedSpiceRequest<?> request) {
-        post(new RequestNotFoundNotifier(request, spiceServiceListenerList, Thread.currentThread()));
+        RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
+        requestProcessingContext.setExecutionThread(Thread.currentThread());
+        post(new RequestNotFoundNotifier(request, spiceServiceListenerList, requestProcessingContext));
     }
 
     /**
@@ -59,7 +63,9 @@ public class SpiceServiceListenerNotifier {
      * @param request
      */
     public void notifyObserversOfRequestAdded(CachedSpiceRequest<?> request) {
-        post(new RequestAddedNotifier(request, spiceServiceListenerList, Thread.currentThread()));
+        RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
+        requestProcessingContext.setExecutionThread(Thread.currentThread());
+        post(new RequestAddedNotifier(request, spiceServiceListenerList, requestProcessingContext));
     }
 
     /**
@@ -68,7 +74,9 @@ public class SpiceServiceListenerNotifier {
      * @param Exception
      */
     public void notifyObserversOfRequestFailure(CachedSpiceRequest<?> request) {
-        post(new RequestFailedNotifier(request, spiceServiceListenerList, Thread.currentThread()));
+        RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
+        requestProcessingContext.setExecutionThread(Thread.currentThread());
+        post(new RequestFailedNotifier(request, spiceServiceListenerList, requestProcessingContext));
     }
 
     /**
@@ -78,7 +86,9 @@ public class SpiceServiceListenerNotifier {
      *            data
      */
     public <T> void notifyObserversOfRequestSuccess(CachedSpiceRequest<T> request) {
-        post(new RequestSucceededNotifier<T>(request, spiceServiceListenerList, Thread.currentThread()));
+        RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
+        requestProcessingContext.setExecutionThread(Thread.currentThread());
+        post(new RequestSucceededNotifier<T>(request, spiceServiceListenerList, requestProcessingContext));
     }
 
     /**
@@ -86,7 +96,9 @@ public class SpiceServiceListenerNotifier {
      * @param request
      */
     public void notifyObserversOfRequestCancellation(CachedSpiceRequest<?> request) {
-        post(new RequestCancelledNotifier(request, spiceServiceListenerList, Thread.currentThread()));
+        RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
+        requestProcessingContext.setExecutionThread(Thread.currentThread());
+        post(new RequestCancelledNotifier(request, spiceServiceListenerList, requestProcessingContext));
     }
 
     /**
@@ -94,8 +106,11 @@ public class SpiceServiceListenerNotifier {
      * @param request
      * @param progress
      */
-    public void notifyObserversOfRequestProgress(CachedSpiceRequest<?> request) {
-        post(new RequestProgressNotifier(request, spiceServiceListenerList, Thread.currentThread()));
+    public void notifyObserversOfRequestProgress(CachedSpiceRequest<?> request, RequestProgress requestProgress) {
+        RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
+        requestProcessingContext.setExecutionThread(Thread.currentThread());
+        requestProcessingContext.setRequestProgress(requestProgress);
+        post(new RequestProgressNotifier(request, spiceServiceListenerList, requestProcessingContext));
     }
 
     /**
@@ -121,13 +136,13 @@ public class SpiceServiceListenerNotifier {
     private static class RequestAddedNotifier implements Runnable {
         private List<SpiceServiceListener> spiceServiceListenerList;
         private CachedSpiceRequest<?> request;
-        private Thread currentThread;
+        private RequestProcessingContext requestProcessingContext;
 
-        public RequestAddedNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, Thread currentThread) {
+        public RequestAddedNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, RequestProcessingContext requestProcessingContext) {
 
             this.spiceServiceListenerList = spiceServiceListenerList;
             this.request = request;
-            this.currentThread = currentThread;
+            this.requestProcessingContext = requestProcessingContext;
         }
 
         @Override
@@ -135,7 +150,7 @@ public class SpiceServiceListenerNotifier {
             Ln.d("Processing request added: %s", request);
 
             for (SpiceServiceListener listener : spiceServiceListenerList) {
-                listener.onRequestAdded(request, currentThread);
+                listener.onRequestAdded(request, requestProcessingContext);
             }
         }
     }
@@ -147,13 +162,13 @@ public class SpiceServiceListenerNotifier {
     private static class RequestNotFoundNotifier implements Runnable {
         private List<SpiceServiceListener> spiceServiceListenerList;
         private CachedSpiceRequest<?> request;
-        private Thread currentThread;
+        private RequestProcessingContext requestProcessingContext;
 
-        public RequestNotFoundNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, Thread currentThread) {
+        public RequestNotFoundNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, RequestProcessingContext requestProcessingContext) {
 
             this.spiceServiceListenerList = spiceServiceListenerList;
             this.request = request;
-            this.currentThread = currentThread;
+            this.requestProcessingContext = requestProcessingContext;
         }
 
         @Override
@@ -161,7 +176,7 @@ public class SpiceServiceListenerNotifier {
             Ln.d("Processing request not found: %s", request);
 
             for (SpiceServiceListener listener : spiceServiceListenerList) {
-                listener.onRequestNotFound(request, currentThread);
+                listener.onRequestNotFound(request, requestProcessingContext);
             }
         }
     }
@@ -173,19 +188,19 @@ public class SpiceServiceListenerNotifier {
     private static class RequestFailedNotifier implements Runnable {
         private List<SpiceServiceListener> spiceServiceListenerList;
         private CachedSpiceRequest<?> request;
-        private Thread currentThread;
+        private RequestProcessingContext requestProcessingContext;
 
-        public RequestFailedNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, Thread currentThread) {
+        public RequestFailedNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, RequestProcessingContext requestProcessingContext) {
 
             this.spiceServiceListenerList = spiceServiceListenerList;
             this.request = request;
-            this.currentThread = currentThread;
+            this.requestProcessingContext = requestProcessingContext;
         }
 
         @Override
         public void run() {
             for (SpiceServiceListener listener : spiceServiceListenerList) {
-                listener.onRequestFailed(request, currentThread);
+                listener.onRequestFailed(request, requestProcessingContext);
             }
         }
     }
@@ -198,19 +213,19 @@ public class SpiceServiceListenerNotifier {
     private static class RequestSucceededNotifier<T> implements Runnable {
         private List<SpiceServiceListener> spiceServiceListenerList;
         private CachedSpiceRequest<T> request;
-        private Thread currentThread;
+        private RequestProcessingContext requestProcessingContext;
 
-        public RequestSucceededNotifier(CachedSpiceRequest<T> request, List<SpiceServiceListener> spiceServiceListenerList, Thread currentThread) {
+        public RequestSucceededNotifier(CachedSpiceRequest<T> request, List<SpiceServiceListener> spiceServiceListenerList, RequestProcessingContext requestProcessingContext) {
 
             this.spiceServiceListenerList = spiceServiceListenerList;
             this.request = request;
-            this.currentThread = currentThread;
+            this.requestProcessingContext = requestProcessingContext;
         }
 
         @Override
         public void run() {
             for (SpiceServiceListener listener : spiceServiceListenerList) {
-                listener.onRequestSucceeded(request, currentThread);
+                listener.onRequestSucceeded(request, requestProcessingContext);
             }
         }
     }
@@ -222,12 +237,12 @@ public class SpiceServiceListenerNotifier {
     private static class RequestCancelledNotifier implements Runnable {
         private List<SpiceServiceListener> spiceServiceListenerList;
         private CachedSpiceRequest<?> request;
-        private Thread currentThread;
+        private RequestProcessingContext requestProcessingContext;
 
-        public RequestCancelledNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, Thread currentThread) {
+        public RequestCancelledNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, RequestProcessingContext requestProcessingContext) {
             this.spiceServiceListenerList = spiceServiceListenerList;
             this.request = request;
-            this.currentThread = currentThread;
+            this.requestProcessingContext = requestProcessingContext;
         }
 
         @Override
@@ -235,7 +250,7 @@ public class SpiceServiceListenerNotifier {
             Ln.d("Processing request cancelled: %s", request);
 
             for (SpiceServiceListener listener : spiceServiceListenerList) {
-                listener.onRequestCancelled(request, currentThread);
+                listener.onRequestCancelled(request, requestProcessingContext);
             }
         }
     }
@@ -247,19 +262,19 @@ public class SpiceServiceListenerNotifier {
     private static class RequestProgressNotifier implements Runnable {
         private List<SpiceServiceListener> spiceServiceListenerList;
         private CachedSpiceRequest<?> request;
-        private Thread currentThread;
+        private RequestProcessingContext requestProcessingContext;
 
-        public RequestProgressNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, Thread currentThread) {
+        public RequestProgressNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, RequestProcessingContext requestProcessingContext) {
 
             this.spiceServiceListenerList = spiceServiceListenerList;
             this.request = request;
-            this.currentThread = currentThread;
+            this.requestProcessingContext = requestProcessingContext;
         }
 
         @Override
         public void run() {
             for (SpiceServiceListener listener : spiceServiceListenerList) {
-                listener.onRequestProgressUpdated(request, currentThread);
+                listener.onRequestProgressUpdated(request, requestProcessingContext);
             }
         }
     }

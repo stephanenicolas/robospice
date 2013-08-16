@@ -10,27 +10,27 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
  */
 public class SpiceServiceAdapter implements SpiceServiceListener {
     @Override
-    public void onRequestSucceeded(CachedSpiceRequest<?> request, Thread thread) {
+    public void onRequestSucceeded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
     }
 
     @Override
-    public void onRequestFailed(CachedSpiceRequest<?> request, Thread thread) {
+    public void onRequestFailed(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
     }
 
     @Override
-    public void onRequestCancelled(CachedSpiceRequest<?> request, Thread thread) {
+    public void onRequestCancelled(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
     }
 
     @Override
-    public void onRequestProgressUpdated(CachedSpiceRequest<?> request, Thread thread) {
+    public void onRequestProgressUpdated(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
     }
 
     @Override
-    public void onRequestAdded(CachedSpiceRequest<?> request, Thread thread) {
+    public void onRequestAdded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
     }
 
     @Override
-    public void onRequestNotFound(CachedSpiceRequest<?> request, Thread thread) {
+    public void onRequestNotFound(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
     }
 
     @Override

@@ -71,7 +71,7 @@ public class RequestProgressManager {
     public <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners, final RequestProgress progress) {
         Ln.d("Sending progress %s", progress.getStatus());
 
-        spiceServiceListenerNotifier.notifyObserversOfRequestProgress(request);
+        spiceServiceListenerNotifier.notifyObserversOfRequestProgress(request, progress);
         requestListenerNotifier.notifyListenersOfRequestProgress(request, listeners, progress);
         checkAllRequestComplete();
     }

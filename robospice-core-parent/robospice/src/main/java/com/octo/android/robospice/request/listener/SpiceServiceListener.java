@@ -9,19 +9,44 @@ import com.octo.android.robospice.request.CachedSpiceRequest;
  * @author sni
  */
 public interface SpiceServiceListener {
-    void onRequestSucceeded(CachedSpiceRequest<?> request, Thread thread);
+    void onRequestSucceeded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    void onRequestFailed(CachedSpiceRequest<?> request, Thread thread);
+    void onRequestFailed(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    void onRequestCancelled(CachedSpiceRequest<?> request, Thread thread);
+    void onRequestCancelled(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    void onRequestProgressUpdated(CachedSpiceRequest<?> request, Thread thread);
+    void onRequestProgressUpdated(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    void onRequestAdded(CachedSpiceRequest<?> request, Thread thread);
+    void onRequestAdded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    void onRequestNotFound(CachedSpiceRequest<?> request, Thread thread);
+    void onRequestNotFound(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
     void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest);
 
     void onServiceStopped();
+    
+    // ----------------------------------
+    //  INNER CLASS
+    // ----------------------------------
+    
+    public static class RequestProcessingContext {
+        private Thread executionThread;
+        private RequestProgress requestProgress;
+
+        public void setExecutionThread(Thread executionThread) {
+            this.executionThread = executionThread;
+        }
+
+        public Thread getExecutionThread() {
+            return executionThread;
+        }
+
+        public void setRequestProgress(RequestProgress requestProgress) {
+            this.requestProgress = requestProgress;
+        }
+
+        public RequestProgress getRequestProgress() {
+            return requestProgress;
+        }
+    }
 }

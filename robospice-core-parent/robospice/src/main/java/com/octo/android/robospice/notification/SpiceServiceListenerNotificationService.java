@@ -12,6 +12,7 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 import com.octo.android.robospice.request.listener.SpiceServiceListener;
+import com.octo.android.robospice.request.listener.SpiceServiceListener.RequestProcessingContext;
 
 /**
  * Will display updates in the status of a given spice service itself by
@@ -58,6 +59,9 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
     @Override
     public final void onStart(final Intent intent, final int startId) {
         super.onStart(intent, startId);
+        if( intent == null ) {
+            return;
+        }
         notificationId = intent.getIntExtra(BUNDLE_KEY_NOTIFICATION_ID, DEFAULT_ROBOSPICE_NOTIFICATION_ID);
         spiceServiceClass = (Class<? extends SpiceService>) intent.getSerializableExtra(BUNDLE_KEY_SERVICE_CLASS);
 
@@ -89,17 +93,17 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
 
     public abstract SpiceNotification onCreateNotificationForServiceStopped();
 
-    public abstract SpiceNotification onCreateNotificationForRequestSucceeded(CachedSpiceRequest<?> request, Thread thread);
+    public abstract SpiceNotification onCreateNotificationForRequestSucceeded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    public abstract SpiceNotification onCreateNotificationForRequestCancelled(CachedSpiceRequest<?> request, Thread thread);
+    public abstract SpiceNotification onCreateNotificationForRequestCancelled(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    public abstract SpiceNotification onCreateNotificationForRequestFailed(CachedSpiceRequest<?> request, Thread thread);
+    public abstract SpiceNotification onCreateNotificationForRequestFailed(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    public abstract SpiceNotification onCreateNotificationForRequestProgressUpdate(CachedSpiceRequest<?> request, Thread thread);
+    public abstract SpiceNotification onCreateNotificationForRequestProgressUpdate(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    public abstract SpiceNotification onCreateNotificationForRequestAdded(CachedSpiceRequest<?> request, Thread thread);
+    public abstract SpiceNotification onCreateNotificationForRequestAdded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    public abstract SpiceNotification onCreateNotificationForRequestNotFound(CachedSpiceRequest<?> request, Thread thread);
+    public abstract SpiceNotification onCreateNotificationForRequestNotFound(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
     public abstract SpiceNotification onCreateNotificationForRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest);
 
@@ -128,38 +132,38 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
     public class NotificationSpiceServiceListener implements SpiceServiceListener {
 
         @Override
-        public void onRequestSucceeded(CachedSpiceRequest<?> request, Thread thread) {
-            final SpiceNotification notification = onCreateNotificationForRequestSucceeded(request, thread);
+        public void onRequestSucceeded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
+            final SpiceNotification notification = onCreateNotificationForRequestSucceeded(request, requestProcessingContext);
             notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
-        public void onRequestFailed(CachedSpiceRequest<?> request, Thread thread) {
-            final SpiceNotification notification = onCreateNotificationForRequestFailed(request, thread);
+        public void onRequestFailed(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
+            final SpiceNotification notification = onCreateNotificationForRequestFailed(request, requestProcessingContext);
             notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
-        public void onRequestCancelled(CachedSpiceRequest<?> request, Thread thread) {
-            final SpiceNotification notification = onCreateNotificationForRequestCancelled(request, thread);
+        public void onRequestCancelled(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
+            final SpiceNotification notification = onCreateNotificationForRequestCancelled(request, requestProcessingContext);
             notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
-        public void onRequestProgressUpdated(CachedSpiceRequest<?> request, Thread thread) {
-            final SpiceNotification notification = onCreateNotificationForRequestProgressUpdate(request, thread);
+        public void onRequestProgressUpdated(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
+            final SpiceNotification notification = onCreateNotificationForRequestProgressUpdate(request, requestProcessingContext);
             notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
-        public void onRequestAdded(CachedSpiceRequest<?> request, Thread thread) {
-            final SpiceNotification notification = onCreateNotificationForRequestAdded(request, thread);
+        public void onRequestAdded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
+            final SpiceNotification notification = onCreateNotificationForRequestAdded(request, requestProcessingContext);
             notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
         @Override
-        public void onRequestNotFound(CachedSpiceRequest<?> request, Thread thread) {
-            final SpiceNotification notification = onCreateNotificationForRequestNotFound(request, thread);
+        public void onRequestNotFound(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
+            final SpiceNotification notification = onCreateNotificationForRequestNotFound(request, requestProcessingContext);
             notificationManager.notify(notification.getId(), notification.getNotification());
         }
 
