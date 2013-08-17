@@ -203,7 +203,7 @@ public abstract class SpiceService extends Service {
      */
     public Notification createDefaultNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        if( android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             builder.setSmallIcon(getApplicationInfo().icon);
         } else {
             builder.setSmallIcon(0);
@@ -211,12 +211,12 @@ public abstract class SpiceService extends Service {
         builder.setTicker(null);
         builder.setWhen(System.currentTimeMillis());
         final Notification note = builder.getNotification();
-        if( android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN ) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             note.priority = Notification.PRIORITY_MIN;
         }
         return note;
     }
-    
+
     protected int getNotificationId() {
         return DEFAULT_NOTIFICATION_ID;
     }
@@ -372,10 +372,8 @@ public abstract class SpiceService extends Service {
 
     private void stopIfNotBoundAndHasNoPendingRequests() {
         Ln.v("Pending requests : " + currentPendingRequestCount);
-        if (currentPendingRequestCount == 0) {
-            if (!isBound) {
-                stopSelf();
-            }
+        if (currentPendingRequestCount == 0 && !isBound) {
+            stopSelf();
         }
     }
 
