@@ -55,6 +55,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        //https://code.google.com/p/dexmaker/issues/detail?id=2
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         // http://stackoverflow.com/q/6516441/693752
         getInstrumentation().waitForIdleSync();
         mockCacheManager = EasyMock.createMock(CacheManager.class);

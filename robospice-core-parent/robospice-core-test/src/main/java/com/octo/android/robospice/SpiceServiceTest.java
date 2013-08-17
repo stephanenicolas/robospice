@@ -15,6 +15,18 @@ public class SpiceServiceTest extends ServiceTestCase<SpiceTestService> {
     public SpiceServiceTest() {
         super(SpiceTestService.class);
     }
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        SpiceService.isJUnit = true;
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        SpiceService.isJUnit = false;
+        super.tearDown();
+    }
 
     public void test_service_not_null() {
         // given

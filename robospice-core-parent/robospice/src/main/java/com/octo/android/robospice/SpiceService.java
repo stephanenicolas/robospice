@@ -48,6 +48,10 @@ import com.octo.android.robospice.request.reporter.RequestProgressReporter;
  */
 public abstract class SpiceService extends Service {
 
+    //http://stackoverflow.com/a/13359680/693752
+    /** JUNIT - this is for testing purposes only */
+    public static boolean isJUnit = false;
+    
     // ----------------------------------
     // CONSTANTS
     // ----------------------------------
@@ -378,7 +382,8 @@ public abstract class SpiceService extends Service {
     }
 
     private void showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification() {
-        if (notification == null) {
+        //http://stackoverflow.com/a/13359680/693752
+        if (notification == null || isJUnit) {
             return;
         }
         Ln.v("Pending requests : " + currentPendingRequestCount);
