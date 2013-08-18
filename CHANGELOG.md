@@ -9,6 +9,7 @@ Version 1.4.7 (Planned on July 30th 2013)
 
 ** Enhancements
 * New OkHttp module that allows to use OkHttpClient inside a RoboSpice request.
+* Notifications now work correctly on Android 4.3 when service is going to background. Thx to Andrew Clark and others for this.
 
 ** Bug fixes
 * Documentation has been updated in RS Starter Guide thanks to Mathieu Castets.

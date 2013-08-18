@@ -50,8 +50,8 @@ public abstract class SpiceService extends Service {
 
     //http://stackoverflow.com/a/13359680/693752
     /** JUNIT - this is for testing purposes only */
-    public static boolean isJUnit = false;
-    
+    private static boolean isJUnit = false;
+
     // ----------------------------------
     // CONSTANTS
     // ----------------------------------
@@ -396,8 +396,6 @@ public abstract class SpiceService extends Service {
         }
     }
 
-    // There is a bug in ServiceTestCase : a call to setForeground will fail
-    // http://code.google.com/p/android/issues/detail?id=12122
     private void startForeground(final Notification notification) {
         try {
             final Method setForegroundMethod = Service.class.getMethod("startForeground", int.class, Notification.class);
@@ -413,5 +411,11 @@ public abstract class SpiceService extends Service {
         } catch (final InvocationTargetException e) {
             Ln.e(e, "Unable to start a service in foreground");
         }
+    }
+
+    // http://code.google.com/p/android/issues/detail?id=12122
+    // There is a bug in ServiceTestCase : a call to setForeground will fail
+    public static final void setIsJunit(boolean b) {
+        isJUnit = b;
     }
 }

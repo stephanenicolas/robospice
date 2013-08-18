@@ -19,13 +19,13 @@ public class SpiceServiceTest extends ServiceTestCase<SpiceTestService> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        SpiceService.isJUnit = true;
+        SpiceService.setIsJunit(true);
     }
     
     @Override
     protected void tearDown() throws Exception {
-        SpiceService.isJUnit = false;
         super.tearDown();
+        SpiceService.setIsJunit(false);
     }
 
     public void test_service_not_null() {
