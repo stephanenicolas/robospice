@@ -36,6 +36,12 @@ before_install:
   # Create and start emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
+  
+  #try to avoid NPE Android Maven plugin issue 377 / 397
+  - cd $ANDROID_HOME/platform-tools
+  - ln -sf ../build-tools/17.0.0/lib lib
+  - ln -sf ../build-tools/17.0.0/aidl aidl
+  - ln -sf ../build-tools/17.0.0/aapt aapt
 
 # We will run findbugs and checkstyle in the script phase
 install: mvn install --quiet -DskipTests=true -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dandroid.dex.optimize=false
