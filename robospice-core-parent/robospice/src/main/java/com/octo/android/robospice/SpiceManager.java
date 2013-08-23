@@ -1014,7 +1014,7 @@ public class SpiceManager implements Runnable {
             lockAcquireService.lock();
             try {
                 spiceService = ((SpiceServiceBinder) service).getSpiceService();
-                spiceService.addSpiceServiceListener(new RequestRemoverSpiceServiceListener());
+                spiceService.addSpiceServiceListener(removerSpiceServiceListener);
                 Ln.d("Bound to service : " + spiceService.getClass().getSimpleName());
                 conditionServiceBound.signalAll();
             } finally {
@@ -1042,9 +1042,21 @@ public class SpiceManager implements Runnable {
      */
     private class RequestRemoverSpiceServiceListener implements SpiceServiceServiceListener {
         @Override
-        public void onRequestProcessed(final CachedSpiceRequest<?> cachedSpiceRequest) {
+        public void onRequestProcessed(final CachedSpiceRequest<?> cachedSpiceRequest, Set<RequestListener<?>> listeners) {
             synchronized (mapPendingRequestToRequestListener) {
-                mapPendingRequestToRequestListener.remove(cachedSpiceRequest);
+                ArrayList<CachedSpiceRequest<?>> toRemove = new ArrayList<CachedSpiceRequest<?>>();
+                for (final CachedSpiceRequest<?> cachedSpiceRequestTemp : mapPendingRequestToRequestListener.keySet()) {
+                    if (cachedSpiceRequest.equals(cachedSpiceRequestTemp)) {
+                        final Set<RequestListener<?>> setRequestListeners = mapPendingRequestToRequestListener.get(cachedSpiceRequestTemp);
+                        setRequestListeners.removeAll(listeners);
+                        if (setRequestListeners.isEmpty()) {
+                            toRemove.add(cachedSpiceRequestTemp);
+                        }
+                    }
+                }
+                for (CachedSpiceRequest<?> cachedSpiceRequestToRemove : toRemove) {
+                    mapPendingRequestToRequestListener.remove(cachedSpiceRequestToRemove);
+                }
             }
         }
     }

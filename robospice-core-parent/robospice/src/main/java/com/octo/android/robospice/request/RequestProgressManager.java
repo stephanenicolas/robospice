@@ -82,7 +82,7 @@ public class RequestProgressManager {
         final Set<RequestListener<?>> listeners = mapRequestToRequestListener.get(request);
         notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
         requestProgressReporter.notifyListenersOfRequestSuccess(request, result, listeners);
-        notifyOfRequestProcessed(request);
+        notifyOfRequestProcessed(request, listeners);
     }
 
     public <T> void notifyListenersOfRequestFailure(final CachedSpiceRequest<T> request, final SpiceException e) {
@@ -90,7 +90,7 @@ public class RequestProgressManager {
         notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
 
         requestProgressReporter.notifyListenersOfRequestFailure(request, e, listeners);
-        notifyOfRequestProcessed(request);
+        notifyOfRequestProcessed(request, listeners);
     }
 
     public void notifyListenersOfRequestCancellation(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners) {
@@ -98,7 +98,7 @@ public class RequestProgressManager {
         notifyListenersOfRequestProgress(request, listeners, RequestStatus.COMPLETE);
 
         requestProgressReporter.notifyListenersOfRequestCancellation(request, listeners);
-        notifyOfRequestProcessed(request);
+        notifyOfRequestProcessed(request, listeners);
     }
 
     /**
@@ -130,14 +130,14 @@ public class RequestProgressManager {
         this.spiceServiceListenerSet.remove(spiceServiceServiceListener);
     }
 
-    public void notifyOfRequestProcessed(final CachedSpiceRequest<?> request) {
+    public void notifyOfRequestProcessed(final CachedSpiceRequest<?> request, Set<RequestListener<?>> listeners) {
         Ln.v("Removing %s  size is %d", request, mapRequestToRequestListener.size());
         mapRequestToRequestListener.remove(request);
 
         checkAllRequestComplete();
         synchronized (spiceServiceListenerSet) {
             for (final SpiceServiceServiceListener spiceServiceServiceListener : spiceServiceListenerSet) {
-                spiceServiceServiceListener.onRequestProcessed(request);
+                spiceServiceServiceListener.onRequestProcessed(request, listeners);
             }
         }
     }
