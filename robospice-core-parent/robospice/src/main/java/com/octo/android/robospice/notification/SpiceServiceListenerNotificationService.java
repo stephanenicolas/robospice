@@ -23,7 +23,7 @@ import com.octo.android.robospice.request.listener.SpiceServiceListener.RequestP
  */
 public abstract class SpiceServiceListenerNotificationService extends Service {
 
-    private static final int DEFAULT_ROBOSPICE_NOTIFICATION_ID = 700;
+    public static final int DEFAULT_ROBOSPICE_NOTIFICATION_ID = 700;
     public static final String BUNDLE_KEY_NOTIFICATION_ID = "BUNDLE_KEY_NOTIFICATION_ID";
     public static final String BUNDLE_KEY_REQUEST_CACHE_KEY = "BUNDLE_KEY_REQUEST_CACHE_KEY";
     public static final String BUNDLE_KEY_REQUEST_CLASS = "BUNDLE_KEY_REQUEST_CLASS";
@@ -59,7 +59,7 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
     @Override
     public final void onStart(final Intent intent, final int startId) {
         super.onStart(intent, startId);
-        if( intent == null ) {
+        if (intent == null) {
             return;
         }
         notificationId = intent.getIntExtra(BUNDLE_KEY_NOTIFICATION_ID, DEFAULT_ROBOSPICE_NOTIFICATION_ID);
@@ -111,7 +111,7 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
     // INNER CLASS
     // ----------------------------------
 
-    public class SpiceNotification {
+    public static class SpiceNotification {
         private int id;
         private Notification notification;
 

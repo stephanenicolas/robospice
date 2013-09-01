@@ -24,6 +24,7 @@ import com.octo.android.robospice.priority.PausableThreadPoolExecutor;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.SpiceServiceListener;
+import com.octo.android.robospice.request.listener.SpiceServiceListener.RequestProcessingContext;
 import com.octo.android.robospice.request.notifier.DefaultRequestListenerNotifier;
 import com.octo.android.robospice.request.notifier.SpiceServiceListenerNotifier;
 import com.octo.android.robospice.retry.DefaultRetryPolicy;
@@ -684,10 +685,10 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         EasyMock.replay(mockCacheManager);
 
         SpiceServiceListener mockSpiceServiceListener = EasyMock.createMock(SpiceServiceListener.class);
-        mockSpiceServiceListener.onRequestAdded((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
-        mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestAdded((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
         EasyMock.expectLastCall().anyTimes();
-        mockSpiceServiceListener.onRequestFailed((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestFailed((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
         EasyMock.replay(mockSpiceServiceListener);
         requestProcessorUnderTest.addSpiceServiceListener(mockSpiceServiceListener);
 
@@ -721,10 +722,10 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         EasyMock.replay(mockCacheManager);
 
         SpiceServiceListener mockSpiceServiceListener = EasyMock.createMock(SpiceServiceListener.class);
-        mockSpiceServiceListener.onRequestAdded((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
-        mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestAdded((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
         EasyMock.expectLastCall().anyTimes();
-        mockSpiceServiceListener.onRequestSucceeded((CachedSpiceRequest<?>) EasyMock.anyObject(), (Thread) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestSucceeded((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
         EasyMock.replay(mockSpiceServiceListener);
         requestProcessorUnderTest.addSpiceServiceListener(mockSpiceServiceListener);
 
