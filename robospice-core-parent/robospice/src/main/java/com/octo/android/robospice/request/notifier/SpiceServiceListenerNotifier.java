@@ -64,11 +64,25 @@ public class SpiceServiceListenerNotifier {
      * the new request if required
      * @param request
      */
-    public void notifyObserversOfRequestAdded(CachedSpiceRequest<?> request) {
+    public void notifyObserversOfRequestAdded(CachedSpiceRequest<?> request, Set<RequestListener<?>> requestListeners) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
         requestProcessingContext.setExecutionThread(Thread.currentThread());
+        requestProcessingContext.setRequestListeners(requestListeners);
         post(new RequestAddedNotifier(request, spiceServiceListenerList, requestProcessingContext));
     }
+
+    /**
+     * Inform the observers of a request. The observers can optionally observe
+     * the new request if required
+     * @param request
+     */
+    public void notifyObserversOfRequestAggregated(CachedSpiceRequest<?> request, Set<RequestListener<?>> requestListeners) {
+        RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
+        requestProcessingContext.setExecutionThread(Thread.currentThread());
+        requestProcessingContext.setRequestListeners(requestListeners);
+        post(new RequestAggregatedNotifier(request, spiceServiceListenerList, requestProcessingContext));
+    }
+
 
     /**
      * Notify interested observers that the request failed
@@ -168,6 +182,33 @@ public class SpiceServiceListenerNotifier {
             }
         }
     }
+    
+    /**
+     * Runnable to inform interested observers of request added
+     * @author Andrew.Clark
+     */
+    private static class RequestAggregatedNotifier implements Runnable {
+        private List<SpiceServiceListener> spiceServiceListenerList;
+        private CachedSpiceRequest<?> request;
+        private RequestProcessingContext requestProcessingContext;
+
+        public RequestAggregatedNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, RequestProcessingContext requestProcessingContext) {
+
+            this.spiceServiceListenerList = spiceServiceListenerList;
+            this.request = request;
+            this.requestProcessingContext = requestProcessingContext;
+        }
+
+        @Override
+        public void run() {
+            Ln.d("Processing request added: %s", request);
+
+            for (SpiceServiceListener listener : spiceServiceListenerList) {
+                listener.onRequestAggregated(request, requestProcessingContext);
+            }
+        }
+    }
+
 
     /**
      * Runnable to inform interested observers of request not found
@@ -292,7 +333,7 @@ public class SpiceServiceListenerNotifier {
             }
         }
     }
-    
+
     /**
      * Runnable to inform interested observers of request processing end.
      * @author SNI

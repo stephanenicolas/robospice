@@ -21,6 +21,8 @@ public interface SpiceServiceListener {
 
     void onRequestAdded(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
+    void onRequestAggregated(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
+
     void onRequestNotFound(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
     void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext);
@@ -60,5 +62,6 @@ public interface SpiceServiceListener {
             return requestListeners;
         }
     }
+
 
 }

@@ -27,6 +27,7 @@ import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
 
 public class SpiceManagerTest extends InstrumentationTestCase {
 
+    private static final int SEQUENTIAL_AGGREGATION_COUNT = 400;
     private static final int SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION = 1000;
     private static final Class<String> TEST_CLASS = String.class;
     private static final Class<Integer> TEST_CLASS2 = Integer.class;
@@ -142,6 +143,24 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         // test
         assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
+        assertTrue(requestListenerStub.isExecutedInUIThread());
+        assertFalse(requestListenerStub.isSuccessful());
+    }
+
+    public void test_execute_many_equal_requests_and_see_if_they_get_aggregated() throws InterruptedException {
+        // when
+        spiceManager.start(getInstrumentation().getTargetContext());
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+        RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
+
+        // when
+        for (int requestIndex = 0; requestIndex < SEQUENTIAL_AGGREGATION_COUNT; requestIndex++) {
+            spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        }
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertTrue(spiceManager.getPendingRequestCount() <= 1);
         assertTrue(requestListenerStub.isExecutedInUIThread());
         assertFalse(requestListenerStub.isSuccessful());
     }

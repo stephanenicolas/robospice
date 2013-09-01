@@ -101,7 +101,11 @@ public class RequestProcessor {
             }
 
             if (request.isProcessable()) {
-                requestProgressManager.notifyListenersOfRequestAdded(request, listRequestListener);
+                if (aggregated) {
+                    requestProgressManager.notifyListenersOfRequestAggregated(request, listRequestListener);
+                } else {
+                    requestProgressManager.notifyListenersOfRequestAdded(request, listRequestListener);
+                }
             } else if (listRequestListenerForThisRequest == null) {
                 requestProgressManager.notifyListenersOfRequestNotFound(request, listRequestListener);
             }

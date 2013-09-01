@@ -30,6 +30,10 @@ public class SpiceServiceAdapter implements SpiceServiceListener {
     }
 
     @Override
+    public void onRequestAggregated(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
+    }
+
+    @Override
     public void onRequestNotFound(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext) {
     }
 

@@ -51,10 +51,18 @@ public class RequestProgressManager {
     }
 
     public <T> void notifyListenersOfRequestAdded(CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
-        Ln.d("Sending Request was added to queue.");
+        Ln.d("Request was added to queue.");
 
-        spiceServiceListenerNotifier.notifyObserversOfRequestAdded(request);
+        spiceServiceListenerNotifier.notifyObserversOfRequestAdded(request, listeners);
         requestListenerNotifier.notifyListenersOfRequestAdded(request, listeners);
+        notifyListenersOfRequestProgress(request, listeners, request.getProgress());
+    }
+
+    public <T> void notifyListenersOfRequestAggregated(CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
+        Ln.d("Request was aggregated in queue.");
+
+        spiceServiceListenerNotifier.notifyObserversOfRequestAggregated(request, listeners);
+        requestListenerNotifier.notifyListenersOfRequestAggregated(request, listeners);
         notifyListenersOfRequestProgress(request, listeners, request.getProgress());
     }
 

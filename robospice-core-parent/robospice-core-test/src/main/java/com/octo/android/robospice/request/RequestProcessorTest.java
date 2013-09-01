@@ -689,6 +689,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
         EasyMock.expectLastCall().anyTimes();
         mockSpiceServiceListener.onRequestFailed((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestProcessed((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        EasyMock.expectLastCall().anyTimes();
         EasyMock.replay(mockSpiceServiceListener);
         requestProcessorUnderTest.addSpiceServiceListener(mockSpiceServiceListener);
 
@@ -726,6 +728,8 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         mockSpiceServiceListener.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
         EasyMock.expectLastCall().anyTimes();
         mockSpiceServiceListener.onRequestSucceeded((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        mockSpiceServiceListener.onRequestProcessed((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        EasyMock.expectLastCall().anyTimes();
         EasyMock.replay(mockSpiceServiceListener);
         requestProcessorUnderTest.addSpiceServiceListener(mockSpiceServiceListener);
 

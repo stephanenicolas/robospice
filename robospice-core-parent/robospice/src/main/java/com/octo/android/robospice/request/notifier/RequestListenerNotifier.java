@@ -31,14 +31,24 @@ public interface RequestListenerNotifier {
     <T> void notifyListenersOfRequestNotFound(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listeners);
 
     /**
-     * Notify listeners that a penging request has been found. This callback is
-     * invoked when a request is aggregated to a pending request.
+     * Notify listeners that a pending request has been found. This callback is
+     * invoked when a request is added into request queue, not during aggregation to a pending request.
      * @param request
      *            a given request.
      * @param listeners
      *            a set of {@link RequestListener}.
      */
     <T> void notifyListenersOfRequestAdded(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listeners);
+
+    /**
+     * Notify listeners that a pending request has been found. This callback is
+     * invoked when a request is aggregated to a pending request.
+     * @param request
+     *            a given request.
+     * @param listeners
+     *            a set of {@link RequestListener}.
+     */
+    <T> void notifyListenersOfRequestAggregated(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listeners);
 
     /**
      * Notify listeners of a request's success.

@@ -58,6 +58,11 @@ public class DefaultRequestListenerNotifier implements RequestListenerNotifier {
     }
 
     @Override
+    public <T> void notifyListenersOfRequestAggregated(final CachedSpiceRequest<T> request, Set<RequestListener<?>> listeners) {
+        // does nothing for now
+    }
+
+    @Override
     public <T> void notifyListenersOfRequestProgress(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listeners, final RequestProgress progress) {
 
         post(new ProgressRunnable(listeners, progress), request.getRequestCacheKey());

@@ -204,6 +204,22 @@ public class SpiceManager implements Runnable {
         return !isStopped;
     }
 
+    /**
+     * @return the number of current request that should be launched asap when 
+     * the spice service will be bound bound.
+     */
+    public int getRequestToLaunchCount() {
+        return mapRequestToLaunchToRequestListener.size();
+    }
+
+    /**
+     * @return the number of current request that are currently pending
+     * and being processed by the spice service.
+     */
+    public int getPendingRequestCount() {
+        return mapPendingRequestToRequestListener.size();
+    }
+
     @Override
     public void run() {
         // start the service it is not started yet.
@@ -243,8 +259,8 @@ public class SpiceManager implements Runnable {
         lockSendRequestsToService.lock();
         try {
             if (spiceRequest != null && spiceService != null) {
+                //TODO don'tadd request now, only add it when request is added via a listener
                 final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener.remove(spiceRequest);
-                mapPendingRequestToRequestListener.put(spiceRequest, listRequestListener);
                 Ln.d("Sending request to service : " + spiceRequest.getClass().getSimpleName());
                 spiceService.addRequest(spiceRequest, listRequestListener);
             }
@@ -1053,22 +1069,13 @@ public class SpiceManager implements Runnable {
      */
     private class RequestRemoverSpiceServiceListener extends SpiceServiceAdapter {
         @Override
+        public void onRequestAdded(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
+            mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
+        }
+
+        @Override
         public void onRequestProcessed(final CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
-            synchronized (mapPendingRequestToRequestListener) {
-                ArrayList<CachedSpiceRequest<?>> toRemove = new ArrayList<CachedSpiceRequest<?>>();
-                for (final CachedSpiceRequest<?> cachedSpiceRequestTemp : mapPendingRequestToRequestListener.keySet()) {
-                    if (cachedSpiceRequest.equals(cachedSpiceRequestTemp)) {
-                        final Set<RequestListener<?>> setRequestListeners = mapPendingRequestToRequestListener.get(cachedSpiceRequestTemp);
-                        setRequestListeners.removeAll(requestProcessingContext.getRequestListeners());
-                        if (setRequestListeners.isEmpty()) {
-                            toRemove.add(cachedSpiceRequestTemp);
-                        }
-                    }
-                }
-                for (CachedSpiceRequest<?> cachedSpiceRequestToRemove : toRemove) {
-                    mapPendingRequestToRequestListener.remove(cachedSpiceRequestToRemove);
-                }
-            }
+            mapPendingRequestToRequestListener.remove(cachedSpiceRequest);
         }
     }
 
