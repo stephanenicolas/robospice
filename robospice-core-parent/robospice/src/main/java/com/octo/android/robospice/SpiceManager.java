@@ -1025,7 +1025,7 @@ public class SpiceManager implements Runnable {
             lockAcquireService.lock();
             try {
                 spiceService = ((SpiceServiceBinder) service).getSpiceService();
-                spiceService.addSpiceServiceListener(new RequestRemoverSpiceServiceListener());
+                spiceService.addSpiceServiceListener(removerSpiceServiceListener);
                 Ln.d("Bound to service : " + spiceService.getClass().getSimpleName());
                 conditionServiceBound.signalAll();
             } finally {
@@ -1053,9 +1053,21 @@ public class SpiceManager implements Runnable {
      */
     private class RequestRemoverSpiceServiceListener extends SpiceServiceAdapter {
         @Override
-        public void onRequestProcessed(final CachedSpiceRequest<?> cachedSpiceRequest) {
+        public void onRequestProcessed(final CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
             synchronized (mapPendingRequestToRequestListener) {
-                mapPendingRequestToRequestListener.remove(cachedSpiceRequest);
+                ArrayList<CachedSpiceRequest<?>> toRemove = new ArrayList<CachedSpiceRequest<?>>();
+                for (final CachedSpiceRequest<?> cachedSpiceRequestTemp : mapPendingRequestToRequestListener.keySet()) {
+                    if (cachedSpiceRequest.equals(cachedSpiceRequestTemp)) {
+                        final Set<RequestListener<?>> setRequestListeners = mapPendingRequestToRequestListener.get(cachedSpiceRequestTemp);
+                        setRequestListeners.removeAll(requestProcessingContext.getRequestListeners());
+                        if (setRequestListeners.isEmpty()) {
+                            toRemove.add(cachedSpiceRequestTemp);
+                        }
+                    }
+                }
+                for (CachedSpiceRequest<?> cachedSpiceRequestToRemove : toRemove) {
+                    mapPendingRequestToRequestListener.remove(cachedSpiceRequestToRemove);
+                }
             }
         }
     }

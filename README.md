@@ -16,7 +16,7 @@ Main features of RoboSpice
 --------------------------
 * supports Android starting *_from_ SDK version 8 (Froyo / 2.2.x)* 
 * executes network requests **asynchronously** (in a background AndroidService)
-* supports **REST** out of the box (using [Spring Android](http://www.springsource.org/spring-android) or [Google Http Client](http://code.google.com/p/google-http-java-client)).
+* supports **REST** out of the box (using [Spring Android](http://www.springsource.org/spring-android) or [Google Http Client](http://code.google.com/p/google-http-java-client) or [Retrofit](https://github.com/square/retrofit)).
 * is strongly typed ! You query webservices using **POJOs** and you get POJOs as request results.
 * enforces no constraints neither on POJOs used for requests nor on Activity classes you use in your projects
 * **caches results** in Json with both [Jackson](http://jackson.codehaus.org/) or [Jackson2](http://wiki.fasterxml.com/JacksonRelease20) or [Gson](http://code.google.com/p/google-gson/),

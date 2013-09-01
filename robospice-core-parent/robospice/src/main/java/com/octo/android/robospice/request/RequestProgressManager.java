@@ -1,8 +1,6 @@
 package com.octo.android.robospice.request;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +26,6 @@ public class RequestProgressManager {
     // ============================================================================================
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener;
 
-    private final Set<SpiceServiceListener> spiceServiceListenerSet;
     private final RequestProcessorListener requestProcessorListener;
     private final RequestListenerNotifier requestListenerNotifier;
     private final SpiceServiceListenerNotifier spiceServiceListenerNotifier;
@@ -44,8 +41,6 @@ public class RequestProgressManager {
         this.mapRequestToRequestListener = mapRequestToRequestListener;
         this.requestListenerNotifier = requestListenerNotifier;
         this.spiceServiceListenerNotifier = spiceServiceListenerNotifier;
-
-        spiceServiceListenerSet = Collections.synchronizedSet(new HashSet<SpiceServiceListener>());
     }
 
     public void notifyListenersOfRequestNotFound(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners) {
@@ -96,7 +91,7 @@ public class RequestProgressManager {
 
         spiceServiceListenerNotifier.notifyObserversOfRequestSuccess(request);
         requestListenerNotifier.notifyListenersOfRequestSuccess(request, result, listeners);
-        notifyOfRequestProcessed(request);
+        notifyOfRequestProcessed(request, listeners);
     }
 
     public <T> void notifyListenersOfRequestFailure(final CachedSpiceRequest<T> request, final SpiceException e) {
@@ -105,7 +100,7 @@ public class RequestProgressManager {
 
         spiceServiceListenerNotifier.notifyObserversOfRequestFailure(request);
         requestListenerNotifier.notifyListenersOfRequestFailure(request, e, listeners);
-        notifyOfRequestProcessed(request);
+        notifyOfRequestProcessed(request, listeners);
     }
 
     public void notifyListenersOfRequestCancellation(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners) {
@@ -114,7 +109,7 @@ public class RequestProgressManager {
 
         spiceServiceListenerNotifier.notifyObserversOfRequestCancellation(request);
         requestListenerNotifier.notifyListenersOfRequestCancellation(request, listeners);
-        notifyOfRequestProcessed(request);
+        notifyOfRequestProcessed(request, listeners);
     }
 
     /**
@@ -146,16 +141,12 @@ public class RequestProgressManager {
         this.spiceServiceListenerNotifier.removeSpiceServiceListener(spiceServiceListener);
     }
 
-    public void notifyOfRequestProcessed(final CachedSpiceRequest<?> request) {
+    public void notifyOfRequestProcessed(final CachedSpiceRequest<?> request, Set<RequestListener<?>> listeners) {
         Ln.v("Removing %s  size is %d", request, mapRequestToRequestListener.size());
         mapRequestToRequestListener.remove(request);
 
         checkAllRequestComplete();
-        synchronized (spiceServiceListenerSet) {
-            for (final SpiceServiceListener spiceServiceListener : spiceServiceListenerSet) {
-                spiceServiceListener.onRequestProcessed(request);
-            }
-        }
+        spiceServiceListenerNotifier.notifyObserversOfRequestProcessed(request, listeners);
     }
 
     public int getPendingRequestCount() {

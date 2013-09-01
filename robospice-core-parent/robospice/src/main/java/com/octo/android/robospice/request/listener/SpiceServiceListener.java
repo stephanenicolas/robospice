@@ -1,5 +1,7 @@
 package com.octo.android.robospice.request.listener;
 
+import java.util.Set;
+
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.request.CachedSpiceRequest;
 
@@ -21,7 +23,7 @@ public interface SpiceServiceListener {
 
     void onRequestNotFound(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest);
+    void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext);
 
     void onServiceStopped();
     
@@ -32,6 +34,7 @@ public interface SpiceServiceListener {
     public static class RequestProcessingContext {
         private Thread executionThread;
         private RequestProgress requestProgress;
+        private Set<RequestListener<?>> requestListeners;
 
         public void setExecutionThread(Thread executionThread) {
             this.executionThread = executionThread;
@@ -48,5 +51,14 @@ public interface SpiceServiceListener {
         public RequestProgress getRequestProgress() {
             return requestProgress;
         }
+
+        public void setRequestListeners(Set<RequestListener<?>> requestListeners) {
+            this.requestListeners = requestListeners;
+        }
+
+        public Set<RequestListener<?>> getRequestListeners() {
+            return requestListeners;
+        }
     }
+
 }

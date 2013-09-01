@@ -105,7 +105,7 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
 
     public abstract SpiceNotification onCreateNotificationForRequestNotFound(CachedSpiceRequest<?> request, RequestProcessingContext requestProcessingContext);
 
-    public abstract SpiceNotification onCreateNotificationForRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest);
+    public abstract SpiceNotification onCreateNotificationForRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext);
 
     // ----------------------------------
     // INNER CLASS
@@ -168,8 +168,8 @@ public abstract class SpiceServiceListenerNotificationService extends Service {
         }
 
         @Override
-        public void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest) {
-            final SpiceNotification notification = onCreateNotificationForRequestProcessed(cachedSpiceRequest);
+        public void onRequestProcessed(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
+            final SpiceNotification notification = onCreateNotificationForRequestProcessed(cachedSpiceRequest, requestProcessingContext);
             notificationManager.notify(notification.getId(), notification.getNotification());
         }
 

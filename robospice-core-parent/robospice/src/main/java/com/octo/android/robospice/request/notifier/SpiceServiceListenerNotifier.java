@@ -3,6 +3,7 @@ package com.octo.android.robospice.request.notifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import roboguice.util.temp.Ln;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 
 import com.octo.android.robospice.request.CachedSpiceRequest;
+import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.RequestProgress;
 import com.octo.android.robospice.request.listener.SpiceServiceListener;
 import com.octo.android.robospice.request.listener.SpiceServiceListener.RequestProcessingContext;
@@ -111,6 +113,18 @@ public class SpiceServiceListenerNotifier {
         requestProcessingContext.setExecutionThread(Thread.currentThread());
         requestProcessingContext.setRequestProgress(requestProgress);
         post(new RequestProgressNotifier(request, spiceServiceListenerList, requestProcessingContext));
+    }
+    
+    /**
+     * Notify interested observers of request progress
+     * @param request
+     * @param progress
+     */
+    public void notifyObserversOfRequestProcessed(CachedSpiceRequest<?> request, Set<RequestListener<?>> requestListeners) {
+        RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
+        requestProcessingContext.setExecutionThread(Thread.currentThread());
+        requestProcessingContext.setRequestListeners(requestListeners);
+        post(new RequestProcessedNotifier(request, spiceServiceListenerList, requestProcessingContext));
     }
 
     /**
@@ -275,6 +289,30 @@ public class SpiceServiceListenerNotifier {
         public void run() {
             for (SpiceServiceListener listener : spiceServiceListenerList) {
                 listener.onRequestProgressUpdated(request, requestProcessingContext);
+            }
+        }
+    }
+    
+    /**
+     * Runnable to inform interested observers of request processing end.
+     * @author SNI
+     */
+    private static class RequestProcessedNotifier implements Runnable {
+        private List<SpiceServiceListener> spiceServiceListenerList;
+        private CachedSpiceRequest<?> request;
+        private RequestProcessingContext requestProcessingContext;
+
+        public RequestProcessedNotifier(CachedSpiceRequest<?> request, List<SpiceServiceListener> spiceServiceListenerList, RequestProcessingContext requestProcessingContext) {
+
+            this.spiceServiceListenerList = spiceServiceListenerList;
+            this.request = request;
+            this.requestProcessingContext = requestProcessingContext;
+        }
+
+        @Override
+        public void run() {
+            for (SpiceServiceListener listener : spiceServiceListenerList) {
+                listener.onRequestProcessed(request, requestProcessingContext);
             }
         }
     }

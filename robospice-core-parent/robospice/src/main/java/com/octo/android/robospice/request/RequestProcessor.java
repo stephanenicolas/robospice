@@ -126,7 +126,7 @@ public class RequestProcessor {
             requestProgressManager.notifyListenersOfRequestCancellation(request, listRequestListener);
             return;
         } else if (!request.isProcessable()) {
-            requestProgressManager.notifyOfRequestProcessed(request);
+            requestProgressManager.notifyOfRequestProcessed(request, listRequestListener);
             return;
         } else {
             requestRunner.executeRequest(request);
