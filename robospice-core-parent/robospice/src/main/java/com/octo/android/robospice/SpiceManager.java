@@ -131,7 +131,7 @@ public class SpiceManager implements Runnable {
     protected Thread runner;
 
     /** Reacts to service processing of requests. */
-    private final RequestRemoverSpiceServiceListener removerSpiceServiceListener = new RequestRemoverSpiceServiceListener();
+    private final PendingRequestHandlerSpiceServiceListener removerSpiceServiceListener = new PendingRequestHandlerSpiceServiceListener();
 
     /**
      * Whether or not we are unbinding (to prevent unbinding twice. Must be
@@ -259,7 +259,6 @@ public class SpiceManager implements Runnable {
         lockSendRequestsToService.lock();
         try {
             if (spiceRequest != null && spiceService != null) {
-                //TODO don'tadd request now, only add it when request is added via a listener
                 final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener.remove(spiceRequest);
                 Ln.d("Sending request to service : " + spiceRequest.getClass().getSimpleName());
                 spiceService.addRequest(spiceRequest, listRequestListener);
@@ -1067,7 +1066,7 @@ public class SpiceManager implements Runnable {
     /**
      * Called when a request has been processed by the {@link SpiceService}.
      */
-    private class RequestRemoverSpiceServiceListener extends SpiceServiceAdapter {
+    private class PendingRequestHandlerSpiceServiceListener extends SpiceServiceAdapter {
         @Override
         public void onRequestAdded(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
             mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
