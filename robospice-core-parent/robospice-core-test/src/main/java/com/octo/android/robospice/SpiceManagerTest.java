@@ -432,7 +432,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         // given
         spiceManager.start(getInstrumentation().getTargetContext());
-        spiceManager.shouldStop();
+        spiceManager.shouldStopAndJoin(SPICE_MANAGER_WAIT_TIMEOUT);
 
         spiceManager.start(getInstrumentation().getTargetContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);

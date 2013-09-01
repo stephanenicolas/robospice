@@ -913,12 +913,12 @@ public class SpiceManager implements Runnable {
      * @param cacheKey
      *            the key of the object in cache
      */
-    public <T> void removeDataFromCache(final Class<T> clazz, final Object cacheKey) {
+    public <T> Future<?> removeDataFromCache(final Class<T> clazz, final Object cacheKey) {
         if (clazz == null || cacheKey == null) {
             throw new IllegalArgumentException("Both parameters must be non null.");
         }
 
-        executeCommand(new RemoveDataFromCacheCommand(this, clazz, cacheKey));
+        return executeCommand(new RemoveDataFromCacheCommand(this, clazz, cacheKey));
     }
 
     /**

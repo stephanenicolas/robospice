@@ -13,6 +13,7 @@ Version 1.4.7 (Planned on July 30th 2013)
 
 ** Bug fixes
 * Documentation has been updated in RS Starter Guide thanks to Mathieu Castets.
+* removeDataFromCache now returns a future for possible sync. Thanks to sergej-koscejev for the fix in pull request https://github.com/octo-online/robospice/pull/185
 
 
 
