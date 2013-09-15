@@ -32,7 +32,8 @@ before_install:
   # Other relevant API's:
   #  addon-google_apis-google-16
   - android list sdk -a -e
-  - echo "y" | android update sdk --filter platform-tools,tools,android-16,build-tools-17.0.0,extra-android-support,$ANDROID_SDKS --no-ui --force 
+  - echo "y" | android update sdk --filter platform-tools,tools,android-16,build-tools-17.0.0,extra-android-support,$ANDROID_SDKS --no-ui --force
+  - android update sdk --filter platform-tools,tools,android-16,build-tools-17.0.0,extra-android-support,$ANDROID_SDKS --no-ui --force 
   #> /dev/null
   #try to avoid NPE Android Maven plugin issue 377 / 397
   #- cd $ANDROID_HOME/platform-tools
