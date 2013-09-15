@@ -33,11 +33,11 @@ before_install:
   #  addon-google_apis-google-16
   - echo "y" | android update sdk --filter platform-tools,build-tools-17.0.0,android-16,extra-android-support,$ANDROID_SDKS --no-ui --force > /dev/null
   #try to avoid NPE Android Maven plugin issue 377 / 397
-  - cd $ANDROID_HOME/platform-tools
-  - ln -sf ../build-tools/17.0.0/lib lib
-  - ln -sf ../build-tools/17.0.0/aidl aidl
-  - ln -sf ../build-tools/17.0.0/aapt aapt
-  - cd -
+  #- cd $ANDROID_HOME/platform-tools
+  #- ln -sf ../build-tools/17.0.0/lib lib
+  #- ln -sf ../build-tools/17.0.0/aidl aidl
+  #- ln -sf ../build-tools/17.0.0/aapt aapt
+  #- cd -
   
   # Create and start emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
