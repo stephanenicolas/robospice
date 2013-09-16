@@ -35,7 +35,7 @@ before_install:
   - unzip build-tools_r$ANDROID_BUILD_TOOLS_VERSION-linux.zip -d $ANDROID_HOME
   - mkdir -p $ANDROID_HOME/build-tools/
   - mv $ANDROID_HOME/android-$ANDROID_OS_VERSION $ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION
-  - export PATH=${ANDROID_HOME}/build-tools
+  - export PATH=${PATH}:${ANDROID_HOME}/build-tools
 
   # Install required components.
   # For a full list, run `android list sdk -a --extended`
@@ -44,7 +44,7 @@ before_install:
   #  addon-google_apis-google-16
   #- android list sdk -a -e
   - echo "y" | android update sdk --filter platform-tool,tool --no-ui --force
-  - echo "y" | android update sdk -u --no-ui --force
+  #- echo "y" | android update sdk -u --no-ui --force
   - echo "y" | android update sdk --filter android-18,$ANDROID_SDKS --no-ui --force
   - echo "y" | android update sdk --filter extra-android-support --no-ui --force
   #> /dev/null
