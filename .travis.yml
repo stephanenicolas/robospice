@@ -14,6 +14,7 @@ env:
     - ANDROID_SDKS=android-10           ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
     - ANDROID_SDKS=android-16,sysimg-16 ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
     - ANDROID_SDKS=android-17,sysimg-17 ANDROID_TARGET=android-17  ANDROID_ABI=armeabi-v7a
+    
 before_install:
   # check the travis file
   - gem install travis-lint
@@ -24,8 +25,17 @@ before_install:
   - wget http://dl.google.com/android/android-sdk_r22.0.5-linux.tgz
   - tar xzf android-sdk_r22.0.5-linux.tgz
   - export ANDROID_HOME=$PWD/android-sdk-linux
-  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/build-tools
+  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
   
+  
+  # Install Android build tools
+  - export ANDROID_BUILD_TOOLS_VERSION=18.0.1
+  - wget https://dl-ssl.google.com/android/repository/build-tools_r$ANDROID_BUILD_TOOLS_VERSION-linux.zip
+  - unzip build-tools_r$ANDROID_BUILD_TOOLS_VERSION-linux.zip -d $ANDROID_HOME
+  - mkdir -p $ANDROID_HOME/build-tools/
+  - mv $ANDROID_HOME/android-$ANDROID_OS_VERSION $ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION
+  - export PATH=${ANDROID_HOME}/build-tools
+
   # Install required components.
   # For a full list, run `android list sdk -a --extended`
   # Note that sysimg-16 downloads the ARM, x86 and MIPS images (we should optimize this).
@@ -38,7 +48,7 @@ before_install:
   - echo "y" | android update sdk --filter extra-android-support --no-ui --force
   #> /dev/null
 
-  
+    
   # Create and start emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
