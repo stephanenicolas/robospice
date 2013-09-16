@@ -30,6 +30,7 @@ before_install:
   
   # Install Android build tools
   - export ANDROID_BUILD_TOOLS_VERSION=18.0.1
+  - export ANDROID_BUILD_OS_VERSION=4.3
   - wget https://dl-ssl.google.com/android/repository/build-tools_r$ANDROID_BUILD_TOOLS_VERSION-linux.zip
   - unzip build-tools_r$ANDROID_BUILD_TOOLS_VERSION-linux.zip -d $ANDROID_HOME
   - mkdir -p $ANDROID_HOME/build-tools/
