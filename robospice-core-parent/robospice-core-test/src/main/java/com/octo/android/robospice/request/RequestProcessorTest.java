@@ -863,10 +863,72 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         assertEquals(2 * lowRequestCount + 1, mockRequestListener.getResultHistory().size());
         assertEquals(TEST_RETURNED_DATA2, mockRequestListener.getResultHistory().get(2 * lowRequestCount));
     }
+    
 
     // ============================================================================================
-    // TESTING RETRY POLICY
+    // TDD
     // ============================================================================================
+
+    public void test_2_spice_managers_should_be_notified_of_their_own_requests_only() throws Exception {
+        // TDD for issue 182
+        // given
+        PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
+        networkStateChecker = new MockNetworkStateChecker();
+        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
+            spiceServiceListenerNotifier);
+
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY2), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA2), EasyMock.eq(TEST_CACHE_KEY2))).andReturn(TEST_RETURNED_DATA2);
+        EasyMock.replay(mockCacheManager);
+
+        CachedSpiceRequestStub<String> spiceRequestStub = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+        spiceRequestStub.setPriority(SpiceRequest.PRIORITY_LOW);
+
+        CachedSpiceRequestStub<String> spiceRequestStub2 = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);
+        spiceRequestStub2.setPriority(SpiceRequest.PRIORITY_HIGH);
+
+        RequestListenerStub<String> mockRequestListener = new RequestListenerStub<String>();
+        Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+        requestListenerSet.add(mockRequestListener);
+
+        RequestListenerStub<String> mockRequestListener2 = new RequestListenerStub<String>();
+        Set<RequestListener<?>> requestListenerSet2 = new HashSet<RequestListener<?>>();
+        requestListenerSet2.add(mockRequestListener2);
+
+        SpiceServiceListener listener1 = EasyMock.createMock(SpiceServiceListener.class);
+        listener1.onRequestAdded((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        EasyMock.expectLastCall();
+        listener1.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(listener1);
+
+        SpiceServiceListener listener2 = EasyMock.createMock(SpiceServiceListener.class);
+        listener2.onRequestAdded((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        EasyMock.expectLastCall();
+        listener2.onRequestProgressUpdated((CachedSpiceRequest<?>) EasyMock.anyObject(), (RequestProcessingContext) EasyMock.anyObject());
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(listener2);
+
+        requestProcessorUnderTest.addSpiceServiceListener(listener1);
+        requestProcessorUnderTest.addSpiceServiceListener(listener2);
+        executorService.pause();
+
+        // when
+        requestProcessorUnderTest.addRequest(spiceRequestStub, requestListenerSet);
+        requestProcessorUnderTest.addRequest(spiceRequestStub2, requestListenerSet2);
+        executorService.resume();
+
+        mockRequestListener.await(REQUEST_COMPLETION_TIME_OUT);
+        mockRequestListener2.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertTrue(mockRequestListener.isSuccessful());
+        assertTrue(mockRequestListener2.isSuccessful());
+        EasyMock.verify(listener1);
+        EasyMock.verify(listener2);
+    }
 
     public void testAddRequest_when_nothing_is_found_in_cache_and_request_has_retry_policy() throws CacheLoadingException, CacheSavingException, InterruptedException, CacheCreationException {
         // given

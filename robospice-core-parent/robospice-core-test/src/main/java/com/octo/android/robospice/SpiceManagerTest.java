@@ -590,7 +590,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // test
         assertEquals(spiceRequestStub2, spiceManager.getNextRequest().getSpiceRequest());
     }
-
+    
     // ----------------------------------
     // INNER CLASS
     // ----------------------------------

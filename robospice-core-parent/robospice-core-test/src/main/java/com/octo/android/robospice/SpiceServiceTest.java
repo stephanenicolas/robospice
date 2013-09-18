@@ -68,5 +68,4 @@ public class SpiceServiceTest extends ServiceTestCase<SpiceTestService> {
 
         assertEquals(getService().getThreadPriority(), executorService.getThreadFactory().newThread(null).getPriority());
     }
-
 }
