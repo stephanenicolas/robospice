@@ -114,11 +114,51 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     public SpiceRequest<RESULT> getSpiceRequest() {
         return spiceRequest;
     }
+    
+    /* package private */@Override
+    void setStatus(final RequestStatus status) {
+        spiceRequest.setStatus(status);
+    }
+
+    /* package private */@Override
+    RequestProgress getProgress() {
+        return spiceRequest.getProgress();
+    }
+
+    @Override
+    public void setPriority(int priority) {
+        spiceRequest.setPriority(priority);
+    }
+
+    @Override
+    public int getPriority() {
+        return spiceRequest.getPriority();
+    }
+
+    public boolean isAcceptingDirtyCache() {
+        return isAcceptingDirtyCache;
+    }
+
+    public void setAcceptingDirtyCache(boolean isAcceptingDirtyCache) {
+        this.isAcceptingDirtyCache = isAcceptingDirtyCache;
+    }
+
+    public boolean isOffline() {
+        return isOffline;
+    }
+
+    public void setOffline(boolean isOffline) {
+        this.isOffline = isOffline;
+    }
 
     @Override
     public String toString() {
         return "CachedSpiceRequest [requestCacheKey=" + requestCacheKey + ", cacheDuration=" + cacheDuration + ", spiceRequest=" + spiceRequest + "]";
     }
+    
+    // --------------------------------------------------------------------
+    //  COMPARISON METHODS : THEY DEFINE AGGREGATION OF SPICE REQUESTS.
+    // --------------------------------------------------------------------
 
     @Override
     public int hashCode() {
@@ -163,42 +203,6 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
             return false;
         }
         return true;
-    }
-
-    /* package private */@Override
-    void setStatus(final RequestStatus status) {
-        spiceRequest.setStatus(status);
-    }
-
-    /* package private */@Override
-    RequestProgress getProgress() {
-        return spiceRequest.getProgress();
-    }
-
-    @Override
-    public void setPriority(int priority) {
-        spiceRequest.setPriority(priority);
-    }
-
-    @Override
-    public int getPriority() {
-        return spiceRequest.getPriority();
-    }
-
-    public boolean isAcceptingDirtyCache() {
-        return isAcceptingDirtyCache;
-    }
-
-    public void setAcceptingDirtyCache(boolean isAcceptingDirtyCache) {
-        this.isAcceptingDirtyCache = isAcceptingDirtyCache;
-    }
-
-    public boolean isOffline() {
-        return isOffline;
-    }
-
-    public void setOffline(boolean isOffline) {
-        this.isOffline = isOffline;
     }
 
     @Override

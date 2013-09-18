@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -97,17 +98,17 @@ public class SpiceManager implements Runnable {
 
     /**
      * The list of all requests that have not yet been passed to the service.
-     * All iterations must be synchronized.
+     * All iterations must be synchronized. This is an identity list as we want to keep every request.
      */
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToLaunchToRequestListener = Collections
         .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
     /**
      * The list of all requests that have already been passed to the service.
-     * All iterations must be synchronized.
+     * All iterations must be synchronized. This is *NOT* an identity list as we want to take aggregation into account.
      */
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapPendingRequestToRequestListener = Collections
-        .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
+        .synchronizedMap(new HashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
     private ExecutorService executorService;
 
@@ -205,16 +206,16 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * @return the number of current request that should be launched asap when 
-     * the spice service will be bound bound.
+     * @return the number of current request that should be launched asap when
+     *         the spice service will be bound bound.
      */
     public int getRequestToLaunchCount() {
         return mapRequestToLaunchToRequestListener.size();
     }
 
     /**
-     * @return the number of current request that are currently pending
-     * and being processed by the spice service.
+     * @return the number of current request that are currently pending and
+     *         being processed by the spice service.
      */
     public int getPendingRequestCount() {
         return mapPendingRequestToRequestListener.size();
@@ -259,7 +260,7 @@ public class SpiceManager implements Runnable {
         lockSendRequestsToService.lock();
         try {
             if (spiceRequest != null && spiceService != null) {
-                final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener.remove(spiceRequest);
+                final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener.get(spiceRequest);
                 Ln.d("Sending request to service : " + spiceRequest.getClass().getSimpleName());
                 spiceService.addRequest(spiceRequest, listRequestListener);
             }
@@ -1069,7 +1070,27 @@ public class SpiceManager implements Runnable {
     private class PendingRequestHandlerSpiceServiceListener extends SpiceServiceAdapter {
         @Override
         public void onRequestAdded(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
-            mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
+            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
+                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
+                mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
+            }
+        }
+
+        @Override
+        public void onRequestAggregated(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
+            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
+                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
+                if (cachedSpiceRequest.isProcessable() && !mapPendingRequestToRequestListener.containsKey(cachedSpiceRequest)) {
+                    mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
+                }
+            }
+        }
+
+        @Override
+        public void onRequestNotFound(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
+            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
+                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
+            }
         }
 
         @Override

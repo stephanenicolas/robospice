@@ -54,14 +54,18 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     @Override
     protected void tearDown() throws Exception {
+        waitForSpiceManagerShutdown(spiceManager);
+        getInstrumentation().getTargetContext().stopService(new Intent(getInstrumentation().getTargetContext(), SpiceTestService.class));
+        super.tearDown();
+    }
+
+    private void waitForSpiceManagerShutdown(SpiceManagerUnderTest spiceManager) throws InterruptedException {
         if (spiceManager != null && spiceManager.isStarted()) {
             spiceManager.cancelAllRequests();
             spiceManager.removeAllDataFromCache();
             spiceManager.shouldStopAndJoin(SPICE_MANAGER_WAIT_TIMEOUT);
             spiceManager = null;
         }
-        getInstrumentation().getTargetContext().stopService(new Intent(getInstrumentation().getTargetContext(), SpiceTestService.class));
-        super.tearDown();
     }
 
     public void test_execute_should_fail_if_not_started() {
@@ -590,7 +594,102 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // test
         assertEquals(spiceRequestStub2, spiceManager.getNextRequest().getSpiceRequest());
     }
-    
+
+    public void test_2_spice_managers_should_filter_spice_service_listener_events_for_their_own_requests_when_requests_are_added() throws InterruptedException {
+        // TDD test for issue #182
+        // given
+        SpiceManagerUnderTest spiceManager2 = new SpiceManagerUnderTest(SpiceTestService.class);
+        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager2.start(getInstrumentation().getTargetContext());
+
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+
+        RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
+        RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
+
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, DurationInMillis.ALWAYS_EXPIRED, requestListenerStub);
+        spiceManager2.execute(spiceRequestStub2, TEST_CACHE_KEY2, DurationInMillis.ALWAYS_EXPIRED, requestListenerStub2);
+
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertEquals(0, spiceManager.getRequestToLaunchCount());
+        assertEquals(1, spiceManager.getPendingRequestCount());
+        assertEquals(0, spiceManager2.getRequestToLaunchCount());
+        assertEquals(1, spiceManager2.getPendingRequestCount());
+
+        waitForSpiceManagerShutdown(spiceManager2);
+
+    }
+
+    public void test_2_spice_managers_should_filter_spice_service_listener_events_for_their_own_requests_when_requests_are_aggregated() throws InterruptedException {
+        // TDD test for issue #182
+        // given
+        SpiceManagerUnderTest spiceManager2 = new SpiceManagerUnderTest(SpiceTestService.class);
+        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager2.start(getInstrumentation().getTargetContext());
+
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+
+        RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
+        RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();
+
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, DurationInMillis.ALWAYS_EXPIRED, requestListenerStub);
+        spiceManager2.execute(spiceRequestStub2, TEST_CACHE_KEY, DurationInMillis.ALWAYS_EXPIRED, requestListenerStub2);
+
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertEquals(0, spiceManager.getRequestToLaunchCount());
+        assertEquals(1, spiceManager.getPendingRequestCount());
+        assertEquals(0, spiceManager2.getRequestToLaunchCount());
+        assertEquals(1, spiceManager2.getPendingRequestCount());
+
+        waitForSpiceManagerShutdown(spiceManager2);
+
+    }
+
+    public void test_2_spice_managers_should_filter_spice_service_listener_events_for_their_own_requests_when_requests_are_not_processable() throws InterruptedException {
+        // TDD test for issue #182
+        // given
+        SpiceManagerUnderTest spiceManager2 = new SpiceManagerUnderTest(SpiceTestService.class);
+        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager2.start(getInstrumentation().getTargetContext());
+
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+
+        RequestListenerWithProgressStub<String> requestListenerStub = new RequestListenerWithProgressStub<String>();
+        RequestListenerWithProgressStub<String> requestListenerStub2 = new RequestListenerWithProgressStub<String>();
+
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, DurationInMillis.ALWAYS_EXPIRED, requestListenerStub);
+
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        CachedSpiceRequest<String> cachedSpiceRequest2 = new CachedSpiceRequest<String>(spiceRequestStub2, TEST_CACHE_KEY, DurationInMillis.ALWAYS_EXPIRED);
+        cachedSpiceRequest2.setProcessable(false);
+        spiceManager2.execute(cachedSpiceRequest2, requestListenerStub2);
+
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub2.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertTrue(requestListenerStub.isSuccessful());
+        assertEquals(0, spiceManager.getRequestToLaunchCount());
+        assertEquals(1, spiceManager.getPendingRequestCount());
+        assertEquals(0, spiceManager2.getRequestToLaunchCount());
+        assertEquals(0, spiceManager2.getPendingRequestCount());
+
+        waitForSpiceManagerShutdown(spiceManager2);
+
+    }
+
     // ----------------------------------
     // INNER CLASS
     // ----------------------------------
