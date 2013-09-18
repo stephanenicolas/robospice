@@ -54,8 +54,6 @@ before_install:
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   
-
-
 # We will run findbugs and checkstyle in the script phase
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dandroid.dex.optimize=false
 
