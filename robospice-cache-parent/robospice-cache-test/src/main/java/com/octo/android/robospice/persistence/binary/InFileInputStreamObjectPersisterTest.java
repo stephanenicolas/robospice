@@ -64,7 +64,7 @@ public class InFileInputStreamObjectPersisterTest extends InstrumentationTestCas
         IOUtils.write("coucou", fileOutputStream);
         IOUtils.closeQuietly(fileOutputStream);
 
-        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
+        InputStream inputStream = inputStreamCacheManager.loadDataFromCache(TEST_CACHE_KEY, FIVE_SECONDS);
         byte[] actual = IOUtils.toByteArray(inputStream);
         IOUtils.closeQuietly(inputStream);
         assertTrue(Arrays.equals("coucou".getBytes(), actual));
