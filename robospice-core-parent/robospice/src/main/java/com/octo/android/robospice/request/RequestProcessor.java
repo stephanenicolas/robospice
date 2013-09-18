@@ -97,7 +97,7 @@ public class RequestProcessor {
         }
 
         if (listRequestListener != null && listRequestListenerForThisRequest != null) {
-                listRequestListenerForThisRequest.addAll(listRequestListener);
+            listRequestListenerForThisRequest.addAll(listRequestListener);
         }
 
         if (aggregated) {
