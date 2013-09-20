@@ -74,6 +74,8 @@ import com.octo.android.robospice.request.listener.SpiceServiceListener;
  */
 public class SpiceManager implements Runnable {
 
+    protected static final String SPICE_MANAGER_THREAD_NAM_PREFIX = "SpiceManagerThread ";
+
     private static final int DEFAULT_THREAD_COUNT = 3;
 
     /** The class of the {@link SpiceService} to bind to. */
@@ -98,17 +100,18 @@ public class SpiceManager implements Runnable {
 
     /**
      * The list of all requests that have not yet been passed to the service.
-     * All iterations must be synchronized. This is an identity list as we want to keep every request.
+     * All iterations must be synchronized. This is an identity list as we want
+     * to keep every request.
      */
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToLaunchToRequestListener = Collections
         .synchronizedMap(new IdentityHashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
     /**
      * The list of all requests that have already been passed to the service.
-     * All iterations must be synchronized. This is *NOT* an identity list as we want to take aggregation into account.
+     * All iterations must be synchronized. This is *NOT* an identity list as we
+     * want to take aggregation into account.
      */
-    private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapPendingRequestToRequestListener = Collections
-        .synchronizedMap(new HashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
+    private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapPendingRequestToRequestListener = Collections.synchronizedMap(new HashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
     private ExecutorService executorService;
 
@@ -139,6 +142,8 @@ public class SpiceManager implements Runnable {
      * volatile to ensure multi-thread consistency.
      */
     private volatile boolean isUnbinding = false;
+
+    private int spiceManagerThreadIndex;
 
     // ============================================================================================
     // THREAD BEHAVIOR
@@ -188,7 +193,7 @@ public class SpiceManager implements Runnable {
 
             });
             // start the binding to the service
-            runner = new Thread(this);
+            runner = new Thread(this, SPICE_MANAGER_THREAD_NAM_PREFIX + spiceManagerThreadIndex++);
             runner.setPriority(Thread.MIN_PRIORITY);
             isStopped = false;
             runner.start();
@@ -242,11 +247,14 @@ public class SpiceManager implements Runnable {
             if (spiceService == null) {
                 return;
             }
-            while (!isStopped) {
+            while (!isStopped && !Thread.interrupted()) {
                 try {
                     sendRequestToService(requestQueue.take());
                 } catch (final InterruptedException ex) {
                     Ln.d("Interrupted while waiting for new request.");
+                    //we receive an interrupted exception while waiting
+                    //see java spec :  http://stackoverflow.com/a/6699006/693752
+                    break;
                 }
             }
         } catch (final InterruptedException e) {
@@ -303,7 +311,7 @@ public class SpiceManager implements Runnable {
      * and when main processing thread stops.
      */
     public synchronized void shouldStopAndJoin(final long timeOut) throws InterruptedException {
-        if (this.runner == null) {
+        if (!isStarted()) {
             throw new IllegalStateException("Not started yet");
         }
 

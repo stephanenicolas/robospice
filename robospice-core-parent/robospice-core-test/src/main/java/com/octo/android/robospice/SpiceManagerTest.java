@@ -1,5 +1,6 @@
 package com.octo.android.robospice;
 
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -688,6 +689,36 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
         waitForSpiceManagerShutdown(spiceManager2);
 
+    }
+
+    public void test_spice_managers_start_stop_many_times_quickly_kills_all_his_threads_properly() throws InterruptedException {
+        // TDD test for issue #189
+        // given
+
+        // when
+        final int startStopCycleCount = 100;
+        for (int startStopCycleIndex = 0; startStopCycleIndex < startStopCycleCount; startStopCycleIndex++) {
+            spiceManager.start(getInstrumentation().getTargetContext());
+            if (startStopCycleIndex != startStopCycleCount - 1) {
+                spiceManager.shouldStop();
+            }
+        }
+
+        spiceManager.shouldStopAndJoin(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        //give some time for all threads to die of their most noble death
+        Thread.sleep(REQUEST_COMPLETION_TIME_OUT);
+        // use this trick to get all current running threads :
+        // http://stackoverflow.com/a/3018672/693752
+        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+        int spiceManagerThreadCount = 0;
+        for (Thread thread : threadSet) {
+            if (thread.getName().startsWith(SpiceManager.SPICE_MANAGER_THREAD_NAM_PREFIX)) {
+                spiceManagerThreadCount++;
+            }
+        }
+        assertEquals(0, spiceManagerThreadCount);
     }
 
     // ----------------------------------
