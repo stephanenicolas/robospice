@@ -74,9 +74,18 @@ import com.octo.android.robospice.request.listener.SpiceServiceListener;
  */
 public class SpiceManager implements Runnable {
 
-    protected static final String SPICE_MANAGER_THREAD_NAM_PREFIX = "SpiceManagerThread ";
+    // ============================================================================================
+    // CONSTANTS
+    // ============================================================================================
 
+    /** The prefix of SpiceManager threads (used to send requests to the service). */
+    protected static final String SPICE_MANAGER_THREAD_NAM_PREFIX = "SpiceManagerThread ";
+    /** Number of threads used to execute internal commands. */
     private static final int DEFAULT_THREAD_COUNT = 3;
+    
+    // ============================================================================================
+    // ATTRIBUTES
+    // ============================================================================================
 
     /** The class of the {@link SpiceService} to bind to. */
     private final Class<? extends SpiceService> spiceServiceClass;
@@ -113,6 +122,7 @@ public class SpiceManager implements Runnable {
      */
     private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapPendingRequestToRequestListener = Collections.synchronizedMap(new HashMap<CachedSpiceRequest<?>, Set<RequestListener<?>>>());
 
+    /** Will execute internal commands of the SpiceManager. */
     private ExecutorService executorService;
 
     /**
@@ -143,6 +153,7 @@ public class SpiceManager implements Runnable {
      */
     private volatile boolean isUnbinding = false;
 
+    /** Use to give a distinct name to each instance SpiceManager Threads, used to send request to the service. */
     private int spiceManagerThreadIndex;
 
     // ============================================================================================
@@ -182,16 +193,7 @@ public class SpiceManager implements Runnable {
         if (runner != null) {
             throw new IllegalStateException("Already started.");
         } else {
-            executorService = Executors.newFixedThreadPool(getThreadCount(), new ThreadFactory() {
-
-                @Override
-                public Thread newThread(Runnable arg0) {
-                    Thread t = new Thread(arg0);
-                    t.setPriority(Thread.MIN_PRIORITY);
-                    return t;
-                }
-
-            });
+            executorService = Executors.newFixedThreadPool(getThreadCount(), new MinPriorityThreadFactory());
             // start the binding to the service
             runner = new Thread(this, SPICE_MANAGER_THREAD_NAM_PREFIX + spiceManagerThreadIndex++);
             runner.setPriority(Thread.MIN_PRIORITY);
@@ -1040,6 +1042,15 @@ public class SpiceManager implements Runnable {
     // ============================================================================================
     // INNER CLASS
     // ============================================================================================
+
+    private final class MinPriorityThreadFactory implements ThreadFactory {
+        @Override
+        public Thread newThread(Runnable arg0) {
+            Thread t = new Thread(arg0);
+            t.setPriority(Thread.MIN_PRIORITY);
+            return t;
+        }
+    }
 
     /** Reacts to binding/unbinding with {@link SpiceService}. */
     public class SpiceServiceConnection implements ServiceConnection {
