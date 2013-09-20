@@ -4,14 +4,45 @@ Release notes for RoboSpice
 Version 1.5.0 (planned)
 -------------
 
-Version 1.4.6 (Planned July 14th 2013)
+Version 1.4.7 (Planned on July 30th 2013)
 -------------
 
 ** Enhancements
+* New OkHttp module that allows to use OkHttpClient inside a RoboSpice request.
+* Notifications now work correctly on Android 4.3 when service is going to background. Thx to Andrew Clark and others for this.
+* New SpiceService monitoring system initiated by Andrew Clark. A new sample has been added : robospice-sample-core-monitor to demonstrate how to use this feature.
+
+** Bug fixes
+* Documentation has been updated in RS Starter Guide thanks to Mathieu Castets.
+* removeDataFromCache now returns a future for possible sync. Thanks to sergej-koscejev for the fix in pull request https://github.com/octo-online/robospice/pull/185
+* Better handling of aggregated in SpiceManager that caused a memory leak with many identical SpiceRequests. Thanks to seva-ask. Pull request https://github.com/octo-online/robospice/pull/182
+
+
+Version 1.4.6 (July 18th 2013)
+-------------
+
+** Enhancements
+* Google Http Client module now has pre-set services for Jackson,Jackson2 and Gson.
+* Complete refactor of the core of RoboSpice : Request processor has now been split into distinct entities. Thx to Andrew Clark. pull request #160
+* addListenerIfPending can now notify when no pending request has been found. Thx to Andrew Clark. pull request #160
+* Fix RoboSpiceContentProvider to declare single item URI type as ITEM rather than DIRECTORY. Thx to Joel Steres. Pull request #151
+* Remove constraint that ormlite extension cacheKey type matches POJO id type. Thx to Joel Steres. Pull request #145
+* Update of the starter guide on GitHub. Issue https://github.com/octo-online/robospice/issues/162. Thks to Bobby-Jackson for this fix.
+* Remove code duplication from RetrofitObjectPersister.loadDataFromCache and instead use readCacheDataFromFile. https://github.com/octo-online/robospice/pull/138. Thx to Jasco.
+* Gradle support, demoed in RoboSpice samples. 
+* Fix argument names in RoboSpiceDatabaseHelper.onUpdate. https://github.com/octo-online/robospice/pull/146. Thx to Joel Jasco for this fix.
+* Fixed exception when writing to cache with an uncached service. https://github.com/octo-online/robospice/pull/135. Thx to Andrew Clark.
+* DefaultRetryPolicy getDelayBeforeRetry returns fixed value of 0. https://github.com/octo-online/robospice/issues/129. Thx to Joel Jasco
+* EasyMock 3.2 is used in RS 1.4.6, making the interface ICacheManager obsolete.
+* General upgrades of dependencies
 
 ** Bug fixes
 * Spelling correction in logs by Joel Steres
-
+* Pull requests 134 : https://github.com/octo-online/robospice/pull/134 by Andrew Clark
+* Pull requests 140 : https://github.com/octo-online/robospice/pull/140 by Andrew Clark
+* SpiceManager could not be re-started properly. Bug fixed by issue https://github.com/octo-online/robospice/issues/128, thx to Bobby Jackson.
+* Remove RequestCancellationListener after requests https://github.com/octo-online/robospice/pull/148. Thx to Michael Greifeneder
+* FIX simple binary/text/bitmap requests indicated success completion when file not found orconnection failed (Issue 126). Thx to Andrew Clark
 
 Version 1.4.5 (June 24th 2013)
 -------------

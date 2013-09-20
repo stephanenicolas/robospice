@@ -16,7 +16,8 @@ Version 1.4.7 (Planned on July 30th 2013)
 * Documentation has been updated in RS Starter Guide thanks to Mathieu Castets.
 * removeDataFromCache now returns a future for possible sync. Thanks to sergej-koscejev for the fix in pull request https://github.com/octo-online/robospice/pull/185
 * Better handling of aggregated in SpiceManager that caused a memory leak with many identical SpiceRequests. Thanks to seva-ask. Pull request https://github.com/octo-online/robospice/pull/182
-
+* Issue #189 by Vsevolod Ivanov (seva ask): fix for fast switching. https://github.com/octo-online/robospice/pull/189
+ 
 
 Version 1.4.6 (July 18th 2013)
 -------------
