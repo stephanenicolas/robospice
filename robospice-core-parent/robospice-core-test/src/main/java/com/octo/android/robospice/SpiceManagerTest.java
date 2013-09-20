@@ -250,18 +250,27 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // as we will finally get data from network (and fail) after getting it
         // from cache.
         spiceManager.start(getInstrumentation().getTargetContext());
-        SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
+        SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerWithProgressStub<Integer> requestListenerStub = new RequestListenerWithProgressStub<Integer>();
 
         // when
         spiceManager.getFromCacheAndLoadFromNetworkIfExpired(spiceRequestStub, "", DurationInMillis.ONE_MINUTE * 2, requestListenerStub);
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+
+        // then
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+        assertTrue(requestListenerStub.isSuccessful());
+        requestListenerStub.resetSuccess();
+
+        // when
         requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
         assertTrue(requestListenerStub.isExecutedInUIThread());
         assertTrue(requestListenerStub.isComplete());
+        assertFalse(requestListenerStub.isSuccessful());
 
     }
 
@@ -707,7 +716,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.shouldStopAndJoin(REQUEST_COMPLETION_TIME_OUT);
 
         // test
-        //give some time for all threads to die of their most noble death
+        // give some time for all threads to die of their most noble death
         Thread.sleep(REQUEST_COMPLETION_TIME_OUT);
         // use this trick to get all current running threads :
         // http://stackoverflow.com/a/3018672/693752

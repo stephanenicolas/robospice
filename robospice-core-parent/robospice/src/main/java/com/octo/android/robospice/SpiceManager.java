@@ -1043,7 +1043,7 @@ public class SpiceManager implements Runnable {
     // INNER CLASS
     // ============================================================================================
 
-    private final class MinPriorityThreadFactory implements ThreadFactory {
+    private static final class MinPriorityThreadFactory implements ThreadFactory {
         @Override
         public Thread newThread(Runnable arg0) {
             Thread t = new Thread(arg0);
