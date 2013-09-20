@@ -39,17 +39,7 @@ public class DefaultRequestListenerNotifier implements RequestListenerNotifier {
 
     @Override
     public <T> void notifyListenersOfRequestNotFound(final CachedSpiceRequest<T> request, final Set<RequestListener<?>> listRequestListener) {
-
-        for (final RequestListener<?> listener : listRequestListener) {
-            if (listener instanceof PendingRequestListener) {
-                post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((PendingRequestListener<?>) listener).onRequestNotFound();
-                    }
-                }, request.getRequestCacheKey());
-            }
-        }
+        post(new NotFoundRunnable(listRequestListener), request.getRequestCacheKey());
     }
 
     @Override
@@ -96,6 +86,32 @@ public class DefaultRequestListenerNotifier implements RequestListenerNotifier {
     // INNER CLASSES
     // ============================================================================================
 
+    private static class NotFoundRunnable implements Runnable {
+        private final Set<RequestListener<?>> listeners;
+
+        public NotFoundRunnable(final Set<RequestListener<?>> listeners) {
+            this.listeners = listeners;
+        }
+
+        @Override
+        public void run() {
+
+            if (listeners == null) {
+                return;
+            }
+
+            Ln.v("Notifying " + listeners.size() + " listeners of request not found");
+            synchronized (listeners) {
+                for (final RequestListener<?> listener : listeners) {
+                    if (listener != null && listener instanceof PendingRequestListener) {
+                        Ln.v("Notifying %s", listener.getClass().getSimpleName());
+                        ((PendingRequestListener<?>) listener).onRequestNotFound();
+                    }
+                }
+            }
+        }
+    }
+    
     private static class ProgressRunnable implements Runnable {
         private final RequestProgress progress;
         private final Set<RequestListener<?>> listeners;
