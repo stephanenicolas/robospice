@@ -11,10 +11,10 @@
 <a class="jxr_linenumber" name="1" href="#1">1</a>   <strong class="jxr_keyword">package</strong> com.octo.android.robospice.request.listener;
 <a class="jxr_linenumber" name="2" href="#2">2</a>   
 <a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_javadoccomment">* Listens to a SpiceRequest that may be pending, or not.</em>
-<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_javadoccomment">* It will be notified of request's result if such a request is pending, </em>
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment">* otherwise it will notified that such a request is not currently pending.</em>
-<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment">*/</em>
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_javadoccomment"> * Listens to a SpiceRequest that may be pending, or not. It will be notified of</em>
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_javadoccomment"> * request's result if such a request is pending, otherwise it will notified</em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * that such a request is not currently pending.</em>
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="8" href="#8">8</a>   
 <a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> PendingRequestListener&lt;RESULT&gt; <strong class="jxr_keyword">extends</strong> RequestListener&lt;RESULT&gt; {
 <a class="jxr_linenumber" name="10" href="#10">10</a>      <strong class="jxr_keyword">void</strong> onRequestNotFound();

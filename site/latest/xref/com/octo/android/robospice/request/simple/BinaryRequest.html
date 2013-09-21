@@ -41,54 +41,50 @@
 <a class="jxr_linenumber" name="31" href="#31">31</a>      @Override
 <a class="jxr_linenumber" name="32" href="#32">32</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> InputStream loadDataFromNetwork() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="33" href="#33">33</a>          <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="34" href="#34">34</a>              <strong class="jxr_keyword">final</strong> HttpURLConnection httpURLConnection = (HttpURLConnection) <strong class="jxr_keyword">new</strong> URL(
-<a class="jxr_linenumber" name="35" href="#35">35</a>                  url).openConnection();
-<a class="jxr_linenumber" name="36" href="#36">36</a>              <strong class="jxr_keyword">return</strong> processStream(httpURLConnection.getContentLength(),
-<a class="jxr_linenumber" name="37" href="#37">37</a>                  httpURLConnection.getInputStream());
-<a class="jxr_linenumber" name="38" href="#38">38</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> MalformedURLException e) {
-<a class="jxr_linenumber" name="39" href="#39">39</a>              Ln.e(e, <span class="jxr_string">"Unable to create URL"</span>);
-<a class="jxr_linenumber" name="40" href="#40">40</a>              <strong class="jxr_keyword">throw</strong> e;
-<a class="jxr_linenumber" name="41" href="#41">41</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> IOException e) {
-<a class="jxr_linenumber" name="42" href="#42">42</a>              Ln.e(e, <span class="jxr_string">"Unable to download binary"</span>);
-<a class="jxr_linenumber" name="43" href="#43">43</a>              <strong class="jxr_keyword">throw</strong> e;
-<a class="jxr_linenumber" name="44" href="#44">44</a>          }
-<a class="jxr_linenumber" name="45" href="#45">45</a>      }
-<a class="jxr_linenumber" name="46" href="#46">46</a>  
-<a class="jxr_linenumber" name="47" href="#47">47</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String getUrl() {
-<a class="jxr_linenumber" name="48" href="#48">48</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.url;
-<a class="jxr_linenumber" name="49" href="#49">49</a>      }
-<a class="jxr_linenumber" name="50" href="#50">50</a>  
-<a class="jxr_linenumber" name="51" href="#51">51</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="52" href="#52">52</a>  <em class="jxr_javadoccomment">     * Override this method to process the stream downloaded</em>
-<a class="jxr_linenumber" name="53" href="#53">53</a>  <em class="jxr_javadoccomment">     * @param contentLength</em>
-<a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment">     *            size of the download</em>
-<a class="jxr_linenumber" name="55" href="#55">55</a>  <em class="jxr_javadoccomment">     * @param inputStream</em>
-<a class="jxr_linenumber" name="56" href="#56">56</a>  <em class="jxr_javadoccomment">     *            stream of the download</em>
-<a class="jxr_linenumber" name="57" href="#57">57</a>  <em class="jxr_javadoccomment">     * @return an inputstream containing the download</em>
-<a class="jxr_linenumber" name="58" href="#58">58</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="59" href="#59">59</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> InputStream processStream(<strong class="jxr_keyword">int</strong> contentLength,
-<a class="jxr_linenumber" name="60" href="#60">60</a>          InputStream inputStream) <strong class="jxr_keyword">throws</strong> IOException;
-<a class="jxr_linenumber" name="61" href="#61">61</a>  
-<a class="jxr_linenumber" name="62" href="#62">62</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="63" href="#63">63</a>  <em class="jxr_javadoccomment">     * Inspired from Guava com.google.common.io.ByteStreams</em>
-<a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> readBytes(<strong class="jxr_keyword">final</strong> InputStream in,
-<a class="jxr_linenumber" name="66" href="#66">66</a>          <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/octo/android/robospice/request/ProgressByteProcessor.html">ProgressByteProcessor</a> processor) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">final</strong> byte[] buf = <strong class="jxr_keyword">new</strong> byte[BUF_SIZE];
-<a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="69" href="#69">69</a>              <strong class="jxr_keyword">int</strong> amt;
-<a class="jxr_linenumber" name="70" href="#70">70</a>              <strong class="jxr_keyword">do</strong> {
-<a class="jxr_linenumber" name="71" href="#71">71</a>                  amt = in.read(buf);
-<a class="jxr_linenumber" name="72" href="#72">72</a>                  <strong class="jxr_keyword">if</strong> (amt == -1) {
-<a class="jxr_linenumber" name="73" href="#73">73</a>                      <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="74" href="#74">74</a>                  }
-<a class="jxr_linenumber" name="75" href="#75">75</a>              } <strong class="jxr_keyword">while</strong> (processor.processBytes(buf, 0, amt));
-<a class="jxr_linenumber" name="76" href="#76">76</a>          } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="77" href="#77">77</a>              IOUtils.closeQuietly(in);
-<a class="jxr_linenumber" name="78" href="#78">78</a>          }
-<a class="jxr_linenumber" name="79" href="#79">79</a>      }
-<a class="jxr_linenumber" name="80" href="#80">80</a>  
-<a class="jxr_linenumber" name="81" href="#81">81</a>  }
+<a class="jxr_linenumber" name="34" href="#34">34</a>              <strong class="jxr_keyword">final</strong> HttpURLConnection httpURLConnection = (HttpURLConnection) <strong class="jxr_keyword">new</strong> URL(url).openConnection();
+<a class="jxr_linenumber" name="35" href="#35">35</a>              <strong class="jxr_keyword">return</strong> processStream(httpURLConnection.getContentLength(), httpURLConnection.getInputStream());
+<a class="jxr_linenumber" name="36" href="#36">36</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> MalformedURLException e) {
+<a class="jxr_linenumber" name="37" href="#37">37</a>              Ln.e(e, <span class="jxr_string">"Unable to create URL"</span>);
+<a class="jxr_linenumber" name="38" href="#38">38</a>              <strong class="jxr_keyword">throw</strong> e;
+<a class="jxr_linenumber" name="39" href="#39">39</a>          } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> IOException e) {
+<a class="jxr_linenumber" name="40" href="#40">40</a>              Ln.e(e, <span class="jxr_string">"Unable to download binary"</span>);
+<a class="jxr_linenumber" name="41" href="#41">41</a>              <strong class="jxr_keyword">throw</strong> e;
+<a class="jxr_linenumber" name="42" href="#42">42</a>          }
+<a class="jxr_linenumber" name="43" href="#43">43</a>      }
+<a class="jxr_linenumber" name="44" href="#44">44</a>  
+<a class="jxr_linenumber" name="45" href="#45">45</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String getUrl() {
+<a class="jxr_linenumber" name="46" href="#46">46</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.url;
+<a class="jxr_linenumber" name="47" href="#47">47</a>      }
+<a class="jxr_linenumber" name="48" href="#48">48</a>  
+<a class="jxr_linenumber" name="49" href="#49">49</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="50" href="#50">50</a>  <em class="jxr_javadoccomment">     * Override this method to process the stream downloaded</em>
+<a class="jxr_linenumber" name="51" href="#51">51</a>  <em class="jxr_javadoccomment">     * @param contentLength</em>
+<a class="jxr_linenumber" name="52" href="#52">52</a>  <em class="jxr_javadoccomment">     *            size of the download</em>
+<a class="jxr_linenumber" name="53" href="#53">53</a>  <em class="jxr_javadoccomment">     * @param inputStream</em>
+<a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment">     *            stream of the download</em>
+<a class="jxr_linenumber" name="55" href="#55">55</a>  <em class="jxr_javadoccomment">     * @return an inputstream containing the download</em>
+<a class="jxr_linenumber" name="56" href="#56">56</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="57" href="#57">57</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> InputStream processStream(<strong class="jxr_keyword">int</strong> contentLength, InputStream inputStream) <strong class="jxr_keyword">throws</strong> IOException;
+<a class="jxr_linenumber" name="58" href="#58">58</a>  
+<a class="jxr_linenumber" name="59" href="#59">59</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment">     * Inspired from Guava com.google.common.io.ByteStreams</em>
+<a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="62" href="#62">62</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> readBytes(<strong class="jxr_keyword">final</strong> InputStream in, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/octo/android/robospice/request/ProgressByteProcessor.html">ProgressByteProcessor</a> processor) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="63" href="#63">63</a>          <strong class="jxr_keyword">final</strong> byte[] buf = <strong class="jxr_keyword">new</strong> byte[BUF_SIZE];
+<a class="jxr_linenumber" name="64" href="#64">64</a>          <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="65" href="#65">65</a>              <strong class="jxr_keyword">int</strong> amt;
+<a class="jxr_linenumber" name="66" href="#66">66</a>              <strong class="jxr_keyword">do</strong> {
+<a class="jxr_linenumber" name="67" href="#67">67</a>                  amt = in.read(buf);
+<a class="jxr_linenumber" name="68" href="#68">68</a>                  <strong class="jxr_keyword">if</strong> (amt == -1) {
+<a class="jxr_linenumber" name="69" href="#69">69</a>                      <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="70" href="#70">70</a>                  }
+<a class="jxr_linenumber" name="71" href="#71">71</a>              } <strong class="jxr_keyword">while</strong> (processor.processBytes(buf, 0, amt));
+<a class="jxr_linenumber" name="72" href="#72">72</a>          } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="73" href="#73">73</a>              IOUtils.closeQuietly(in);
+<a class="jxr_linenumber" name="74" href="#74">74</a>          }
+<a class="jxr_linenumber" name="75" href="#75">75</a>      }
+<a class="jxr_linenumber" name="76" href="#76">76</a>  
+<a class="jxr_linenumber" name="77" href="#77">77</a>  }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

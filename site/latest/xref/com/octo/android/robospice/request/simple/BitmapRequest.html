@@ -33,7 +33,7 @@
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <em class="jxr_javadoccomment"> * using file system.</em>
 <a class="jxr_linenumber" name="24" href="#24">24</a>  <em class="jxr_javadoccomment"> * @author sni</em>
 <a class="jxr_linenumber" name="25" href="#25">25</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/request/simple/BitmapRequest.html">BitmapRequest</a> <strong class="jxr_keyword">extends</strong> SpiceRequest&lt;Bitmap&gt; {
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/request/simple/BitmapRequest.html">BitmapRequest</a> <strong class="jxr_keyword">extends</strong> SpiceRequest&lt;Bitmap&gt; <strong class="jxr_keyword">implements</strong> <a href="../../../../../../com/octo/android/robospice/request/simple/IBitmapRequest.html">IBitmapRequest</a> {
 <a class="jxr_linenumber" name="27" href="#27">27</a>  
 <a class="jxr_linenumber" name="28" href="#28">28</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> BUF_SIZE = 4096;
 <a class="jxr_linenumber" name="29" href="#29">29</a>  
@@ -120,59 +120,65 @@
 <a class="jxr_linenumber" name="110" href="#110">110</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.url;
 <a class="jxr_linenumber" name="111" href="#111">111</a>     }
 <a class="jxr_linenumber" name="112" href="#112">112</a> 
-<a class="jxr_linenumber" name="113" href="#113">113</a>     <strong class="jxr_keyword">public</strong> File getCacheFile() {
-<a class="jxr_linenumber" name="114" href="#114">114</a>         <strong class="jxr_keyword">return</strong> cacheFile;
-<a class="jxr_linenumber" name="115" href="#115">115</a>     }
-<a class="jxr_linenumber" name="116" href="#116">116</a> 
-<a class="jxr_linenumber" name="117" href="#117">117</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> processStream(<strong class="jxr_keyword">int</strong> contentLength, <strong class="jxr_keyword">final</strong> InputStream inputStream) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="118" href="#118">118</a>         OutputStream fileOutputStream = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="119" href="#119">119</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="120" href="#120">120</a>             <em class="jxr_comment">// touch</em>
-<a class="jxr_linenumber" name="121" href="#121">121</a>             <strong class="jxr_keyword">boolean</strong> isTouchedNow = cacheFile.setLastModified(System.currentTimeMillis());
-<a class="jxr_linenumber" name="122" href="#122">122</a>             <strong class="jxr_keyword">if</strong> (!isTouchedNow) {
-<a class="jxr_linenumber" name="123" href="#123">123</a>                 Ln.d(<span class="jxr_string">"Modification time of file %s could not be changed normally "</span>, cacheFile.getAbsolutePath());
-<a class="jxr_linenumber" name="124" href="#124">124</a>             }
-<a class="jxr_linenumber" name="125" href="#125">125</a>             fileOutputStream = <strong class="jxr_keyword">new</strong> FileOutputStream(cacheFile);
-<a class="jxr_linenumber" name="126" href="#126">126</a>             readBytes(inputStream, <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/request/ProgressByteProcessor.html">ProgressByteProcessor</a>(<strong class="jxr_keyword">this</strong>, fileOutputStream, contentLength));
-<a class="jxr_linenumber" name="127" href="#127">127</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="128" href="#128">128</a>             IOUtils.closeQuietly(fileOutputStream);
-<a class="jxr_linenumber" name="129" href="#129">129</a>         }
-<a class="jxr_linenumber" name="130" href="#130">130</a>     }
-<a class="jxr_linenumber" name="131" href="#131">131</a> 
-<a class="jxr_linenumber" name="132" href="#132">132</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="133" href="#133">133</a> <em class="jxr_javadoccomment">     * Inspired from Guava com.google.common.io.ByteStreams</em>
-<a class="jxr_linenumber" name="134" href="#134">134</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="135" href="#135">135</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> readBytes(<strong class="jxr_keyword">final</strong> InputStream in, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/octo/android/robospice/request/ProgressByteProcessor.html">ProgressByteProcessor</a> processor) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="136" href="#136">136</a>         <strong class="jxr_keyword">final</strong> byte[] buf = <strong class="jxr_keyword">new</strong> byte[BUF_SIZE];
-<a class="jxr_linenumber" name="137" href="#137">137</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="138" href="#138">138</a>             <strong class="jxr_keyword">int</strong> amt;
-<a class="jxr_linenumber" name="139" href="#139">139</a>             <strong class="jxr_keyword">do</strong> {
-<a class="jxr_linenumber" name="140" href="#140">140</a>                 amt = in.read(buf);
-<a class="jxr_linenumber" name="141" href="#141">141</a>                 <strong class="jxr_keyword">if</strong> (amt == -1) {
-<a class="jxr_linenumber" name="142" href="#142">142</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="143" href="#143">143</a>                 }
-<a class="jxr_linenumber" name="144" href="#144">144</a>             } <strong class="jxr_keyword">while</strong> (processor.processBytes(buf, 0, amt));
-<a class="jxr_linenumber" name="145" href="#145">145</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="146" href="#146">146</a>             IOUtils.closeQuietly(in);
-<a class="jxr_linenumber" name="147" href="#147">147</a>         }
-<a class="jxr_linenumber" name="148" href="#148">148</a>     }
-<a class="jxr_linenumber" name="149" href="#149">149</a> 
-<a class="jxr_linenumber" name="150" href="#150">150</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> calculateInSampleSize(BitmapFactory.Options options, <strong class="jxr_keyword">int</strong> reqWidth, <strong class="jxr_keyword">int</strong> reqHeight) {
-<a class="jxr_linenumber" name="151" href="#151">151</a>         <em class="jxr_comment">// Raw height and width of image</em>
-<a class="jxr_linenumber" name="152" href="#152">152</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> height = options.outHeight;
-<a class="jxr_linenumber" name="153" href="#153">153</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> width = options.outWidth;
-<a class="jxr_linenumber" name="154" href="#154">154</a>         <strong class="jxr_keyword">int</strong> inSampleSize = 1;
+<a class="jxr_linenumber" name="113" href="#113">113</a>     <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="114" href="#114">114</a> <em class="jxr_comment">     * (non-Javadoc)</em>
+<a class="jxr_linenumber" name="115" href="#115">115</a> <em class="jxr_comment">     * @see</em>
+<a class="jxr_linenumber" name="116" href="#116">116</a> <em class="jxr_comment">     * com.octo.android.robospice.request.simple.IBitmapRequest#getCacheFile()</em>
+<a class="jxr_linenumber" name="117" href="#117">117</a> <em class="jxr_comment">     */</em>
+<a class="jxr_linenumber" name="118" href="#118">118</a>     @Override
+<a class="jxr_linenumber" name="119" href="#119">119</a>     <strong class="jxr_keyword">public</strong> File getCacheFile() {
+<a class="jxr_linenumber" name="120" href="#120">120</a>         <strong class="jxr_keyword">return</strong> cacheFile;
+<a class="jxr_linenumber" name="121" href="#121">121</a>     }
+<a class="jxr_linenumber" name="122" href="#122">122</a> 
+<a class="jxr_linenumber" name="123" href="#123">123</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> processStream(<strong class="jxr_keyword">int</strong> contentLength, <strong class="jxr_keyword">final</strong> InputStream inputStream) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="124" href="#124">124</a>         OutputStream fileOutputStream = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="125" href="#125">125</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="126" href="#126">126</a>             <em class="jxr_comment">// touch</em>
+<a class="jxr_linenumber" name="127" href="#127">127</a>             <strong class="jxr_keyword">boolean</strong> isTouchedNow = cacheFile.setLastModified(System.currentTimeMillis());
+<a class="jxr_linenumber" name="128" href="#128">128</a>             <strong class="jxr_keyword">if</strong> (!isTouchedNow) {
+<a class="jxr_linenumber" name="129" href="#129">129</a>                 Ln.d(<span class="jxr_string">"Modification time of file %s could not be changed normally "</span>, cacheFile.getAbsolutePath());
+<a class="jxr_linenumber" name="130" href="#130">130</a>             }
+<a class="jxr_linenumber" name="131" href="#131">131</a>             fileOutputStream = <strong class="jxr_keyword">new</strong> FileOutputStream(cacheFile);
+<a class="jxr_linenumber" name="132" href="#132">132</a>             readBytes(inputStream, <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/request/ProgressByteProcessor.html">ProgressByteProcessor</a>(<strong class="jxr_keyword">this</strong>, fileOutputStream, contentLength));
+<a class="jxr_linenumber" name="133" href="#133">133</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="134" href="#134">134</a>             IOUtils.closeQuietly(fileOutputStream);
+<a class="jxr_linenumber" name="135" href="#135">135</a>         }
+<a class="jxr_linenumber" name="136" href="#136">136</a>     }
+<a class="jxr_linenumber" name="137" href="#137">137</a> 
+<a class="jxr_linenumber" name="138" href="#138">138</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="139" href="#139">139</a> <em class="jxr_javadoccomment">     * Inspired from Guava com.google.common.io.ByteStreams</em>
+<a class="jxr_linenumber" name="140" href="#140">140</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="141" href="#141">141</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> readBytes(<strong class="jxr_keyword">final</strong> InputStream in, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/octo/android/robospice/request/ProgressByteProcessor.html">ProgressByteProcessor</a> processor) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="142" href="#142">142</a>         <strong class="jxr_keyword">final</strong> byte[] buf = <strong class="jxr_keyword">new</strong> byte[BUF_SIZE];
+<a class="jxr_linenumber" name="143" href="#143">143</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="144" href="#144">144</a>             <strong class="jxr_keyword">int</strong> amt;
+<a class="jxr_linenumber" name="145" href="#145">145</a>             <strong class="jxr_keyword">do</strong> {
+<a class="jxr_linenumber" name="146" href="#146">146</a>                 amt = in.read(buf);
+<a class="jxr_linenumber" name="147" href="#147">147</a>                 <strong class="jxr_keyword">if</strong> (amt == -1) {
+<a class="jxr_linenumber" name="148" href="#148">148</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="149" href="#149">149</a>                 }
+<a class="jxr_linenumber" name="150" href="#150">150</a>             } <strong class="jxr_keyword">while</strong> (processor.processBytes(buf, 0, amt));
+<a class="jxr_linenumber" name="151" href="#151">151</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="152" href="#152">152</a>             IOUtils.closeQuietly(in);
+<a class="jxr_linenumber" name="153" href="#153">153</a>         }
+<a class="jxr_linenumber" name="154" href="#154">154</a>     }
 <a class="jxr_linenumber" name="155" href="#155">155</a> 
-<a class="jxr_linenumber" name="156" href="#156">156</a>         <strong class="jxr_keyword">if</strong> (height &gt; reqHeight || width &gt; reqWidth) {
-<a class="jxr_linenumber" name="157" href="#157">157</a>             <strong class="jxr_keyword">if</strong> (width &gt; height) {
-<a class="jxr_linenumber" name="158" href="#158">158</a>                 inSampleSize = Math.round((<strong class="jxr_keyword">float</strong>) height / (<strong class="jxr_keyword">float</strong>) reqHeight);
-<a class="jxr_linenumber" name="159" href="#159">159</a>             } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="160" href="#160">160</a>                 inSampleSize = Math.round((<strong class="jxr_keyword">float</strong>) width / (<strong class="jxr_keyword">float</strong>) reqWidth);
-<a class="jxr_linenumber" name="161" href="#161">161</a>             }
-<a class="jxr_linenumber" name="162" href="#162">162</a>         }
-<a class="jxr_linenumber" name="163" href="#163">163</a>         <strong class="jxr_keyword">return</strong> inSampleSize;
-<a class="jxr_linenumber" name="164" href="#164">164</a>     }
-<a class="jxr_linenumber" name="165" href="#165">165</a> }
+<a class="jxr_linenumber" name="156" href="#156">156</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> calculateInSampleSize(BitmapFactory.Options options, <strong class="jxr_keyword">int</strong> reqWidth, <strong class="jxr_keyword">int</strong> reqHeight) {
+<a class="jxr_linenumber" name="157" href="#157">157</a>         <em class="jxr_comment">// Raw height and width of image</em>
+<a class="jxr_linenumber" name="158" href="#158">158</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> height = options.outHeight;
+<a class="jxr_linenumber" name="159" href="#159">159</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> width = options.outWidth;
+<a class="jxr_linenumber" name="160" href="#160">160</a>         <strong class="jxr_keyword">int</strong> inSampleSize = 1;
+<a class="jxr_linenumber" name="161" href="#161">161</a> 
+<a class="jxr_linenumber" name="162" href="#162">162</a>         <strong class="jxr_keyword">if</strong> (height &gt; reqHeight || width &gt; reqWidth) {
+<a class="jxr_linenumber" name="163" href="#163">163</a>             <strong class="jxr_keyword">if</strong> (width &gt; height) {
+<a class="jxr_linenumber" name="164" href="#164">164</a>                 inSampleSize = Math.round((<strong class="jxr_keyword">float</strong>) height / (<strong class="jxr_keyword">float</strong>) reqHeight);
+<a class="jxr_linenumber" name="165" href="#165">165</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="166" href="#166">166</a>                 inSampleSize = Math.round((<strong class="jxr_keyword">float</strong>) width / (<strong class="jxr_keyword">float</strong>) reqWidth);
+<a class="jxr_linenumber" name="167" href="#167">167</a>             }
+<a class="jxr_linenumber" name="168" href="#168">168</a>         }
+<a class="jxr_linenumber" name="169" href="#169">169</a>         <strong class="jxr_keyword">return</strong> inSampleSize;
+<a class="jxr_linenumber" name="170" href="#170">170</a>     }
+<a class="jxr_linenumber" name="171" href="#171">171</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

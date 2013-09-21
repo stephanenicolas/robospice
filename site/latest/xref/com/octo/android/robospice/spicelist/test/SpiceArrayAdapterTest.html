@@ -35,9 +35,9 @@
 <a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> com.google.mockwebserver.MockWebServer;
 <a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> com.google.mockwebserver.RecordedRequest;
 <a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.request.simple.BitmapRequest;
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.spicelist.BitmapSpiceManager;
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.spicelist.SpiceArrayAdapter;
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.spicelist.SpiceListItemView;
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.spicelist.SpiceListItemView;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.spicelist.simple.BitmapSpiceManager;
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter;
 <a class="jxr_linenumber" name="31" href="#31">31</a>  
 <a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">SpiceArrayAdapterTest</a> <strong class="jxr_keyword">extends</strong> InstrumentationTestCase {
 <a class="jxr_linenumber" name="33" href="#33">33</a>  
@@ -48,7 +48,7 @@
 <a class="jxr_linenumber" name="38" href="#38">38</a>      <strong class="jxr_keyword">private</strong> MockWebServer mockWebServer;
 <a class="jxr_linenumber" name="39" href="#39">39</a>  
 <a class="jxr_linenumber" name="40" href="#40">40</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">SpiceArrayAdapterUnderTest</a> adapter;
-<a class="jxr_linenumber" name="41" href="#41">41</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/BitmapSpiceManager.html">BitmapSpiceManager</a> spiceManager;
+<a class="jxr_linenumber" name="41" href="#41">41</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/simple/BitmapSpiceManager.html">BitmapSpiceManager</a> spiceManager;
 <a class="jxr_linenumber" name="42" href="#42">42</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">DataUnderTest</a> data1;
 <a class="jxr_linenumber" name="43" href="#43">43</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">DataUnderTest</a> data2;
 <a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">private</strong> ArrayList&lt;DataUnderTest&gt; data;
@@ -157,7 +157,7 @@
 <a class="jxr_linenumber" name="147" href="#147">147</a>         <strong class="jxr_keyword">private</strong> Condition loadBitmapHasBeenCalledCondition = reentrantLock.newCondition();
 <a class="jxr_linenumber" name="148" href="#148">148</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> loadBitmapHasBeenCalled = false;
 <a class="jxr_linenumber" name="149" href="#149">149</a> 
-<a class="jxr_linenumber" name="150" href="#150">150</a>         <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">SpiceArrayAdapterUnderTest</a>(Context context, <a href="../../../../../../com/octo/android/robospice/spicelist/BitmapSpiceManager.html">BitmapSpiceManager</a> spiceManagerBinary, List&lt;DataUnderTest&gt; data) {
+<a class="jxr_linenumber" name="150" href="#150">150</a>         <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">SpiceArrayAdapterUnderTest</a>(Context context, <a href="../../../../../../com/octo/android/robospice/spicelist/simple/BitmapSpiceManager.html">BitmapSpiceManager</a> spiceManagerBinary, List&lt;DataUnderTest&gt; data) {
 <a class="jxr_linenumber" name="151" href="#151">151</a>             <strong class="jxr_keyword">super</strong>(context, spiceManagerBinary, data);
 <a class="jxr_linenumber" name="152" href="#152">152</a>         }
 <a class="jxr_linenumber" name="153" href="#153">153</a> 
@@ -241,7 +241,7 @@
 <a class="jxr_linenumber" name="231" href="#231">231</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="232" href="#232">232</a> <em class="jxr_javadoccomment">     * Used for testing only so that we can add a custom Service that works offline for testing.</em>
 <a class="jxr_linenumber" name="233" href="#233">233</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="234" href="#234">234</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">BitmapSpiceManagerUnderTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/BitmapSpiceManager.html">BitmapSpiceManager</a> {
+<a class="jxr_linenumber" name="234" href="#234">234</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">BitmapSpiceManagerUnderTest</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/simple/BitmapSpiceManager.html">BitmapSpiceManager</a> {
 <a class="jxr_linenumber" name="235" href="#235">235</a> 
 <a class="jxr_linenumber" name="236" href="#236">236</a>         <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.html">BitmapSpiceManagerUnderTest</a>() {
 <a class="jxr_linenumber" name="237" href="#237">237</a>             <strong class="jxr_keyword">super</strong>(TestBigBinarySpiceService.<strong class="jxr_keyword">class</strong>);
