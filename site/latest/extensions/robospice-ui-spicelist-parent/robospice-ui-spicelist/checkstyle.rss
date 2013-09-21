@@ -8,7 +8,7 @@
     <language>en-us</language>
     <copyright>&#169;2012 - 2013</copyright>
     <item>
-      <title>File: 5,
+      <title>File: 9,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -29,7 +29,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.SpiceArrayAdapter.java">com/octo/android/robospice/spicelist/SpiceArrayAdapter.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpBitmapSpiceService.java">com/octo/android/robospice/spicelist/okhttp/OkHttpBitmapSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -43,7 +43,21 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.BitmapSpiceService.java">com/octo/android/robospice/spicelist/BitmapSpiceService.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.BaseSpiceArrayAdapter.java">com/octo/android/robospice/spicelist/BaseSpiceArrayAdapter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.simple.BitmapSpiceManager.java">com/octo/android/robospice/spicelist/simple/BitmapSpiceManager.java</a>
                 </td>
                 <td>
                   0
@@ -71,7 +85,21 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.BitmapSpiceManager.java">com/octo/android/robospice/spicelist/BitmapSpiceManager.java</a>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpSpiceArrayAdapter.java">com/octo/android/robospice/spicelist/okhttp/OkHttpSpiceArrayAdapter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.simple.BitmapSpiceService.java">com/octo/android/robospice/spicelist/simple/BitmapSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -86,6 +114,34 @@
                           <tr>
                 <td>
                   <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.SpiceListView.java">com/octo/android/robospice/spicelist/SpiceListView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpBitmapSpiceManager.java">com/octo/android/robospice/spicelist/okhttp/OkHttpBitmapSpiceManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/extensions/robospice-ui-spicelist-parent/robospice-ui-spicelist/checkstyle.html#com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter.java">com/octo/android/robospice/spicelist/simple/SpiceArrayAdapter.java</a>
                 </td>
                 <td>
                   0
