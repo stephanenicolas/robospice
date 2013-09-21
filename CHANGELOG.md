@@ -4,7 +4,9 @@ Release notes for RoboSpice
 Version 1.5.0 (planned)
 -------------
 
-Version 1.4.7 (Planned on July 30th 2013)
+* TODO : finish migrating samples to gralde and release.
+
+Version 1.4.7 (September 21th 2013)
 -------------
 
 ** Enhancements
@@ -15,7 +17,7 @@ Version 1.4.7 (Planned on July 30th 2013)
 ** Bug fixes
 * Documentation has been updated in RS Starter Guide thanks to Mathieu Castets.
 * removeDataFromCache now returns a future for possible sync. Thanks to sergej-koscejev for the fix in pull request https://github.com/octo-online/robospice/pull/185
-* Better handling of aggregated in SpiceManager that caused a memory leak with many identical SpiceRequests. Thanks to seva-ask. Pull request https://github.com/octo-online/robospice/pull/182
+* Better handling of aggregation in SpiceManager that caused a memory leak with many identical SpiceRequests. Thanks to seva-ask. Pull request https://github.com/octo-online/robospice/pull/182
 * Issue #189 by Vsevolod Ivanov (seva ask): fix for fast switching. https://github.com/octo-online/robospice/pull/189
 * A NPE could be sent when notifying listeners of a request not found when screen was turned on. 
 
