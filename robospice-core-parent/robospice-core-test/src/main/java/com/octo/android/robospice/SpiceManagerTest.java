@@ -7,8 +7,7 @@ import java.util.concurrent.TimeoutException;
 
 import roboguice.util.temp.Ln;
 import android.content.Intent;
-import android.test.FlakyTest;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
 import com.octo.android.robospice.core.test.SpiceTestService;
 import com.octo.android.robospice.exception.RequestCancelledException;
@@ -27,9 +26,8 @@ import com.octo.android.robospice.stub.SpiceRequestFailingStub;
 import com.octo.android.robospice.stub.SpiceRequestStub;
 import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
 
-public class SpiceManagerTest extends InstrumentationTestCase {
+public class SpiceManagerTest extends AndroidTestCase {
 
-    private static final int DEFAULT_TOLERANCE_TO_KILL_ALL_THREADS_PROPERLY = 3;
     private static final int SEQUENTIAL_AGGREGATION_COUNT = 400;
     private static final int SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION = 1000;
     private static final Class<String> TEST_CLASS = String.class;
@@ -44,21 +42,20 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_SHORT = 200;
     private static final long REQUEST_COMPLETION_TIME_OUT = 4000;
     private static final long SPICE_MANAGER_WAIT_TIMEOUT = 500;
+    private static final long SMALL_THREAD_SLEEP = 50;
 
     private SpiceManagerUnderTest spiceManager;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        // http://stackoverflow.com/q/6516441/693752
-        getInstrumentation().waitForIdleSync();
         spiceManager = new SpiceManagerUnderTest(SpiceTestService.class);
     }
 
     @Override
     protected void tearDown() throws Exception {
         waitForSpiceManagerShutdown(spiceManager);
-        getInstrumentation().getTargetContext().stopService(new Intent(getInstrumentation().getTargetContext(), SpiceTestService.class));
+        getContext().stopService(new Intent(getContext(), SpiceTestService.class));
         super.tearDown();
     }
 
@@ -101,13 +98,13 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // given
 
         // when
-        spiceManager.start(getInstrumentation().getContext());
+        spiceManager.start(getContext());
         assertNull(spiceManager.getException(SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION));
     }
 
     public void test_execute_should_fail_if_stopped() throws InterruptedException {
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         spiceManager.shouldStopAndJoin(SPICE_MANAGER_WAIT_TIMEOUT);
 
         // when
@@ -123,7 +120,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_execute_executes_1_request_that_succeeds() throws InterruptedException {
         // when
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
 
@@ -139,7 +136,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_execute_executes_1_request_that_fails() throws InterruptedException {
         // when
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
 
@@ -156,7 +153,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_execute_many_equal_requests_and_see_if_they_get_aggregated() throws InterruptedException {
         // when
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
 
@@ -164,7 +161,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         for (int requestIndex = 0; requestIndex < SEQUENTIAL_AGGREGATION_COUNT; requestIndex++) {
             spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
         }
-        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
 
         // test
         assertTrue(spiceManager.getPendingRequestCount() <= 1);
@@ -179,7 +176,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // IntegerPersister that
         // always return a value in cache. Nevertheless, the request will fail
         // as we don't use cache.
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
         RequestListenerStub<Integer> requestListenerStub = new RequestListenerStub<Integer>();
 
@@ -202,7 +199,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // IntegerPersister that
         // always return a value in cache. Nevertheless, the request will fail
         // as we don't use cache.
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
         RequestListenerStub<Integer> requestListenerStub = new RequestListenerStub<Integer>();
 
@@ -226,7 +223,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // always return a value in cache. Nevertheless, the request will fail
         // as we will finally get data from network (and fail) after getting it
         // from cache.
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2);
         RequestListenerWithProgressStub<Integer> requestListenerStub = new RequestListenerWithProgressStub<Integer>();
 
@@ -251,7 +248,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // always return a value in cache. Nevertheless, the request will fail
         // as we will finally get data from network (and fail) after getting it
         // from cache.
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<Integer> spiceRequestStub = new SpiceRequestFailingStub<Integer>(TEST_CLASS2, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerWithProgressStub<Integer> requestListenerStub = new RequestListenerWithProgressStub<Integer>();
 
@@ -279,7 +276,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_putInCache_should_put_some_data_in_cache() throws InterruptedException, CacheLoadingException, ExecutionException {
         // given
         // we use double to get some in memory cache implementation
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         spiceManager.removeDataFromCache(TEST_CLASS3, true);
         RequestListenerStub<Double> requestListenerStub = new RequestListenerStub<Double>();
 
@@ -296,7 +293,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_putDataInCache_should_put_some_data_in_cache() throws InterruptedException, SpiceException, ExecutionException {
         // given
         // we use double to get some in memory cache implementation
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         spiceManager.removeDataFromCache(TEST_CLASS3, true);
 
         // when
@@ -310,7 +307,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_isDataInCache_when_there_is_data_in_cache() throws InterruptedException, SpiceException, ExecutionException, TimeoutException {
         // given
         // we use double to get some in memory cache implementation
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         spiceManager.removeDataFromCache(TEST_CLASS3, true);
 
         // when
@@ -323,7 +320,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_isDataInCache_when_there_is_no_data_in_cache() throws InterruptedException, SpiceException, ExecutionException, TimeoutException {
         // given
         // we use double to get some in memory cache implementation
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         spiceManager.removeDataFromCache(TEST_CLASS, true);
 
         // when
@@ -335,7 +332,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_getDateOfDataInCache_when_there_is_some_data_in_cache() throws InterruptedException, SpiceException, ExecutionException, TimeoutException {
         // given
         // we use double to get some in memory cache implementation
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         spiceManager.removeDataFromCache(TEST_CLASS3, true);
 
         // when
@@ -348,7 +345,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_getDateOfDataInCache_when_there_is_no_data_in_cache() throws InterruptedException, SpiceException, ExecutionException, TimeoutException {
         // given
         // we use double to get some in memory cache implementation
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         spiceManager.removeDataFromCache(TEST_CLASS, true);
 
         // when
@@ -360,10 +357,10 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_cancel_cancels_1_request() throws InterruptedException {
         // given
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(String.class, TEST_RETURNED_DATA);
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         // when
         spiceManager.cancel(spiceRequestStub);
-        Thread.sleep(REQUEST_COMPLETION_TIME_OUT);
+        Thread.sleep(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
 
         // test
         assertTrue(spiceRequestStub.isCancelled());
@@ -371,7 +368,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_cancelAllRequests_cancels_2_requests() throws InterruptedException {
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerWithProgressStub<String> requestListenerStub = new RequestListenerWithProgressStub<String>();
@@ -411,7 +408,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // https://github.com/octo-online/robospice/issues/92
 
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
 
         // when
         spiceManager.cancel(TEST_CLASS, TEST_CACHE_KEY);
@@ -420,14 +417,14 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_addListenerIfPending_receives_no_events_except_request_not_found_when_there_is_no_request_pending() throws InterruptedException {
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS);
         PendingRequestListenerWithProgressStub<String> requestListenerStub = new PendingRequestListenerWithProgressStub<String>();
 
         // when
         spiceManager.addListenerIfPending(TEST_CLASS, TEST_CACHE_KEY, requestListenerStub);
 
-        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(WAIT_BEFORE_EXECUTING_REQUEST_LARGE + REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
 
         // test
         assertNull(requestListenerStub.isSuccessful());
@@ -438,7 +435,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_shouldStop_stops_requests_immediatly() throws InterruptedException {
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
@@ -449,8 +446,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
         spiceManager.shouldStop();
 
-        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
 
         // test
         // no guarantee on that
@@ -466,10 +463,10 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // issue https://github.com/octo-online/robospice/issues/128
 
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         spiceManager.shouldStopAndJoin(SPICE_MANAGER_WAIT_TIMEOUT);
 
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
 
@@ -484,7 +481,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_shouldStop_doesnt_notify_listeners_after_requests_are_executed() throws InterruptedException {
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestSucceedingStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         SpiceRequestSucceedingStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
@@ -495,13 +492,13 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         spiceManager.execute(spiceRequestStub2, TEST_CACHE_KEY2, TEST_DURATION, requestListenerStub2);
 
         // wait for requests begin to be executed
-        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
-        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         // stop before
         spiceManager.shouldStop();
 
-        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
-        requestListenerStub2.await(REQUEST_COMPLETION_TIME_OUT);
+        requestListenerStub.await(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        requestListenerStub2.await(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
 
         // test
         assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
@@ -512,7 +509,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_dontNotifyRequestListenersForRequest_stops_only_targeted_request() throws InterruptedException {
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
         SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestFailingStub<String>(TEST_CLASS);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
@@ -536,7 +533,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     public void test_dontNotifyAnyRequestListeners_doesnt_notify_listeners_asap() throws InterruptedException {
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestFailingStub<String> spiceRequestStub = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
         SpiceRequestFailingStub<String> spiceRequestStub2 = new SpiceRequestFailingStub<String>(TEST_CLASS, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
@@ -563,7 +560,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
     public void test_should_receive_request_progress_updates_in_right_order() throws InterruptedException {
         // TDD test for issue 36
         // given
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
         RequestListenerWithProgressHistoryStub<String> requestListenerStub = new RequestListenerWithProgressHistoryStub<String>();
 
@@ -611,8 +608,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // TDD test for issue #182
         // given
         SpiceManagerUnderTest spiceManager2 = new SpiceManagerUnderTest(SpiceTestService.class);
-        spiceManager.start(getInstrumentation().getTargetContext());
-        spiceManager2.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
+        spiceManager2.start(getContext());
 
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
         SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
@@ -641,8 +638,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // TDD test for issue #182
         // given
         SpiceManagerUnderTest spiceManager2 = new SpiceManagerUnderTest(SpiceTestService.class);
-        spiceManager.start(getInstrumentation().getTargetContext());
-        spiceManager2.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
+        spiceManager2.start(getContext());
 
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
         SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
@@ -670,8 +667,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // TDD test for issue #182
         // given
         SpiceManagerUnderTest spiceManager2 = new SpiceManagerUnderTest(SpiceTestService.class);
-        spiceManager.start(getInstrumentation().getTargetContext());
-        spiceManager2.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
+        spiceManager2.start(getContext());
 
         SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
         SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
@@ -702,7 +699,6 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     }
 
-    @FlakyTest(tolerance = DEFAULT_TOLERANCE_TO_KILL_ALL_THREADS_PROPERLY)
     public void test_spice_managers_start_stop_many_times_quickly_kills_all_his_threads_properly() throws InterruptedException {
         // TDD test for issue #189
         // given
@@ -710,7 +706,8 @@ public class SpiceManagerTest extends InstrumentationTestCase {
         // when
         final int startStopCycleCount = 100;
         for (int startStopCycleIndex = 0; startStopCycleIndex < startStopCycleCount; startStopCycleIndex++) {
-            spiceManager.start(getInstrumentation().getTargetContext());
+            spiceManager.start(getContext());
+            Thread.sleep(SMALL_THREAD_SLEEP);
             if (startStopCycleIndex != startStopCycleCount - 1) {
                 spiceManager.shouldStop();
             }
