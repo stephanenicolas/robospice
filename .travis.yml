@@ -4,6 +4,7 @@ branches:
   only:
     - master
     - release
+    - fast-test
 
 language: java
 jdk: oraclejdk7
