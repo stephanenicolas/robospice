@@ -75,7 +75,7 @@ public class RequestProcessor {
                 for (final CachedSpiceRequest<?> cachedSpiceRequest : mapRequestToRequestListener.keySet()) {
                     if (cachedSpiceRequest.equals(request)) {
                         cachedSpiceRequest.cancel();
-                        requestProgressManager.notifyListenersOfRequestCancellation(request, null);
+                        requestProgressManager.notifyListenersOfRequestCancellation(request);
                         return;
                     }
                 }
@@ -118,15 +118,15 @@ public class RequestProcessor {
 
             @Override
             public void onRequestCancelled() {
+                requestProgressManager.notifyListenersOfRequestCancellation(request);
                 mapRequestToRequestListener.remove(request);
-                requestProgressManager.notifyListenersOfRequestCancellation(request, listRequestListener);
             }
         };
         request.setRequestCancellationListener(requestCancellationListener);
 
         if (request.isCancelled()) {
+            requestProgressManager.notifyListenersOfRequestCancellation(request);
             mapRequestToRequestListener.remove(request);
-            requestProgressManager.notifyListenersOfRequestCancellation(request, listRequestListener);
             return;
         } else {
             requestRunner.executeRequest(request);
