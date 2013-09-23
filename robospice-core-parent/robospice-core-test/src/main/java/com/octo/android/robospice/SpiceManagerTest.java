@@ -652,6 +652,7 @@ public class SpiceManagerTest extends AndroidTestCase {
         spiceManager2.execute(spiceRequestStub2, TEST_CACHE_KEY, DurationInMillis.ALWAYS_EXPIRED, requestListenerStub2);
 
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceRequestStub2.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertEquals(0, spiceManager.getRequestToLaunchCount());

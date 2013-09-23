@@ -3,7 +3,7 @@ package com.octo.android.robospice.persistence.file;
 import java.io.File;
 
 import android.app.Application;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -12,7 +12,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.persistence.string.InFileStringObjectPersister;
 
 @MediumTest
-public class InFileObjectPersisterFactoryTest extends InstrumentationTestCase {
+public class InFileObjectPersisterFactoryTest extends AndroidTestCase {
     private static final String TEST_CACHE_KEY = "FOO";
     private static final String TEST_PERSISTED_STRING = "TEST";
 
@@ -21,7 +21,7 @@ public class InFileObjectPersisterFactoryTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         inFileObjectPersisterFactory = new InFileObjectPersisterFactoryUnderTest(application);
     }
 
@@ -56,14 +56,14 @@ public class InFileObjectPersisterFactoryTest extends InstrumentationTestCase {
         File actual = inFileObjectPersisterFactory.getCacheFolder();
 
         // then
-        assertEquals(new File(getInstrumentation().getTargetContext().getCacheDir(), InFileObjectPersister.DEFAULT_ROOT_CACHE_DIR), actual);
+        assertEquals(new File(getContext().getCacheDir(), InFileObjectPersister.DEFAULT_ROOT_CACHE_DIR), actual);
 
     }
 
     public void testGetCacheFolder_custom() throws CacheCreationException {
 
         // given
-        final File cacheFolder = getInstrumentation().getTargetContext().getCacheDir();
+        final File cacheFolder = getContext().getCacheDir();
 
         // when
         inFileObjectPersisterFactory.setCacheFolder(cacheFolder);
@@ -79,10 +79,9 @@ public class InFileObjectPersisterFactoryTest extends InstrumentationTestCase {
         // given
         // create a persister but don't register it, use it directly to create
         // cache content
-        InFileObjectPersister<String> inFileStringObjectPersister = new InFileStringObjectPersister((Application) getInstrumentation().getTargetContext().getApplicationContext());
+        InFileObjectPersister<String> inFileStringObjectPersister = new InFileStringObjectPersister((Application) getContext().getApplicationContext());
         // create a factory
-        InFileObjectPersisterFactoryThatCreatesPersisterUnderTest mockFactoryPersister = new InFileObjectPersisterFactoryThatCreatesPersisterUnderTest((Application) getInstrumentation()
-            .getTargetContext().getApplicationContext());
+        InFileObjectPersisterFactoryThatCreatesPersisterUnderTest mockFactoryPersister = new InFileObjectPersisterFactoryThatCreatesPersisterUnderTest((Application) getContext().getApplicationContext());
         inFileStringObjectPersister.setFactoryCachePrefix(mockFactoryPersister.getCachePrefix());
         inFileStringObjectPersister.saveDataToCacheAndReturnData(TEST_PERSISTED_STRING, TEST_CACHE_KEY);
 

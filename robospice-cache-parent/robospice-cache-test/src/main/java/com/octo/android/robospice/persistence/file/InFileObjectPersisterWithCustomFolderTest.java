@@ -21,7 +21,7 @@ public class InFileObjectPersisterWithCustomFolderTest extends AbstractInFileObj
 
     @Override
     protected void setUp() throws Exception {
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         inFileObjectPersister = new InFileObjectPersisterWithCustomFolderUnderTest(application);
         super.setUp(inFileObjectPersister);
     }

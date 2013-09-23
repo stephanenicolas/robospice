@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -16,7 +16,7 @@ import com.octo.android.robospice.retrofit.test.model.Weather;
 import com.octo.android.robospice.retrofit.test.model.WeatherResult;
 
 @SmallTest
-public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTestCase {
+public abstract class JsonObjectPersisterFactoryTest extends AndroidTestCase {
     private static final String TEST_TEMP_UNIT = "C";
     private static final String TEST_TEMP = "28";
     private static final String TEST_TEMP2 = "30";
@@ -25,7 +25,7 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         RetrofitObjectPersisterFactory factory = getRetrofitObjectPersisterFactory(application);
         inFileObjectPersister = factory.createObjectPersister(WeatherResult.class);
     }

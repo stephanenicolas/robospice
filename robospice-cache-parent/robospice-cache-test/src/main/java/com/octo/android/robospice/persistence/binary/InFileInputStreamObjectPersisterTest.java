@@ -11,13 +11,13 @@ import java.util.Arrays;
 import org.apache.commons.io.IOUtils;
 
 import android.app.Application;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 
 @MediumTest
-public class InFileInputStreamObjectPersisterTest extends InstrumentationTestCase {
+public class InFileInputStreamObjectPersisterTest extends AndroidTestCase {
 
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
 
@@ -28,7 +28,7 @@ public class InFileInputStreamObjectPersisterTest extends InstrumentationTestCas
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         inputStreamCacheManager = new InFileInputStreamObjectPersister(application);
     }
 

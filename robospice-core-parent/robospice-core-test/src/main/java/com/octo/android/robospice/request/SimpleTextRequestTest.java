@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.google.mockwebserver.MockResponse;
@@ -19,15 +19,13 @@ import com.octo.android.robospice.request.simple.SimpleTextRequest;
  * @author sni
  */
 @LargeTest
-public class SimpleTextRequestTest extends InstrumentationTestCase {
+public class SimpleTextRequestTest extends AndroidTestCase {
 
     private MockWebServer mockWebServer;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        // http://stackoverflow.com/q/6516441/693752
-        getInstrumentation().waitForIdleSync();
         mockWebServer = new MockWebServer();
 
     }
@@ -40,7 +38,7 @@ public class SimpleTextRequestTest extends InstrumentationTestCase {
 
     public void test_loadDataFromNetwork_returns_a_simple_string() throws Exception {
         // given;
-        String loremIpsum = IOUtils.toString(getInstrumentation().getContext().getResources().openRawResource(R.raw.lorem_ipsum));
+        String loremIpsum = IOUtils.toString(getContext().getResources().openRawResource(R.raw.lorem_ipsum));
         mockWebServer.enqueue(new MockResponse().setBody(loremIpsum));
         mockWebServer.play();
 
