@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
 
 import android.graphics.Bitmap;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.google.mockwebserver.MockResponse;
@@ -23,7 +23,7 @@ import com.octo.android.robospice.request.simple.BitmapRequest;
  * @author sni
  */
 @LargeTest
-public class BitmapRequestTest extends InstrumentationTestCase {
+public class BitmapRequestTest extends AndroidTestCase {
 
     private static final int TEST_BITMAP_HEIGHT = 36;
     private static final int TEST_BITMAP_WIDTH = 36;
@@ -35,10 +35,8 @@ public class BitmapRequestTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        // http://stackoverflow.com/q/6516441/693752
-        getInstrumentation().waitForIdleSync();
         mockWebServer = new MockWebServer();
-        cacheFile = new File(getInstrumentation().getContext().getCacheDir(), "test");
+        cacheFile = new File(getContext().getCacheDir(), "test");
         cacheFile.delete();
     }
 
@@ -51,7 +49,7 @@ public class BitmapRequestTest extends InstrumentationTestCase {
 
     public void test_loadDataFromNetwork_returns_a_bitmap() throws Exception {
         // given;
-        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext().getResources().openRawResource(R.raw.binary));
+        byte[] data = IOUtils.toByteArray(getContext().getResources().openRawResource(R.raw.binary));
         mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
@@ -60,14 +58,14 @@ public class BitmapRequestTest extends InstrumentationTestCase {
         InputStream cacheInputStream = new FileInputStream(cacheFile);
 
         // then
-        assertTrue(IOUtils.contentEquals(cacheInputStream, getInstrumentation().getContext().getResources().openRawResource(R.raw.binary)));
+        assertTrue(IOUtils.contentEquals(cacheInputStream, getContext().getResources().openRawResource(R.raw.binary)));
         assertEquals(TEST_BITMAP_WIDTH, bitmapReturned.getWidth());
         assertEquals(TEST_BITMAP_HEIGHT, bitmapReturned.getHeight());
     }
 
     public void test_loadDataFromNetwork_returns_a_bitmap_with_right_size() throws Exception {
         // given;
-        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext().getResources().openRawResource(R.raw.binary));
+        byte[] data = IOUtils.toByteArray(getContext().getResources().openRawResource(R.raw.binary));
         mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
@@ -76,7 +74,7 @@ public class BitmapRequestTest extends InstrumentationTestCase {
         InputStream cacheInputStream = new FileInputStream(cacheFile);
 
         // then
-        assertTrue(IOUtils.contentEquals(cacheInputStream, getInstrumentation().getContext().getResources().openRawResource(R.raw.binary)));
+        assertTrue(IOUtils.contentEquals(cacheInputStream, getContext().getResources().openRawResource(R.raw.binary)));
         assertEquals(TEST_BITMAP_REDUCED_WIDTH, bitmapReturned.getWidth());
         assertEquals(TEST_BITMAP_REDUCED_HEIGHT, bitmapReturned.getHeight());
     }

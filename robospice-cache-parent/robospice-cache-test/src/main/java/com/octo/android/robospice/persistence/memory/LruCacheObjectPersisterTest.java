@@ -1,13 +1,13 @@
 package com.octo.android.robospice.persistence.memory;
 
 import android.app.Application;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.string.InFileStringObjectPersister;
 
-public class LruCacheObjectPersisterTest extends InstrumentationTestCase {
+public class LruCacheObjectPersisterTest extends AndroidTestCase {
 
     private static final String TEST_CACHE_KEY_1 = "cacheKey1";
     private static final String TEST_CACHE_KEY_2 = "cacheKey2";
@@ -23,7 +23,7 @@ public class LruCacheObjectPersisterTest extends InstrumentationTestCase {
     @Override
     public void setUp() throws CacheCreationException {
         testPersister = new LruCacheStringObjectPersister(TEST_LRU_CACHE_SIZE);
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         testPersisterWithFallback = new LruCacheStringObjectPersister(new InFileStringObjectPersister(application),
                 TEST_LRU_CACHE_SIZE);
     }

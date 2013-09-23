@@ -20,7 +20,7 @@ public class InFileObjectPersisterWithSanitationTest extends AbstractInFileObjec
 
     @Override
     protected void setUp() throws Exception {
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         inFileObjectPersister = new InFileObjectPersisterWithSanitationUnderTest(application);
         super.setUp(inFileObjectPersister);
     }

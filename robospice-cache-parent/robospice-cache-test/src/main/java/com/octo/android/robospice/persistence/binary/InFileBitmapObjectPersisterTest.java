@@ -3,12 +3,12 @@ package com.octo.android.robospice.persistence.binary;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 
-public class InFileBitmapObjectPersisterTest extends InstrumentationTestCase {
+public class InFileBitmapObjectPersisterTest extends AndroidTestCase {
 
     private static final int TEST_SIZE_RATIO_AFTER_DOWNSAMPLING = 4;
     private static final int BITMAP_HEIGHT = 10;
@@ -29,7 +29,7 @@ public class InFileBitmapObjectPersisterTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        application = (Application) getContext().getApplicationContext();
         testPersister = new InFileBitmapObjectPersister(application);
         testPersister.removeAllDataFromCache();
     }

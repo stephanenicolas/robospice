@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.commons.io.IOUtils;
 
 import android.content.Context;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +29,7 @@ import com.octo.android.robospice.spicelist.SpiceListItemView;
 import com.octo.android.robospice.spicelist.simple.BitmapSpiceManager;
 import com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter;
 
-public class SpiceArrayAdapterTest extends InstrumentationTestCase {
+public class SpiceArrayAdapterTest extends AndroidTestCase {
 
     private static final int ADAPTER_UPDATE_TIME_OUT = 3000;
 
@@ -46,12 +46,12 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        cacheFile = new File(getInstrumentation().getTargetContext().getCacheDir(), "Foo");
+        cacheFile = new File(getContext().getCacheDir(), "Foo");
         cacheFile.delete();
         mockWebServer = new MockWebServer();
 
         spiceManager = new BitmapSpiceManagerUnderTest();
-        spiceManager.start(getInstrumentation().getTargetContext());
+        spiceManager.start(getContext());
 
         data = new ArrayList<DataUnderTest>();
 
@@ -65,7 +65,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
 
         data.add(data1);
         data.add(data2);
-        adapter = new SpiceArrayAdapterUnderTest(getInstrumentation().getTargetContext(), spiceManager, data);
+        adapter = new SpiceArrayAdapterUnderTest(getContext(), spiceManager, data);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
     // I have 3 views on my adapter, name, number and photo
     public void testGetView_fills_list_item_view_with_data_and_executes_request() throws IOException, InterruptedException {
         // given;
-        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext().getResources().openRawResource(R.raw.binary));
+        byte[] data = IOUtils.toByteArray(getContext().getResources().openRawResource(R.raw.binary));
         mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
@@ -115,7 +115,7 @@ public class SpiceArrayAdapterTest extends InstrumentationTestCase {
 
         InputStream cacheInputStream = new FileInputStream(cacheFile);
         assertTrue(IOUtils.contentEquals(cacheInputStream,
-                getInstrumentation().getContext().getResources().openRawResource(R.raw.binary)));
+                getContext().getResources().openRawResource(R.raw.binary)));
 
     }
 
