@@ -1099,8 +1099,13 @@ public class SpiceManager implements Runnable {
         public void onRequestAggregated(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
             if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
                 mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
-                if (cachedSpiceRequest.isProcessable() && !mapPendingRequestToRequestListener.containsKey(cachedSpiceRequest)) {
-                    mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
+                if (cachedSpiceRequest.isProcessable()) {
+                    Set<RequestListener<?>> listeners = mapPendingRequestToRequestListener.get(cachedSpiceRequest);
+                    if (listeners == null) {
+                        listeners = new HashSet<RequestListener<?>>();
+                        mapPendingRequestToRequestListener.put(cachedSpiceRequest, listeners);
+                    }
+                    listeners.addAll(requestProcessingContext.getRequestListeners());
                 }
             }
         }
