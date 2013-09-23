@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.google.mockwebserver.MockResponse;
@@ -20,15 +20,13 @@ import com.octo.android.robospice.request.simple.SmallBinaryRequest;
  * @author sni
  */
 @LargeTest
-public class SmallBinaryRequestTest extends InstrumentationTestCase {
+public class SmallBinaryRequestTest extends AndroidTestCase {
 
     private MockWebServer mockWebServer;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        // http://stackoverflow.com/q/6516441/693752
-        getInstrumentation().waitForIdleSync();
         mockWebServer = new MockWebServer();
     }
 
@@ -40,7 +38,7 @@ public class SmallBinaryRequestTest extends InstrumentationTestCase {
 
     public void test_loadDataFromNetwork_returns_a_small_binary() throws Exception {
         // given;
-        byte[] data = IOUtils.toByteArray(getInstrumentation().getContext().getResources().openRawResource(R.raw.binary));
+        byte[] data = IOUtils.toByteArray(getContext().getResources().openRawResource(R.raw.binary));
         mockWebServer.enqueue(new MockResponse().setBody(data));
         mockWebServer.play();
 
@@ -49,7 +47,7 @@ public class SmallBinaryRequestTest extends InstrumentationTestCase {
         InputStream binaryReturned = binaryRequest.loadDataFromNetwork();
 
         // then
-        assertTrue(IOUtils.contentEquals(binaryReturned, getInstrumentation().getContext().getResources().openRawResource(R.raw.binary)));
+        assertTrue(IOUtils.contentEquals(binaryReturned, getContext().getResources().openRawResource(R.raw.binary)));
     }
 
     public void test_loadDataFromNetwork_throws_exception() throws Exception {

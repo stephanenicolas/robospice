@@ -22,7 +22,7 @@ public class InFileObjectPersisterTest extends AbstractInFileObjectPersisterTest
 
     @Override
     protected void setUp() throws Exception {
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         inFileObjectPersister = new InFileObjectPersisterUnderTest(application);
         super.setUp(inFileObjectPersister);
     }

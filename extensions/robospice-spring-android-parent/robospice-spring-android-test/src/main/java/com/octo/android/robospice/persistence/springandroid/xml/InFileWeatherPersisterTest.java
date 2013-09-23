@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -15,7 +15,7 @@ import com.octo.android.robospice.springandroid.test.model.xml.Weather;
 import com.octo.android.robospice.springandroid.test.model.xml.Wind;
 
 @SmallTest
-public class InFileWeatherPersisterTest extends InstrumentationTestCase {
+public class InFileWeatherPersisterTest extends AndroidTestCase {
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
     private InFileObjectPersister<Weather> dataPersistenceManager;
     private static final String FILE_NAME = "toto";
@@ -26,7 +26,7 @@ public class InFileWeatherPersisterTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         SimpleSerializerObjectPersisterFactory factory = new SimpleSerializerObjectPersisterFactory(application);
         dataPersistenceManager = factory.createObjectPersister(Weather.class);
         TEST_TEMP.setTemp("28");

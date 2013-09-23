@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.googlehttpclient.test.model.CurrenWeather;
@@ -15,7 +15,7 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 
 @SmallTest
-public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTestCase {
+public abstract class JsonObjectPersisterFactoryTest extends AndroidTestCase {
     private static final long FIVE_SECONDS = 5 * DurationInMillis.ONE_SECOND;
     private static final String TEST_TEMP_UNIT = "C";
     private static final String TEST_TEMP = "28";
@@ -27,7 +27,7 @@ public abstract class JsonObjectPersisterFactoryTest extends InstrumentationTest
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
         JsonObjectPersisterFactory factory = getJsonObjectPersisterFactory(application);
         inFileObjectPersister = factory.createInFileObjectPersister(WeatherResult.class, null);
     }

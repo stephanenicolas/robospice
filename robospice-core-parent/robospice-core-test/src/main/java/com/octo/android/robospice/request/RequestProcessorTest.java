@@ -8,7 +8,7 @@ import org.easymock.EasyMock;
 
 import roboguice.util.temp.Ln;
 import android.content.Context;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.exception.NoNetworkException;
@@ -36,7 +36,7 @@ import com.octo.android.robospice.stub.SpiceRequestStub;
 import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
 
 @SmallTest
-public class RequestProcessorTest extends InstrumentationTestCase {
+public class RequestProcessorTest extends AndroidTestCase {
 
     private static final Class<String> TEST_CLASS = String.class;
     private static final String TEST_CACHE_KEY = "12345";
@@ -61,9 +61,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         // https://code.google.com/p/dexmaker/issues/detail?id=2
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-        // http://stackoverflow.com/q/6516441/693752
-        getInstrumentation().waitForIdleSync();
+        System.setProperty("dexmaker.dexcache", getContext().getCacheDir().getPath());
         mockCacheManager = EasyMock.createMock(CacheManager.class);
         requestProcessorListener = new RequestProcessorListener() {
 
@@ -79,7 +77,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         networkStateChecker = new MockNetworkStateChecker();
         progressReporter = new DefaultRequestListenerNotifier();
         spiceServiceListenerNotifier = new SpiceServiceListenerNotifier();
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
+        requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
             spiceServiceListenerNotifier);
     }
 
@@ -116,7 +114,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, cacheKey, TEST_DURATION, TEST_RETURNED_DATA);
 
         ExecutorService executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
+        requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
             spiceServiceListenerNotifier);
 
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
@@ -219,7 +217,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // prepare observers
 
         ExecutorService executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
+        requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
             spiceServiceListenerNotifier);
 
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
@@ -757,7 +755,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // given
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
+        requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
             spiceServiceListenerNotifier);
 
         EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
@@ -830,7 +828,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // given
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
+        requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
             spiceServiceListenerNotifier);
 
         EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
@@ -917,7 +915,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // when
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
+        requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
             spiceServiceListenerNotifier);
 
         CachedSpiceRequestStub<String> stubRequestHighPriority = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);
@@ -963,7 +961,7 @@ public class RequestProcessorTest extends InstrumentationTestCase {
         // when
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        requestProcessorUnderTest = new RequestProcessor(getInstrumentation().getTargetContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
+        requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
             spiceServiceListenerNotifier);
 
         CachedSpiceRequestStub<String> stubRequestLowPriority = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);

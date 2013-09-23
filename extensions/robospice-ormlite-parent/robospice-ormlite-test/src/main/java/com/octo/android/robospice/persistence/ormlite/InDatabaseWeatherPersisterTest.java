@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.ormlite.test.model.CurrenWeather;
@@ -17,7 +17,7 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;
 
 @SmallTest
-public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
+public class InDatabaseWeatherPersisterTest extends AndroidTestCase {
     private ObjectPersister<Weather> dataPersistenceManager;
     private static final CurrenWeather TEST_TEMP = new CurrenWeather();
     private static final CurrenWeather TEST_TEMP2 = new CurrenWeather();
@@ -30,7 +30,7 @@ public class InDatabaseWeatherPersisterTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+        Application application = (Application) getContext().getApplicationContext();
 
         List<Class<?>> classCollection = new ArrayList<Class<?>>();
 
