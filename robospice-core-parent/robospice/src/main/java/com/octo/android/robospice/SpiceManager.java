@@ -733,7 +733,15 @@ public class SpiceManager implements Runnable {
     protected void dontNotifyAnyRequestListenersInternal() {
         lockSendRequestsToService.lock();
         try {
-
+            if (!mapRequestToLaunchToRequestListener.isEmpty() && spiceService != null) {
+                for (final CachedSpiceRequest<?> cachedSpiceRequest : mapRequestToLaunchToRequestListener.keySet()) {
+                    final Set<RequestListener<?>> setRequestListeners = mapRequestToLaunchToRequestListener.get(cachedSpiceRequest);
+                    if (setRequestListeners != null) {
+                        Ln.d("Removing listeners of request to launch : " + cachedSpiceRequest.toString() + " : " + setRequestListeners.size());
+                        spiceService.dontNotifyRequestListenersForRequest(cachedSpiceRequest, setRequestListeners);
+                    }
+                }
+            }
             mapRequestToLaunchToRequestListener.clear();
             Ln.v("Cleared listeners of all requests to launch");
 
@@ -760,7 +768,7 @@ public class SpiceManager implements Runnable {
 
                     final Set<RequestListener<?>> setRequestListeners = mapPendingRequestToRequestListener.get(cachedSpiceRequest);
                     if (setRequestListeners != null) {
-                        Ln.d("Removing listeners of request : " + cachedSpiceRequest.toString() + " : " + setRequestListeners.size());
+                        Ln.d("Removing listeners of pending request : " + cachedSpiceRequest.toString() + " : " + setRequestListeners.size());
                         spiceService.dontNotifyRequestListenersForRequest(cachedSpiceRequest, setRequestListeners);
                     }
                 }
