@@ -1089,32 +1089,28 @@ public class SpiceManager implements Runnable {
     private class PendingRequestHandlerSpiceServiceListener extends SpiceServiceAdapter {
         @Override
         public void onRequestAdded(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
-            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
-                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
-                mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
+            Set<RequestListener<?>> listeners = mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
+            if (listeners != null) {
+                mapPendingRequestToRequestListener.put(cachedSpiceRequest, listeners);
             }
         }
 
         @Override
         public void onRequestAggregated(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
-            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
-                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
-                if (cachedSpiceRequest.isProcessable()) {
-                    Set<RequestListener<?>> listeners = mapPendingRequestToRequestListener.get(cachedSpiceRequest);
-                    if (listeners == null) {
-                        listeners = new HashSet<RequestListener<?>>();
-                        mapPendingRequestToRequestListener.put(cachedSpiceRequest, listeners);
-                    }
-                    listeners.addAll(requestProcessingContext.getRequestListeners());
-                }
+            Set<RequestListener<?>> listeners = mapPendingRequestToRequestListener.get(cachedSpiceRequest);
+            if (listeners == null) {
+                listeners = new HashSet<RequestListener<?>>();
+                mapPendingRequestToRequestListener.put(cachedSpiceRequest, listeners);
+            }
+            Set<RequestListener<?>> listenersToLaunch = mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
+            if (listenersToLaunch != null) {
+                listeners.addAll(listenersToLaunch);
             }
         }
 
         @Override
         public void onRequestNotFound(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
-            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
-                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
-            }
+            mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
         }
 
         @Override
