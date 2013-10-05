@@ -7,6 +7,7 @@ import java.util.concurrent.TimeoutException;
 
 import roboguice.util.temp.Ln;
 import android.content.Intent;
+import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
 
 import com.octo.android.robospice.core.test.SpiceTestService;
@@ -28,6 +29,7 @@ import com.octo.android.robospice.stub.SpiceRequestSucceedingStub;
 
 public class SpiceManagerTest extends InstrumentationTestCase {
 
+    private static final int DEFAULT_TOLERANCE_TO_KILL_ALL_THREADS_PROPERLY = 3;
     private static final int SEQUENTIAL_AGGREGATION_COUNT = 400;
     private static final int SERVICE_TIME_OUT_WHEN_THROW_EXCEPTION = 1000;
     private static final Class<String> TEST_CLASS = String.class;
@@ -700,6 +702,7 @@ public class SpiceManagerTest extends InstrumentationTestCase {
 
     }
 
+    @FlakyTest(tolerance = DEFAULT_TOLERANCE_TO_KILL_ALL_THREADS_PROPERLY)
     public void test_spice_managers_start_stop_many_times_quickly_kills_all_his_threads_properly() throws InterruptedException {
         // TDD test for issue #189
         // given

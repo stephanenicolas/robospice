@@ -3,7 +3,6 @@ package com.octo.android.robospice.persistence.memory;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.v4.util.LruCache;
 
 /**
  * {@link LruCache} for {@link Bitmap}s.

@@ -98,7 +98,6 @@
 		<android.version>4.1.1.4</android.version>
 		<android-platform.version>18</android-platform.version>
 		<android-annotations.version>4.1.1.4</android-annotations.version>
-		<android-support.version>r7</android-support.version>
 		<easymock.version>3.2</easymock.version>
 		<dexmaker.version>1.0</dexmaker.version>
 		<mockwebserver.version>20130706</mockwebserver.version>
