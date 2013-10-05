@@ -6,6 +6,13 @@ Version 1.5.0 (planned)
 
 * TODO : finish migrating samples to gralde and release.
 
+Version 1.4.8 (Planned October 2013)
+-------------
+* Issue #195. Remove all library support dependency for easier setup.
+* Issue #192. A method has been made static in Google Http Java Client module. Thx to seva ask
+
+* Internal feature : RS tests are faster.
+
 Version 1.4.7 (September 21th 2013)
 -------------
 
