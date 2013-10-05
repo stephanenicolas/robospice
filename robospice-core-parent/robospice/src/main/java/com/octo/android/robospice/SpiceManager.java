@@ -733,8 +733,21 @@ public class SpiceManager implements Runnable {
     protected void dontNotifyAnyRequestListenersInternal() {
         lockSendRequestsToService.lock();
         try {
-
-            mapRequestToLaunchToRequestListener.clear();
+            if (spiceService == null) {
+                return;
+            }
+            synchronized (mapRequestToLaunchToRequestListener) {
+                if (!mapRequestToLaunchToRequestListener.isEmpty()) {
+                    for (final CachedSpiceRequest<?> cachedSpiceRequest : mapRequestToLaunchToRequestListener.keySet()) {
+                        final Set<RequestListener<?>> setRequestListeners = mapRequestToLaunchToRequestListener.get(cachedSpiceRequest);
+                        if (setRequestListeners != null) {
+                            Ln.d("Removing listeners of request to launch : " + cachedSpiceRequest.toString() + " : " + setRequestListeners.size());
+                            spiceService.dontNotifyRequestListenersForRequest(cachedSpiceRequest, setRequestListeners);
+                        }
+                    }
+                }
+                mapRequestToLaunchToRequestListener.clear();
+            }
             Ln.v("Cleared listeners of all requests to launch");
 
             removeListenersOfAllPendingCachedRequests();
@@ -753,21 +766,18 @@ public class SpiceManager implements Runnable {
     private void removeListenersOfAllPendingCachedRequests() throws InterruptedException {
         synchronized (mapPendingRequestToRequestListener) {
             if (!mapPendingRequestToRequestListener.isEmpty()) {
-                if (spiceService == null) {
-                    return;
-                }
                 for (final CachedSpiceRequest<?> cachedSpiceRequest : mapPendingRequestToRequestListener.keySet()) {
 
                     final Set<RequestListener<?>> setRequestListeners = mapPendingRequestToRequestListener.get(cachedSpiceRequest);
                     if (setRequestListeners != null) {
-                        Ln.d("Removing listeners of request : " + cachedSpiceRequest.toString() + " : " + setRequestListeners.size());
+                        Ln.d("Removing listeners of pending request : " + cachedSpiceRequest.toString() + " : " + setRequestListeners.size());
                         spiceService.dontNotifyRequestListenersForRequest(cachedSpiceRequest, setRequestListeners);
                     }
                 }
                 mapPendingRequestToRequestListener.clear();
             }
-            Ln.v("Cleared listeners of all pending requests");
         }
+        Ln.v("Cleared listeners of all pending requests");
     }
 
     /**
@@ -1089,27 +1099,30 @@ public class SpiceManager implements Runnable {
     private class PendingRequestHandlerSpiceServiceListener extends SpiceServiceAdapter {
         @Override
         public void onRequestAdded(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
-            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
-                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
-                mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
+            Set<RequestListener<?>> listeners = mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
+            if (listeners != null) {
+                mapPendingRequestToRequestListener.put(cachedSpiceRequest, listeners);
             }
         }
 
         @Override
         public void onRequestAggregated(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
-            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
-                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
-                if (cachedSpiceRequest.isProcessable() && !mapPendingRequestToRequestListener.containsKey(cachedSpiceRequest)) {
-                    mapPendingRequestToRequestListener.put(cachedSpiceRequest, requestProcessingContext.getRequestListeners());
+            Set<RequestListener<?>> listeners = mapPendingRequestToRequestListener.get(cachedSpiceRequest);
+            if (listeners == null) {
+                listeners = Collections.synchronizedSet(new HashSet<RequestListener<?>>());
+                mapPendingRequestToRequestListener.put(cachedSpiceRequest, listeners);
+            }
+            Set<RequestListener<?>> listenersToLaunch = mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
+            if (listenersToLaunch != null) {
+                synchronized (mapPendingRequestToRequestListener) {
+                    listeners.addAll(listenersToLaunch);
                 }
             }
         }
 
         @Override
         public void onRequestNotFound(CachedSpiceRequest<?> cachedSpiceRequest, RequestProcessingContext requestProcessingContext) {
-            if (mapRequestToLaunchToRequestListener.containsKey(cachedSpiceRequest)) {
-                mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
-            }
+            mapRequestToLaunchToRequestListener.remove(cachedSpiceRequest);
         }
 
         @Override
