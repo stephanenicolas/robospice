@@ -9,7 +9,8 @@ Version 1.5.0 (planned)
 Version 1.4.8 (Planned October 2013)
 -------------
 * Issue #195. Remove all library support dependency for easier setup.
-* Issue #192. A method has been made static in Google Http Java Client module. Thx to seva ask
+* Issue #192. A method has been made static in Google Http Java Client module. Thx to Vselod Ivanov
+* Issue #191. In some cases, requests where not aggregated properly. Thx to Vselod Ivanov
 
 * Internal feature : RS tests are faster.
 
