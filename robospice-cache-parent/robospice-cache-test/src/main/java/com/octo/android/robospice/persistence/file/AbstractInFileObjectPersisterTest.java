@@ -12,6 +12,7 @@ public abstract class AbstractInFileObjectPersisterTest extends AndroidTestCase 
 
     private static final int TEST_DATE_IN_CACHE = 5000;
     private static final long TEST_EXPIRATION_DURATION = 1000;
+    private static final long TEST_EXPIRATION_DURATION_LONG = 3000;
     protected InFileObjectPersister<Object> inFileObjectPersister;
 
     protected void setUp(InFileObjectPersister<Object> inFileObjectPersister) throws Exception {
@@ -105,7 +106,7 @@ public abstract class AbstractInFileObjectPersisterTest extends AndroidTestCase 
         inFileObjectPersister.saveDataToCacheAndReturnData(data, cacheKey);
 
         // then
-        assertTrue(inFileObjectPersister.isDataInCache(cacheKey, TEST_EXPIRATION_DURATION));
+        assertTrue(inFileObjectPersister.isDataInCache(cacheKey, TEST_EXPIRATION_DURATION_LONG));
 
         // when
         inFileObjectPersister.removeDataFromCache(cacheKey);
