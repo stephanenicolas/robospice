@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import roboguice.util.temp.Ln;
-import android.support.v4.util.LruCache;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;

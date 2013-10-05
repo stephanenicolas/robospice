@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 
 import com.octo.android.robospice.networkstate.DefaultNetworkStateChecker;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
@@ -49,7 +48,7 @@ import com.octo.android.robospice.request.notifier.SpiceServiceListenerNotifier;
  */
 public abstract class SpiceService extends Service {
 
-    //http://stackoverflow.com/a/13359680/693752
+    // http://stackoverflow.com/a/13359680/693752
     /** JUNIT - this is for testing purposes only */
     private static boolean isJUnit = false;
 
@@ -210,27 +209,28 @@ public abstract class SpiceService extends Service {
 
     /**
      * This method can be overriden in order to create a foreground
-     * SpiceService. By default, it will create a notification that can be
-     * used to set a spiceService to foreground (depending on the versions of Android, the behavior is different : 
-     * before ICS, no notification is shown, on ICS+, a notification is shown with app icon). On Jelly Bean+, 
-     * the notifiation only appears when notification bar is expanded / pulled down.
+     * SpiceService. By default, it will create a notification that can be used
+     * to set a spiceService to foreground (depending on the versions of
+     * Android, the behavior is different : before ICS, no notification is
+     * shown, on ICS+, a notification is shown with app icon). On Jelly Bean+,
+     * the notifiation only appears when notification bar is expanded / pulled
+     * down.
      * @return a notification used to tell user that the SpiceService is still
      *         running and processing requests.
      */
     public Notification createDefaultNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        Notification notification = new Notification();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            builder.setSmallIcon(getApplicationInfo().icon);
+            notification.icon = getApplicationInfo().icon;
         } else {
-            builder.setSmallIcon(0);
+            notification.icon = 0;
         }
-        builder.setTicker(null);
-        builder.setWhen(System.currentTimeMillis());
-        final Notification note = builder.getNotification();
+        notification.tickerText = null;
+        notification.when = System.currentTimeMillis();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            note.priority = Notification.PRIORITY_MIN;
+            notification.priority = Notification.PRIORITY_MIN;
         }
-        return note;
+        return notification;
     }
 
     protected int getNotificationId() {
@@ -394,7 +394,7 @@ public abstract class SpiceService extends Service {
     }
 
     private void showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification() {
-        //http://stackoverflow.com/a/13359680/693752
+        // http://stackoverflow.com/a/13359680/693752
         if (notification == null || isJUnit) {
             return;
         }
