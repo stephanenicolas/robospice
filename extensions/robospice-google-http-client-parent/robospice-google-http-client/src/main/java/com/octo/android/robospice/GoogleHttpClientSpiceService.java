@@ -28,7 +28,7 @@ public abstract class GoogleHttpClientSpiceService extends SpiceService {
         httpRequestFactory = createRequestFactory();
     }
 
-    public HttpRequestFactory createRequestFactory() {
+    public static HttpRequestFactory createRequestFactory() {
         HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
         return httpTransport.createRequestFactory();
     }
