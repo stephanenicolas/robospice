@@ -44,7 +44,10 @@ public class InFileStringObjectPersisterTest extends AndroidTestCase {
 
     public void testLoadDataFromCache_no_expiracy() throws Exception {
         File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
-        IOUtils.write("coucou", new FileOutputStream(cachedFile), CharEncoding.UTF_8);
+
+        FileOutputStream output = new FileOutputStream(cachedFile);
+        IOUtils.write("coucou", output, CharEncoding.UTF_8);
+        IOUtils.closeQuietly(output);
 
         String actual = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ALWAYS_RETURNED);
         assertEquals("coucou", actual);
@@ -52,7 +55,9 @@ public class InFileStringObjectPersisterTest extends AndroidTestCase {
 
     public void testLoadDataFromCache_not_expired() throws Exception {
         File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
-        IOUtils.write("coucou", new FileOutputStream(cachedFile), CharEncoding.UTF_8);
+        FileOutputStream output = new FileOutputStream(cachedFile);
+        IOUtils.write("coucou", output, CharEncoding.UTF_8);
+        IOUtils.closeQuietly(output);
 
         String actual = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
         assertEquals("coucou", actual);
@@ -60,7 +65,9 @@ public class InFileStringObjectPersisterTest extends AndroidTestCase {
 
     public void testLoadDataFromCache_expired() throws Exception {
         File cachedFile = inFileStringObjectPersister.getCacheFile(TEST_CACHE_KEY);
-        IOUtils.write("coucou", new FileOutputStream(cachedFile), CharEncoding.UTF_8);
+        FileOutputStream output = new FileOutputStream(cachedFile);
+        IOUtils.write("coucou", output, CharEncoding.UTF_8);
+        IOUtils.closeQuietly(output);
         cachedFile.setLastModified(System.currentTimeMillis() - FIVE_SECONDS);
 
         String actual = inFileStringObjectPersister.loadDataFromCache(TEST_CACHE_KEY, DurationInMillis.ONE_SECOND);
