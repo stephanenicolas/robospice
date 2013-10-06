@@ -161,7 +161,7 @@ public class SpiceManagerTest extends AndroidTestCase {
         for (int requestIndex = 0; requestIndex < SEQUENTIAL_AGGREGATION_COUNT; requestIndex++) {
             spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
         }
-        requestListenerStub.await(WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        requestListenerStub.await(REQUEST_COMPLETION_TIME_OUT);
 
         // test
         assertTrue(spiceManager.getPendingRequestCount() <= 1);
