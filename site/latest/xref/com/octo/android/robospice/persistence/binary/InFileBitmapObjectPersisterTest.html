@@ -13,12 +13,12 @@
 <a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> android.app.Application;
 <a class="jxr_linenumber" name="4" href="#4">4</a>   <strong class="jxr_keyword">import</strong> android.graphics.Bitmap;
 <a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> android.graphics.BitmapFactory;
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">import</strong> android.test.InstrumentationTestCase;
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">import</strong> android.test.AndroidTestCase;
 <a class="jxr_linenumber" name="7" href="#7">7</a>   
 <a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.DurationInMillis;
 <a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.exception.CacheLoadingException;
 <a class="jxr_linenumber" name="10" href="#10">10</a>  
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileBitmapObjectPersisterTest.html">InFileBitmapObjectPersisterTest</a> <strong class="jxr_keyword">extends</strong> InstrumentationTestCase {
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileBitmapObjectPersisterTest.html">InFileBitmapObjectPersisterTest</a> <strong class="jxr_keyword">extends</strong> AndroidTestCase {
 <a class="jxr_linenumber" name="12" href="#12">12</a>  
 <a class="jxr_linenumber" name="13" href="#13">13</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> TEST_SIZE_RATIO_AFTER_DOWNSAMPLING = 4;
 <a class="jxr_linenumber" name="14" href="#14">14</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> BITMAP_HEIGHT = 10;
@@ -39,7 +39,7 @@
 <a class="jxr_linenumber" name="29" href="#29">29</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="30" href="#30">30</a>          <strong class="jxr_keyword">super</strong>.setUp();
 <a class="jxr_linenumber" name="31" href="#31">31</a>  
-<a class="jxr_linenumber" name="32" href="#32">32</a>          application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+<a class="jxr_linenumber" name="32" href="#32">32</a>          application = (Application) getContext().getApplicationContext();
 <a class="jxr_linenumber" name="33" href="#33">33</a>          testPersister = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/binary/InFileBitmapObjectPersister.html">InFileBitmapObjectPersister</a>(application);
 <a class="jxr_linenumber" name="34" href="#34">34</a>          testPersister.removeAllDataFromCache();
 <a class="jxr_linenumber" name="35" href="#35">35</a>      }

@@ -15,7 +15,7 @@
 <a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> java.util.List;
 <a class="jxr_linenumber" name="6" href="#6">6</a>   
 <a class="jxr_linenumber" name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> android.app.Application;
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> android.test.InstrumentationTestCase;
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> android.test.AndroidTestCase;
 <a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> android.test.suitebuilder.annotation.SmallTest;
 <a class="jxr_linenumber" name="10" href="#10">10</a>  
 <a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.DurationInMillis;
@@ -26,7 +26,7 @@
 <a class="jxr_linenumber" name="16" href="#16">16</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.retrofit.test.model.WeatherResult;
 <a class="jxr_linenumber" name="17" href="#17">17</a>  
 <a class="jxr_linenumber" name="18" href="#18">18</a>  @SmallTest
-<a class="jxr_linenumber" name="19" href="#19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/persistence/retrofit/JsonObjectPersisterFactoryTest.html">JsonObjectPersisterFactoryTest</a> <strong class="jxr_keyword">extends</strong> InstrumentationTestCase {
+<a class="jxr_linenumber" name="19" href="#19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/persistence/retrofit/JsonObjectPersisterFactoryTest.html">JsonObjectPersisterFactoryTest</a> <strong class="jxr_keyword">extends</strong> AndroidTestCase {
 <a class="jxr_linenumber" name="20" href="#20">20</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String TEST_TEMP_UNIT = <span class="jxr_string">"C"</span>;
 <a class="jxr_linenumber" name="21" href="#21">21</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String TEST_TEMP = <span class="jxr_string">"28"</span>;
 <a class="jxr_linenumber" name="22" href="#22">22</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String TEST_TEMP2 = <span class="jxr_string">"30"</span>;
@@ -35,7 +35,7 @@
 <a class="jxr_linenumber" name="25" href="#25">25</a>      @Override
 <a class="jxr_linenumber" name="26" href="#26">26</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="27" href="#27">27</a>          <strong class="jxr_keyword">super</strong>.setUp();
-<a class="jxr_linenumber" name="28" href="#28">28</a>          Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+<a class="jxr_linenumber" name="28" href="#28">28</a>          Application application = (Application) getContext().getApplicationContext();
 <a class="jxr_linenumber" name="29" href="#29">29</a>          <a href="../../../../../../com/octo/android/robospice/persistence/retrofit/RetrofitObjectPersisterFactory.html">RetrofitObjectPersisterFactory</a> factory = getRetrofitObjectPersisterFactory(application);
 <a class="jxr_linenumber" name="30" href="#30">30</a>          inFileObjectPersister = factory.createObjectPersister(WeatherResult.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="31" href="#31">31</a>      }

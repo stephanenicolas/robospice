@@ -11,13 +11,13 @@
 <a class="jxr_linenumber" name="1" href="#1">1</a>   <strong class="jxr_keyword">package</strong> com.octo.android.robospice.persistence.memory;
 <a class="jxr_linenumber" name="2" href="#2">2</a>   
 <a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> android.app.Application;
-<a class="jxr_linenumber" name="4" href="#4">4</a>   <strong class="jxr_keyword">import</strong> android.test.InstrumentationTestCase;
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <strong class="jxr_keyword">import</strong> android.test.AndroidTestCase;
 <a class="jxr_linenumber" name="5" href="#5">5</a>   
 <a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.DurationInMillis;
 <a class="jxr_linenumber" name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.exception.CacheCreationException;
 <a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.string.InFileStringObjectPersister;
 <a class="jxr_linenumber" name="9" href="#9">9</a>   
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/persistence/memory/LruCacheObjectPersisterTest.html">LruCacheObjectPersisterTest</a> <strong class="jxr_keyword">extends</strong> InstrumentationTestCase {
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/octo/android/robospice/persistence/memory/LruCacheObjectPersisterTest.html">LruCacheObjectPersisterTest</a> <strong class="jxr_keyword">extends</strong> AndroidTestCase {
 <a class="jxr_linenumber" name="11" href="#11">11</a>  
 <a class="jxr_linenumber" name="12" href="#12">12</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String TEST_CACHE_KEY_1 = <span class="jxr_string">"cacheKey1"</span>;
 <a class="jxr_linenumber" name="13" href="#13">13</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String TEST_CACHE_KEY_2 = <span class="jxr_string">"cacheKey2"</span>;
@@ -33,7 +33,7 @@
 <a class="jxr_linenumber" name="23" href="#23">23</a>      @Override
 <a class="jxr_linenumber" name="24" href="#24">24</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> CacheCreationException {
 <a class="jxr_linenumber" name="25" href="#25">25</a>          testPersister = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/memory/LruCacheStringObjectPersister.html">LruCacheStringObjectPersister</a>(TEST_LRU_CACHE_SIZE);
-<a class="jxr_linenumber" name="26" href="#26">26</a>          Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+<a class="jxr_linenumber" name="26" href="#26">26</a>          Application application = (Application) getContext().getApplicationContext();
 <a class="jxr_linenumber" name="27" href="#27">27</a>          testPersisterWithFallback = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/memory/LruCacheStringObjectPersister.html">LruCacheStringObjectPersister</a>(<strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/string/InFileStringObjectPersister.html">InFileStringObjectPersister</a>(application),
 <a class="jxr_linenumber" name="28" href="#28">28</a>                  TEST_LRU_CACHE_SIZE);
 <a class="jxr_linenumber" name="29" href="#29">29</a>      }

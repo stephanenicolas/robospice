@@ -85,7 +85,7 @@
 <a class="jxr_linenumber" name="75" href="#75">75</a>                  <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> CachedSpiceRequest&lt;?&gt; cachedSpiceRequest : mapRequestToRequestListener.keySet()) {
 <a class="jxr_linenumber" name="76" href="#76">76</a>                      <strong class="jxr_keyword">if</strong> (cachedSpiceRequest.equals(request)) {
 <a class="jxr_linenumber" name="77" href="#77">77</a>                          cachedSpiceRequest.cancel();
-<a class="jxr_linenumber" name="78" href="#78">78</a>                          requestProgressManager.notifyListenersOfRequestCancellation(request, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="78" href="#78">78</a>                          requestProgressManager.notifyListenersOfRequestCancellation(request);
 <a class="jxr_linenumber" name="79" href="#79">79</a>                          <strong class="jxr_keyword">return</strong>;
 <a class="jxr_linenumber" name="80" href="#80">80</a>                      }
 <a class="jxr_linenumber" name="81" href="#81">81</a>                  }
@@ -128,15 +128,15 @@
 <a class="jxr_linenumber" name="118" href="#118">118</a> 
 <a class="jxr_linenumber" name="119" href="#119">119</a>             @Override
 <a class="jxr_linenumber" name="120" href="#120">120</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> onRequestCancelled() {
-<a class="jxr_linenumber" name="121" href="#121">121</a>                 mapRequestToRequestListener.remove(request);
-<a class="jxr_linenumber" name="122" href="#122">122</a>                 requestProgressManager.notifyListenersOfRequestCancellation(request, listRequestListener);
+<a class="jxr_linenumber" name="121" href="#121">121</a>                 requestProgressManager.notifyListenersOfRequestCancellation(request);
+<a class="jxr_linenumber" name="122" href="#122">122</a>                 mapRequestToRequestListener.remove(request);
 <a class="jxr_linenumber" name="123" href="#123">123</a>             }
 <a class="jxr_linenumber" name="124" href="#124">124</a>         };
 <a class="jxr_linenumber" name="125" href="#125">125</a>         request.setRequestCancellationListener(requestCancellationListener);
 <a class="jxr_linenumber" name="126" href="#126">126</a> 
 <a class="jxr_linenumber" name="127" href="#127">127</a>         <strong class="jxr_keyword">if</strong> (request.isCancelled()) {
-<a class="jxr_linenumber" name="128" href="#128">128</a>             mapRequestToRequestListener.remove(request);
-<a class="jxr_linenumber" name="129" href="#129">129</a>             requestProgressManager.notifyListenersOfRequestCancellation(request, listRequestListener);
+<a class="jxr_linenumber" name="128" href="#128">128</a>             requestProgressManager.notifyListenersOfRequestCancellation(request);
+<a class="jxr_linenumber" name="129" href="#129">129</a>             mapRequestToRequestListener.remove(request);
 <a class="jxr_linenumber" name="130" href="#130">130</a>             <strong class="jxr_keyword">return</strong>;
 <a class="jxr_linenumber" name="131" href="#131">131</a>         } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="132" href="#132">132</a>             requestRunner.executeRequest(request);

@@ -31,7 +31,7 @@
 <a class="jxr_linenumber" name="21" href="#21">21</a>  
 <a class="jxr_linenumber" name="22" href="#22">22</a>      @Override
 <a class="jxr_linenumber" name="23" href="#23">23</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="24" href="#24">24</a>          Application application = (Application) getInstrumentation().getTargetContext().getApplicationContext();
+<a class="jxr_linenumber" name="24" href="#24">24</a>          Application application = (Application) getContext().getApplicationContext();
 <a class="jxr_linenumber" name="25" href="#25">25</a>          inFileObjectPersister = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/octo/android/robospice/persistence/file/InFileObjectPersisterWithCustomFolderTest.html">InFileObjectPersisterWithCustomFolderUnderTest</a>(application);
 <a class="jxr_linenumber" name="26" href="#26">26</a>          <strong class="jxr_keyword">super</strong>.setUp(inFileObjectPersister);
 <a class="jxr_linenumber" name="27" href="#27">27</a>      }
