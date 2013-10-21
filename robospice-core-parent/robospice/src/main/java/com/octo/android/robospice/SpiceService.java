@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 import roboguice.util.temp.Ln;
 import android.app.Application;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -199,7 +200,7 @@ public abstract class SpiceService extends Service {
         }
     }
 
-/**
+    /**
      * Creates the Observer Manager. This method is only called if the RequestReporter implements {@linkRequestReporterWithObserverSupport)
      * @return ({@link SpiceServiceListenerNotifier)
      */
@@ -218,10 +219,14 @@ public abstract class SpiceService extends Service {
      * @return a notification used to tell user that the SpiceService is still
      *         running and processing requests.
      */
+    @SuppressWarnings("deprecation")
     public Notification createDefaultNotification() {
         Notification notification = new Notification();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             notification.icon = getApplicationInfo().icon;
+            //temporary fix https://github.com/octo-online/robospice/issues/200
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
+            notification.setLatestEventInfo(this, "", "", pendingIntent);
         } else {
             notification.icon = 0;
         }
