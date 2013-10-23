@@ -4,7 +4,28 @@ Release notes for RoboSpice
 Version 1.5.0 (planned)
 -------------
 
-Version 1.4.7 (Planned on July 30th 2013)
+* TODO : finish migrating samples to gralde and release.
+* TODO : inject requests in listeners
+* TODO : inject service in requests
+
+Version 1.4.10 (Planned november 2013)
+-------------
+
+
+Version 1.4.9 (October 23rd 2013)
+-------------
+
+* Issue #200. App crash "Bad notification for startForeground". Thx to Mathieu-Castets, DanielNovak and Giorgos Kylafas for reporting, debugging and testing.
+
+Version 1.4.8 (October 10th 2013)
+-------------
+* Issue #195. Remove all library support dependencies for easier setup. Thx to Bogdan Zurac for reporting the issue.
+* Issue #192. A method has been made static in Google Http Java Client module. Thx to Vselod Ivanov for its patch.
+* Issue #191. In some cases, requests where not aggregated properly. Thx to Vselod Ivanov its patch.
+
+* Internal feature : RS tests are faster.
+
+Version 1.4.7 (September 21th 2013)
 -------------
 
 ** Enhancements
@@ -15,8 +36,9 @@ Version 1.4.7 (Planned on July 30th 2013)
 ** Bug fixes
 * Documentation has been updated in RS Starter Guide thanks to Mathieu Castets.
 * removeDataFromCache now returns a future for possible sync. Thanks to sergej-koscejev for the fix in pull request https://github.com/octo-online/robospice/pull/185
-* Better handling of aggregated in SpiceManager that caused a memory leak with many identical SpiceRequests. Thanks to seva-ask. Pull request https://github.com/octo-online/robospice/pull/182
-
+* Better handling of aggregation in SpiceManager that caused a memory leak with many identical SpiceRequests. Thanks to seva-ask. Pull request https://github.com/octo-online/robospice/pull/182
+* Issue #189 by Vsevolod Ivanov (seva ask): fix for fast switching. https://github.com/octo-online/robospice/pull/189
+* A NPE could be sent when notifying listeners of a request not found when screen was turned on. 
 
 Version 1.4.6 (July 18th 2013)
 -------------
