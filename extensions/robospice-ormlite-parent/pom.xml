@@ -7,7 +7,7 @@
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
 		<relativePath>../../</relativePath>
-		<version>1.4.9</version>
+		<version>1.4.10-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.octo.android.robospice</groupId>
