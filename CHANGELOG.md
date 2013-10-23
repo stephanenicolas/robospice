@@ -5,8 +5,19 @@ Version 1.5.0 (planned)
 -------------
 
 * TODO : finish migrating samples to gralde and release.
+* TODO : inject requests in listeners
+* TODO : inject service in requests
 
-Version 1.4.8 (Planned October 2013)
+Version 1.4.10 (Planned november 2013)
+-------------
+
+
+Version 1.4.9 (October 23rd 2013)
+-------------
+
+* Issue #200. App crash "Bad notification for startForeground". Thx to Mathieu-Castets, DanielNovak and Giorgos Kylafas for reporting, debugging and testing.
+
+Version 1.4.8 (October 10th 2013)
 -------------
 * Issue #195. Remove all library support dependencies for easier setup. Thx to Bogdan Zurac for reporting the issue.
 * Issue #192. A method has been made static in Google Http Java Client module. Thx to Vselod Ivanov for its patch.
