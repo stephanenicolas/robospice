@@ -75,10 +75,12 @@ RoboSpice has been featured in
 * [An article of Geeek.org ](http://www.geeek.org/developpement-android-robospice-simplifie-vos-appels-reseau-asynchrone-690.html)
 
 RoboSpice has been presented at : 
-* [DroidCon London](http://uk.droidcon.com/), October 2012
+* [DroidCon London](http://uk.droidcon.com/), October 2013
+* [DroidCon Paris](http://fr.droidcon.com/2013/), June 2013
 * [Nantes GDG Dev Fest, France](http://devfest.gdgnantes.com/?utm_source=3eme%2Bmsg&utm_medium=google-plus&utm_campaign=mailing-devfest), November 2012
 * [Paris Android User Group](http://www.paug.fr/actualite-android/conference-presentation-des-librairies-robospice-et-polaris/), November 2012
 * [DroidCon Amsterdam](http://www.droidcon.nl/), November 2012
+* [DroidCon London](http://uk.droidcon.com/), October 2012
 
 [RoboSpice video at DroidConLondon](http://uk.droidcon.com/sessions/b-track-3/)
 
