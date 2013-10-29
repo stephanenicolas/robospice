@@ -188,7 +188,7 @@ public class CacheManager implements ICacheManager {
                 }
             }
         }
-        throw new RuntimeException("Class " + clazz.getName() + " is not handled by any registered factoryList");
+        throw new RuntimeException("Class " + clazz.getName() + " is not handled by any registered ObjectPersister. Please add a Persister for this class inside the CacheManager of your SpiceService.");
     }
 
 }
