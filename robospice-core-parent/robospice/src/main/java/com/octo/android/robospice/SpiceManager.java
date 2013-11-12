@@ -190,7 +190,7 @@ public class SpiceManager implements Runnable {
      */
     public synchronized void start(final Context context) {
         this.contextWeakReference = new WeakReference<Context>(context);
-        if (runner != null) {
+        if (isStarted()) {
             throw new IllegalStateException("Already started.");
         } else {
             executorService = Executors.newFixedThreadPool(getThreadCount(), new MinPriorityThreadFactory());
