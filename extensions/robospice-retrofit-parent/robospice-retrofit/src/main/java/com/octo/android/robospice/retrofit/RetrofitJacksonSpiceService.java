@@ -3,6 +3,7 @@ package com.octo.android.robospice.retrofit;
 import android.app.Application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFactory;
@@ -18,7 +19,7 @@ import retrofit.converter.JacksonConverter;
  * A pre-set, easy to use, retrofit service. It will use retrofit for network
  * requests and both networking and caching will use Jackson. To use it, just add
  * to your manifest :
- * 
+ *
  * <pre>
  * &lt;service
  *   android:name="com.octo.android.robospice.retrofit.RetrofitJacksonSpiceService"
@@ -28,20 +29,16 @@ import retrofit.converter.JacksonConverter;
  */
 public abstract class RetrofitJacksonSpiceService extends RetrofitSpiceService {
 
-    private Converter converter = new JacksonConverter(new ObjectMapper());
-
     @Override
     public CacheManager createCacheManager(Application application) throws CacheCreationException {
         CacheManager cacheManager = new CacheManager();
-        cacheManager.addPersister(new RetrofitObjectPersisterFactory(application, converter, getCacheFolder()));
+        cacheManager.addPersister(new RetrofitObjectPersisterFactory(application, getConverter(), getCacheFolder()));
         return cacheManager;
     }
 
     @Override
-    protected Builder createRestAdapterBuilder() {
-        RestAdapter.Builder restAdapter = super.createRestAdapterBuilder();
-        restAdapter.setConverter(converter);
-        return restAdapter;
+    protected Converter createConverter() {
+        return new JacksonConverter(new ObjectMapper());
     }
 
     public File getCacheFolder() {

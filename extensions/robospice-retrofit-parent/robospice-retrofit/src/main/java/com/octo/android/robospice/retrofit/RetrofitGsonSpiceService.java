@@ -27,20 +27,16 @@ import com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFa
  */
 public abstract class RetrofitGsonSpiceService extends RetrofitSpiceService {
 
-    private Converter converter = new GsonConverter(new Gson());
-
     @Override
     public CacheManager createCacheManager(Application application) throws CacheCreationException {
         CacheManager cacheManager = new CacheManager();
-        cacheManager.addPersister(new RetrofitObjectPersisterFactory(application, converter, getCacheFolder()));
+        cacheManager.addPersister(new RetrofitObjectPersisterFactory(application, getConverter(), getCacheFolder()));
         return cacheManager;
     }
 
     @Override
-    protected Builder createRestAdapterBuilder() {
-        RestAdapter.Builder restAdapter = super.createRestAdapterBuilder();
-        restAdapter.setConverter(converter);
-        return restAdapter;
+    protected Converter createConverter() {
+        return  new GsonConverter(new Gson());
     }
 
     public File getCacheFolder() {

@@ -19,6 +19,7 @@ public abstract class RetrofitSpiceService extends SpiceService {
     private RestAdapter.Builder builder;
     private RestAdapter restAdapter;
     protected List<Class<?>> retrofitInterfaceList = new ArrayList<Class<?>>();
+    private Converter mConverter;
 
     @Override
     public void onCreate() {
@@ -30,7 +31,17 @@ public abstract class RetrofitSpiceService extends SpiceService {
     protected abstract String getServerUrl();
 
     protected RestAdapter.Builder createRestAdapterBuilder() {
-        return new RestAdapter.Builder().setServer(getServerUrl());
+        return new RestAdapter.Builder().setServer(getServerUrl()).setConverter(getConverter());
+    }
+
+    protected abstract Converter createConverter();
+
+    protected final Converter getConverter() {
+        if (mConverter == null) {
+            mConverter = createConverter();
+        }
+
+        return mConverter;
     }
 
     @SuppressWarnings("unchecked")
