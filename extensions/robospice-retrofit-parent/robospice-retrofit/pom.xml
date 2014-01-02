@@ -31,6 +31,11 @@
 			<groupId>com.squareup.retrofit</groupId>
 			<artifactId>retrofit</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit</groupId>
+			<artifactId>converter-jackson</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -73,7 +78,7 @@
 						<artifactId>maven-dependency-plugin</artifactId>
 						<configuration>
 							<includeArtifactIds>commons-lang3,commons-io,robospice,
-								robospice-cache,retrofit,gson,inject,httpmime</includeArtifactIds>
+								robospice-cache,retrofit,converter-jackson,gson,jackson,inject,httpmime</includeArtifactIds>
 						</configuration>
 					</plugin>
 					<plugin>

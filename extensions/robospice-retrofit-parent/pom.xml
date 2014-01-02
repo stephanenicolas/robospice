@@ -40,6 +40,12 @@
 				<artifactId>retrofit</artifactId>
 				<version>${retrofit.version}</version>
 			</dependency>
+            
+            <dependency>
+				<groupId>com.squareup.retrofit</groupId>
+				<artifactId>converter-jackson</artifactId>
+				<version>${retrofit.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

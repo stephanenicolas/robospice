@@ -112,3 +112,4 @@ Alternatives to RoboSpice
 * [REST Droid](https://github.com/PCreations/RESTDroid)
 * [PostMan (rings twice) Lib](https://github.com/fedepaol/PostmanLib--Rings-Twice--Android)
 * [Ion](https://github.com/koush/ion)
+* [droidQuery](http://phil-brown.github.io/droidQuery/)
