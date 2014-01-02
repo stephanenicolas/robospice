@@ -1237,7 +1237,7 @@ public class SpiceManager implements Runnable {
     }
 
     protected <T> Future<T> executeCommand(SpiceManagerCommand<T> spiceManagerCommand) {
-        if (executorService.isShutdown()) {
+        if (executorService == null || executorService.isShutdown()) {
             return null;
         }
         return executorService.submit(spiceManagerCommand);
