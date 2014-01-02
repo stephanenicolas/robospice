@@ -2,8 +2,6 @@ package com.octo.android.robospice.retrofit;
 
 import java.io.File;
 
-import retrofit.RestAdapter;
-import retrofit.RestAdapter.Builder;
 import retrofit.converter.Converter;
 import retrofit.converter.GsonConverter;
 import android.app.Application;
@@ -42,5 +40,4 @@ public abstract class RetrofitGsonSpiceService extends RetrofitSpiceService {
     public File getCacheFolder() {
         return null;
     }
-
 }

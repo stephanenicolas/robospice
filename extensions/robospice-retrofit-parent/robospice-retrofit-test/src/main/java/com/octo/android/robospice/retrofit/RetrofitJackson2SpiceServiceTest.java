@@ -5,26 +5,25 @@ import android.test.ServiceTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.retrofit.test.RetrofitGsonSpiceTestService;
+import com.octo.android.robospice.retrofit.test.RetrofitJackson2SpiceTestService;
 import com.octo.android.robospice.retrofit.test.model.WeatherResult;
 import com.octo.android.robospice.retrofit.test.stub.RequestListenerStub;
 import com.octo.android.robospice.retrofit.test.stub.RetrofitSpiceRequestStub;
 
-//Thanks to http://stackoverflow.com/questions/2300029/servicetestcaset-getservice
 @SmallTest
-public class RetrofitGsonSpiceServiceTest extends ServiceTestCase<RetrofitGsonSpiceTestService> {
+public class RetrofitJackson2SpiceServiceTest extends ServiceTestCase<RetrofitJackson2SpiceTestService> {
 
     private static final int REQUEST_COMPLETION_TIMEOUT = 1000;
     private SpiceManager spiceManager;
 
-    public RetrofitGsonSpiceServiceTest() {
-        super(RetrofitGsonSpiceTestService.class);
+    public RetrofitJackson2SpiceServiceTest() {
+        super(RetrofitJackson2SpiceTestService.class);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        spiceManager = new SpiceManager(RetrofitGsonSpiceTestService.class);
+        spiceManager = new SpiceManager(RetrofitJackson2SpiceTestService.class);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class RetrofitGsonSpiceServiceTest extends ServiceTestCase<RetrofitGsonSp
 
     public void test_createRequestFactory_returns_default_factory() {
         Intent startIntent = new Intent();
-        startIntent.setClass(getContext(), RetrofitGsonSpiceTestService.class);
+        startIntent.setClass(getContext(), RetrofitJackson2SpiceTestService.class);
         startService(startIntent);
         assertNotNull(getService().createRestAdapterBuilder());
     }

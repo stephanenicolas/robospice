@@ -17,7 +17,10 @@
         <uses-library android:name="android.test.runner" />
 
         <service
-            android:name=".RetrofitSpiceTestService"
+            android:name=".RetrofitGsonSpiceTestService"
+            android:exported="false" />
+        <service
+            android:name=".RetrofitJackson2SpiceTestService"
             android:exported="false" />
     </application>
 

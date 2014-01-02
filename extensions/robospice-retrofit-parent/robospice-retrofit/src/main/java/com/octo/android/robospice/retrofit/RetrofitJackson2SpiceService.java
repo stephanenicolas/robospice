@@ -1,19 +1,15 @@
 package com.octo.android.robospice.retrofit;
 
+import java.io.File;
+
+import retrofit.converter.Converter;
+import retrofit.converter.JacksonConverter;
 import android.app.Application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFactory;
-
-import java.io.File;
-
-import retrofit.RestAdapter;
-import retrofit.RestAdapter.Builder;
-import retrofit.converter.Converter;
-import retrofit.converter.JacksonConverter;
 
 /**
  * A pre-set, easy to use, retrofit service. It will use retrofit for network
@@ -27,7 +23,7 @@ import retrofit.converter.JacksonConverter;
  * </pre>
  * @author Vlad Shvaydetskiy
  */
-public abstract class RetrofitJacksonSpiceService extends RetrofitSpiceService {
+public abstract class RetrofitJackson2SpiceService extends RetrofitSpiceService {
 
     @Override
     public CacheManager createCacheManager(Application application) throws CacheCreationException {
@@ -44,5 +40,4 @@ public abstract class RetrofitJacksonSpiceService extends RetrofitSpiceService {
     public File getCacheFolder() {
         return null;
     }
-
 }
