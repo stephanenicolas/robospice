@@ -16,6 +16,7 @@ Version 1.4.10 (Planned January 2014)
 * Updated android-maven-plugin to fix build. Pull request #235. Thx to Tanner Perrien for fixing he bug. https://github.com/octo-online/robospice/pull/235
 * Add retrofit jackson 2 converter. Merged pull request Vlad omihaz : https://github.com/octo-online/robospice/pull/239
 * Update all dependencies. Fix issue #238 Jackson 2.3.1 needs Android SDK 9+.
+* Bug fix : NPE in execute. Fix issue #221. Thx to Daniel Novak.
 
 Version 1.4.9 (October 23rd 2013)
 -------------
