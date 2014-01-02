@@ -22,7 +22,7 @@ import com.octo.android.robospice.request.notifier.SpiceServiceListenerNotifier;
 
 /**
  * Delegate class of the {@link SpiceService}, easier to test than an Android
- * {@link Service}.
+ * {@link android.app.Service}.
  * @author jva
  */
 public class RequestProcessor {

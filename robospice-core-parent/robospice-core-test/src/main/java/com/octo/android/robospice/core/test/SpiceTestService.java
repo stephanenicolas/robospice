@@ -1,6 +1,7 @@
 package com.octo.android.robospice.core.test;
 
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
 
 import com.octo.android.robospice.SpiceService;
@@ -61,5 +62,12 @@ public class SpiceTestService extends SpiceService {
     @Override
     public boolean isFailOnCacheError() {
         return true;
+    }
+    
+    @Override
+    public Notification createDefaultNotification() {
+        Notification notification = super.createDefaultNotification();
+        notification.icon = android.R.drawable.stat_sys_download;
+        return notification;
     }
 }

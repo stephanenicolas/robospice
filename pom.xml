@@ -96,7 +96,7 @@
 	<properties>
 		<!-- DEPENDENCIES VERSIONS -->
 		<android.version>4.1.1.4</android.version>
-		<android-platform.version>18</android-platform.version>
+		<android-platform.version>19</android-platform.version>
 		<android-annotations.version>4.1.1.4</android-annotations.version>
 		<easymock.version>3.2</easymock.version>
 		<dexmaker.version>1.0</dexmaker.version>
