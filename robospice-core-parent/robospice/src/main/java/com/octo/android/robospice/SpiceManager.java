@@ -213,8 +213,8 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * @return the number of current request that should be launched asap when
-     *         the spice service will be bound bound.
+     * @return the number of current requests that should be launched ASAP (when
+     *         the spice service is bound).
      */
     public int getRequestToLaunchCount() {
         return mapRequestToLaunchToRequestListener.size();
