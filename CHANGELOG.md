@@ -14,6 +14,8 @@ Version 1.4.10 (Planned January 2014)
 * upgrade to maven android plugin version 3.8.1
 * spicemanager: always use isStarted() when checking if started. Pull request #214. Thx to Giorgos Kylafas for fixing the bug. https://github.com/octo-online/robospice/pull/214 
 * Updated android-maven-plugin to fix build. Pull request #235. Thx to Tanner Perrien for fixing he bug. https://github.com/octo-online/robospice/pull/235
+* Add retrofit jackson 2 converter. Merged pull request Vlad omihaz : https://github.com/octo-online/robospice/pull/239
+* Upgrade all dependencies. Jackson 2.3.1 needs Android SDK 9+.
 
 Version 1.4.9 (October 23rd 2013)
 -------------
