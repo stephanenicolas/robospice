@@ -8,9 +8,12 @@ Version 1.5.0 (planned)
 * TODO : inject requests in listeners
 * TODO : inject service in requests
 
-Version 1.4.10 (Planned november 2013)
+Version 1.4.10 (Planned January 2014)
 -------------
 
+* upgrade to maven android plugin version 3.8.1
+* spicemanager: always use isStarted() when checking if started. Pull request #214. Thx to Giorgos Kylafas for fixing the bug. https://github.com/octo-online/robospice/pull/214 
+* Updated android-maven-plugin to fix build. Pull request #235. Thx to Tanner Perrien for fixing he bug. https://github.com/octo-online/robospice/pull/235
 
 Version 1.4.9 (October 23rd 2013)
 -------------
