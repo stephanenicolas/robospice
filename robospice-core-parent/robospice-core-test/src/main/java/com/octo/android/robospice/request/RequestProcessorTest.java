@@ -81,6 +81,12 @@ public class RequestProcessorTest extends AndroidTestCase {
         requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter,
             spiceServiceListenerNotifier);
     }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        requestProcessorUnderTest.shouldStop();
+        super.tearDown();
+    }
 
     // ============================================================================================
     // TESTING WITH FAIL ON ERROR = false
@@ -1220,6 +1226,30 @@ public class RequestProcessorTest extends AndroidTestCase {
         assertTrue(mockRequestListener.isExecutedInUIThread());
         assertFalse(mockRequestListener.isSuccessful());
         assertTrue(mockRequestListener.getReceivedException() instanceof NoNetworkException);
+    }
+
+
+    // ============================================================================================
+    // EXECUTOR SERVICE DEPENDENCY
+    // ============================================================================================
+    public void testShouldStop_shuts_down_the_executor_service() throws Exception {
+        requestProcessorUnderTest.shouldStop();
+
+        // given
+        ExecutorService mockExecutorService = EasyMock.createMock(ExecutorService.class);
+
+        requestProcessorUnderTest = new RequestProcessor(getContext(), mockCacheManager, mockExecutorService, requestProcessorListener, networkStateChecker, progressReporter,
+            spiceServiceListenerNotifier);
+
+        mockExecutorService.shutdown();
+        EasyMock.replay(mockExecutorService);
+
+        // when
+        requestProcessorUnderTest.shouldStop();
+
+        // then
+        EasyMock.verify(mockExecutorService);
+        EasyMock.resetToNice(mockExecutorService);
     }
 
     // ============================================================================================

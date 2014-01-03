@@ -149,6 +149,14 @@ public abstract class SpiceService extends Service {
     protected RequestProcessor createRequestProcessor(ExecutorService executorService, NetworkStateChecker networkStateChecker) {
         return new RequestProcessor(getApplicationContext(), cacheManager, executorService, requestProcessorListener, networkStateChecker, progressReporter, spiceServiceListenerNotifier);
     }
+    
+    /**
+     * For testing purposes only.
+     * @return the request processor of this spice service.
+     */
+    protected RequestProcessor getRequestProcessor() {
+        return requestProcessor;
+    }
 
     /**
      * Method to create a Request Progress Reporter object which is responsible
@@ -398,10 +406,11 @@ public abstract class SpiceService extends Service {
     private void stopIfNotBoundAndHasNoPendingRequests() {
         Ln.v("Pending requests : " + currentPendingRequestCount);
         if (currentPendingRequestCount == 0 && !isBound) {
+            requestProcessor.shouldStop();
             stopSelf();
         }
     }
-
+    
     private void showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification() {
         // http://stackoverflow.com/a/13359680/693752
         if (notification == null || isJUnit) {

@@ -42,6 +42,7 @@ public class RequestRunner {
     private boolean failOnCacheError;
     private final NetworkStateChecker networkStateChecker;
     private final RequestProgressManager requestProgressManager;
+    private boolean isStopped;
 
     // ============================================================================================
     // CONSTRUCTOR
@@ -60,6 +61,10 @@ public class RequestRunner {
     }
 
     public void executeRequest(CachedSpiceRequest<?> request) {
+        if (isStopped) {
+            Ln.d("Dropping request : " + request + " as runner is stopped.");
+            return;
+        }
         planRequestExecution(request);
     }
 
@@ -272,5 +277,14 @@ public class RequestRunner {
 
     private static void printRequestProcessingDuration(long startTime, CachedSpiceRequest<?> request) {
         Ln.d("It tooks %s to process request %s.", getTimeString(System.currentTimeMillis() - startTime), request.toString());
+    }
+
+    public void shouldStop() {
+        isStopped = true;
+        executorService.shutdown();
+    }
+
+    public boolean isStopped() {
+        return isStopped;
     }
 }

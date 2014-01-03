@@ -34,6 +34,7 @@ public class RequestProcessor {
     private final RequestProgressManager requestProgressManager;
     private final RequestRunner requestRunner;
     private final CacheManager cacheManager;
+    private boolean isStopped;
 
     // ============================================================================================
     // CONSTRUCTOR
@@ -68,6 +69,11 @@ public class RequestProcessor {
     // PUBLIC
     // ============================================================================================
     public void addRequest(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listRequestListener) {
+        if (isStopped) {
+            Ln.d("Dropping request : " + request + " as processor is stopped.");
+            return;
+        }
+
         Ln.d("Adding request to queue " + hashCode() + ": " + request + " size is " + mapRequestToRequestListener.size());
 
         if (request.isCancelled()) {
@@ -112,8 +118,8 @@ public class RequestProcessor {
                 requestProgressManager.notifyListenersOfRequestNotFound(request, listRequestListener);
             }
             requestProgressManager.notifyOfRequestProcessed(request, listRequestListener);
-            //we have to return if request is not processable.
-            //fix bug https://github.com/octo-online/robospice/issues/215
+            // we have to return if request is not processable.
+            // fix bug https://github.com/octo-online/robospice/issues/215
             return;
         }
 
@@ -204,5 +210,14 @@ public class RequestProcessor {
 
     public void removeSpiceServiceListener(final SpiceServiceListener spiceServiceListener) {
         requestProgressManager.removeSpiceServiceListener(spiceServiceListener);
+    }
+
+    public void shouldStop() {
+        isStopped = true;
+        requestRunner.shouldStop();
+    }
+
+    public boolean isStopped() {
+        return isStopped;
     }
 }

@@ -17,13 +17,14 @@ Enhancements
 * spicemanager: always use isStarted() when checking if started. Pull request #214. Thx to Giorgos Kylafas for fixing the bug. https://github.com/octo-online/robospice/pull/214 
 * Updated android-maven-plugin to fix build. Pull request #235. Thx to Tanner Perrien for fixing he bug. https://github.com/octo-online/robospice/pull/235
 * Add retrofit jackson 2 converter. Merged pull request Vlad omihaz : https://github.com/octo-online/robospice/pull/239
-* Update all dependencies. Fix issue #238 Jackson 2.3.1 needs Android SDK 9+.
+* Update all dependencies. Fix issue #238. Jackson dependency for spring android will remain 2.2.3. Jackson 2.3.1 needs Android SDK 9+.
 
 Bug fixes
 
 * Bug fix : NPE in execute. Fix issue #221. Thx to Daniel Novak.
 * Bug fix : Incorrect behaviour in addListenerIfPending. Fix issue #215. Thx to Isuski
 * Bug fix : Fixed context leak in the event that the manager is not stopped. Pull request #233. Thx to Tanner Perrien.
+* Bug fix : Many threads blocked in PausablePriorityBlockingQueue.take. Fix issue #220. Thx to Nicolas Poirier.
 
 Version 1.4.9 (October 23rd 2013)
 -------------

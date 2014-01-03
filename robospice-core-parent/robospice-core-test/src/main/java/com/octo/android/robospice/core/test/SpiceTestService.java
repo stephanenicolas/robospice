@@ -7,6 +7,7 @@ import android.content.Context;
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
+import com.octo.android.robospice.request.RequestProcessor;
 import com.octo.android.robospice.stub.DoubleInMemoryPersisterStub;
 import com.octo.android.robospice.stub.IntegerPersisterStub;
 import com.octo.android.robospice.stub.StringPersisterStub;
@@ -20,7 +21,7 @@ public class SpiceTestService extends SpiceService {
 
     private static final int TEST_THREAD_COUNT = 3;
     private static final int TEST_THREAD_PRIORITY = Thread.NORM_PRIORITY;
-
+    
     @Override
     public CacheManager createCacheManager(Application application) {
         CacheManager cacheManager = new CacheManager();
@@ -70,4 +71,10 @@ public class SpiceTestService extends SpiceService {
         notification.icon = android.R.drawable.stat_sys_download;
         return notification;
     }
+
+    @Override
+    public RequestProcessor getRequestProcessor() {
+        return super.getRequestProcessor();
+    }
+
 }

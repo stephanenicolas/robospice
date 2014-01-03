@@ -68,4 +68,17 @@ public class SpiceServiceTest extends ServiceTestCase<SpiceTestService> {
 
         assertEquals(getService().getThreadPriority(), executorService.getThreadFactory().newThread(null).getPriority());
     }
+
+    public void testStops_shutsdown_executor_service() {
+        // given
+
+        // when
+        Intent startIntent = new Intent();
+        startIntent.setClass(getContext(), SpiceTestService.class);
+        bindService(startIntent);
+        shutdownService();
+
+        // then
+        assertTrue(getService().getRequestProcessor().isStopped());
+    }
 }
