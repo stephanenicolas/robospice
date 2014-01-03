@@ -50,8 +50,8 @@ public class SpiceServiceListenerNotifier {
 
     /**
      * Inform the observers of a request. The observers can optionally observe
-     * the new request if required
-     * @param request
+     * the new request if required.
+     * @param request the request that couldn't be aggregated to another request.
      */
     public void notifyObserversOfRequestNotFound(CachedSpiceRequest<?> request) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
@@ -61,8 +61,8 @@ public class SpiceServiceListenerNotifier {
 
     /**
      * Inform the observers of a request. The observers can optionally observe
-     * the new request if required
-     * @param request
+     * the new request if required.
+     * @param request the request that has been added to processing queue.
      */
     public void notifyObserversOfRequestAdded(CachedSpiceRequest<?> request, Set<RequestListener<?>> requestListeners) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
@@ -73,8 +73,8 @@ public class SpiceServiceListenerNotifier {
 
     /**
      * Inform the observers of a request. The observers can optionally observe
-     * the new request if required
-     * @param request
+     * the new request if required.
+     * @param request the request that has been aggregated.
      */
     public void notifyObserversOfRequestAggregated(CachedSpiceRequest<?> request, Set<RequestListener<?>> requestListeners) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
@@ -85,9 +85,8 @@ public class SpiceServiceListenerNotifier {
 
 
     /**
-     * Notify interested observers that the request failed
-     * @param request
-     * @param Exception
+     * Notify interested observers that the request failed.
+     * @param request the request that failed.
      */
     public void notifyObserversOfRequestFailure(CachedSpiceRequest<?> request) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
@@ -96,10 +95,8 @@ public class SpiceServiceListenerNotifier {
     }
 
     /**
-     * Notify interested observers that the request succeeded
-     * @param request
-     * @param result
-     *            data
+     * Notify interested observers that the request succeeded.
+     * @param request the request that succeeded.
      */
     public <T> void notifyObserversOfRequestSuccess(CachedSpiceRequest<T> request) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
@@ -108,8 +105,8 @@ public class SpiceServiceListenerNotifier {
     }
 
     /**
-     * Notify interested observers that the request was cancelled
-     * @param request
+     * Notify interested observers that the request was cancelled.
+     * @param request the request that was cancelled.
      */
     public void notifyObserversOfRequestCancellation(CachedSpiceRequest<?> request) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
@@ -118,9 +115,9 @@ public class SpiceServiceListenerNotifier {
     }
 
     /**
-     * Notify interested observers of request progress
-     * @param request
-     * @param progress
+     * Notify interested observers of request progress.
+     * @param request the request in progress.
+     * @param progress the progress of the request.
      */
     public void notifyObserversOfRequestProgress(CachedSpiceRequest<?> request, RequestProgress requestProgress) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
@@ -130,9 +127,9 @@ public class SpiceServiceListenerNotifier {
     }
     
     /**
-     * Notify interested observers of request progress
-     * @param request
-     * @param progress
+     * Notify interested observers of request completion.
+     * @param request the request that has completed.
+     * @param requestListeners the listeners to notify.
      */
     public void notifyObserversOfRequestProcessed(CachedSpiceRequest<?> request, Set<RequestListener<?>> requestListeners) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();
@@ -142,8 +139,8 @@ public class SpiceServiceListenerNotifier {
     }
 
     /**
-     * Add the request update to the observer message queue
-     * @param runnable
+     * Add the request update to the observer message queue.
+     * @param runnable a runnable to be posted immediatly on the queue.
      */
     protected void post(Runnable runnable) {
         Ln.d("Message queue is " + messageQueue);

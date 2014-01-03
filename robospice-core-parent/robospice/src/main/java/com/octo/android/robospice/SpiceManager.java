@@ -41,6 +41,7 @@ import com.octo.android.robospice.command.RemoveDataClassFromCacheCommand;
 import com.octo.android.robospice.command.RemoveDataFromCacheCommand;
 import com.octo.android.robospice.command.RemoveSpiceServiceListenerCommand;
 import com.octo.android.robospice.command.SetFailOnCacheErrorCommand;
+import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
@@ -78,11 +79,14 @@ public class SpiceManager implements Runnable {
     // CONSTANTS
     // ============================================================================================
 
-    /** The prefix of SpiceManager threads (used to send requests to the service). */
+    /**
+     * The prefix of SpiceManager threads (used to send requests to the
+     * service).
+     */
     protected static final String SPICE_MANAGER_THREAD_NAM_PREFIX = "SpiceManagerThread ";
     /** Number of threads used to execute internal commands. */
     private static final int DEFAULT_THREAD_COUNT = 3;
-    
+
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================
@@ -153,7 +157,10 @@ public class SpiceManager implements Runnable {
      */
     private volatile boolean isUnbinding = false;
 
-    /** Use to give a distinct name to each instance SpiceManager Threads, used to send request to the service. */
+    /**
+     * Use to give a distinct name to each instance SpiceManager Threads, used
+     * to send request to the service.
+     */
     private int spiceManagerThreadIndex;
 
     // ============================================================================================
@@ -183,8 +190,8 @@ public class SpiceManager implements Runnable {
     /**
      * Start the {@link SpiceManager}. It will bind asynchronously to the
      * {@link SpiceService}.
-     * @param contextWeakReference
-     *            a contextWeakReference that will be used to bind to the
+     * @param context
+     *            a context that will be used to bind to the
      *            service. Typically, the Activity or Fragment that needs to
      *            interact with the {@link SpiceService}.
      */
@@ -230,13 +237,8 @@ public class SpiceManager implements Runnable {
 
     @Override
     public void run() {
-        // start the service it is not started yet.
-        Context context = contextWeakReference.get();
-        if (context != null) {
-            checkServiceIsProperlyDeclaredInAndroidManifest(context);
-            final Intent intent = new Intent(context, spiceServiceClass);
-            context.startService(intent);
-        } else {
+
+        if (!tryToStartService()) {
             Ln.d("Service was not started as Activity died prematurely");
             isStopped = true;
             return;
@@ -254,8 +256,8 @@ public class SpiceManager implements Runnable {
                     sendRequestToService(requestQueue.take());
                 } catch (final InterruptedException ex) {
                     Ln.d("Interrupted while waiting for new request.");
-                    //we receive an interrupted exception while waiting
-                    //see java spec :  http://stackoverflow.com/a/6699006/693752
+                    // we receive an interrupted exception while waiting
+                    // see java spec : http://stackoverflow.com/a/6699006/693752
                     break;
                 }
             }
@@ -380,9 +382,9 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * @Deprecated
-     * @See #addListenerIfPending(PendingRequestListener)
+     * @See {@link #addListenerIfPending(Class, Object, PendingRequestListener)}
      */
+    @Deprecated
     public <T> void addListenerIfPending(final Class<T> clazz, final Object requestCacheKey, final RequestListener<T> requestListener) {
         final SpiceRequest<T> request = new SpiceRequest<T>(clazz) {
 
@@ -568,8 +570,6 @@ public class SpiceManager implements Runnable {
      * {@link #putInCache(Class, Object, Object, RequestListener)} where the
      * class used to identify the request is data.getClass() and with a null
      * listener. Operation will take place but you won't be notified.
-     * @param clazz
-     *            a super class or the class of data.
      * @param requestCacheKey
      *            the request cache key that data will be stored in.
      * @param data
@@ -876,14 +876,15 @@ public class SpiceManager implements Runnable {
      * This method doesn't perform any network processing, it just checks if
      * there are previously saved data. Don't call this method in the main
      * thread because you could block it. Instead, use the asynchronous version
-     * of this method: {@link #getFromCache(final Class<T>, final Object, final
-     * long, final RequestListener<T>)}.
+     * of this method: {@link #getFromCache(Class, Object, long, RequestListener)}.
      * @param clazz
      *            the class of the result to retrieve from cache.
      * @param cacheKey
      *            the key used to store and retrieve the result of the request
      *            in the cache
-     * @return
+     * @return a future object that will hold data in cache. Calling get on this
+     *  future will block until the data is actually effectively taken from cache. 
+     * 
      * @throws CacheLoadingException
      *             Exception thrown when a problem occurs while loading data
      *             from cache.
@@ -898,7 +899,7 @@ public class SpiceManager implements Runnable {
      * erasing any previsouly saved date in cache using the same class and key.
      * Don't call this method in the main thread because you could block it.
      * Instead, use the asynchronous version of this method: {@link
-     * #putInCache(final Class<T>, final Object, final RequestListener<T>)}.
+     * #putInCache(Class, Object, Object)}.
      * @param cacheKey
      *            the key used to store and retrieve the result of the request
      *            in the cache
@@ -1138,6 +1139,21 @@ public class SpiceManager implements Runnable {
     /** For testing purpose. */
     protected boolean isBound() {
         return spiceService != null;
+    }
+
+    private boolean tryToStartService() {
+        boolean success = false;
+
+        // start the service it is not started yet.
+        Context context = contextWeakReference.get();
+        if (context != null) {
+            checkServiceIsProperlyDeclaredInAndroidManifest(context);
+            final Intent intent = new Intent(context, spiceServiceClass);
+            context.startService(intent);
+            success = true;
+        }
+
+        return success;
     }
 
     private void bindToService(final Context context) {

@@ -200,8 +200,8 @@ public abstract class SpiceService extends Service {
         }
     }
 
-/**
-     * Creates the Observer Manager. This method is only called if the RequestReporter implements {@linkRequestReporterWithObserverSupport)
+    /**
+     * Creates the SpiceServiceListenerNotifier.
      * @return ({@link SpiceServiceListenerNotifier)
      */
     protected SpiceServiceListenerNotifier createSpiceServiceListenerNotifier() {
