@@ -410,7 +410,7 @@ public abstract class SpiceService extends Service {
             stopSelf();
         }
     }
-    
+
     private void showNotificationIfNotBoundAndHasPendingRequestsOtherwiseHideNotification() {
         // http://stackoverflow.com/a/13359680/693752
         if (notification == null || isJUnit) {
