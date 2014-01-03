@@ -52,7 +52,6 @@ public class SpiceListView extends ListView {
             throw new IllegalArgumentException("SpiceLists only support SpiceArrayAdapters.");
         }
         super.setAdapter(adapter);
-
     }
 
     @Override

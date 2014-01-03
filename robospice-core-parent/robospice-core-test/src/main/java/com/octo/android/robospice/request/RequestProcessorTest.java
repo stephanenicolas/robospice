@@ -29,6 +29,7 @@ import com.octo.android.robospice.request.notifier.DefaultRequestListenerNotifie
 import com.octo.android.robospice.request.notifier.SpiceServiceListenerNotifier;
 import com.octo.android.robospice.retry.DefaultRetryPolicy;
 import com.octo.android.robospice.stub.CachedSpiceRequestStub;
+import com.octo.android.robospice.stub.PendingRequestListenerWithProgressStub;
 import com.octo.android.robospice.stub.RequestListenerStub;
 import com.octo.android.robospice.stub.RequestListenerWithProgressStub;
 import com.octo.android.robospice.stub.SpiceRequestFailingStub;
@@ -479,6 +480,40 @@ public class RequestProcessorTest extends AndroidTestCase {
         assertTrue(mockRequestListener1.isComplete());
         assertTrue(mockRequestListener2.isComplete());
 
+    }
+    
+    //TDD for https://github.com/octo-online/robospice/issues/215
+    public void testAddRequest_doesnt_aggregate_requests_when_first_one_is_not_processable() throws InterruptedException {
+        // given
+        CachedSpiceRequestStub<String> stubRequest1 = createSuccessfulRequest(TEST_CLASS, null, TEST_DURATION, TEST_RETURNED_DATA);
+        stubRequest1.setProcessable(false);
+        CachedSpiceRequestStub<String> stubRequest2 = createSuccessfulRequest(TEST_CLASS, null, TEST_DURATION, TEST_RETURNED_DATA);
+
+        PendingRequestListenerWithProgressStub<String> mockRequestListener1 = new PendingRequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet1 = new HashSet<RequestListener<?>>();
+        requestListenerSet1.add(mockRequestListener1);
+        RequestListenerWithProgressStub<String> mockRequestListener2 = new RequestListenerWithProgressStub<String>();
+        Set<RequestListener<?>> requestListenerSet2 = new HashSet<RequestListener<?>>();
+        requestListenerSet2.add(mockRequestListener2);
+
+        // mock should not be invoked for loading nor saving cache
+        EasyMock.replay(mockCacheManager);
+
+        // when
+        requestProcessorUnderTest.addRequest(stubRequest1, requestListenerSet1);
+        requestProcessorUnderTest.addRequest(stubRequest2, requestListenerSet2);
+
+        mockRequestListener2.await(REQUEST_COMPLETION_TIME_OUT);
+
+        // then
+        EasyMock.verify(mockCacheManager);
+        assertFalse(stubRequest1.isLoadDataFromNetworkCalled());
+        assertTrue(stubRequest2.isLoadDataFromNetworkCalled());
+        assertTrue(mockRequestListener2.isExecutedInUIThread());
+        assertTrue(mockRequestListener1.isRequestNotFound());
+        assertTrue(mockRequestListener2.isSuccessful());
+        assertTrue(mockRequestListener2.isComplete());
+        assertNotNull(mockRequestListener2.getResultHistory().get(0));
     }
 
     // ============================================================================================

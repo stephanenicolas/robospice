@@ -112,6 +112,9 @@ public class RequestProcessor {
                 requestProgressManager.notifyListenersOfRequestNotFound(request, listRequestListener);
             }
             requestProgressManager.notifyOfRequestProcessed(request, listRequestListener);
+            //we have to return if request is not processable.
+            //fix bug https://github.com/octo-online/robospice/issues/215
+            return;
         }
 
         final RequestCancellationListener requestCancellationListener = new RequestCancellationListener() {
