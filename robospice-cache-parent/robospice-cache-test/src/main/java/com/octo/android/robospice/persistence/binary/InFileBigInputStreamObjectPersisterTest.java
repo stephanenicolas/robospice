@@ -23,11 +23,14 @@ public class InFileBigInputStreamObjectPersisterTest extends AndroidTestCase {
 
     private static final String TEST_CACHE_KEY = "TEST_CACHE_KEY";
 
+    private static final long SMALL_THREAD_SLEEP = 50;
+
     private InFileBigInputStreamObjectPersister inputStreamPersister;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        Thread.sleep(SMALL_THREAD_SLEEP);
         Application application = (Application) getContext().getApplicationContext();
         inputStreamPersister = new InFileBigInputStreamObjectPersister(application);
     }

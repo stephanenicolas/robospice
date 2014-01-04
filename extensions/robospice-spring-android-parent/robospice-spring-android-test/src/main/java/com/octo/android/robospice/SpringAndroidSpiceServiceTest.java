@@ -14,6 +14,7 @@ import com.octo.android.robospice.springandroid.test.stub.SpringAndroidSpiceRequ
 public class SpringAndroidSpiceServiceTest extends ServiceTestCase<SpringAndroidTestService> {
 
     private static final int REQUEST_COMPLETION_TIMEOUT = 1000;
+    private static final long SMALL_THREAD_SLEEP = 50;
     private SpiceManager spiceManager;
 
     public SpringAndroidSpiceServiceTest() {
@@ -23,6 +24,7 @@ public class SpringAndroidSpiceServiceTest extends ServiceTestCase<SpringAndroid
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        Thread.sleep(SMALL_THREAD_SLEEP);
         spiceManager = new SpiceManager(SpringAndroidTestService.class);
     }
 

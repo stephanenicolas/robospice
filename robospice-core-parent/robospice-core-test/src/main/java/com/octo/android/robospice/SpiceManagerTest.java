@@ -50,6 +50,7 @@ public class SpiceManagerTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         spiceManager = new SpiceManagerUnderTest(SpiceTestService.class);
+        Thread.sleep(SMALL_THREAD_SLEEP);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class SpiceManagerTest extends AndroidTestCase {
         getContext().stopService(new Intent(getContext(), SpiceTestService.class));
         super.tearDown();
     }
-
+    
     private void waitForSpiceManagerShutdown(SpiceManagerUnderTest spiceManager) throws InterruptedException {
         if (spiceManager != null && spiceManager.isStarted()) {
             spiceManager.cancelAllRequests();
