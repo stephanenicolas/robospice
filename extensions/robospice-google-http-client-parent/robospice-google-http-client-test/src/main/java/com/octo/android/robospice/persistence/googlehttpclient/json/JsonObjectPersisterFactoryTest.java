@@ -22,11 +22,13 @@ public abstract class JsonObjectPersisterFactoryTest extends AndroidTestCase {
     private static final String TEST_TEMP2 = "30";
     private static final String FILE_NAME = "toto";
     private static final String FILE_NAME2 = "tutu";
+    private static final long SMALL_THREAD_SLEEP = 50;
     private JsonObjectPersister<WeatherResult> inFileObjectPersister;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        Thread.sleep(SMALL_THREAD_SLEEP);
         Application application = (Application) getContext().getApplicationContext();
         JsonObjectPersisterFactory factory = getJsonObjectPersisterFactory(application);
         inFileObjectPersister = factory.createInFileObjectPersister(WeatherResult.class, null);

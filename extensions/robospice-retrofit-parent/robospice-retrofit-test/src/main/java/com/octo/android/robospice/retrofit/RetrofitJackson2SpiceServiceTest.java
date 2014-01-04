@@ -14,6 +14,7 @@ import com.octo.android.robospice.retrofit.test.stub.RetrofitSpiceRequestStub;
 public class RetrofitJackson2SpiceServiceTest extends ServiceTestCase<RetrofitJackson2SpiceTestService> {
 
     private static final int REQUEST_COMPLETION_TIMEOUT = 1000;
+    private static final long SMALL_THREAD_SLEEP = 50;
     private SpiceManager spiceManager;
 
     public RetrofitJackson2SpiceServiceTest() {
@@ -23,6 +24,7 @@ public class RetrofitJackson2SpiceServiceTest extends ServiceTestCase<RetrofitJa
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        Thread.sleep(SMALL_THREAD_SLEEP);
         spiceManager = new SpiceManager(RetrofitJackson2SpiceTestService.class);
     }
 

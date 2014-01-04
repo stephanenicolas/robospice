@@ -14,6 +14,7 @@ import com.octo.android.robospice.googlehttpclient.test.stub.RequestListenerStub
 public class GoogleHttpClientSpiceServiceTest extends ServiceTestCase<GoogleHttpClientSpiceTestService> {
 
     private static final int REQUEST_COMPLETION_TIMEOUT = 1000;
+    private static final long SMALL_THREAD_SLEEP = 50;
     private SpiceManager spiceManager;
 
     public GoogleHttpClientSpiceServiceTest() {
@@ -23,6 +24,7 @@ public class GoogleHttpClientSpiceServiceTest extends ServiceTestCase<GoogleHttp
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        Thread.sleep(SMALL_THREAD_SLEEP);
         spiceManager = new SpiceManager(GoogleHttpClientSpiceTestService.class);
     }
 
