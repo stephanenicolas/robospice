@@ -11,7 +11,7 @@ jdk: oraclejdk7
 env:
   matrix:
     # android-16 is always included
-    - ANDROID_SDKS=android-10            ANDROID_TARGET=android-10 ANDROID_ABI=armeabi
+    - ANDROID_SDKS=android-8            ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
     - ANDROID_SDKS=android-14,sysimg-14 ANDROID_TARGET=android-14  ANDROID_ABI=armeabi-v7a
     - ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
     
@@ -29,7 +29,7 @@ before_install:
   
   
   # Install Android build tools
-  - export ANDROID_BUILD_TOOLS_VERSION=18.0.1
+  - export ANDROID_BUILD_TOOLS_VERSION=19.0.1
   - export ANDROID_OS_VERSION=4.3
   - wget https://dl-ssl.google.com/android/repository/build-tools_r$ANDROID_BUILD_TOOLS_VERSION-linux.zip
   - unzip build-tools_r$ANDROID_BUILD_TOOLS_VERSION-linux.zip -d $ANDROID_HOME
