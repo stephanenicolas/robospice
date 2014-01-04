@@ -58,6 +58,7 @@ before_install:
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dandroid.dex.optimize=false
 
 before_script:
+  - adb devices
   - ./wait_for_emulator
 
 script: mvn install -Dandroid.device=test -Dmaven.javadoc.skip=true -Dandroid.dex.optimize=false
