@@ -231,8 +231,10 @@ public abstract class SpiceService extends Service {
     public Notification createDefaultNotification() {
 
         Notification notification = null;
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             notification = new Notification.Builder(this).setSmallIcon(getApplicationInfo().icon).build();
+        } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            notification = new Notification.Builder(this).setSmallIcon(getApplicationInfo().icon).getNotification();
         } else {
             notification = new Notification();
             notification.icon = getApplicationInfo().icon;
