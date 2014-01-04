@@ -12,7 +12,7 @@ env:
   matrix:
     # android-16 is always included
     - ANDROID_SDKS=android-8            ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
-    - ANDROID_SDKS=android-14,sysimg-14 ANDROID_TARGET=android-14  ANDROID_ABI=armeabi-v7a
+    #- ANDROID_SDKS=android-14,sysimg-14 ANDROID_TARGET=android-14  ANDROID_ABI=armeabi-v7a
     - ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
     
 before_install:
@@ -59,6 +59,6 @@ install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dfindbugs.skip=
 
 before_script:
   - adb devices
-#  - ./wait_for_emulator
+  - ./wait_for_emulator
 
 script: mvn install -Dandroid.device=test -Dmaven.javadoc.skip=true -Dandroid.dex.optimize=false
