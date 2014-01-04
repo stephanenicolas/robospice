@@ -40,7 +40,7 @@ public class SpiceManagerTest extends AndroidTestCase {
     private static final Double TEST_RETURNED_DATA3 = Double.valueOf(3.1416);
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_LARGE = 500;
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_SHORT = 200;
-    private static final long REQUEST_COMPLETION_TIME_OUT = 4000;
+    private static final long REQUEST_COMPLETION_TIME_OUT = 5000;
     private static final long SPICE_MANAGER_WAIT_TIMEOUT = 500;
     private static final long SMALL_THREAD_SLEEP = 50;
 
@@ -611,8 +611,8 @@ public class SpiceManagerTest extends AndroidTestCase {
         spiceManager.start(getContext());
         spiceManager2.start(getContext());
 
-        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
-        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_SHORT);
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
+        SpiceRequestStub<String> spiceRequestStub2 = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
 
         RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
         RequestListenerStub<String> requestListenerStub2 = new RequestListenerStub<String>();

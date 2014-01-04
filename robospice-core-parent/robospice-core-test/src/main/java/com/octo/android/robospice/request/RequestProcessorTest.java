@@ -878,11 +878,11 @@ public class RequestProcessorTest extends AndroidTestCase {
         EasyMock.expectLastCall().anyTimes();
         EasyMock.replay(mockCacheManager);
 
-        CachedSpiceRequestStub<String> spiceRequestStub = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+        CachedSpiceRequestStub<String> spiceRequestStub = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
         spiceRequestStub.setPriority(SpiceRequest.PRIORITY_LOW);
         spiceRequestStub.setRetryPolicy(null);
 
-        CachedSpiceRequestStub<String> spiceRequestStub2 = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+        CachedSpiceRequestStub<String> spiceRequestStub2 = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA, WAIT_BEFORE_REQUEST_EXECUTION);
         spiceRequestStub2.setPriority(SpiceRequest.PRIORITY_HIGH);
         spiceRequestStub2.setRetryPolicy(null);
 

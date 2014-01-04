@@ -326,6 +326,7 @@ public class SpiceManager implements Runnable {
         this.runner.interrupt();
         this.runner.join(timeOut);
         this.runner = null;
+        this.executorService.shutdown();
         this.contextWeakReference.clear();
         Ln.d("SpiceManager stopped.");
     }
