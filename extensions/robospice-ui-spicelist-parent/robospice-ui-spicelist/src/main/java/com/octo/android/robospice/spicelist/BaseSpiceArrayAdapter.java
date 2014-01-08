@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -69,7 +70,6 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
     private Set<Object> freshDrawableSet = new HashSet<Object>();
     /** The default drawable to display during image loading from the network. */
     protected Drawable defaultDrawable;
-    private Animation animation;
 
     // ----------------------------
     // --- CONSTRUCTOR
@@ -189,8 +189,6 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
     private void initialize(Context context, SpiceManager spiceManagerBinary) {
         this.spiceManagerBinary = spiceManagerBinary;
         defaultDrawable = context.getResources().getDrawable(android.R.drawable.picture_frame);
-        animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
-        animation.setDuration(getContext().getResources().getInteger(android.R.integer.config_mediumAnimTime));
     }
 
     // ----------------------------
@@ -322,7 +320,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         }
     }
 
-    private class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
+    private class BitmapWorkerTask extends AsyncTask<String, Void, Drawable> {
         private final WeakReference<ImageView> imageViewReference;
         String fileName = "";
         private T data;
@@ -337,37 +335,43 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
 
         // Decode image in background.
         @Override
-        protected Bitmap doInBackground(String... params) {
+        protected Drawable doInBackground(String... params) {
             animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
             animation.setDuration(getContext().getResources().getInteger(android.R.integer.config_mediumAnimTime));
             fileName = params[0];
-            return BitmapFactory.decodeFile(fileName, null);
+            return new BitmapDrawable(getContext().getResources(), BitmapFactory.decodeFile(fileName, null));
         }
 
         // Once complete, see if ImageView is still around and set bitmap.
         @Override
-        protected void onPostExecute(Bitmap bitmap) {
+        protected void onPostExecute(Drawable drawable) {
             if (isCancelled()) {
-                if (data.toString().equals("JFA")) {
-                    Ln.d(data.toString() + " : cancel decoding bitmap");
-                }
-                bitmap = null;
+                drawable = null;
             }
 
-            if (imageViewReference != null && bitmap != null) {
-                if (data.toString().equals("JFA")) {
-                    Ln.d(data.toString() + " : bitmapworkertask");
-                }
+            if (imageViewReference != null && drawable != null) {
                 final ImageView imageView = imageViewReference.get();
                 final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
-                if (this == bitmapWorkerTask && imageView != null) {
-                    if (freshDrawableSet.contains(data)) {
-                        freshDrawableSet.remove(data);
+                if (this == bitmapWorkerTask) {
+                    if (freshDrawableSet.remove(data)) {
+                        animation.setAnimationListener( new AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                imageView.setHasTransientState(true);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                imageView.setHasTransientState(false);
+                            }
+                        });
                         imageView.startAnimation(animation);
                     }
-                    imageView.setImageBitmap(bitmap);
-                    // no used anymore.
-                    // imageView.setTag( null );
+                    imageView.setImageDrawable(drawable);
                 }
             }
         }
