@@ -25,6 +25,7 @@ Bug fixes
 * Bug fix : Incorrect behaviour in addListenerIfPending. Fix issue #215. Thx to Isuski
 * Bug fix : Fixed context leak in the event that the manager is not stopped. Pull request #233. Thx to Tanner Perrien.
 * Bug fix : Many threads blocked in PausablePriorityBlockingQueue.take. Fix issue #220. Thx to Nicolas Poirier.
+* Bug fix : ConcurrentModificationException in RequestProcessor. Fix issue 91. Pull request #242. Thx to softwaremaverick and Fernando Franco Gíraldez.
 
 Version 1.4.9 (October 23rd 2013)
 -------------
