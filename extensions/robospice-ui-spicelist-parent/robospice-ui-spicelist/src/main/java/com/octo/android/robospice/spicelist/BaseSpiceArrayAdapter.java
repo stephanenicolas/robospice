@@ -355,10 +355,10 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
                 if (this == bitmapWorkerTask) {
                     if (freshDrawableSet.remove(data)) {
                         animationIn.setAnimationListener(new TransientStateInAnimationListener(imageView));
-                        animationOut.setAnimationListener(new TransientStateOutAnimationListener(imageView, animationIn));
+                        animationOut.setAnimationListener(new TransientStateOutAnimationListener(imageView, animationIn, drawable));
                         imageView.startAnimation(animationOut);
                     }
-                    imageView.setImageDrawable(drawable);
+                    
                 }
             }
         }
@@ -416,10 +416,12 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
     private final class TransientStateOutAnimationListener implements AnimationListener {
         private final ImageView imageView;
         private final Animation animationIn;
+        private Drawable drawable;
 
-        private TransientStateOutAnimationListener(ImageView imageView, Animation animationIn) {
+        private TransientStateOutAnimationListener(ImageView imageView, Animation animationIn, Drawable drawable) {
             this.imageView = imageView;
             this.animationIn = animationIn;
+            this.drawable = drawable;
         }
 
         @Override
@@ -434,6 +436,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         @Override
         public void onAnimationEnd(final Animation animation) {
             imageView.startAnimation(animationIn);
+            imageView.setImageDrawable(drawable);
         }
     }
     
