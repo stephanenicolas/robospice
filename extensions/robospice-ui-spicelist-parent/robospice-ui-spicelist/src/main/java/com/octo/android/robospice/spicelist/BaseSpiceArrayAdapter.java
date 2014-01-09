@@ -233,7 +233,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
             final AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(), task);
             thumbImageView.setImageDrawable(asyncDrawable);
             thumbImageView.setTag(tempThumbnailImageFileName);
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,tempThumbnailImageFileName);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tempThumbnailImageFileName);
         }
     }
 
@@ -357,22 +357,24 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
                         animationIn.setAnimationListener(new TransientStateInAnimationListener(imageView));
                         animationOut.setAnimationListener(new TransientStateOutAnimationListener(imageView, animationIn, drawable));
                         imageView.startAnimation(animationOut);
+                    } else {
+                        imageView.setImageDrawable(drawable);
                     }
-                    
                 }
             }
         }
-        
+
         @Override
         protected void onCancelled() {
-            if( animationIn != null ) {
+            if (animationIn != null) {
                 animationIn.cancel();
             }
-            if( animationOut != null ) { 
-             animationOut.cancel();
+            if (animationOut != null) {
+                animationOut.cancel();
             }
-            if( imageViewReference.get() != null ) {
-                imageViewReference.get().setHasTransientState(false);
+            ImageView imageView = imageViewReference.get();
+            if (imageView != null) {
+                imageView.setHasTransientState(false);
             }
         }
     }
@@ -439,7 +441,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
             imageView.setImageDrawable(drawable);
         }
     }
-    
+
     private final class TransientStateInAnimationListener implements AnimationListener {
         private final ImageView imageView;
 
