@@ -233,7 +233,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
             final AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(), task);
             thumbImageView.setImageDrawable(asyncDrawable);
             thumbImageView.setTag(tempThumbnailImageFileName);
-            task.execute(tempThumbnailImageFileName);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,tempThumbnailImageFileName);
         }
     }
 
@@ -321,7 +321,8 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         private final WeakReference<ImageView> imageViewReference;
         String fileName = "";
         private T data;
-        private Animation animation;
+        private Animation animationOut;
+        private Animation animationIn;
 
         public BitmapWorkerTask(final ImageView imageView, final T data) {
             // Use a WeakReference to ensure the ImageView can be garbage
@@ -333,8 +334,10 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         // Decode image in background.
         @Override
         protected Drawable doInBackground(final String... params) {
-            animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
-            animation.setDuration(getContext().getResources().getInteger(android.R.integer.config_mediumAnimTime));
+            animationOut = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
+            animationOut.setDuration(getContext().getResources().getInteger(android.R.integer.config_longAnimTime));
+            animationIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+            animationIn.setDuration(getContext().getResources().getInteger(android.R.integer.config_longAnimTime));
             fileName = params[0];
             return new BitmapDrawable(getContext().getResources(), BitmapFactory.decodeFile(fileName, null));
         }
@@ -351,11 +354,25 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
                 final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
                 if (this == bitmapWorkerTask) {
                     if (freshDrawableSet.remove(data)) {
-                        animation.setAnimationListener(new TransientStateAnimationListener(imageView));
-                        imageView.startAnimation(animation);
+                        animationIn.setAnimationListener(new TransientStateInAnimationListener(imageView));
+                        animationOut.setAnimationListener(new TransientStateOutAnimationListener(imageView, animationIn));
+                        imageView.startAnimation(animationOut);
                     }
                     imageView.setImageDrawable(drawable);
                 }
+            }
+        }
+        
+        @Override
+        protected void onCancelled() {
+            if( animationIn != null ) {
+                animationIn.cancel();
+            }
+            if( animationOut != null ) { 
+             animationOut.cancel();
+            }
+            if( imageViewReference.get() != null ) {
+                imageViewReference.get().setHasTransientState(false);
             }
         }
     }
@@ -396,16 +413,39 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         }
     }
 
-    private final class TransientStateAnimationListener implements AnimationListener {
+    private final class TransientStateOutAnimationListener implements AnimationListener {
         private final ImageView imageView;
+        private final Animation animationIn;
 
-        private TransientStateAnimationListener(ImageView imageView) {
+        private TransientStateOutAnimationListener(ImageView imageView, Animation animationIn) {
             this.imageView = imageView;
+            this.animationIn = animationIn;
         }
 
         @Override
         public void onAnimationStart(final Animation animation) {
             imageView.setHasTransientState(true);
+        }
+
+        @Override
+        public void onAnimationRepeat(final Animation animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(final Animation animation) {
+            imageView.startAnimation(animationIn);
+        }
+    }
+    
+    private final class TransientStateInAnimationListener implements AnimationListener {
+        private final ImageView imageView;
+
+        private TransientStateInAnimationListener(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        @Override
+        public void onAnimationStart(final Animation animation) {
         }
 
         @Override
