@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2013-10-10T08:55:24.418">
+<pmd version="4.3" timestamp="2014-01-09T12:02:51.608">
+<file name="/Users/stephanenicolas/git/robospice/robospice-core-parent/robospice-core-test/src/main/java/com/octo/android/robospice/core/test/SpiceTestService.java">
+<violation beginline="76" endline="78" begincolumn="12" endcolumn="5" rule="UselessOverridingMethod" ruleset="Basic Rules" package="com.octo.android.robospice.core.test" class="SpiceTestService" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UselessOverridingMethod" priority="3">
+Overriding method merely calls super
+</violation>
+</file>
 </pmd>
