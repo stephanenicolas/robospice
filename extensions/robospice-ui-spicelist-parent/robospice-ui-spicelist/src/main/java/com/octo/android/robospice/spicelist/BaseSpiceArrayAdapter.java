@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import roboguice.util.temp.Ln;
 import android.content.Context;
@@ -16,12 +17,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
@@ -95,8 +94,8 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
     // --- PUBLIC API
     // ----------------------------
 
-    public final void setDefaultUserDrawable(final Drawable defaultUserDrawable) {
-        this.defaultDrawable = defaultUserDrawable;
+    public final void setDefaultDrawable(final Drawable defaultDrawable) {
+        this.defaultDrawable = defaultDrawable;
     }
 
     /* package-private */final void setNetworkFetchingAllowed(final boolean isNetworkFetchingAllowed) {
@@ -131,7 +130,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public final View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
         SpiceListItemView<T> spiceListItemView;
 
         T currentItem = getItem(position);
@@ -233,7 +232,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
             final AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(), task);
             thumbImageView.setImageDrawable(asyncDrawable);
             thumbImageView.setTag(tempThumbnailImageFileName);
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tempThumbnailImageFileName);
+            task.executeOnExecutor(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()), tempThumbnailImageFileName);
         }
     }
 
@@ -321,8 +320,6 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         private final WeakReference<ImageView> imageViewReference;
         String fileName = "";
         private T data;
-        private Animation animationOut;
-        private Animation animationIn;
 
         public BitmapWorkerTask(final ImageView imageView, final T data) {
             // Use a WeakReference to ensure the ImageView can be garbage
@@ -334,10 +331,6 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
         // Decode image in background.
         @Override
         protected Drawable doInBackground(final String... params) {
-            animationOut = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
-            animationOut.setDuration(getContext().getResources().getInteger(android.R.integer.config_longAnimTime));
-            animationIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
-            animationIn.setDuration(getContext().getResources().getInteger(android.R.integer.config_longAnimTime));
             fileName = params[0];
             return new BitmapDrawable(getContext().getResources(), BitmapFactory.decodeFile(fileName, null));
         }
@@ -354,9 +347,11 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
                 final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
                 if (this == bitmapWorkerTask) {
                     if (freshDrawableSet.remove(data)) {
-                        animationIn.setAnimationListener(new TransientStateInAnimationListener(imageView));
-                        animationOut.setAnimationListener(new TransientStateOutAnimationListener(imageView, animationIn, drawable));
-                        imageView.startAnimation(animationOut);
+                        Drawable[] layers = new Drawable[] {defaultDrawable, drawable};
+                        TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
+                        transitionDrawable.setCrossFadeEnabled(true);
+                        transitionDrawable.startTransition(getContext().getResources().getInteger(android.R.integer.config_longAnimTime));
+                        imageView.setImageDrawable(transitionDrawable);
                     } else {
                         imageView.setImageDrawable(drawable);
                     }
@@ -364,19 +359,6 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
             }
         }
 
-        @Override
-        protected void onCancelled() {
-            if (animationIn != null) {
-                animationIn.cancel();
-            }
-            if (animationOut != null) {
-                animationOut.cancel();
-            }
-            ImageView imageView = imageViewReference.get();
-            if (imageView != null) {
-                imageView.setHasTransientState(false);
-            }
-        }
     }
 
     private class NetworkFetchingAuthorizationStateChangeAdapter {
@@ -412,54 +394,6 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
 
         public BitmapWorkerTask getBitmapWorkerTask() {
             return bitmapWorkerTaskReference.get();
-        }
-    }
-
-    private final class TransientStateOutAnimationListener implements AnimationListener {
-        private final ImageView imageView;
-        private final Animation animationIn;
-        private Drawable drawable;
-
-        private TransientStateOutAnimationListener(ImageView imageView, Animation animationIn, Drawable drawable) {
-            this.imageView = imageView;
-            this.animationIn = animationIn;
-            this.drawable = drawable;
-        }
-
-        @Override
-        public void onAnimationStart(final Animation animation) {
-            imageView.setHasTransientState(true);
-        }
-
-        @Override
-        public void onAnimationRepeat(final Animation animation) {
-        }
-
-        @Override
-        public void onAnimationEnd(final Animation animation) {
-            imageView.startAnimation(animationIn);
-            imageView.setImageDrawable(drawable);
-        }
-    }
-
-    private final class TransientStateInAnimationListener implements AnimationListener {
-        private final ImageView imageView;
-
-        private TransientStateInAnimationListener(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        @Override
-        public void onAnimationStart(final Animation animation) {
-        }
-
-        @Override
-        public void onAnimationRepeat(final Animation animation) {
-        }
-
-        @Override
-        public void onAnimationEnd(final Animation animation) {
-            imageView.setHasTransientState(false);
         }
     }
 
