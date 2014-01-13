@@ -258,6 +258,7 @@ public abstract class SpiceService extends Service {
 
     @Override
     public void onDestroy() {
+        requestProcessor.shouldStop();
         Ln.d("SpiceService instance destroyed.");
         super.onDestroy();
     }
@@ -408,7 +409,6 @@ public abstract class SpiceService extends Service {
     private void stopIfNotBoundAndHasNoPendingRequests() {
         Ln.v("Pending requests : " + currentPendingRequestCount);
         if (currentPendingRequestCount == 0 && !isBound) {
-            requestProcessor.shouldStop();
             stopSelf();
         }
     }
