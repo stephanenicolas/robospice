@@ -117,7 +117,7 @@ public class SpiceServiceListenerNotifier {
     /**
      * Notify interested observers of request progress.
      * @param request the request in progress.
-     * @param progress the progress of the request.
+     * @param requestProgress the progress of the request.
      */
     public void notifyObserversOfRequestProgress(CachedSpiceRequest<?> request, RequestProgress requestProgress) {
         RequestProcessingContext requestProcessingContext = new RequestProcessingContext();

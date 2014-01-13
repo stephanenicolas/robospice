@@ -251,7 +251,7 @@ public class SpiceManager implements Runnable {
             if (spiceService == null) {
                 return;
             }
-            while (!isStopped && !Thread.interrupted()) {
+            while (!requestQueue.isEmpty() || !isStopped && !Thread.interrupted()) {
                 try {
                     sendRequestToService(requestQueue.take());
                 } catch (final InterruptedException ex) {
@@ -1226,7 +1226,7 @@ public class SpiceManager implements Runnable {
 
         lockAcquireService.lock();
         try {
-            while (spiceService == null && !isStopped) {
+            while (spiceService == null && (!requestQueue.isEmpty() || !isStopped)) {
                 conditionServiceBound.await();
             }
             Ln.d("Bound ok.");

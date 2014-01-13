@@ -14,7 +14,8 @@ public interface RetryPolicy {
      */
     int getRetryCount();
 
-    /** @return the delay to sleep between each retry attempt (in ms). */
+    /** Hook method invoked when an exception occured. Define your retry strategy here.
+     * @param e the exception that occured during last request invocation. */
     void retry(SpiceException e);
 
     /** @return the delay to sleep between each retry attempt (in ms). */

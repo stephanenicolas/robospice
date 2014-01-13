@@ -210,7 +210,7 @@ public abstract class SpiceService extends Service {
 
     /**
      * Creates the SpiceServiceListenerNotifier.
-     * @return ({@link SpiceServiceListenerNotifier)
+     * @return ({@link SpiceServiceListenerNotifier)}
      */
     protected SpiceServiceListenerNotifier createSpiceServiceListenerNotifier() {
         return new SpiceServiceListenerNotifier();
