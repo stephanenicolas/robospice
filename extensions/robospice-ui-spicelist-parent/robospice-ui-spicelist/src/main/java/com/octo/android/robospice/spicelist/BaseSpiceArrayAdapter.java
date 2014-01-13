@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executors;
 
 import roboguice.util.temp.Ln;
 import android.content.Context;
@@ -19,6 +18,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -232,7 +232,11 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
             final AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(), task);
             thumbImageView.setImageDrawable(asyncDrawable);
             thumbImageView.setTag(tempThumbnailImageFileName);
-            task.executeOnExecutor(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()), tempThumbnailImageFileName);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tempThumbnailImageFileName);
+            } else {
+                task.execute(tempThumbnailImageFileName);
+            }
         }
     }
 
