@@ -27,7 +27,7 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * uses a simple but **robust** exception handling model
 * supports **multi-threading** of request executions
 * supports aggregation of different web services
-* is a full featured replacement for long running AsyncTasks even they are not related to networking.
+* is a full featured replacement for long running AsyncTasks even if they are not related to networking.
 * is **open source** ;) 
 * and **tested** (more than 160 tests)
 
