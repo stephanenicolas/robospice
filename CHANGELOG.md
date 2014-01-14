@@ -8,8 +8,23 @@ Version 1.5.0 (planned)
 * TODO : inject requests in listeners
 * TODO : inject service in requests
 
+Version 1.4.11 (Planned January 2014)
+--------------
+
+Enhancements
+
+* Refactor of RoboSpice core dependencies. Thx to Isuski. https://github.com/octo-online/robospice/issues/245
+* General maven plugin and dependencies upgrade.
+* Correct api targetting problem for executors in ui spicelist.
+
+Bug fixes 
+
+* Request dropped when stopping the SpiceManager. Thx to Dorian Cussen. https://github.com/octo-online/robospice/issues/246 
+* Bug in RequestProcessor stop mechanism. Thx to Isuski. https://github.com/octo-online/robospice/issues/244
+* Minor Javadoc enhancements
+
 Version 1.4.10 (January 9th 2014)
--------------
+--------------
 
 Enhancements 
 
