@@ -27,10 +27,11 @@ import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 import com.octo.android.robospice.request.CachedSpiceRequest;
+import com.octo.android.robospice.request.DefaultRequestRunner;
 import com.octo.android.robospice.request.RequestProcessor;
 import com.octo.android.robospice.request.RequestProcessorListener;
 import com.octo.android.robospice.request.RequestProgressManager;
-import com.octo.android.robospice.request.DefaultRequestRunner;
+import com.octo.android.robospice.request.RequestRunner;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.SpiceServiceListener;
 import com.octo.android.robospice.request.notifier.DefaultRequestListenerNotifier;
@@ -116,7 +117,7 @@ public abstract class SpiceService extends Service {
         final ExecutorService executorService = getExecutorService();
         final NetworkStateChecker networkStateChecker = getNetworkStateChecker();
         final RequestProgressManager requestProgressManager = createRequestProgressManager(requestProcessorListener, progressReporter, spiceServiceListenerNotifier);
-        final DefaultRequestRunner requestRunner = createRequestRunner(executorService, networkStateChecker, requestProgressManager);
+        final RequestRunner requestRunner = createRequestRunner(executorService, networkStateChecker, requestProgressManager);
 
         requestProcessor = createRequestProcessor(cacheManager, requestProgressManager, requestRunner);
         requestProcessor.setFailOnCacheError(DEFAULT_FAIL_ON_CACHE_ERROR);
@@ -126,7 +127,7 @@ public abstract class SpiceService extends Service {
         Ln.d("SpiceService instance created.");
     }
 
-    private DefaultRequestRunner createRequestRunner(final ExecutorService executorService, final NetworkStateChecker networkStateChecker, RequestProgressManager requestProgressManager) {
+    private RequestRunner createRequestRunner(final ExecutorService executorService, final NetworkStateChecker networkStateChecker, RequestProgressManager requestProgressManager) {
         return new DefaultRequestRunner(getApplicationContext(), cacheManager, executorService, requestProgressManager, networkStateChecker);
     }
 
@@ -155,7 +156,7 @@ public abstract class SpiceService extends Service {
      *            executes requests.
      * @return a {@link RequestProcessor} that will be used to process requests.
      */
-    protected RequestProcessor createRequestProcessor(CacheManager cacheManager, RequestProgressManager requestProgressManager, DefaultRequestRunner requestRunner) {
+    protected RequestProcessor createRequestProcessor(CacheManager cacheManager, RequestProgressManager requestProgressManager, RequestRunner requestRunner) {
         return new RequestProcessor(cacheManager, requestProgressManager, requestRunner);
     }
 
