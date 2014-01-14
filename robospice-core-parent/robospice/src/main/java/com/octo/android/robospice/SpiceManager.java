@@ -86,6 +86,8 @@ public class SpiceManager implements Runnable {
     protected static final String SPICE_MANAGER_THREAD_NAM_PREFIX = "SpiceManagerThread ";
     /** Number of threads used to execute internal commands. */
     private static final int DEFAULT_THREAD_COUNT = 3;
+    /** Delay to let runner stop properly (in ms). */
+    private static final int DELAY_WAIT_FOR_RUNNER_TO_STOP = 500;
 
     // ============================================================================================
     // ATTRIBUTES
@@ -191,9 +193,9 @@ public class SpiceManager implements Runnable {
      * Start the {@link SpiceManager}. It will bind asynchronously to the
      * {@link SpiceService}.
      * @param context
-     *            a context that will be used to bind to the
-     *            service. Typically, the Activity or Fragment that needs to
-     *            interact with the {@link SpiceService}.
+     *            a context that will be used to bind to the service. Typically,
+     *            the Activity or Fragment that needs to interact with the
+     *            {@link SpiceService}.
      */
     public synchronized void start(final Context context) {
         this.contextWeakReference = new WeakReference<Context>(context);
@@ -272,9 +274,13 @@ public class SpiceManager implements Runnable {
         lockSendRequestsToService.lock();
         try {
             if (spiceRequest != null && spiceService != null) {
-                final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener.get(spiceRequest);
-                Ln.d("Sending request to service : " + spiceRequest.getClass().getSimpleName());
-                spiceService.addRequest(spiceRequest, listRequestListener);
+                if (isStopped) {
+                    spiceService.addRequest(spiceRequest, null);
+                } else {
+                    final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener.get(spiceRequest);
+                    Ln.d("Sending request to service : " + spiceRequest.getClass().getSimpleName());
+                    spiceService.addRequest(spiceRequest, listRequestListener);
+                }
             }
         } finally {
             lockSendRequestsToService.unlock();
@@ -289,20 +295,11 @@ public class SpiceManager implements Runnable {
      * {@link SpiceRequest}s. Unbinding will occur asynchronously.
      */
     public synchronized void shouldStop() {
-        if (!isStarted()) {
-            throw new IllegalStateException("Not started yet");
+        try {
+            shouldStopAndJoin(DELAY_WAIT_FOR_RUNNER_TO_STOP);
+        } catch (InterruptedException e) {
+            Ln.e(e, "Exception when joining the runner that was stopping.");
         }
-        Ln.d("SpiceManager stopping.");
-        dontNotifyAnyRequestListenersInternal();
-        isUnbinding = false;
-        unbindFromService(contextWeakReference.get());
-        spiceServiceConnection = null;
-        this.isStopped = true;
-        this.runner.interrupt();
-        this.runner = null;
-        this.executorService.shutdown();
-        this.contextWeakReference.clear();
-        Ln.d("SpiceManager stopped.");
     }
 
     /**
@@ -320,11 +317,22 @@ public class SpiceManager implements Runnable {
         }
 
         Ln.d("SpiceManager stopping. Joining");
-        dontNotifyAnyRequestListenersInternal();
-        unbindFromService(contextWeakReference.get());
         this.isStopped = true;
-        this.runner.interrupt();
-        this.runner.join(timeOut);
+        dontNotifyAnyRequestListenersInternal();
+        if (requestQueue.isEmpty()) {
+            this.runner.interrupt();
+        }
+        long start = System.currentTimeMillis();
+        try {
+            this.runner.join(timeOut);
+        } catch (InterruptedException e) {
+            throw e;
+        } finally {
+            long end = System.currentTimeMillis();
+            Ln.d("Runner join time (ms) when should stop %d", (end - start));
+        }
+        isUnbinding = false;
+        unbindFromService(contextWeakReference.get());
         this.runner = null;
         this.executorService.shutdown();
         this.contextWeakReference.clear();
@@ -472,6 +480,7 @@ public class SpiceManager implements Runnable {
      */
     public <T> void execute(final CachedSpiceRequest<T> cachedSpiceRequest, final RequestListener<T> requestListener) {
         addRequestListenerToListOfRequestListeners(cachedSpiceRequest, requestListener);
+        System.out.println("adding request to request queue");
         this.requestQueue.add(cachedSpiceRequest);
     }
 
@@ -877,15 +886,16 @@ public class SpiceManager implements Runnable {
      * This method doesn't perform any network processing, it just checks if
      * there are previously saved data. Don't call this method in the main
      * thread because you could block it. Instead, use the asynchronous version
-     * of this method: {@link #getFromCache(Class, Object, long, RequestListener)}.
+     * of this method:
+     * {@link #getFromCache(Class, Object, long, RequestListener)}.
      * @param clazz
      *            the class of the result to retrieve from cache.
      * @param cacheKey
      *            the key used to store and retrieve the result of the request
      *            in the cache
      * @return a future object that will hold data in cache. Calling get on this
-     *  future will block until the data is actually effectively taken from cache. 
-     * 
+     *         future will block until the data is actually effectively taken
+     *         from cache.
      * @throws CacheLoadingException
      *             Exception thrown when a problem occurs while loading data
      *             from cache.
@@ -899,8 +909,8 @@ public class SpiceManager implements Runnable {
      * method doesn't perform any network processing, it just data in cache,
      * erasing any previsouly saved date in cache using the same class and key.
      * Don't call this method in the main thread because you could block it.
-     * Instead, use the asynchronous version of this method: {@link
-     * #putInCache(Class, Object, Object)}.
+     * Instead, use the asynchronous version of this method:
+     * {@link #putInCache(Class, Object, Object)}.
      * @param cacheKey
      *            the key used to store and retrieve the result of the request
      *            in the cache
@@ -1158,8 +1168,9 @@ public class SpiceManager implements Runnable {
     }
 
     private void bindToService(final Context context) {
-        if (context == null || isStopped) {
+        if (context == null || (requestQueue.isEmpty() && isStopped)) {
             // fix issue 40. Thx Shussu
+            // fix issue 246.
             return;
         }
 

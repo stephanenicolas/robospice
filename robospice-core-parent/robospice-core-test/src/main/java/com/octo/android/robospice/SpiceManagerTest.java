@@ -59,7 +59,7 @@ public class SpiceManagerTest extends AndroidTestCase {
         getContext().stopService(new Intent(getContext(), SpiceTestService.class));
         super.tearDown();
     }
-    
+
     private void waitForSpiceManagerShutdown(SpiceManagerUnderTest spiceManager) throws InterruptedException {
         if (spiceManager != null && spiceManager.isStarted()) {
             spiceManager.cancelAllRequests();
@@ -117,6 +117,22 @@ public class SpiceManagerTest extends AndroidTestCase {
             // then
             assertTrue(true);
         }
+    }
+
+    public void test_execute_should_execute_request_even_if_stopped_right_after_execute() throws InterruptedException {
+        // given
+        spiceManager.start(getContext());
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
+        RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
+
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceManager.shouldStop();
+
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+
+        // then
+        assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
     }
 
     public void test_execute_executes_1_request_that_succeeds() throws InterruptedException {
@@ -715,7 +731,7 @@ public class SpiceManagerTest extends AndroidTestCase {
             }
         }
 
-        spiceManager.shouldStopAndJoin(REQUEST_COMPLETION_TIME_OUT);
+        spiceManager.shouldStopAndJoin(2 * REQUEST_COMPLETION_TIME_OUT);
 
         // test
         // give some time for all threads to die of their most noble death
