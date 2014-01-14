@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-spring-android-parent</artifactId>
-		<version>1.4.11</version>
+		<version>1.4.12-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>robospice-spring-android-test</artifactId>

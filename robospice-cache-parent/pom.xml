@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
-		<version>1.4.11</version>
+		<version>1.4.12-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.octo.android.robospice</groupId>
 	<artifactId>robospice-cache-parent</artifactId>
-	<version>1.4.11</version>
+	<version>1.4.12-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Robospice - Persistence Module Parent</name>
 	<description>RoboSpice persistence module parent</description>
