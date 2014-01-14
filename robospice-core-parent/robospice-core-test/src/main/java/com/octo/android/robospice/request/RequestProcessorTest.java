@@ -58,7 +58,7 @@ public class RequestProcessorTest extends AndroidTestCase {
     private DefaultRequestListenerNotifier progressReporter;
     private SpiceServiceListenerNotifier spiceServiceListenerNotifier;
     private RequestProgressManager mockRequestProgressManager;
-    private RequestRunner mockRequestRunner;
+    private DefaultRequestRunner mockRequestRunner;
 
     @Override
     protected void setUp() throws Exception {
@@ -81,7 +81,7 @@ public class RequestProcessorTest extends AndroidTestCase {
         progressReporter = new DefaultRequestListenerNotifier();
         spiceServiceListenerNotifier = new SpiceServiceListenerNotifier();
         mockRequestProgressManager = new RequestProgressManager(requestProcessorListener, progressReporter, spiceServiceListenerNotifier);
-        mockRequestRunner = new RequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
+        mockRequestRunner = new DefaultRequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
 
         requestProcessorUnderTest = new RequestProcessor(mockCacheManager, mockRequestProgressManager, mockRequestRunner);
     }
@@ -125,7 +125,7 @@ public class RequestProcessorTest extends AndroidTestCase {
         CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, cacheKey, TEST_DURATION, TEST_RETURNED_DATA);
 
         ExecutorService executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
-        mockRequestRunner = new RequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
+        mockRequestRunner = new DefaultRequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
         requestProcessorUnderTest = new RequestProcessor(mockCacheManager, mockRequestProgressManager, mockRequestRunner);
 
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
@@ -228,7 +228,7 @@ public class RequestProcessorTest extends AndroidTestCase {
         // prepare observers
 
         ExecutorService executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
-        mockRequestRunner = new RequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
+        mockRequestRunner = new DefaultRequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
         requestProcessorUnderTest = new RequestProcessor(mockCacheManager, mockRequestProgressManager, mockRequestRunner);
 
         RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
@@ -801,7 +801,7 @@ public class RequestProcessorTest extends AndroidTestCase {
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
 
-        mockRequestRunner = new RequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
+        mockRequestRunner = new DefaultRequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
         requestProcessorUnderTest = new RequestProcessor(mockCacheManager, mockRequestProgressManager, mockRequestRunner);
 
         EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
@@ -874,7 +874,7 @@ public class RequestProcessorTest extends AndroidTestCase {
         // given
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        mockRequestRunner = new RequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
+        mockRequestRunner = new DefaultRequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
         requestProcessorUnderTest = new RequestProcessor(mockCacheManager, mockRequestProgressManager, mockRequestRunner);
 
         EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
@@ -961,7 +961,7 @@ public class RequestProcessorTest extends AndroidTestCase {
         // when
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        mockRequestRunner = new RequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
+        mockRequestRunner = new DefaultRequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
         requestProcessorUnderTest = new RequestProcessor(mockCacheManager, mockRequestProgressManager, mockRequestRunner);
 
         CachedSpiceRequestStub<String> stubRequestHighPriority = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);
@@ -1007,7 +1007,7 @@ public class RequestProcessorTest extends AndroidTestCase {
         // when
         PausableThreadPoolExecutor executorService = PriorityThreadPoolExecutor.getPriorityExecutor(1);
         networkStateChecker = new MockNetworkStateChecker();
-        mockRequestRunner = new RequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
+        mockRequestRunner = new DefaultRequestRunner(getContext(), mockCacheManager, executorService, mockRequestProgressManager, networkStateChecker);
         requestProcessorUnderTest = new RequestProcessor(mockCacheManager, mockRequestProgressManager, mockRequestRunner);
 
         CachedSpiceRequestStub<String> stubRequestLowPriority = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY2, TEST_DURATION, TEST_RETURNED_DATA2);
@@ -1241,7 +1241,7 @@ public class RequestProcessorTest extends AndroidTestCase {
 
         // given
         ExecutorService mockExecutorService = EasyMock.createMock(ExecutorService.class);
-        mockRequestRunner = new RequestRunner(getContext(), mockCacheManager, mockExecutorService, mockRequestProgressManager, networkStateChecker);
+        mockRequestRunner = new DefaultRequestRunner(getContext(), mockCacheManager, mockExecutorService, mockRequestProgressManager, networkStateChecker);
         requestProcessorUnderTest = new RequestProcessor(mockCacheManager, mockRequestProgressManager, mockRequestRunner);
 
         mockExecutorService.shutdown();
