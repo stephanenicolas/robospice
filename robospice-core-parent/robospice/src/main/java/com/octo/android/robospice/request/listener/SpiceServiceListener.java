@@ -33,7 +33,7 @@ public interface SpiceServiceListener {
     //  INNER CLASS
     // ----------------------------------
     
-    public static class RequestProcessingContext {
+    class RequestProcessingContext {
         private Thread executionThread;
         private RequestProgress requestProgress;
         private Set<RequestListener<?>> requestListeners;

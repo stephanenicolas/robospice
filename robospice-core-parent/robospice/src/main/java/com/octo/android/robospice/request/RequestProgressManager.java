@@ -24,7 +24,7 @@ public class RequestProgressManager {
     // ============================================================================================
     // ATTRIBUTES
     // ============================================================================================
-    private final Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener;
+    private Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener;
 
     private final RequestProcessorListener requestProcessorListener;
     private final RequestListenerNotifier requestListenerNotifier;
@@ -34,14 +34,21 @@ public class RequestProgressManager {
     // CONSTRUCTOR
     // ============================================================================================
 
-    public RequestProgressManager(final RequestProcessorListener requestProcessorListener, Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener,
+    public RequestProgressManager(final RequestProcessorListener requestProcessorListener, 
         final RequestListenerNotifier requestListenerNotifier, final SpiceServiceListenerNotifier spiceServiceListenerNotifier) {
-
         this.requestProcessorListener = requestProcessorListener;
-        this.mapRequestToRequestListener = mapRequestToRequestListener;
         this.requestListenerNotifier = requestListenerNotifier;
         this.spiceServiceListenerNotifier = spiceServiceListenerNotifier;
     }
+
+    // ============================================================================================
+    // API
+    // ============================================================================================
+
+    public void setMapRequestToRequestListener(Map<CachedSpiceRequest<?>, Set<RequestListener<?>>> mapRequestToRequestListener) {
+        this.mapRequestToRequestListener = mapRequestToRequestListener;
+    }
+
 
     public void notifyListenersOfRequestNotFound(final CachedSpiceRequest<?> request, final Set<RequestListener<?>> listeners) {
         Ln.d("Request was *NOT* found when adding request listeners to existing requests.");
@@ -174,4 +181,5 @@ public class RequestProgressManager {
         };
         return requestProgressListener;
     }
+
 }

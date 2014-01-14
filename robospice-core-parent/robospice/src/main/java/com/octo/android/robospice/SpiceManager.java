@@ -329,7 +329,7 @@ public class SpiceManager implements Runnable {
             throw e;
         } finally {
             long end = System.currentTimeMillis();
-            Ln.d("Runner join time (ms) when should stop %d", (end - start));
+            Ln.d("Runner join time (ms) when should stop %d", end - start);
         }
         isUnbinding = false;
         unbindFromService(contextWeakReference.get());
@@ -391,7 +391,7 @@ public class SpiceManager implements Runnable {
     }
 
     /**
-     * @See {@link #addListenerIfPending(Class, Object, PendingRequestListener)}
+     * @See #addListenerIfPending(Class, Object, PendingRequestListener)
      */
     @Deprecated
     public <T> void addListenerIfPending(final Class<T> clazz, final Object requestCacheKey, final RequestListener<T> requestListener) {
@@ -1168,7 +1168,7 @@ public class SpiceManager implements Runnable {
     }
 
     private void bindToService(final Context context) {
-        if (context == null || (requestQueue.isEmpty() && isStopped)) {
+        if (context == null || requestQueue.isEmpty() && isStopped) {
             // fix issue 40. Thx Shussu
             // fix issue 246.
             return;

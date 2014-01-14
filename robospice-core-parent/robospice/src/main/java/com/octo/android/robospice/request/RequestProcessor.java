@@ -6,19 +6,14 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
 
 import roboguice.util.temp.Ln;
-import android.content.Context;
 
 import com.octo.android.robospice.SpiceService;
-import com.octo.android.robospice.networkstate.NetworkStateChecker;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.request.listener.RequestCancellationListener;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.listener.SpiceServiceListener;
-import com.octo.android.robospice.request.notifier.RequestListenerNotifier;
-import com.octo.android.robospice.request.notifier.SpiceServiceListenerNotifier;
 
 /**
  * Delegate class of the {@link SpiceService}, easier to test than an Android
@@ -49,20 +44,14 @@ public class RequestProcessor {
      * @param cacheManager
      *            the {@link CacheManager} that will be used to retrieve
      *            requests' result and store them.
-     * @param executorService
-     *            a custom {@link ExecutorService} that will be used to execute
-     *            {@link SpiceRequest} .
-     * @param requestProcessorListener
-     *            a listener of the {@link RequestProcessor}, it will be
-     *            notified when no more requests are left, typically allowing
-     *            the {@link SpiceService} to stop itself.
+     * @param requestProgressManager
+     * @param requestRunner 
      */
-    public RequestProcessor(final Context context, final CacheManager cacheManager, final ExecutorService executorService, final RequestProcessorListener requestProcessorListener,
-        final NetworkStateChecker networkStateChecker, final RequestListenerNotifier requestListenerNotifier, final SpiceServiceListenerNotifier spiceServiceListenerNotifier) {
-
+    public RequestProcessor(final CacheManager cacheManager, final RequestProgressManager requestProgressManager, final RequestRunner requestRunner) {
         this.cacheManager = cacheManager;
-        this.requestProgressManager = new RequestProgressManager(requestProcessorListener, mapRequestToRequestListener, requestListenerNotifier, spiceServiceListenerNotifier);
-        this.requestRunner = new RequestRunner(context, cacheManager, executorService, requestProgressManager, networkStateChecker);
+        this.requestProgressManager = requestProgressManager;
+        requestProgressManager.setMapRequestToRequestListener(mapRequestToRequestListener);
+        this.requestRunner = requestRunner;
     }
 
     // ============================================================================================
