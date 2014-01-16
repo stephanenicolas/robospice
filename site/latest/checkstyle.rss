@@ -8,7 +8,7 @@
     <language>en-us</language>
     <copyright>&#169;2012 - 2014</copyright>
     <item>
-      <title>File: 245,
+      <title>File: 246,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -225,7 +225,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retry.RetryPolicy.java">com/octo/android/robospice/retry/RetryPolicy.java</a>
+                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheCreationException.java">com/octo/android/robospice/persistence/exception/CacheCreationException.java</a>
                 </td>
                 <td>
                   0
@@ -239,7 +239,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheCreationException.java">com/octo/android/robospice/persistence/exception/CacheCreationException.java</a>
+                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retry.RetryPolicy.java">com/octo/android/robospice/retry/RetryPolicy.java</a>
                 </td>
                 <td>
                   0
@@ -898,6 +898,20 @@
                           <tr>
                 <td>
                   <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersister.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.DefaultRequestRunner.java">com/octo/android/robospice/request/DefaultRequestRunner.java</a>
                 </td>
                 <td>
                   0

@@ -162,7 +162,7 @@
 <a class="jxr_linenumber" name="152" href="#152">152</a>             K key;
 <a class="jxr_linenumber" name="153" href="#153">153</a>             V value;
 <a class="jxr_linenumber" name="154" href="#154">154</a>             <strong class="jxr_keyword">synchronized</strong> (<strong class="jxr_keyword">this</strong>) {
-<a class="jxr_linenumber" name="155" href="#155">155</a>                 <strong class="jxr_keyword">if</strong> (size &lt; 0 || (map.isEmpty() &amp;&amp; size != 0)) {
+<a class="jxr_linenumber" name="155" href="#155">155</a>                 <strong class="jxr_keyword">if</strong> (size &lt; 0 || map.isEmpty() &amp;&amp; size != 0) {
 <a class="jxr_linenumber" name="156" href="#156">156</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(getClass().getName() + <span class="jxr_string">".sizeOf() is reporting inconsistent results!"</span>);
 <a class="jxr_linenumber" name="157" href="#157">157</a>                 }
 <a class="jxr_linenumber" name="158" href="#158">158</a> 
@@ -334,7 +334,7 @@
 <a class="jxr_linenumber" name="324" href="#324">324</a>     @Override
 <a class="jxr_linenumber" name="325" href="#325">325</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">synchronized</strong> String toString() {
 <a class="jxr_linenumber" name="326" href="#326">326</a>         <strong class="jxr_keyword">int</strong> accesses = hitCount + missCount;
-<a class="jxr_linenumber" name="327" href="#327">327</a>         <strong class="jxr_keyword">int</strong> hitPercent = accesses != 0 ? (MAX_PERCENT * hitCount / accesses) : 0;
+<a class="jxr_linenumber" name="327" href="#327">327</a>         <strong class="jxr_keyword">int</strong> hitPercent = accesses != 0 ? MAX_PERCENT * hitCount / accesses : 0;
 <a class="jxr_linenumber" name="328" href="#328">328</a>         <strong class="jxr_keyword">return</strong> String.format(<span class="jxr_string">"LruCache[maxSize=%d,hits=%d,misses=%d,hitRate=%d%%]"</span>, maxSize, hitCount, missCount, hitPercent);
 <a class="jxr_linenumber" name="329" href="#329">329</a>     }
 <a class="jxr_linenumber" name="330" href="#330">330</a> }
