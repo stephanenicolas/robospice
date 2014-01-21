@@ -63,4 +63,9 @@ public class LruCacheObjectPersisterTest extends AndroidTestCase {
         assertNotNull(testPersisterWithFallback.loadDataFromCache(TEST_CACHE_KEY_1, DurationInMillis.ALWAYS_RETURNED));
     }
 
+    public void testGetCreationDateInCache_works_if_data_only_in_fallback() throws Exception {
+        testPersisterWithFallback.saveDataToCacheAndReturnData(TEST_DATA, TEST_CACHE_KEY_1);
+        testPersisterWithFallback.getLruCache().evictAll();
+        assertTrue(testPersisterWithFallback.getCreationDateInCache(TEST_CACHE_KEY_1) > 0);
+    }
 }
