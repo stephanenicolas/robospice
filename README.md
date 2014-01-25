@@ -115,3 +115,5 @@ Alternatives to RoboSpice
 * [PostMan (rings twice) Lib](https://github.com/fedepaol/PostmanLib--Rings-Twice--Android)
 * [Ion](https://github.com/koush/ion)
 * [droidQuery](http://phil-brown.github.io/droidQuery/)
+* [Android Job Queue](https://github.com/path/android-priority-jobqueue)
+
