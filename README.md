@@ -60,7 +60,7 @@ We also propose a few demo :
 * [RoboSpice Motivations](http://goo.gl/pzqH4) : a pedagogical app that explains the motivations behind RoboSpice.
 * and [a demo that illustrates non-network related requests (offline)](](https://play.google.com/store/apps/details?id=com.octo.android.robospice.sample.offline#?t=W251bGwsMSwxLDIxMiwiY29tLm9jdG8uYW5kcm9pZC5yb2Jvc3BpY2Uuc2FtcGxlLm9mZmxpbmUiXQ..).
 
-A projet initiated by Octo Technology 
+A project initiated by Octo Technology 
 -------------------------------------
 
 ![Octo Technology logo](https://raw.github.com/octo-online/robospice/master/gfx/octo-ascii-logo-blue.png)
