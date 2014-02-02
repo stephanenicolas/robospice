@@ -102,6 +102,10 @@ public class LruCacheObjectPersister<T> extends ObjectPersister<T> {
 
         if (cacheItem != null) {
             return cacheItem.getCreationDate();
+        } else {
+            if (decoratedPersister != null) {
+                return decoratedPersister.getCreationDateInCache(cacheKey);
+            }
         }
         throw new CacheLoadingException("Data could not be found in cache for cacheKey=" + cacheKey);
     }
