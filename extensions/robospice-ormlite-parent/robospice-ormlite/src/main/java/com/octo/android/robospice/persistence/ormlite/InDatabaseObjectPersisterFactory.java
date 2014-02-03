@@ -1,17 +1,18 @@
 package com.octo.android.robospice.persistence.ormlite;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import roboguice.util.temp.Ln;
 import android.app.Application;
 import android.net.Uri;
 
 import com.j256.ormlite.table.TableUtils;
 import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.ObjectPersisterFactory;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import roboguice.util.temp.Ln;
 
 public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
 
@@ -35,9 +36,8 @@ public class InDatabaseObjectPersisterFactory extends ObjectPersisterFactory {
     public <DATA> ObjectPersister<DATA> createObjectPersister(Class<DATA> clazz) {
         initializeTablesIfNeeded();
 
-        if (mapHandledClassesToNotificationUri != null && mapHandledClassesToNotificationUri.containsKey(clazz)) {
-            Uri notificationUri = mapHandledClassesToNotificationUri.get(clazz);
-            return new InDatabaseObjectPersister(getApplication(), databaseHelper, clazz, notificationUri);
+        if (mapHandledClassesToNotificationUri != null) {
+            return new InDatabaseObjectPersister(getApplication(), databaseHelper, clazz, mapHandledClassesToNotificationUri);
         } else {
             return new InDatabaseObjectPersister(getApplication(), databaseHelper, clazz);
         }

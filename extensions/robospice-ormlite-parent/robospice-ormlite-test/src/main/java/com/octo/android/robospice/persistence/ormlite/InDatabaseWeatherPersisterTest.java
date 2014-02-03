@@ -1,10 +1,15 @@
 package com.octo.android.robospice.persistence.ormlite;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Application;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.ContentObserver;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.test.AndroidTestCase;
+import android.test.mock.MockApplication;
+import android.test.mock.MockContentResolver;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.octo.android.robospice.ormlite.test.model.CurrenWeather;
@@ -16,9 +21,17 @@ import com.octo.android.robospice.ormlite.test.model.Wind;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.ObjectPersister;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @SmallTest
 public class InDatabaseWeatherPersisterTest extends AndroidTestCase {
     private ObjectPersister<Weather> dataPersistenceManager;
+    private NotificationContentResolver mResolver;
+    private Application mApplication;
+
     private static final CurrenWeather TEST_TEMP = new CurrenWeather();
     private static final CurrenWeather TEST_TEMP2 = new CurrenWeather();
     private static final int WEATHER_ID = 1;
@@ -27,25 +40,30 @@ public class InDatabaseWeatherPersisterTest extends AndroidTestCase {
     private static final int CACHE_KEY2 = 2;
     private static final String CACHE_KEY3_STRING = "cache_key_3";
 
+    private static final Uri NOTIFICATION_URI1 = Uri.EMPTY.buildUpon().appendPath("path1").build();
+    private static final Uri NOTIFICATION_URI2 = Uri.EMPTY.buildUpon().appendPath("path2").build();
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Application application = (Application) getContext().getApplicationContext();
 
-        List<Class<?>> classCollection = new ArrayList<Class<?>>();
+        Map<Class<?>, Uri> handledClassesToNotificationUri  = new HashMap<Class<?>, Uri>();
 
-        // add persisted classes to class collection
-        classCollection.add(Weather.class);
-        classCollection.add(CurrenWeather.class);
-        classCollection.add(Day.class);
-        classCollection.add(Forecast.class);
-        classCollection.add(Night.class);
-        classCollection.add(Wind.class);
+        // add persisted classes to mapping class to notification Uri
+        handledClassesToNotificationUri.put(Weather.class, NOTIFICATION_URI1);
+        handledClassesToNotificationUri.put(CurrenWeather.class, NOTIFICATION_URI2);
+        handledClassesToNotificationUri.put(Day.class, null);
+        handledClassesToNotificationUri.put(Forecast.class, null);
+        handledClassesToNotificationUri.put(Night.class, null);
+        handledClassesToNotificationUri.put(Wind.class, null);
 
-        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper(application, "sample_database.db", 1);
+        mResolver = new NotificationContentResolver();
+        mApplication = new NotificationApplication(getContext(), mResolver);
+
+        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper(mApplication, "sample_database.db", 1);
         databaseHelper.clearTableFromDataBase(Weather.class);
-        InDatabaseObjectPersisterFactory inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory(application, databaseHelper,
-            classCollection);
+        InDatabaseObjectPersisterFactory inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory(mApplication, databaseHelper,
+                handledClassesToNotificationUri);
         dataPersistenceManager = inDatabaseObjectPersisterFactory.createObjectPersister(Weather.class);
 
         TEST_TEMP.setTemp("28");
@@ -190,6 +208,17 @@ public class InDatabaseWeatherPersisterTest extends AndroidTestCase {
         assertEquals(WEATHER_ID, weatherReturned.getId());
     }
 
+
+    public void test_notification() throws Exception {
+        // GIVEN
+        Weather weatherRequestStatus = buildWeather(WEATHER_ID, TEST_TEMP);
+        dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, CACHE_KEY3_STRING);
+
+        // THAN
+        assertTrue(mResolver.getNotificationUris().contains(NOTIFICATION_URI1));
+        assertTrue(mResolver.getNotificationUris().contains(NOTIFICATION_URI2));
+    }
+
     private Weather buildWeather(int id, CurrenWeather currenWeather) {
         Weather weather = new Weather();
         weather.setId(id);
@@ -198,5 +227,48 @@ public class InDatabaseWeatherPersisterTest extends AndroidTestCase {
         weather.setListWeather(currents);
         weather.setListForecast(null);
         return weather;
+    }
+
+
+    private static class NotificationContentResolver extends MockContentResolver {
+
+        private ArrayList<Uri> mNotifcationUris = new ArrayList<Uri>();
+        @Override
+        public void notifyChange(Uri uri, ContentObserver observer, boolean syncToNetwork) {
+            mNotifcationUris.add(uri);
+        }
+
+        public List<Uri> getNotificationUris() {
+            return mNotifcationUris;
+        }
+    }
+
+    private static class NotificationApplication extends MockApplication {
+
+        private Context mContext;
+        private NotificationContentResolver mContentResolver;
+
+
+        public NotificationApplication(Context context, NotificationContentResolver contentResolver) {
+            super();
+            mContext = context;
+            mContentResolver = contentResolver;
+
+        }
+
+        @Override
+        public ContentResolver getContentResolver() {
+            return mContentResolver;
+        }
+
+        @Override
+        public SQLiteDatabase openOrCreateDatabase(String name, int mode, SQLiteDatabase.CursorFactory factory) {
+            return mContext.openOrCreateDatabase(name, mode, factory);
+        }
+
+        @Override
+        public SQLiteDatabase openOrCreateDatabase(String name, int mode, SQLiteDatabase.CursorFactory factory, DatabaseErrorHandler errorHandler) {
+            return mContext.openOrCreateDatabase(name, mode, factory);
+        }
     }
 }
