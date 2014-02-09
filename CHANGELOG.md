@@ -8,6 +8,13 @@ Version 1.5.0 (planned)
 * TODO : inject requests in listeners
 * TODO : inject service in requests
 
+Version 1.4.12 (planned Feb 2014)
+--------------
+
+Enhancements
+
+* Updated Retrofit extension to use Retrofit version 1.4.1
+
 Version 1.4.11 (January 16th 2014)
 --------------
 

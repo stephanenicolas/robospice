@@ -32,7 +32,7 @@ public abstract class RetrofitSpiceService extends SpiceService {
     protected abstract String getServerUrl();
 
     protected RestAdapter.Builder createRestAdapterBuilder() {
-        return new RestAdapter.Builder().setServer(getServerUrl()).setConverter(getConverter());
+        return new RestAdapter.Builder().setEndpoint(getServerUrl()).setConverter(getConverter());
     }
 
     protected abstract Converter createConverter();
