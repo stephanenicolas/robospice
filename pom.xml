@@ -79,8 +79,8 @@
 	</mailingLists>
 
 	<ciManagement>
-		<system>jenkins</system>
-		<url>https://robospice.ci.cloudbees.com/job/Build%20RoboSpice/</url>
+		<system>travis</system>
+		<url>https://travis-ci.org/octo-online/robospice</url>
 	</ciManagement>
 
 	<modules>
@@ -124,8 +124,8 @@
 		<maven-site-plugin.version>3.3</maven-site-plugin.version>
 		<doxia-module-markdown.version>1.3</doxia-module-markdown.version>
 		<maven-pmd-plugin.version>3.0.1</maven-pmd-plugin.version>
-		<findbugs-maven-plugin.version>2.5.2</findbugs-maven-plugin.version>
-		<maven-checkstyle-plugin.version>2.10</maven-checkstyle-plugin.version>
+		<findbugs-maven-plugin.version>2.5.3</findbugs-maven-plugin.version>
+		<maven-checkstyle-plugin.version>2.11</maven-checkstyle-plugin.version>
 		<eclipse-lifecycle-plugin.version>1.0.0</eclipse-lifecycle-plugin.version>
 
 		<!-- OTHER -->
