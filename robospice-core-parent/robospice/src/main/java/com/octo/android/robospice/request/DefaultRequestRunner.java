@@ -2,6 +2,7 @@ package com.octo.android.robospice.request;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.locks.ReentrantLock;
 
 import roboguice.util.temp.Ln;
 import android.content.Context;
@@ -42,6 +43,7 @@ public class DefaultRequestRunner implements RequestRunner {
     private final NetworkStateChecker networkStateChecker;
     private final RequestProgressManager requestProgressManager;
     private boolean isStopped;
+    private ReentrantLock executorLock;
 
     // ============================================================================================
     // CONSTRUCTOR
@@ -53,6 +55,8 @@ public class DefaultRequestRunner implements RequestRunner {
         this.cacheManager = cacheManager;
         this.networkStateChecker = networkStateChecker;
 
+        this.executorLock = new ReentrantLock();
+
         this.executorService = executorService;
         this.requestProgressManager = requestProgressBroadcaster;
 
@@ -60,11 +64,18 @@ public class DefaultRequestRunner implements RequestRunner {
     }
 
     public void executeRequest(CachedSpiceRequest<?> request) {
-        if (isStopped) {
-            Ln.d("Dropping request : " + request + " as runner is stopped.");
-            return;
+
+        executorLock.lock();
+
+        try {
+            if (isStopped) {
+                Ln.d("Dropping request : " + request + " as runner is stopped.");
+                return;
+            }q
+            planRequestExecution(request);
+        } finally {
+            executorLock.unlock();
         }
-        planRequestExecution(request);
     }
 
     protected <T> void processRequest(final CachedSpiceRequest<T> request) {
@@ -223,8 +234,15 @@ public class DefaultRequestRunner implements RequestRunner {
     }
     
     public void shouldStop() {
-        isStopped = true;
-        executorService.shutdown();
+
+        executorLock.lock();
+
+        try {
+            isStopped = true;
+            executorService.shutdown();
+        } finally {
+            executorLock.unlock();
+        }
     }
 
     public boolean isStopped() {
@@ -252,7 +270,7 @@ public class DefaultRequestRunner implements RequestRunner {
                     public void run() {
                         try {
                             Thread.sleep(request.getRetryPolicy().getDelayBeforeRetry());
-                            planRequestExecution(request);
+                            executeRequest(request);
                         } catch (InterruptedException e) {
                             Ln.e(e, "Retry attempt failed for request " + request);
                         }
