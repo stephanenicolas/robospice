@@ -71,7 +71,7 @@ public class DefaultRequestRunner implements RequestRunner {
             if (isStopped) {
                 Ln.d("Dropping request : " + request + " as runner is stopped.");
                 return;
-            }q
+            }
             planRequestExecution(request);
         } finally {
             executorLock.unlock();
