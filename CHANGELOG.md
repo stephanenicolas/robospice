@@ -15,6 +15,10 @@ Enhancements
 
 * Updated Retrofit extension to use Retrofit version 1.4.1
 
+Bug fixes
+
+* Bug fix : add proper synchronization to DefaultRequestProcessor stop/execute
+
 Version 1.4.11 (January 16th 2014)
 --------------
 
