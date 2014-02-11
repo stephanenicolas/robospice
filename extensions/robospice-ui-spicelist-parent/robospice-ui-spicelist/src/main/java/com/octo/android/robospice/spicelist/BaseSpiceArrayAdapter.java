@@ -120,6 +120,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
     protected final void updateListItemViewAsynchronously(final T data, final SpiceListItemView<T> spiceListItemView) {
         if (!registered(spiceListItemView)) {
             addSpiceListItemView(spiceListItemView);
+            freshDrawableSet.add(data);
         }
         for (int imageIndex = 0; imageIndex < spiceListItemView.getImageViewCount(); imageIndex++) {
             imageWidth = Math.max(imageWidth, spiceListItemView.getImageView(imageIndex).getWidth());
@@ -375,7 +376,7 @@ public abstract class BaseSpiceArrayAdapter<T> extends ArrayAdapter<T> {
 
         public void onNetworkFetchingAllowedChange(final boolean networkFetchingAllowed) {
             SpiceListItemView<T> spiceListItemView = weakReferenceSpiceListItemView.get();
-            if (spiceListItemView != null) {
+            if (spiceListItemView != null && networkFetchingAllowed) {
                 T data = spiceListItemView.getData();
                 for (int imageIndex = 0; imageIndex < spiceListItemView.getImageViewCount(); imageIndex++) {
                     performBitmapRequestAsync(spiceListItemView, data, imageIndex);

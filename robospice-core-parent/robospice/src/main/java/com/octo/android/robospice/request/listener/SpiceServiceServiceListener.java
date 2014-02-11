@@ -1,9 +1,9 @@
 package com.octo.android.robospice.request.listener;
 
+import java.util.Set;
+
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.request.CachedSpiceRequest;
-
-import java.util.Set;
 
 /**
  * Defines the behavior of a listener that will be notified of request
