@@ -92,8 +92,10 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
     @SuppressWarnings("unchecked")
     @Override
     protected T readCacheDataFromFile(File file) throws CacheLoadingException {
+        InputStream fileInputStream = null;
         try {
-            final byte[] body = IOUtils.toByteArray(new FileInputStream(file));
+            fileInputStream = new FileInputStream(file);
+            final byte[] body = IOUtils.toByteArray(fileInputStream);
             TypedInput typedInput = new TypedInput() {
 
                 @Override
@@ -119,6 +121,8 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
             return null;
         } catch (Exception e) {
             throw new CacheLoadingException(e);
+        } finally {
+            IOUtils.closeQuietly(fileInputStream);
         }
     }
 }
