@@ -54,19 +54,6 @@ public class SpiceListView extends ListView {
         super.setAdapter(adapter);
     }
 
-    @Override
-    public BaseSpiceArrayAdapter<?> getAdapter() {
-        ListAdapter adapter = super.getAdapter();
-
-        if (adapter == null) {
-            return null;
-        } else if (adapter instanceof  BaseSpiceArrayAdapter<?>) {
-            return (BaseSpiceArrayAdapter<?>) adapter;
-        } else {
-            return (BaseSpiceArrayAdapter<?>) ((HeaderViewListAdapter) adapter).getWrappedAdapter();
-        }
-    }
-
     // ----------------------------
     // --- PRIVATE API
     // ----------------------------
@@ -92,8 +79,15 @@ public class SpiceListView extends ListView {
             if (wrappedListener != null) {
                 wrappedListener.onScrollStateChanged(view, scrollState);
             }
-            if (getAdapter() != null) {
-                getAdapter().setNetworkFetchingAllowed(scrollState == SCROLL_STATE_IDLE);
+            ListAdapter adapter = getAdapter();
+            if (adapter != null) {
+                BaseSpiceArrayAdapter<?> spiceArrayAdapter;
+                if (adapter instanceof  BaseSpiceArrayAdapter<?>) {
+                    spiceArrayAdapter = (BaseSpiceArrayAdapter<?>) adapter;
+                } else {
+                    spiceArrayAdapter = (BaseSpiceArrayAdapter<?>) ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+                }
+                spiceArrayAdapter.setNetworkFetchingAllowed(scrollState == SCROLL_STATE_IDLE);
             }
         }
 
