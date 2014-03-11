@@ -1,5 +1,6 @@
 package com.octo.android.robospice.spicelist;
 
+import android.widget.HeaderViewListAdapter;
 import com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter;
 
 import android.content.Context;
@@ -40,10 +41,9 @@ public class SpiceListView extends ListView {
     // --- PUBLIC API
     // ----------------------------
 
-    @Deprecated
     @Override
     public void setOnScrollListener(OnScrollListener l) {
-        throw new RuntimeException("OnScrollListener is already used internally by a SpliceListView.");
+        super.setOnScrollListener(new SpiceListScrollListener(l));
     }
 
     @Override
@@ -52,11 +52,6 @@ public class SpiceListView extends ListView {
             throw new IllegalArgumentException("SpiceLists only support SpiceArrayAdapters.");
         }
         super.setAdapter(adapter);
-    }
-
-    @Override
-    public BaseSpiceArrayAdapter<?> getAdapter() {
-        return (BaseSpiceArrayAdapter<?>) super.getAdapter();
     }
 
     // ----------------------------
@@ -70,15 +65,37 @@ public class SpiceListView extends ListView {
     // --- INNER CLASS API
     // ----------------------------
     private final class SpiceListScrollListener implements OnScrollListener {
+
+        private OnScrollListener wrappedListener;
+
+        SpiceListScrollListener() { }
+
+        SpiceListScrollListener(OnScrollListener wrappedListener) {
+            this.wrappedListener = wrappedListener;
+        }
+
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
-            if (getAdapter() != null) {
-                getAdapter().setNetworkFetchingAllowed(scrollState == SCROLL_STATE_IDLE);
+            if (wrappedListener != null) {
+                wrappedListener.onScrollStateChanged(view, scrollState);
+            }
+            ListAdapter adapter = getAdapter();
+            if (adapter != null) {
+                BaseSpiceArrayAdapter<?> spiceArrayAdapter;
+                if (adapter instanceof  BaseSpiceArrayAdapter<?>) {
+                    spiceArrayAdapter = (BaseSpiceArrayAdapter<?>) adapter;
+                } else {
+                    spiceArrayAdapter = (BaseSpiceArrayAdapter<?>) ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+                }
+                spiceArrayAdapter.setNetworkFetchingAllowed(scrollState == SCROLL_STATE_IDLE);
             }
         }
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (wrappedListener != null) {
+                wrappedListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+            }
         }
     }
 
