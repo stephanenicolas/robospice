@@ -20,6 +20,7 @@ Bug fixes
 * Bug fix : add proper synchronization to DefaultRequestProcessor stop/execute
 * Fix a few bugs in spice list: when network was off, thumbnails were reloaded incorrectly.
 * Bug fix: close InputStream in RetrofitObjectPersister. PR: #268, Thx to György Dancsi
+* Bug fix: corrected cache prefix generation. PR: #277, Thx to Pierre Degand
 
 Version 1.4.11 (January 16th 2014)
 --------------
