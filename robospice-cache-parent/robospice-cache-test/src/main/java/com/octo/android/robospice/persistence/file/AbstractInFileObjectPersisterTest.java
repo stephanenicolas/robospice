@@ -28,7 +28,7 @@ public abstract class AbstractInFileObjectPersisterTest extends AndroidTestCase 
 
     public void testGetCachePrefix() {
         String actual = inFileObjectPersister.getCachePrefix();
-        assertEquals(inFileObjectPersister.getClass().getSimpleName() + "_", actual);
+        assertEquals(inFileObjectPersister.getClass().getSimpleName() + "_" + inFileObjectPersister.getHandledClass().getSimpleName() + "_", actual);
     }
 
     public void testRemoveDataFromCache(Object data, Object cacheKey) throws Exception {

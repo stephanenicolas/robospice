@@ -253,7 +253,7 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
     protected abstract T readCacheDataFromFile(File file) throws CacheLoadingException;
 
     protected final String getCachePrefix() {
-        return factoryCachePrefix + getClass().getSimpleName() + CACHE_PREFIX_END;
+        return factoryCachePrefix + getClass().getSimpleName() + CACHE_PREFIX_END + getHandledClass().getSimpleName() + CACHE_PREFIX_END;
     }
 
     protected boolean isCachedAndNotExpired(Object cacheKey, long maxTimeInCacheBeforeExpiry) {
