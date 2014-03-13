@@ -47,7 +47,7 @@ public abstract class ObjectPersister<T> implements Persister, CacheCleaner {
      *            the maximum time the data can have been stored in cached
      *            before being considered expired. 0 means infinite.
      * @return the data if it could be loaded.
-     * @throws CacheExpiredException
+     * @throws CacheLoadingException
      *             if the data in cache is expired.
      */
     public abstract T loadDataFromCache(Object cacheKey, long maxTimeInCache) throws CacheLoadingException;
