@@ -31,8 +31,8 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * is **open source** ;) 
 * and **tested** (more than 160 tests)
 
-RoboSpice is under Continuous Integration [on a Travis server](https://travis-ci.org/octo-online/robospice/builds) Thanks to Travis.
-* Build Status on Travis: [![Build Status on Travis:](https://travis-ci.org/octo-online/robospice.png)](https://travis-ci.org/octo-online/robospice)
+RoboSpice is under Continuous Integration [on a Travis server](https://travis-ci.org/stephanenicolas/robospice/builds) Thanks to Travis.
+* Build Status on Travis: [![Build Status on Travis:](https://travis-ci.org/stephanenicolas/robospice.png)](https://travis-ci.org/stephanenicolas/robospice)
 
 RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonarsource.org/dashboard/index/504442). Thanks to Sonar Source.
 
