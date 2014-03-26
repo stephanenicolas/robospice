@@ -13,7 +13,7 @@ Version 1.4.12 (planned Feb 2014)
 
 Enhancements
 
-* Updated Retrofit extension to use Retrofit version 1.4.1
+* Updated Retrofit extension to use Retrofit version 1.5.0
 
 Bug fixes
 
