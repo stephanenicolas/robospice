@@ -1081,10 +1081,12 @@ public class SpiceManager implements Runnable {
         public void onServiceConnected(final ComponentName name, final IBinder service) {
             lockAcquireService.lock();
             try {
-                spiceService = ((SpiceServiceBinder) service).getSpiceService();
-                spiceService.addSpiceServiceListener(removerSpiceServiceListener);
-                Ln.d("Bound to service : " + spiceService.getClass().getSimpleName());
-                conditionServiceBound.signalAll();
+                if (service instanceof SpiceServiceBinder) {
+                    spiceService = ((SpiceServiceBinder) service).getSpiceService();
+                    spiceService.addSpiceServiceListener(removerSpiceServiceListener);
+                    Ln.d("Bound to service : " + spiceService.getClass().getSimpleName());
+                    conditionServiceBound.signalAll();
+                }
             } finally {
                 lockAcquireService.unlock();
             }
