@@ -1,5 +1,6 @@
 package com.octo.android.robospice.spicelist;
 
+import android.widget.HeaderViewListAdapter;
 import com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter;
 
 import android.content.Context;
@@ -56,7 +57,15 @@ public class SpiceListView extends ListView {
 
     @Override
     public BaseSpiceArrayAdapter<?> getAdapter() {
-        return (BaseSpiceArrayAdapter<?>) super.getAdapter();
+        ListAdapter adapter = super.getAdapter();
+
+        if (adapter == null) {
+            return null;
+        } else if (adapter instanceof  BaseSpiceArrayAdapter<?>) {
+            return (BaseSpiceArrayAdapter<?>) adapter;
+        } else {
+            return (BaseSpiceArrayAdapter<?>) ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+        }
     }
 
     // ----------------------------

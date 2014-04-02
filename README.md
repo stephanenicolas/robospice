@@ -9,7 +9,9 @@ RoboSpice is a modular android library that makes writing asynchronous network r
 To learn more about RoboSpice in 30 seconds, try [this infographics]
 (https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png).
 
-If you want to start using RoboSpice right now, jump to the [Wiki](https://github.com/octo-online/robospice/wiki) or the [samples](https://github.com/octo-online/RoboSpice-samples).
+If you want to start using RoboSpice right now, jump to the [Wiki](https://github.com/octo-online/robospice/wiki) or the [samples](https://github.com/octo-online/RoboSpice-samples). 
+
+The [Wiki](https://github.com/octo-online/robospice/wiki) has a fully detailed section to quickly setup you up whether you use Gradle, Maven or ant/eclipse.
 
 
 Main features of RoboSpice
@@ -17,19 +19,21 @@ Main features of RoboSpice
 * supports Android starting *_from_ SDK version 8 (Froyo / 2.2.x)* 
 * executes network requests **asynchronously** (in a background AndroidService)
 * supports **REST** out of the box (using [Spring Android](http://www.springsource.org/spring-android) or [Google Http Client](http://code.google.com/p/google-http-java-client) or [Retrofit](https://github.com/square/retrofit)).
-* is strongly typed ! You query webservices using **POJOs** and you get POJOs as request results.
+* is strongly typed ! You query webservices using **POJOs** as parameters and you get **POJOs** as request results.
 * enforces no constraints neither on POJOs used for requests nor on Activity classes you use in your projects
 * **caches results** in Json with both [Jackson](http://jackson.codehaus.org/) or [Jackson2](http://wiki.fasterxml.com/JacksonRelease20) or [Gson](http://code.google.com/p/google-gson/),
 or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, even using [ORM Lite](http://ormlite.com/sqlite_java_android_orm.shtml) (still in beta)
 * notifies your activities (or any other context) of the result of the network request **with respect to their lifecycles**.
+* notifies your activities (or any other context) on the **UI Thread**
 * **no memory leaks** at all, like Android Loaders, unlike Android AsyncTasks
-* notifies your activities on their **UI Thread**
 * uses a simple but **robust** exception handling model
 * supports **multi-threading** of request executions
+* is **stable**, **efficient** and designed to respect Android philosophy
+* supports request **cancelling**, request **priorization** and requests  **aggregation**
 * supports aggregation of different web services
-* is a full featured replacement for long running AsyncTasks even they are not related to networking.
+* is a full featured replacement for long running AsyncTasks even if they are not related to networking.
 * is **open source** ;) 
-* and **tested** (more than 160 tests)
+* and **tested** (more than 200 tests)
 
 RoboSpice is under Continuous Integration [on a Travis server](https://travis-ci.org/stephanenicolas/robospice/builds) Thanks to Travis.
 * Build Status on Travis: [![Build Status on Travis:](https://travis-ci.org/stephanenicolas/robospice.png)](https://travis-ci.org/stephanenicolas/robospice)
@@ -58,7 +62,7 @@ We also propose a few demo :
 * [RoboSpice Motivations](http://goo.gl/pzqH4) : a pedagogical app that explains the motivations behind RoboSpice.
 * and [a demo that illustrates non-network related requests (offline)](](https://play.google.com/store/apps/details?id=com.octo.android.robospice.sample.offline#?t=W251bGwsMSwxLDIxMiwiY29tLm9jdG8uYW5kcm9pZC5yb2Jvc3BpY2Uuc2FtcGxlLm9mZmxpbmUiXQ..).
 
-A projet initiated by Octo Technology 
+A project initiated by Octo Technology 
 -------------------------------------
 
 ![Octo Technology logo](https://raw.github.com/octo-online/robospice/master/gfx/octo-ascii-logo-blue.png)
@@ -113,3 +117,5 @@ Alternatives to RoboSpice
 * [PostMan (rings twice) Lib](https://github.com/fedepaol/PostmanLib--Rings-Twice--Android)
 * [Ion](https://github.com/koush/ion)
 * [droidQuery](http://phil-brown.github.io/droidQuery/)
+* [Android Job Queue](https://github.com/path/android-priority-jobqueue)
+
