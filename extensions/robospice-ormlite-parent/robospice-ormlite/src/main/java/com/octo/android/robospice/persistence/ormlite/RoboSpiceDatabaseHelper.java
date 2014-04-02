@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.List;
 
 import roboguice.util.temp.Ln;
-import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
