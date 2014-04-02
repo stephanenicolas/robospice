@@ -129,7 +129,11 @@ public class DefaultRequestRunner implements RequestRunner {
         Ln.d("Cache content not available or expired or disabled");
         if (!networkStateChecker.isNetworkAvailable(applicationContext) && !request.isOffline()) {
             Ln.e("Network is down.");
-            handleRetry(request, new NoNetworkException());
+
+            if (!request.isCancelled()) {
+                handleRetry(request, new NoNetworkException());
+            }
+
             printRequestProcessingDuration(startTime, request);
             return;
         }
