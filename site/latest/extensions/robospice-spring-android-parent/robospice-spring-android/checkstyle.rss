@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
 
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
 <rss version="0.91">
   <channel>
     <title>Robospice - Extension Spring Android Module - Checkstyle report</title>
-    <link>https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android</link>
+    <link>https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android</link>
     <description>Robospice - Extension Spring Android Module - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2012 - 2014</copyright>
@@ -13,9 +30,9 @@
              Warnings: 0,
              Infos: 0
       </title>
-            <link>https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html</link>
+            <link>https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html</link>
       <description>
-        <p>Click <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +46,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.XmlSpringAndroidSpiceService.java">com/octo/android/robospice/XmlSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.XmlSpringAndroidSpiceService.java">com/octo/android/robospice/XmlSpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -43,7 +60,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.GsonSpringAndroidSpiceService.java">com/octo/android/robospice/GsonSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.GsonSpringAndroidSpiceService.java">com/octo/android/robospice/GsonSpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -57,7 +74,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -71,7 +88,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.SpringAndroidObjectPersister.java">com/octo/android/robospice/persistence/springandroid/SpringAndroidObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.SpringAndroidObjectPersister.java">com/octo/android/robospice/persistence/springandroid/SpringAndroidObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -85,7 +102,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -99,7 +116,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.JacksonSpringAndroidSpiceService.java">com/octo/android/robospice/JacksonSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.JacksonSpringAndroidSpiceService.java">com/octo/android/robospice/JacksonSpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -113,7 +130,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/Jackson2ObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/Jackson2ObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -127,7 +144,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.SpringAndroidSpiceService.java">com/octo/android/robospice/SpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.SpringAndroidSpiceService.java">com/octo/android/robospice/SpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -141,7 +158,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -155,7 +172,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/Jackson2ObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/Jackson2ObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -169,7 +186,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -183,7 +200,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.Jackson2SpringAndroidSpiceService.java">com/octo/android/robospice/Jackson2SpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.Jackson2SpringAndroidSpiceService.java">com/octo/android/robospice/Jackson2SpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -197,7 +214,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersister.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersister.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -211,7 +228,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -225,7 +242,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest.java">com/octo/android/robospice/request/springandroid/SpringAndroidSpiceRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-spring-android-parent/robospice-spring-android/checkstyle.html#com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest.java">com/octo/android/robospice/request/springandroid/SpringAndroidSpiceRequest.java</a>
                 </td>
                 <td>
                   0
