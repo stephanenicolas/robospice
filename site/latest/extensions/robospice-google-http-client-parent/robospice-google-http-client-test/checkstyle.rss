@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
 
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
 <rss version="0.91">
   <channel>
     <title>Robospice - Extension Google Http Java Client Module tests - Checkstyle report</title>
-    <link>https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test</link>
+    <link>https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test</link>
     <description>Robospice - Extension Google Http Java Client Module tests - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2012 - 2014</copyright>
@@ -13,9 +30,9 @@
              Warnings: 0,
              Infos: 0
       </title>
-            <link>https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html</link>
+            <link>https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html</link>
       <description>
-        <p>Click <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +46,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.GoogleHttpClientSpiceRequestStub.java">com/octo/android/robospice/googlehttpclient/test/stub/GoogleHttpClientSpiceRequestStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.GoogleHttpClientSpiceRequestStub.java">com/octo/android/robospice/googlehttpclient/test/stub/GoogleHttpClientSpiceRequestStub.java</a>
                 </td>
                 <td>
                   0
@@ -43,7 +60,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJackson2Test.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJackson2Test.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJackson2Test.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJackson2Test.java</a>
                 </td>
                 <td>
                   0
@@ -57,7 +74,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterGsonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterGsonTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterGsonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterGsonTest.java</a>
                 </td>
                 <td>
                   0
@@ -71,7 +88,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.SimpleData.java">com/octo/android/robospice/googlehttpclient/test/model/SimpleData.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.SimpleData.java">com/octo/android/robospice/googlehttpclient/test/model/SimpleData.java</a>
                 </td>
                 <td>
                   0
@@ -85,7 +102,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Wind.java">com/octo/android/robospice/googlehttpclient/test/model/Wind.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Wind.java">com/octo/android/robospice/googlehttpclient/test/model/Wind.java</a>
                 </td>
                 <td>
                   0
@@ -99,7 +116,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Day.java">com/octo/android/robospice/googlehttpclient/test/model/Day.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Day.java">com/octo/android/robospice/googlehttpclient/test/model/Day.java</a>
                 </td>
                 <td>
                   0
@@ -113,7 +130,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.RequestListenerStub.java">com/octo/android/robospice/googlehttpclient/test/stub/RequestListenerStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.RequestListenerStub.java">com/octo/android/robospice/googlehttpclient/test/stub/RequestListenerStub.java</a>
                 </td>
                 <td>
                   0
@@ -127,7 +144,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.GoogleHttpClientSpiceServiceTest.java">com/octo/android/robospice/GoogleHttpClientSpiceServiceTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.GoogleHttpClientSpiceServiceTest.java">com/octo/android/robospice/GoogleHttpClientSpiceServiceTest.java</a>
                 </td>
                 <td>
                   0
@@ -141,7 +158,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Weather.java">com/octo/android/robospice/googlehttpclient/test/model/Weather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Weather.java">com/octo/android/robospice/googlehttpclient/test/model/Weather.java</a>
                 </td>
                 <td>
                   0
@@ -155,7 +172,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.WeatherResult.java">com/octo/android/robospice/googlehttpclient/test/model/WeatherResult.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.WeatherResult.java">com/octo/android/robospice/googlehttpclient/test/model/WeatherResult.java</a>
                 </td>
                 <td>
                   0
@@ -169,7 +186,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersisterFactoryTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersisterFactoryTest.java</a>
                 </td>
                 <td>
                   0
@@ -183,7 +200,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.GoogleHttpClientSpiceTestService.java">com/octo/android/robospice/googlehttpclient/test/GoogleHttpClientSpiceTestService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.GoogleHttpClientSpiceTestService.java">com/octo/android/robospice/googlehttpclient/test/GoogleHttpClientSpiceTestService.java</a>
                 </td>
                 <td>
                   0
@@ -197,7 +214,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Forecast.java">com/octo/android/robospice/googlehttpclient/test/model/Forecast.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Forecast.java">com/octo/android/robospice/googlehttpclient/test/model/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -211,7 +228,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJacksonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJacksonTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJacksonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJacksonTest.java</a>
                 </td>
                 <td>
                   0
@@ -225,7 +242,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.CurrenWeather.java">com/octo/android/robospice/googlehttpclient/test/model/CurrenWeather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/extensions/robospice-google-http-client-parent/robospice-google-http-client-test/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.CurrenWeather.java">com/octo/android/robospice/googlehttpclient/test/model/CurrenWeather.java</a>
                 </td>
                 <td>
                   0
