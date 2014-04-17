@@ -263,7 +263,7 @@
 <a class="jxr_linenumber" name="253" href="#253">253</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">abstract</strong> T readCacheDataFromFile(File file) <strong class="jxr_keyword">throws</strong> CacheLoadingException;
 <a class="jxr_linenumber" name="254" href="#254">254</a> 
 <a class="jxr_linenumber" name="255" href="#255">255</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String getCachePrefix() {
-<a class="jxr_linenumber" name="256" href="#256">256</a>         <strong class="jxr_keyword">return</strong> factoryCachePrefix + getClass().getSimpleName() + CACHE_PREFIX_END;
+<a class="jxr_linenumber" name="256" href="#256">256</a>         <strong class="jxr_keyword">return</strong> factoryCachePrefix + getClass().getSimpleName() + CACHE_PREFIX_END + getHandledClass().getSimpleName() + CACHE_PREFIX_END;
 <a class="jxr_linenumber" name="257" href="#257">257</a>     }
 <a class="jxr_linenumber" name="258" href="#258">258</a> 
 <a class="jxr_linenumber" name="259" href="#259">259</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">boolean</strong> isCachedAndNotExpired(Object cacheKey, <strong class="jxr_keyword">long</strong> maxTimeInCacheBeforeExpiry) {

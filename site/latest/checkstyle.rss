@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
 
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
 <rss version="0.91">
   <channel>
     <title>Robospice - Parent - Checkstyle report</title>
-    <link>https://github.com/octo-online/robospice</link>
+    <link>https://github.com/stephanenicolas/robospice</link>
     <description>Robospice - Parent - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2012 - 2014</copyright>
@@ -13,9 +30,9 @@
              Warnings: 0,
              Infos: 0
       </title>
-            <link>https://github.com/octo-online/robospice/checkstyle.html</link>
+            <link>https://github.com/stephanenicolas/robospice/checkstyle.html</link>
       <description>
-        <p>Click <a href="https://github.com/octo-online/robospice/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="https://github.com/stephanenicolas/robospice/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +46,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpBitmapSpiceService.java">com/octo/android/robospice/spicelist/okhttp/OkHttpBitmapSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpBitmapSpiceService.java">com/octo/android/robospice/spicelist/okhttp/OkHttpBitmapSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -43,7 +60,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Curren_weather.java">com/octo/android/robospice/retrofit/test/model/Curren_weather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Curren_weather.java">com/octo/android/robospice/retrofit/test/model/Curren_weather.java</a>
                 </td>
                 <td>
                   0
@@ -57,7 +74,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.notification.SpiceServiceListenerNotificationService.java">com/octo/android/robospice/notification/SpiceServiceListenerNotificationService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.notification.SpiceServiceListenerNotificationService.java">com/octo/android/robospice/notification/SpiceServiceListenerNotificationService.java</a>
                 </td>
                 <td>
                   0
@@ -71,7 +88,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpSmallBinaryRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpSmallBinaryRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpSmallBinaryRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpSmallBinaryRequest.java</a>
                 </td>
                 <td>
                   0
@@ -85,7 +102,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.RetrofitJackson2SpiceTestService.java">com/octo/android/robospice/retrofit/test/RetrofitJackson2SpiceTestService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.RetrofitJackson2SpiceTestService.java">com/octo/android/robospice/retrofit/test/RetrofitJackson2SpiceTestService.java</a>
                 </td>
                 <td>
                   0
@@ -99,7 +116,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.SpiceRequestTest.java">com/octo/android/robospice/request/SpiceRequestTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.SpiceRequestTest.java">com/octo/android/robospice/request/SpiceRequestTest.java</a>
                 </td>
                 <td>
                   0
@@ -113,7 +130,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJackson2Test.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJackson2Test.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJackson2Test.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJackson2Test.java</a>
                 </td>
                 <td>
                   0
@@ -127,7 +144,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.exception.NetworkException.java">com/octo/android/robospice/exception/NetworkException.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.exception.NetworkException.java">com/octo/android/robospice/exception/NetworkException.java</a>
                 </td>
                 <td>
                   0
@@ -141,7 +158,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.SpiceService.java">com/octo/android/robospice/SpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.SpiceService.java">com/octo/android/robospice/SpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -155,7 +172,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.core.test.SpiceTestService.java">com/octo/android/robospice/core/test/SpiceTestService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.core.test.SpiceTestService.java">com/octo/android/robospice/core/test/SpiceTestService.java</a>
                 </td>
                 <td>
                   0
@@ -169,7 +186,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.SpiceManagerTest.java">com/octo/android/robospice/SpiceManagerTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.SpiceManagerTest.java">com/octo/android/robospice/SpiceManagerTest.java</a>
                 </td>
                 <td>
                   0
@@ -183,7 +200,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.GoogleHttpClientSpiceServiceTest.java">com/octo/android/robospice/GoogleHttpClientSpiceServiceTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.GoogleHttpClientSpiceServiceTest.java">com/octo/android/robospice/GoogleHttpClientSpiceServiceTest.java</a>
                 </td>
                 <td>
                   0
@@ -197,7 +214,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Weather.java">com/octo/android/robospice/springandroid/test/model/xml/Weather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Weather.java">com/octo/android/robospice/springandroid/test/model/xml/Weather.java</a>
                 </td>
                 <td>
                   0
@@ -211,7 +228,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.ICacheManager.java">com/octo/android/robospice/persistence/ICacheManager.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.ICacheManager.java">com/octo/android/robospice/persistence/ICacheManager.java</a>
                 </td>
                 <td>
                   0
@@ -225,7 +242,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheCreationException.java">com/octo/android/robospice/persistence/exception/CacheCreationException.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheCreationException.java">com/octo/android/robospice/persistence/exception/CacheCreationException.java</a>
                 </td>
                 <td>
                   0
@@ -239,7 +256,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retry.RetryPolicy.java">com/octo/android/robospice/retry/RetryPolicy.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retry.RetryPolicy.java">com/octo/android/robospice/retry/RetryPolicy.java</a>
                 </td>
                 <td>
                   0
@@ -253,7 +270,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpSimpleTextRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpSimpleTextRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpSimpleTextRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpSimpleTextRequest.java</a>
                 </td>
                 <td>
                   0
@@ -267,7 +284,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.CachedSpiceRequest.java">com/octo/android/robospice/request/CachedSpiceRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.CachedSpiceRequest.java">com/octo/android/robospice/request/CachedSpiceRequest.java</a>
                 </td>
                 <td>
                   0
@@ -281,7 +298,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Day.java">com/octo/android/robospice/springandroid/test/model/xml/Day.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Day.java">com/octo/android/robospice/springandroid/test/model/xml/Day.java</a>
                 </td>
                 <td>
                   0
@@ -295,7 +312,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.CurrenWeather.java">com/octo/android/robospice/googlehttpclient/test/model/CurrenWeather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.CurrenWeather.java">com/octo/android/robospice/googlehttpclient/test/model/CurrenWeather.java</a>
                 </td>
                 <td>
                   0
@@ -309,7 +326,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -323,7 +340,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.okhttp.OkHttpSpiceService.java">com/octo/android/robospice/okhttp/OkHttpSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.okhttp.OkHttpSpiceService.java">com/octo/android/robospice/okhttp/OkHttpSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -337,7 +354,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.exception.NoNetworkException.java">com/octo/android/robospice/exception/NoNetworkException.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.exception.NoNetworkException.java">com/octo/android/robospice/exception/NoNetworkException.java</a>
                 </td>
                 <td>
                   0
@@ -351,7 +368,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.keysanitation.DefaultKeySanitizer.java">com/octo/android/robospice/persistence/keysanitation/DefaultKeySanitizer.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.keysanitation.DefaultKeySanitizer.java">com/octo/android/robospice/persistence/keysanitation/DefaultKeySanitizer.java</a>
                 </td>
                 <td>
                   0
@@ -365,7 +382,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.SimpleData.java">com/octo/android/robospice/retrofit/test/model/SimpleData.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.SimpleData.java">com/octo/android/robospice/retrofit/test/model/SimpleData.java</a>
                 </td>
                 <td>
                   0
@@ -379,7 +396,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.notifier.DefaultRequestListenerNotifier.java">com/octo/android/robospice/request/notifier/DefaultRequestListenerNotifier.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.notifier.DefaultRequestListenerNotifier.java">com/octo/android/robospice/request/notifier/DefaultRequestListenerNotifier.java</a>
                 </td>
                 <td>
                   0
@@ -393,7 +410,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.BigBinaryRequestTest.java">com/octo/android/robospice/request/BigBinaryRequestTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.BigBinaryRequestTest.java">com/octo/android/robospice/request/BigBinaryRequestTest.java</a>
                 </td>
                 <td>
                   0
@@ -407,7 +424,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.CachedSpiceRequestStub.java">com/octo/android/robospice/stub/CachedSpiceRequestStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.CachedSpiceRequestStub.java">com/octo/android/robospice/stub/CachedSpiceRequestStub.java</a>
                 </td>
                 <td>
                   0
@@ -421,7 +438,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterGsonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterGsonTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterGsonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterGsonTest.java</a>
                 </td>
                 <td>
                   0
@@ -435,7 +452,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestStatus.java">com/octo/android/robospice/request/listener/RequestStatus.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestStatus.java">com/octo/android/robospice/request/listener/RequestStatus.java</a>
                 </td>
                 <td>
                   0
@@ -449,7 +466,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.priority.PausablePriorityBlockingQueue.java">com/octo/android/robospice/priority/PausablePriorityBlockingQueue.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.priority.PausablePriorityBlockingQueue.java">com/octo/android/robospice/priority/PausablePriorityBlockingQueue.java</a>
                 </td>
                 <td>
                   0
@@ -463,7 +480,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestProgress.java">com/octo/android/robospice/request/listener/RequestProgress.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestProgress.java">com/octo/android/robospice/request/listener/RequestProgress.java</a>
                 </td>
                 <td>
                   0
@@ -477,7 +494,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.simple.SimpleTextRequest.java">com/octo/android/robospice/request/simple/SimpleTextRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.simple.SimpleTextRequest.java">com/octo/android/robospice/request/simple/SimpleTextRequest.java</a>
                 </td>
                 <td>
                   0
@@ -491,7 +508,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.SpringAndroidObjectPersister.java">com/octo/android/robospice/persistence/springandroid/SpringAndroidObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.SpringAndroidObjectPersister.java">com/octo/android/robospice/persistence/springandroid/SpringAndroidObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -505,7 +522,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.GsonRetrofitObjectPersisterFactory.java">com/octo/android/robospice/persistence/retrofit/GsonRetrofitObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.GsonRetrofitObjectPersisterFactory.java">com/octo/android/robospice/persistence/retrofit/GsonRetrofitObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -519,7 +536,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.SimpleData.java">com/octo/android/robospice/springandroid/test/model/json/SimpleData.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.SimpleData.java">com/octo/android/robospice/springandroid/test/model/json/SimpleData.java</a>
                 </td>
                 <td>
                   0
@@ -533,7 +550,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveDataClassFromCacheCommand.java">com/octo/android/robospice/command/RemoveDataClassFromCacheCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveDataClassFromCacheCommand.java">com/octo/android/robospice/command/RemoveDataClassFromCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -547,7 +564,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.UncachedSpiceService.java">com/octo/android/robospice/UncachedSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.UncachedSpiceService.java">com/octo/android/robospice/UncachedSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -561,7 +578,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.PendingRequestListener.java">com/octo/android/robospice/request/listener/PendingRequestListener.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.PendingRequestListener.java">com/octo/android/robospice/request/listener/PendingRequestListener.java</a>
                 </td>
                 <td>
                   0
@@ -575,7 +592,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.GoogleHttpClientSpiceRequestStub.java">com/octo/android/robospice/googlehttpclient/test/stub/GoogleHttpClientSpiceRequestStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.GoogleHttpClientSpiceRequestStub.java">com/octo/android/robospice/googlehttpclient/test/stub/GoogleHttpClientSpiceRequestStub.java</a>
                 </td>
                 <td>
                   0
@@ -589,7 +606,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Day.java">com/octo/android/robospice/springandroid/test/model/json/Day.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Day.java">com/octo/android/robospice/springandroid/test/model/json/Day.java</a>
                 </td>
                 <td>
                   0
@@ -603,7 +620,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersister.java">com/octo/android/robospice/persistence/ormlite/InDatabaseObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersister.java">com/octo/android/robospice/persistence/ormlite/InDatabaseObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -617,7 +634,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BigBinaryRequest.java">com/octo/android/robospice/request/simple/BigBinaryRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BigBinaryRequest.java">com/octo/android/robospice/request/simple/BigBinaryRequest.java</a>
                 </td>
                 <td>
                   0
@@ -631,7 +648,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.SetFailOnCacheErrorCommand.java">com/octo/android/robospice/command/SetFailOnCacheErrorCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.SetFailOnCacheErrorCommand.java">com/octo/android/robospice/command/SetFailOnCacheErrorCommand.java</a>
                 </td>
                 <td>
                   0
@@ -645,7 +662,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.SpiceServiceAdapter.java">com/octo/android/robospice/request/listener/SpiceServiceAdapter.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.SpiceServiceAdapter.java">com/octo/android/robospice/request/listener/SpiceServiceAdapter.java</a>
                 </td>
                 <td>
                   0
@@ -659,7 +676,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.keysanitation.KeySanitizer.java">com/octo/android/robospice/persistence/keysanitation/KeySanitizer.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.keysanitation.KeySanitizer.java">com/octo/android/robospice/persistence/keysanitation/KeySanitizer.java</a>
                 </td>
                 <td>
                   0
@@ -673,7 +690,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest.java">com/octo/android/robospice/request/retrofit/RetrofitSpiceRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest.java">com/octo/android/robospice/request/retrofit/RetrofitSpiceRequest.java</a>
                 </td>
                 <td>
                   0
@@ -687,7 +704,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.okhttp.test.OkHttpSpiceTestService.java">com/octo/android/robospice/okhttp/test/OkHttpSpiceTestService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.okhttp.test.OkHttpSpiceTestService.java">com/octo/android/robospice/okhttp/test/OkHttpSpiceTestService.java</a>
                 </td>
                 <td>
                   0
@@ -701,7 +718,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestListener.java">com/octo/android/robospice/request/listener/RequestListener.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestListener.java">com/octo/android/robospice/request/listener/RequestListener.java</a>
                 </td>
                 <td>
                   0
@@ -715,7 +732,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.GoogleHttpClientSpiceTestService.java">com/octo/android/robospice/googlehttpclient/test/GoogleHttpClientSpiceTestService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.GoogleHttpClientSpiceTestService.java">com/octo/android/robospice/googlehttpclient/test/GoogleHttpClientSpiceTestService.java</a>
                 </td>
                 <td>
                   0
@@ -729,7 +746,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.ObjectPersister.java">com/octo/android/robospice/persistence/ObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.ObjectPersister.java">com/octo/android/robospice/persistence/ObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -743,7 +760,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.KeySanitationExcepion.java">com/octo/android/robospice/persistence/exception/KeySanitationExcepion.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.KeySanitationExcepion.java">com/octo/android/robospice/persistence/exception/KeySanitationExcepion.java</a>
                 </td>
                 <td>
                   0
@@ -757,7 +774,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#roboguice.util.temp.Ln.java">roboguice/util/temp/Ln.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#roboguice.util.temp.Ln.java">roboguice/util/temp/Ln.java</a>
                 </td>
                 <td>
                   0
@@ -771,7 +788,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.GoogleHttpClientSpiceService.java">com/octo/android/robospice/GoogleHttpClientSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.GoogleHttpClientSpiceService.java">com/octo/android/robospice/GoogleHttpClientSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -785,7 +802,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BinaryRequest.java">com/octo/android/robospice/request/simple/BinaryRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BinaryRequest.java">com/octo/android/robospice/request/simple/BinaryRequest.java</a>
                 </td>
                 <td>
                   0
@@ -799,7 +816,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Day.java">com/octo/android/robospice/ormlite/test/model/Day.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Day.java">com/octo/android/robospice/ormlite/test/model/Day.java</a>
                 </td>
                 <td>
                   0
@@ -813,7 +830,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.RequestListenerStub.java">com/octo/android/robospice/googlehttpclient/test/stub/RequestListenerStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.stub.RequestListenerStub.java">com/octo/android/robospice/googlehttpclient/test/stub/RequestListenerStub.java</a>
                 </td>
                 <td>
                   0
@@ -827,7 +844,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterFactoryTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterFactoryTest.java</a>
                 </td>
                 <td>
                   0
@@ -841,7 +858,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.DurationInMillis.java">com/octo/android/robospice/persistence/DurationInMillis.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.DurationInMillis.java">com/octo/android/robospice/persistence/DurationInMillis.java</a>
                 </td>
                 <td>
                   0
@@ -855,7 +872,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBitmapObjectPersisterTest.java">com/octo/android/robospice/persistence/binary/InFileBitmapObjectPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBitmapObjectPersisterTest.java">com/octo/android/robospice/persistence/binary/InFileBitmapObjectPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -869,7 +886,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseWeatherPersisterTest.java">com/octo/android/robospice/persistence/ormlite/InDatabaseWeatherPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseWeatherPersisterTest.java">com/octo/android/robospice/persistence/ormlite/InDatabaseWeatherPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -883,7 +900,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessorTest.java">com/octo/android/robospice/request/RequestProcessorTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessorTest.java">com/octo/android/robospice/request/RequestProcessorTest.java</a>
                 </td>
                 <td>
                   0
@@ -897,7 +914,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -911,7 +928,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.DefaultRequestRunner.java">com/octo/android/robospice/request/DefaultRequestRunner.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.DefaultRequestRunner.java">com/octo/android/robospice/request/DefaultRequestRunner.java</a>
                 </td>
                 <td>
                   0
@@ -925,7 +942,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.SpiceActivity.java">com/octo/android/robospice/SpiceActivity.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.SpiceActivity.java">com/octo/android/robospice/SpiceActivity.java</a>
                 </td>
                 <td>
                   0
@@ -939,7 +956,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.Jackson2SpringAndroidSpiceService.java">com/octo/android/robospice/Jackson2SpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.Jackson2SpringAndroidSpiceService.java">com/octo/android/robospice/Jackson2SpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -953,7 +970,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.GetAllCacheKeysCommand.java">com/octo/android/robospice/command/GetAllCacheKeysCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.GetAllCacheKeysCommand.java">com/octo/android/robospice/command/GetAllCacheKeysCommand.java</a>
                 </td>
                 <td>
                   0
@@ -967,7 +984,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.CacheEntry.java">com/octo/android/robospice/persistence/ormlite/CacheEntry.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.CacheEntry.java">com/octo/android/robospice/persistence/ormlite/CacheEntry.java</a>
                 </td>
                 <td>
                   0
@@ -981,7 +998,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/Jackson2ObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/Jackson2ObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -995,7 +1012,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestSucceedingWithSemaphoresStub.java">com/octo/android/robospice/stub/SpiceRequestSucceedingWithSemaphoresStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestSucceedingWithSemaphoresStub.java">com/octo/android/robospice/stub/SpiceRequestSucceedingWithSemaphoresStub.java</a>
                 </td>
                 <td>
                   0
@@ -1009,7 +1026,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.notifier.SpiceServiceListenerNotifier.java">com/octo/android/robospice/request/notifier/SpiceServiceListenerNotifier.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.notifier.SpiceServiceListenerNotifier.java">com/octo/android/robospice/request/notifier/SpiceServiceListenerNotifier.java</a>
                 </td>
                 <td>
                   0
@@ -1023,7 +1040,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestStub.java">com/octo/android/robospice/stub/SpiceRequestStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestStub.java">com/octo/android/robospice/stub/SpiceRequestStub.java</a>
                 </td>
                 <td>
                   0
@@ -1037,7 +1054,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/json/jackson/InFileWeatherPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -1051,7 +1068,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpBigBinaryRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpBigBinaryRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpBigBinaryRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpBigBinaryRequest.java</a>
                 </td>
                 <td>
                   0
@@ -1065,7 +1082,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityFuture.java">com/octo/android/robospice/priority/PriorityFuture.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityFuture.java">com/octo/android/robospice/priority/PriorityFuture.java</a>
                 </td>
                 <td>
                   0
@@ -1079,7 +1096,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.SpiceException.java">com/octo/android/robospice/persistence/exception/SpiceException.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.SpiceException.java">com/octo/android/robospice/persistence/exception/SpiceException.java</a>
                 </td>
                 <td>
                   0
@@ -1093,7 +1110,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.StringPersisterStub.java">com/octo/android/robospice/stub/StringPersisterStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.StringPersisterStub.java">com/octo/android/robospice/stub/StringPersisterStub.java</a>
                 </td>
                 <td>
                   0
@@ -1107,7 +1124,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.GsonSpringAndroidSpiceService.java">com/octo/android/robospice/GsonSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.GsonSpringAndroidSpiceService.java">com/octo/android/robospice/GsonSpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -1121,7 +1138,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.test.stub.RequestListenerStub.java">com/octo/android/robospice/spicelist/test/stub/RequestListenerStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.test.stub.RequestListenerStub.java">com/octo/android/robospice/spicelist/test/stub/RequestListenerStub.java</a>
                 </td>
                 <td>
                   0
@@ -1135,7 +1152,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.SpiceRequest.java">com/octo/android/robospice/request/SpiceRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.SpiceRequest.java">com/octo/android/robospice/request/SpiceRequest.java</a>
                 </td>
                 <td>
                   0
@@ -1149,7 +1166,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.SpiceServiceListener.java">com/octo/android/robospice/request/listener/SpiceServiceListener.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.SpiceServiceListener.java">com/octo/android/robospice/request/listener/SpiceServiceListener.java</a>
                 </td>
                 <td>
                   0
@@ -1163,7 +1180,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.SpiceServiceServiceListener.java">com/octo/android/robospice/request/listener/SpiceServiceServiceListener.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.SpiceServiceServiceListener.java">com/octo/android/robospice/request/listener/SpiceServiceServiceListener.java</a>
                 </td>
                 <td>
                   0
@@ -1177,7 +1194,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitJackson2SpiceService.java">com/octo/android/robospice/retrofit/RetrofitJackson2SpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitJackson2SpiceService.java">com/octo/android/robospice/retrofit/RetrofitJackson2SpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -1191,7 +1208,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Day.java">com/octo/android/robospice/googlehttpclient/test/model/Day.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Day.java">com/octo/android/robospice/googlehttpclient/test/model/Day.java</a>
                 </td>
                 <td>
                   0
@@ -1205,7 +1222,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/json/gson/InFileWeatherPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -1219,7 +1236,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.exception.RequestCancelledException.java">com/octo/android/robospice/exception/RequestCancelledException.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.exception.RequestCancelledException.java">com/octo/android/robospice/exception/RequestCancelledException.java</a>
                 </td>
                 <td>
                   0
@@ -1233,7 +1250,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.WeatherResult.java">com/octo/android/robospice/googlehttpclient/test/model/WeatherResult.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.WeatherResult.java">com/octo/android/robospice/googlehttpclient/test/model/WeatherResult.java</a>
                 </td>
                 <td>
                   0
@@ -1247,7 +1264,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.IsDataInCacheCommand.java">com/octo/android/robospice/command/IsDataInCacheCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.IsDataInCacheCommand.java">com/octo/android/robospice/command/IsDataInCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -1261,7 +1278,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBitmapObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileBitmapObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBitmapObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileBitmapObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -1275,7 +1292,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpSpiceArrayAdapter.java">com/octo/android/robospice/spicelist/okhttp/OkHttpSpiceArrayAdapter.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpSpiceArrayAdapter.java">com/octo/android/robospice/spicelist/okhttp/OkHttpSpiceArrayAdapter.java</a>
                 </td>
                 <td>
                   0
@@ -1289,7 +1306,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Night.java">com/octo/android/robospice/ormlite/test/model/Night.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Night.java">com/octo/android/robospice/ormlite/test/model/Night.java</a>
                 </td>
                 <td>
                   0
@@ -1303,7 +1320,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessor.java">com/octo/android/robospice/request/RequestProcessor.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessor.java">com/octo/android/robospice/request/RequestProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -1317,7 +1334,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.CacheManagerTest.java">com/octo/android/robospice/persistence/CacheManagerTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.CacheManagerTest.java">com/octo/android/robospice/persistence/CacheManagerTest.java</a>
                 </td>
                 <td>
                   0
@@ -1331,7 +1348,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.string.InFileStringObjectPersisterTest.java">com/octo/android/robospice/persistence/string/InFileStringObjectPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.string.InFileStringObjectPersisterTest.java">com/octo/android/robospice/persistence/string/InFileStringObjectPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -1345,7 +1362,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.XmlSpringAndroidSpiceService.java">com/octo/android/robospice/XmlSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.XmlSpringAndroidSpiceService.java">com/octo/android/robospice/XmlSpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -1359,7 +1376,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterTest.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterTest.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -1373,7 +1390,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpBitmapSpiceManager.java">com/octo/android/robospice/spicelist/okhttp/OkHttpBitmapSpiceManager.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.okhttp.OkHttpBitmapSpiceManager.java">com/octo/android/robospice/spicelist/okhttp/OkHttpBitmapSpiceManager.java</a>
                 </td>
                 <td>
                   0
@@ -1387,7 +1404,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBigInputStreamObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBigInputStreamObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -1401,7 +1418,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheSavingException.java">com/octo/android/robospice/persistence/exception/CacheSavingException.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheSavingException.java">com/octo/android/robospice/persistence/exception/CacheSavingException.java</a>
                 </td>
                 <td>
                   0
@@ -1415,7 +1432,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestProgressListener.java">com/octo/android/robospice/request/listener/RequestProgressListener.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestProgressListener.java">com/octo/android/robospice/request/listener/RequestProgressListener.java</a>
                 </td>
                 <td>
                   0
@@ -1429,7 +1446,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.PendingRequestListenerWithProgressStub.java">com/octo/android/robospice/stub/PendingRequestListenerWithProgressStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.PendingRequestListenerWithProgressStub.java">com/octo/android/robospice/stub/PendingRequestListenerWithProgressStub.java</a>
                 </td>
                 <td>
                   0
@@ -1443,7 +1460,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJacksonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJacksonTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJacksonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJacksonTest.java</a>
                 </td>
                 <td>
                   0
@@ -1457,7 +1474,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.RoboSpiceDatabaseHelper.java">com/octo/android/robospice/persistence/ormlite/RoboSpiceDatabaseHelper.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.RoboSpiceDatabaseHelper.java">com/octo/android/robospice/persistence/ormlite/RoboSpiceDatabaseHelper.java</a>
                 </td>
                 <td>
                   0
@@ -1471,7 +1488,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.simple.IBitmapRequest.java">com/octo/android/robospice/request/simple/IBitmapRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.simple.IBitmapRequest.java">com/octo/android/robospice/request/simple/IBitmapRequest.java</a>
                 </td>
                 <td>
                   0
@@ -1485,7 +1502,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.Jackson2ObjectPersisterFactory.java">com/octo/android/robospice/persistence/googlehttpclient/json/Jackson2ObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.Jackson2ObjectPersisterFactory.java">com/octo/android/robospice/persistence/googlehttpclient/json/Jackson2ObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -1499,7 +1516,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.JacksonRetrofitObjectPersisterFactory.java">com/octo/android/robospice/persistence/retrofit/JacksonRetrofitObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.JacksonRetrofitObjectPersisterFactory.java">com/octo/android/robospice/persistence/retrofit/JacksonRetrofitObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -1513,7 +1530,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.stub.FakeWeatherService.java">com/octo/android/robospice/retrofit/test/stub/FakeWeatherService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.stub.FakeWeatherService.java">com/octo/android/robospice/retrofit/test/stub/FakeWeatherService.java</a>
                 </td>
                 <td>
                   0
@@ -1527,7 +1544,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.BitmapRequestTest.java">com/octo/android/robospice/request/BitmapRequestTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.BitmapRequestTest.java">com/octo/android/robospice/request/BitmapRequestTest.java</a>
                 </td>
                 <td>
                   0
@@ -1541,7 +1558,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheBitmapObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheBitmapObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheBitmapObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheBitmapObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -1555,7 +1572,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.stub.SpringAndroidSpiceRequestStub.java">com/octo/android/robospice/springandroid/test/stub/SpringAndroidSpiceRequestStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.stub.SpringAndroidSpiceRequestStub.java">com/octo/android/robospice/springandroid/test/stub/SpringAndroidSpiceRequestStub.java</a>
                 </td>
                 <td>
                   0
@@ -1569,7 +1586,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpBitmapRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpBitmapRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpBitmapRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpBitmapRequest.java</a>
                 </td>
                 <td>
                   0
@@ -1583,7 +1600,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.InvalidSpiceServiceTest.java">com/octo/android/robospice/InvalidSpiceServiceTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.InvalidSpiceServiceTest.java">com/octo/android/robospice/InvalidSpiceServiceTest.java</a>
                 </td>
                 <td>
                   0
@@ -1597,7 +1614,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.RetrofitGsonSpiceTestService.java">com/octo/android/robospice/retrofit/test/RetrofitGsonSpiceTestService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.RetrofitGsonSpiceTestService.java">com/octo/android/robospice/retrofit/test/RetrofitGsonSpiceTestService.java</a>
                 </td>
                 <td>
                   0
@@ -1611,7 +1628,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessorListener.java">com/octo/android/robospice/request/RequestProcessorListener.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProcessorListener.java">com/octo/android/robospice/request/RequestProcessorListener.java</a>
                 </td>
                 <td>
                   0
@@ -1625,7 +1642,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/Jackson2ObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.Jackson2ObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/Jackson2ObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -1639,7 +1656,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.IntegerPersisterStub.java">com/octo/android/robospice/stub/IntegerPersisterStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.IntegerPersisterStub.java">com/octo/android/robospice/stub/IntegerPersisterStub.java</a>
                 </td>
                 <td>
                   0
@@ -1653,7 +1670,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Weather.java">com/octo/android/robospice/springandroid/test/model/json/Weather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Weather.java">com/octo/android/robospice/springandroid/test/model/json/Weather.java</a>
                 </td>
                 <td>
                   0
@@ -1667,7 +1684,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitJackson2SpiceServiceTest.java">com/octo/android/robospice/retrofit/RetrofitJackson2SpiceServiceTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitJackson2SpiceServiceTest.java">com/octo/android/robospice/retrofit/RetrofitJackson2SpiceServiceTest.java</a>
                 </td>
                 <td>
                   0
@@ -1681,7 +1698,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.simple.BitmapSpiceService.java">com/octo/android/robospice/spicelist/simple/BitmapSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.simple.BitmapSpiceService.java">com/octo/android/robospice/spicelist/simple/BitmapSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -1695,7 +1712,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.JacksonSpringAndroidSpiceService.java">com/octo/android/robospice/JacksonSpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.JacksonSpringAndroidSpiceService.java">com/octo/android/robospice/JacksonSpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -1709,7 +1726,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.stub.RetrofitSpiceRequestStub.java">com/octo/android/robospice/retrofit/test/stub/RetrofitSpiceRequestStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.stub.RetrofitSpiceRequestStub.java">com/octo/android/robospice/retrofit/test/stub/RetrofitSpiceRequestStub.java</a>
                 </td>
                 <td>
                   0
@@ -1723,7 +1740,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Wind.java">com/octo/android/robospice/springandroid/test/model/json/Wind.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Wind.java">com/octo/android/robospice/springandroid/test/model/json/Wind.java</a>
                 </td>
                 <td>
                   0
@@ -1737,7 +1754,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Forecast.java">com/octo/android/robospice/springandroid/test/model/json/Forecast.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.Forecast.java">com/octo/android/robospice/springandroid/test/model/json/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -1751,7 +1768,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterFactory.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterFactory.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -1765,7 +1782,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBigInputStreamObjectPersisterTest.java">com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileBigInputStreamObjectPersisterTest.java">com/octo/android/robospice/persistence/binary/InFileBigInputStreamObjectPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -1779,7 +1796,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Forecast.java">com/octo/android/robospice/springandroid/test/model/xml/Forecast.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Forecast.java">com/octo/android/robospice/springandroid/test/model/xml/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -1793,7 +1810,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestFailingStub.java">com/octo/android/robospice/stub/SpiceRequestFailingStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestFailingStub.java">com/octo/android/robospice/stub/SpiceRequestFailingStub.java</a>
                 </td>
                 <td>
                   0
@@ -1807,7 +1824,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.googlehttpclient.GoogleHttpClientSpiceRequest.java">com/octo/android/robospice/request/googlehttpclient/GoogleHttpClientSpiceRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.googlehttpclient.GoogleHttpClientSpiceRequest.java">com/octo/android/robospice/request/googlehttpclient/GoogleHttpClientSpiceRequest.java</a>
                 </td>
                 <td>
                   0
@@ -1821,7 +1838,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Wind.java">com/octo/android/robospice/ormlite/test/model/Wind.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Wind.java">com/octo/android/robospice/ormlite/test/model/Wind.java</a>
                 </td>
                 <td>
                   0
@@ -1835,7 +1852,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.stub.RequestListenerStub.java">com/octo/android/robospice/retrofit/test/stub/RequestListenerStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.stub.RequestListenerStub.java">com/octo/android/robospice/retrofit/test/stub/RequestListenerStub.java</a>
                 </td>
                 <td>
                   0
@@ -1849,7 +1866,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveSpiceServiceListenerCommand.java">com/octo/android/robospice/command/RemoveSpiceServiceListenerCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveSpiceServiceListenerCommand.java">com/octo/android/robospice/command/RemoveSpiceServiceListenerCommand.java</a>
                 </td>
                 <td>
                   0
@@ -1863,7 +1880,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheObjectPersisterTest.java">com/octo/android/robospice/persistence/memory/LruCacheObjectPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheObjectPersisterTest.java">com/octo/android/robospice/persistence/memory/LruCacheObjectPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -1877,7 +1894,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterWithCustomFolderTest.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterWithCustomFolderTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterWithCustomFolderTest.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterWithCustomFolderTest.java</a>
                 </td>
                 <td>
                   0
@@ -1891,7 +1908,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersister.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -1905,7 +1922,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.InFileWeatherPersisterGsonTest.java">com/octo/android/robospice/persistence/retrofit/InFileWeatherPersisterGsonTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.InFileWeatherPersisterGsonTest.java">com/octo/android/robospice/persistence/retrofit/InFileWeatherPersisterGsonTest.java</a>
                 </td>
                 <td>
                   0
@@ -1919,7 +1936,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.networkstate.NetworkStateChecker.java">com/octo/android/robospice/networkstate/NetworkStateChecker.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.networkstate.NetworkStateChecker.java">com/octo/android/robospice/networkstate/NetworkStateChecker.java</a>
                 </td>
                 <td>
                   0
@@ -1933,7 +1950,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.SpiceServiceTest.java">com/octo/android/robospice/SpiceServiceTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.SpiceServiceTest.java">com/octo/android/robospice/SpiceServiceTest.java</a>
                 </td>
                 <td>
                   0
@@ -1947,7 +1964,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.test.SpiceArrayAdapterTest.java">com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.test.SpiceArrayAdapterTest.java">com/octo/android/robospice/spicelist/test/SpiceArrayAdapterTest.java</a>
                 </td>
                 <td>
                   0
@@ -1961,7 +1978,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.networkstate.DefaultNetworkStateChecker.java">com/octo/android/robospice/networkstate/DefaultNetworkStateChecker.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.networkstate.DefaultNetworkStateChecker.java">com/octo/android/robospice/networkstate/DefaultNetworkStateChecker.java</a>
                 </td>
                 <td>
                   0
@@ -1975,7 +1992,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.DoubleInMemoryPersisterStub.java">com/octo/android/robospice/stub/DoubleInMemoryPersisterStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.DoubleInMemoryPersisterStub.java">com/octo/android/robospice/stub/DoubleInMemoryPersisterStub.java</a>
                 </td>
                 <td>
                   0
@@ -1989,7 +2006,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.SimpleData.java">com/octo/android/robospice/googlehttpclient/test/model/SimpleData.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.SimpleData.java">com/octo/android/robospice/googlehttpclient/test/model/SimpleData.java</a>
                 </td>
                 <td>
                   0
@@ -2003,7 +2020,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.CurrenWeather.java">com/octo/android/robospice/ormlite/test/model/CurrenWeather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.CurrenWeather.java">com/octo/android/robospice/ormlite/test/model/CurrenWeather.java</a>
                 </td>
                 <td>
                   0
@@ -2017,7 +2034,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.core.test.InvalidSpiceTestService.java">com/octo/android/robospice/core/test/InvalidSpiceTestService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.core.test.InvalidSpiceTestService.java">com/octo/android/robospice/core/test/InvalidSpiceTestService.java</a>
                 </td>
                 <td>
                   0
@@ -2031,7 +2048,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Night.java">com/octo/android/robospice/springandroid/test/model/xml/Night.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Night.java">com/octo/android/robospice/springandroid/test/model/xml/Night.java</a>
                 </td>
                 <td>
                   0
@@ -2045,7 +2062,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.AbstractInFileObjectPersisterTest.java">com/octo/android/robospice/persistence/file/AbstractInFileObjectPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.AbstractInFileObjectPersisterTest.java">com/octo/android/robospice/persistence/file/AbstractInFileObjectPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -2059,7 +2076,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.RequestListenerWithProgressStub.java">com/octo/android/robospice/stub/RequestListenerWithProgressStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.RequestListenerWithProgressStub.java">com/octo/android/robospice/stub/RequestListenerWithProgressStub.java</a>
                 </td>
                 <td>
                   0
@@ -2073,7 +2090,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.CacheCleaner.java">com/octo/android/robospice/persistence/CacheCleaner.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.CacheCleaner.java">com/octo/android/robospice/persistence/CacheCleaner.java</a>
                 </td>
                 <td>
                   0
@@ -2087,7 +2104,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.PutDataInCacheCommand.java">com/octo/android/robospice/command/PutDataInCacheCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.PutDataInCacheCommand.java">com/octo/android/robospice/command/PutDataInCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -2101,7 +2118,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter.java">com/octo/android/robospice/spicelist/simple/SpiceArrayAdapter.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.simple.SpiceArrayAdapter.java">com/octo/android/robospice/spicelist/simple/SpiceArrayAdapter.java</a>
                 </td>
                 <td>
                   0
@@ -2115,7 +2132,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.ObjectPersisterFactory.java">com/octo/android/robospice/persistence/ObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.ObjectPersisterFactory.java">com/octo/android/robospice/persistence/ObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -2129,7 +2146,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.GsonGoogleHttpClientSpiceService.java">com/octo/android/robospice/GsonGoogleHttpClientSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.GsonGoogleHttpClientSpiceService.java">com/octo/android/robospice/GsonGoogleHttpClientSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -2143,7 +2160,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.Persister.java">com/octo/android/robospice/persistence/Persister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.Persister.java">com/octo/android/robospice/persistence/Persister.java</a>
                 </td>
                 <td>
                   0
@@ -2157,7 +2174,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.BitmapLruCache.java">com/octo/android/robospice/persistence/memory/BitmapLruCache.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.BitmapLruCache.java">com/octo/android/robospice/persistence/memory/BitmapLruCache.java</a>
                 </td>
                 <td>
                   0
@@ -2171,7 +2188,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitGsonSpiceServiceTest.java">com/octo/android/robospice/retrofit/RetrofitGsonSpiceServiceTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitGsonSpiceServiceTest.java">com/octo/android/robospice/retrofit/RetrofitGsonSpiceServiceTest.java</a>
                 </td>
                 <td>
                   0
@@ -2185,7 +2202,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersisterFactoryTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersisterFactoryTest.java</a>
                 </td>
                 <td>
                   0
@@ -2199,7 +2216,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.SpiceManager.java">com/octo/android/robospice/SpiceManager.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.SpiceManager.java">com/octo/android/robospice/SpiceManager.java</a>
                 </td>
                 <td>
                   0
@@ -2213,7 +2230,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.WeatherResult.java">com/octo/android/robospice/springandroid/test/model/json/WeatherResult.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.WeatherResult.java">com/octo/android/robospice/springandroid/test/model/json/WeatherResult.java</a>
                 </td>
                 <td>
                   0
@@ -2227,7 +2244,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Wind.java">com/octo/android/robospice/retrofit/test/model/Wind.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Wind.java">com/octo/android/robospice/retrofit/test/model/Wind.java</a>
                 </td>
                 <td>
                   0
@@ -2241,7 +2258,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retry.DefaultRetryPolicy.java">com/octo/android/robospice/retry/DefaultRetryPolicy.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retry.DefaultRetryPolicy.java">com/octo/android/robospice/retry/DefaultRetryPolicy.java</a>
                 </td>
                 <td>
                   0
@@ -2255,7 +2272,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.SpringAndroidSpiceService.java">com/octo/android/robospice/SpringAndroidSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.SpringAndroidSpiceService.java">com/octo/android/robospice/SpringAndroidSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -2269,7 +2286,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -2283,7 +2300,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Wind.java">com/octo/android/robospice/springandroid/test/model/xml/Wind.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Wind.java">com/octo/android/robospice/springandroid/test/model/xml/Wind.java</a>
                 </td>
                 <td>
                   0
@@ -2297,7 +2314,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersister.java">com/octo/android/robospice/persistence/retrofit/RetrofitObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersister.java">com/octo/android/robospice/persistence/retrofit/RetrofitObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -2311,7 +2328,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.string.InFileStringObjectPersister.java">com/octo/android/robospice/persistence/string/InFileStringObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.string.InFileStringObjectPersister.java">com/octo/android/robospice/persistence/string/InFileStringObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -2325,7 +2342,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JacksonObjectPersisterFactory.java">com/octo/android/robospice/persistence/googlehttpclient/json/JacksonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JacksonObjectPersisterFactory.java">com/octo/android/robospice/persistence/googlehttpclient/json/JacksonObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -2339,7 +2356,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.okhttp.test.stub.OkHttpSpiceRequestStub.java">com/octo/android/robospice/okhttp/test/stub/OkHttpSpiceRequestStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.okhttp.test.stub.OkHttpSpiceRequestStub.java">com/octo/android/robospice/okhttp/test/stub/OkHttpSpiceRequestStub.java</a>
                 </td>
                 <td>
                   0
@@ -2353,7 +2370,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.SpiceListView.java">com/octo/android/robospice/spicelist/SpiceListView.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.SpiceListView.java">com/octo/android/robospice/spicelist/SpiceListView.java</a>
                 </td>
                 <td>
                   0
@@ -2367,7 +2384,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest.java">com/octo/android/robospice/request/okhttp/OkHttpSpiceRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest.java">com/octo/android/robospice/request/okhttp/OkHttpSpiceRequest.java</a>
                 </td>
                 <td>
                   0
@@ -2381,7 +2398,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitGsonSpiceService.java">com/octo/android/robospice/retrofit/RetrofitGsonSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitGsonSpiceService.java">com/octo/android/robospice/retrofit/RetrofitGsonSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -2395,7 +2412,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Wind.java">com/octo/android/robospice/googlehttpclient/test/model/Wind.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Wind.java">com/octo/android/robospice/googlehttpclient/test/model/Wind.java</a>
                 </td>
                 <td>
                   0
@@ -2409,7 +2426,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Day.java">com/octo/android/robospice/retrofit/test/model/Day.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Day.java">com/octo/android/robospice/retrofit/test/model/Day.java</a>
                 </td>
                 <td>
                   0
@@ -2423,7 +2440,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest.java">com/octo/android/robospice/request/springandroid/SpringAndroidSpiceRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest.java">com/octo/android/robospice/request/springandroid/SpringAndroidSpiceRequest.java</a>
                 </td>
                 <td>
                   0
@@ -2437,7 +2454,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.package-info.java">com/octo/android/robospice/package-info.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.package-info.java">com/octo/android/robospice/package-info.java</a>
                 </td>
                 <td>
                   0
@@ -2451,7 +2468,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.Jackson2GoogleHttpClientSpiceService.java">com/octo/android/robospice/Jackson2GoogleHttpClientSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.Jackson2GoogleHttpClientSpiceService.java">com/octo/android/robospice/Jackson2GoogleHttpClientSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -2465,7 +2482,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.CacheItem.java">com/octo/android/robospice/persistence/memory/CacheItem.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.CacheItem.java">com/octo/android/robospice/persistence/memory/CacheItem.java</a>
                 </td>
                 <td>
                   0
@@ -2479,7 +2496,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFactory.java">com/octo/android/robospice/persistence/retrofit/RetrofitObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFactory.java">com/octo/android/robospice/persistence/retrofit/RetrofitObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -2493,7 +2510,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Weather.java">com/octo/android/robospice/ormlite/test/model/Weather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Weather.java">com/octo/android/robospice/ormlite/test/model/Weather.java</a>
                 </td>
                 <td>
                   0
@@ -2507,7 +2524,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.ProgressByteProcessor.java">com/octo/android/robospice/request/ProgressByteProcessor.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.ProgressByteProcessor.java">com/octo/android/robospice/request/ProgressByteProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -2521,7 +2538,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.test.TestBigBinarySpiceService.java">com/octo/android/robospice/spicelist/test/TestBigBinarySpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.test.TestBigBinarySpiceService.java">com/octo/android/robospice/spicelist/test/TestBigBinarySpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -2535,7 +2552,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpBinaryRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpBinaryRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.okhttp.simple.OkHttpBinaryRequest.java">com/octo/android/robospice/request/okhttp/simple/OkHttpBinaryRequest.java</a>
                 </td>
                 <td>
                   0
@@ -2549,7 +2566,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.CacheManager.java">com/octo/android/robospice/persistence/CacheManager.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.CacheManager.java">com/octo/android/robospice/persistence/CacheManager.java</a>
                 </td>
                 <td>
                   0
@@ -2563,7 +2580,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.RequestListenerStub.java">com/octo/android/robospice/stub/RequestListenerStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.RequestListenerStub.java">com/octo/android/robospice/stub/RequestListenerStub.java</a>
                 </td>
                 <td>
                   0
@@ -2577,7 +2594,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.simple.BitmapSpiceManager.java">com/octo/android/robospice/spicelist/simple/BitmapSpiceManager.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.simple.BitmapSpiceManager.java">com/octo/android/robospice/spicelist/simple/BitmapSpiceManager.java</a>
                 </td>
                 <td>
                   0
@@ -2591,7 +2608,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProgressManager.java">com/octo/android/robospice/request/RequestProgressManager.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.RequestProgressManager.java">com/octo/android/robospice/request/RequestProgressManager.java</a>
                 </td>
                 <td>
                   0
@@ -2605,7 +2622,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Curren_weather.java">com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.Curren_weather.java">com/octo/android/robospice/springandroid/test/model/xml/Curren_weather.java</a>
                 </td>
                 <td>
                   0
@@ -2619,7 +2636,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityThreadPoolExecutor.java">com/octo/android/robospice/priority/PriorityThreadPoolExecutor.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityThreadPoolExecutor.java">com/octo/android/robospice/priority/PriorityThreadPoolExecutor.java</a>
                 </td>
                 <td>
                   0
@@ -2633,7 +2650,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.cache.test.TestActivity.java">com/octo/android/robospice/cache/test/TestActivity.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.cache.test.TestActivity.java">com/octo/android/robospice/cache/test/TestActivity.java</a>
                 </td>
                 <td>
                   0
@@ -2647,7 +2664,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/InFileWeatherPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson2.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/json/jackson2/InFileWeatherPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -2661,7 +2678,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.keysanitizer.AbstractKeySanitizerTest.java">com/octo/android/robospice/persistence/keysanitizer/AbstractKeySanitizerTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.keysanitizer.AbstractKeySanitizerTest.java">com/octo/android/robospice/persistence/keysanitizer/AbstractKeySanitizerTest.java</a>
                 </td>
                 <td>
                   0
@@ -2675,7 +2692,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.RequestListenerWithProgressHistoryStub.java">com/octo/android/robospice/stub/RequestListenerWithProgressHistoryStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.RequestListenerWithProgressHistoryStub.java">com/octo/android/robospice/stub/RequestListenerWithProgressHistoryStub.java</a>
                 </td>
                 <td>
                   0
@@ -2689,7 +2706,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.GetDateOfDataInCacheCommand.java">com/octo/android/robospice/command/GetDateOfDataInCacheCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.GetDateOfDataInCacheCommand.java">com/octo/android/robospice/command/GetDateOfDataInCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -2703,7 +2720,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.priority.CustomizablePriorityThreadFactory.java">com/octo/android/robospice/priority/CustomizablePriorityThreadFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.priority.CustomizablePriorityThreadFactory.java">com/octo/android/robospice/priority/CustomizablePriorityThreadFactory.java</a>
                 </td>
                 <td>
                   0
@@ -2717,7 +2734,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveDataFromCacheCommand.java">com/octo/android/robospice/command/RemoveDataFromCacheCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveDataFromCacheCommand.java">com/octo/android/robospice/command/RemoveDataFromCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -2731,7 +2748,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.SmallBinaryRequestTest.java">com/octo/android/robospice/request/SmallBinaryRequestTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.SmallBinaryRequestTest.java">com/octo/android/robospice/request/SmallBinaryRequestTest.java</a>
                 </td>
                 <td>
                   0
@@ -2745,7 +2762,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveAllDataFromCacheCommand.java">com/octo/android/robospice/command/RemoveAllDataFromCacheCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.RemoveAllDataFromCacheCommand.java">com/octo/android/robospice/command/RemoveAllDataFromCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -2759,7 +2776,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.stub.RequestListenerStub.java">com/octo/android/robospice/springandroid/test/stub/RequestListenerStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.stub.RequestListenerStub.java">com/octo/android/robospice/springandroid/test/stub/RequestListenerStub.java</a>
                 </td>
                 <td>
                   0
@@ -2773,7 +2790,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.JsonObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/retrofit/JsonObjectPersisterFactoryTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.JsonObjectPersisterFactoryTest.java">com/octo/android/robospice/persistence/retrofit/JsonObjectPersisterFactoryTest.java</a>
                 </td>
                 <td>
                   0
@@ -2787,7 +2804,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.WeatherResult.java">com/octo/android/robospice/retrofit/test/model/WeatherResult.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.WeatherResult.java">com/octo/android/robospice/retrofit/test/model/WeatherResult.java</a>
                 </td>
                 <td>
                   0
@@ -2801,7 +2818,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestSucceedingStub.java">com/octo/android/robospice/stub/SpiceRequestSucceedingStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.stub.SpiceRequestSucceedingStub.java">com/octo/android/robospice/stub/SpiceRequestSucceedingStub.java</a>
                 </td>
                 <td>
                   0
@@ -2815,7 +2832,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Weather.java">com/octo/android/robospice/googlehttpclient/test/model/Weather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Weather.java">com/octo/android/robospice/googlehttpclient/test/model/Weather.java</a>
                 </td>
                 <td>
                   0
@@ -2829,7 +2846,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestCancellationListener.java">com/octo/android/robospice/request/listener/RequestCancellationListener.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.listener.RequestCancellationListener.java">com/octo/android/robospice/request/listener/RequestCancellationListener.java</a>
                 </td>
                 <td>
                   0
@@ -2843,7 +2860,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityRunnable.java">com/octo/android/robospice/priority/PriorityRunnable.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.priority.PriorityRunnable.java">com/octo/android/robospice/priority/PriorityRunnable.java</a>
                 </td>
                 <td>
                   0
@@ -2857,7 +2874,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Forecast.java">com/octo/android/robospice/retrofit/test/model/Forecast.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Forecast.java">com/octo/android/robospice/retrofit/test/model/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -2871,7 +2888,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.okhttp.OkHttpSpiceServiceTest.java">com/octo/android/robospice/okhttp/OkHttpSpiceServiceTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.okhttp.OkHttpSpiceServiceTest.java">com/octo/android/robospice/okhttp/OkHttpSpiceServiceTest.java</a>
                 </td>
                 <td>
                   0
@@ -2885,7 +2902,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.GetDataFromCacheCommand.java">com/octo/android/robospice/command/GetDataFromCacheCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.GetDataFromCacheCommand.java">com/octo/android/robospice/command/GetDataFromCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -2899,7 +2916,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.SpringAndroidSpiceServiceTest.java">com/octo/android/robospice/SpringAndroidSpiceServiceTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.SpringAndroidSpiceServiceTest.java">com/octo/android/robospice/SpringAndroidSpiceServiceTest.java</a>
                 </td>
                 <td>
                   0
@@ -2913,7 +2930,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCache.java">com/octo/android/robospice/persistence/memory/LruCache.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCache.java">com/octo/android/robospice/persistence/memory/LruCache.java</a>
                 </td>
                 <td>
                   0
@@ -2927,7 +2944,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.AddSpiceServiceListenerCommand.java">com/octo/android/robospice/command/AddSpiceServiceListenerCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.AddSpiceServiceListenerCommand.java">com/octo/android/robospice/command/AddSpiceServiceListenerCommand.java</a>
                 </td>
                 <td>
                   0
@@ -2941,7 +2958,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.SimpleData.java">com/octo/android/robospice/ormlite/test/model/SimpleData.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.SimpleData.java">com/octo/android/robospice/ormlite/test/model/SimpleData.java</a>
                 </td>
                 <td>
                   0
@@ -2955,7 +2972,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileInputStreamObjectPersisterTest.java">com/octo/android/robospice/persistence/binary/InFileInputStreamObjectPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileInputStreamObjectPersisterTest.java">com/octo/android/robospice/persistence/binary/InFileInputStreamObjectPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -2969,7 +2986,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.command.GetAllDataFromCacheCommand.java">com/octo/android/robospice/command/GetAllDataFromCacheCommand.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.GetAllDataFromCacheCommand.java">com/octo/android/robospice/command/GetAllDataFromCacheCommand.java</a>
                 </td>
                 <td>
                   0
@@ -2983,7 +3000,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.JacksonGoogleHttpClientSpiceService.java">com/octo/android/robospice/JacksonGoogleHttpClientSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.JacksonGoogleHttpClientSpiceService.java">com/octo/android/robospice/JacksonGoogleHttpClientSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -2997,7 +3014,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.SimpleData.java">com/octo/android/robospice/springandroid/test/model/xml/SimpleData.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.xml.SimpleData.java">com/octo/android/robospice/springandroid/test/model/xml/SimpleData.java</a>
                 </td>
                 <td>
                   0
@@ -3011,7 +3028,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersister.java">com/octo/android/robospice/persistence/file/InFileObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersister.java">com/octo/android/robospice/persistence/file/InFileObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -3025,7 +3042,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.BaseSpiceArrayAdapter.java">com/octo/android/robospice/spicelist/BaseSpiceArrayAdapter.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.BaseSpiceArrayAdapter.java">com/octo/android/robospice/spicelist/BaseSpiceArrayAdapter.java</a>
                 </td>
                 <td>
                   0
@@ -3039,7 +3056,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Weather.java">com/octo/android/robospice/retrofit/test/model/Weather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.test.model.Weather.java">com/octo/android/robospice/retrofit/test/model/Weather.java</a>
                 </td>
                 <td>
                   0
@@ -3053,7 +3070,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.CurrenWeather.java">com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.model.json.CurrenWeather.java">com/octo/android/robospice/springandroid/test/model/json/CurrenWeather.java</a>
                 </td>
                 <td>
                   0
@@ -3067,7 +3084,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Forecast.java">com/octo/android/robospice/ormlite/test/model/Forecast.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.ormlite.test.model.Forecast.java">com/octo/android/robospice/ormlite/test/model/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -3081,7 +3098,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersisterFactory.java">com/octo/android/robospice/persistence/ormlite/InDatabaseObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersisterFactory.java">com/octo/android/robospice/persistence/ormlite/InDatabaseObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -3095,7 +3112,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheLoadingException.java">com/octo/android/robospice/persistence/exception/CacheLoadingException.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheLoadingException.java">com/octo/android/robospice/persistence/exception/CacheLoadingException.java</a>
                 </td>
                 <td>
                   0
@@ -3109,7 +3126,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/gson/GsonObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -3123,7 +3140,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Forecast.java">com/octo/android/robospice/googlehttpclient/test/model/Forecast.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.googlehttpclient.test.model.Forecast.java">com/octo/android/robospice/googlehttpclient/test/model/Forecast.java</a>
                 </td>
                 <td>
                   0
@@ -3137,7 +3154,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.keysanitizer.DefaultKeySanitizerTest.java">com/octo/android/robospice/persistence/keysanitizer/DefaultKeySanitizerTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.keysanitizer.DefaultKeySanitizerTest.java">com/octo/android/robospice/persistence/keysanitizer/DefaultKeySanitizerTest.java</a>
                 </td>
                 <td>
                   0
@@ -3151,7 +3168,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.priority.PausableThreadPoolExecutor.java">com/octo/android/robospice/priority/PausableThreadPoolExecutor.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.priority.PausableThreadPoolExecutor.java">com/octo/android/robospice/priority/PausableThreadPoolExecutor.java</a>
                 </td>
                 <td>
                   0
@@ -3165,7 +3182,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.StringLruCache.java">com/octo/android/robospice/persistence/memory/StringLruCache.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.StringLruCache.java">com/octo/android/robospice/persistence/memory/StringLruCache.java</a>
                 </td>
                 <td>
                   0
@@ -3179,7 +3196,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersister.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersister.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -3193,7 +3210,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.notifier.RequestListenerNotifier.java">com/octo/android/robospice/request/notifier/RequestListenerNotifier.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.notifier.RequestListenerNotifier.java">com/octo/android/robospice/request/notifier/RequestListenerNotifier.java</a>
                 </td>
                 <td>
                   0
@@ -3207,7 +3224,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileInputStreamObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileInputStreamObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.binary.InFileInputStreamObjectPersister.java">com/octo/android/robospice/persistence/binary/InFileInputStreamObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -3221,7 +3238,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.JsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/googlehttpclient/json/JsonObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -3235,7 +3252,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitSpiceService.java">com/octo/android/robospice/retrofit/RetrofitSpiceService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retrofit.RetrofitSpiceService.java">com/octo/android/robospice/retrofit/RetrofitSpiceService.java</a>
                 </td>
                 <td>
                   0
@@ -3249,7 +3266,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterWithSanitationTest.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterWithSanitationTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.file.InFileObjectPersisterWithSanitationTest.java">com/octo/android/robospice/persistence/file/InFileObjectPersisterWithSanitationTest.java</a>
                 </td>
                 <td>
                   0
@@ -3263,7 +3280,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.GsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/googlehttpclient/json/GsonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.GsonObjectPersisterFactory.java">com/octo/android/robospice/persistence/googlehttpclient/json/GsonObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -3277,7 +3294,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#roboguice.util.temp.Strings.java">roboguice/util/temp/Strings.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#roboguice.util.temp.Strings.java">roboguice/util/temp/Strings.java</a>
                 </td>
                 <td>
                   0
@@ -3291,7 +3308,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.notification.SpiceNotificationService.java">com/octo/android/robospice/notification/SpiceNotificationService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.notification.SpiceNotificationService.java">com/octo/android/robospice/notification/SpiceNotificationService.java</a>
                 </td>
                 <td>
                   0
@@ -3305,7 +3322,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersister.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.SimpleSerializerObjectPersister.java">com/octo/android/robospice/persistence/springandroid/xml/SimpleSerializerObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -3319,7 +3336,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.simple.SmallBinaryRequest.java">com/octo/android/robospice/request/simple/SmallBinaryRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.simple.SmallBinaryRequest.java">com/octo/android/robospice/request/simple/SmallBinaryRequest.java</a>
                 </td>
                 <td>
                   0
@@ -3333,7 +3350,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.SimpleTextRequestTest.java">com/octo/android/robospice/request/SimpleTextRequestTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.SimpleTextRequestTest.java">com/octo/android/robospice/request/SimpleTextRequestTest.java</a>
                 </td>
                 <td>
                   0
@@ -3347,7 +3364,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.priority.CustomizablePriorityThreadFactoryTest.java">com/octo/android/robospice/priority/CustomizablePriorityThreadFactoryTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.priority.CustomizablePriorityThreadFactoryTest.java">com/octo/android/robospice/priority/CustomizablePriorityThreadFactoryTest.java</a>
                 </td>
                 <td>
                   0
@@ -3361,7 +3378,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.okhttp.test.stub.RequestListenerStub.java">com/octo/android/robospice/okhttp/test/stub/RequestListenerStub.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.okhttp.test.stub.RequestListenerStub.java">com/octo/android/robospice/okhttp/test/stub/RequestListenerStub.java</a>
                 </td>
                 <td>
                   0
@@ -3375,7 +3392,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.spicelist.SpiceListItemView.java">com/octo/android/robospice/spicelist/SpiceListItemView.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.SpiceListItemView.java">com/octo/android/robospice/spicelist/SpiceListItemView.java</a>
                 </td>
                 <td>
                   0
@@ -3389,7 +3406,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.RequestRunner.java">com/octo/android/robospice/request/RequestRunner.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.RequestRunner.java">com/octo/android/robospice/request/RequestRunner.java</a>
                 </td>
                 <td>
                   0
@@ -3403,7 +3420,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BitmapRequest.java">com/octo/android/robospice/request/simple/BitmapRequest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.request.simple.BitmapRequest.java">com/octo/android/robospice/request/simple/BitmapRequest.java</a>
                 </td>
                 <td>
                   0
@@ -3417,7 +3434,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheStringObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheStringObjectPersister.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.memory.LruCacheStringObjectPersister.java">com/octo/android/robospice/persistence/memory/LruCacheStringObjectPersister.java</a>
                 </td>
                 <td>
                   0
@@ -3431,7 +3448,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/xml/InFileWeatherPersisterTest.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.xml.InFileWeatherPersisterTest.java">com/octo/android/robospice/persistence/springandroid/xml/InFileWeatherPersisterTest.java</a>
                 </td>
                 <td>
                   0
@@ -3445,7 +3462,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersisterFactory.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.springandroid.json.jackson.JacksonObjectPersisterFactory.java">com/octo/android/robospice/persistence/springandroid/json/jackson/JacksonObjectPersisterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -3459,7 +3476,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/octo-online/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.SpringAndroidTestService.java">com/octo/android/robospice/springandroid/test/SpringAndroidTestService.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.springandroid.test.SpringAndroidTestService.java">com/octo/android/robospice/springandroid/test/SpringAndroidTestService.java</a>
                 </td>
                 <td>
                   0

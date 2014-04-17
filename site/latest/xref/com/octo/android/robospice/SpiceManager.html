@@ -490,7 +490,7 @@
 <a class="jxr_linenumber" name="480" href="#480">480</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="481" href="#481">481</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; <strong class="jxr_keyword">void</strong> execute(<strong class="jxr_keyword">final</strong> CachedSpiceRequest&lt;T&gt; cachedSpiceRequest, <strong class="jxr_keyword">final</strong> RequestListener&lt;T&gt; requestListener) {
 <a class="jxr_linenumber" name="482" href="#482">482</a>         addRequestListenerToListOfRequestListeners(cachedSpiceRequest, requestListener);
-<a class="jxr_linenumber" name="483" href="#483">483</a>         System.out.println(<span class="jxr_string">"adding request to request queue"</span>);
+<a class="jxr_linenumber" name="483" href="#483">483</a>         Ln.d(<span class="jxr_string">"adding request to request queue"</span>);
 <a class="jxr_linenumber" name="484" href="#484">484</a>         <strong class="jxr_keyword">this</strong>.requestQueue.add(cachedSpiceRequest);
 <a class="jxr_linenumber" name="485" href="#485">485</a>     }
 <a class="jxr_linenumber" name="486" href="#486">486</a> 
