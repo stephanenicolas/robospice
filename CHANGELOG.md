@@ -14,6 +14,8 @@ Version 1.4.12 (planned Feb 2014)
 Enhancements
 
 * Updated Retrofit extension to use Retrofit version 1.5.0
+* Updated OkHttp extension to use OkHttp version 1.5.4
+* Updated Google Http Client extension to use Google Http Client version 1.18.0-rc
 
 Bug fixes
 
