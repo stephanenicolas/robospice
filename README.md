@@ -1,4 +1,4 @@
-<img src="https://raw.github.com/octo-online/robospice/master/gfx/Robospice-logo-white-background.png" 
+<img src="https://raw.github.com/stephanenicolas/robospice/master/gfx/Robospice-logo-white-background.png"
 width="250px" />
 
 Overview
@@ -7,11 +7,11 @@ Overview
 RoboSpice is a modular android library that makes writing asynchronous network requests *easy* !
 
 To learn more about RoboSpice in 30 seconds, try [this infographics]
-(https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png).
+(https://raw.github.com/stephanenicolas/robospice/master/gfx/RoboSpice-InfoGraphics.png).
 
-If you want to start using RoboSpice right now, jump to the [Wiki](https://github.com/octo-online/robospice/wiki) or the [samples](https://github.com/octo-online/RoboSpice-samples). 
+If you want to start using RoboSpice right now, jump to the [Wiki](https://github.com/stephanenicolas/robospice/wiki) or the [samples](https://github.com/octo-online/RoboSpice-samples).
 
-The [Wiki](https://github.com/octo-online/robospice/wiki) has a fully detailed section to quickly setup you up whether you use Gradle, Maven or ant/eclipse.
+The [Wiki](https://github.com/stephanenicolas/robospice/wiki) has a fully detailed section to quickly setup you up whether you use Gradle, Maven or ant/eclipse.
 
 
 Main features of RoboSpice
@@ -43,13 +43,13 @@ RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonars
 To learn more about RoboSpice
 -----------------------------
 
-To learn more, look at the presentation slides we created for DroidCon UK 2012, they are available in the [download section](https://github.com/octo-online/robospice/downloads).
+To learn more, look at the presentation slides we created for DroidCon UK 2012, they are available in the [download section](https://github.com/stephanenicolas/robospice/downloads).
 
 A few links : 
 
-* Browse RoboSpice's full documentation on [the Wiki](https://github.com/octo-online/robospice/wiki).
-* [Javadocs](http://stephanenicolas.github.io/robospice/site/latest/apidocs/index.html).
-* [Maven site](http://stephanenicolas.github.io/robospice/site/latest/index.html).
+* Browse RoboSpice's full documentation on [the Wiki](https://github.com/stephanenicolas/robospice/wiki).
+* [Javadocs](http://stephanenicolas.github.com/robospice/site/latest/apidocs/index.html).
+* [Maven site](http://stephanenicolas.github.com/robospice/site/latest/index.html).
 * [Discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 * [Stack Over Flow questions about RoboSpice](http://stackoverflow.com/questions/tagged/robospice)
 
@@ -65,7 +65,7 @@ We also propose a few demo :
 A project initiated by Octo Technology 
 -------------------------------------
 
-![Octo Technology logo](https://raw.github.com/octo-online/robospice/master/gfx/octo-ascii-logo-blue.png)
+![Octo Technology logo](https://raw.github.com/stephanenicolas/robospice/master/gfx/octo-ascii-logo-blue.png)
 
 RoboSpice has been incubated at [Octo Technology](http://www.octo.com/en), a french company based in Paris, focused on software design and quality. 
 It offers its employees to work part time on Research & Development projects. RoboSpice was one of them.
