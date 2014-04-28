@@ -331,7 +331,6 @@ public class SpiceManager implements Runnable {
             long end = System.currentTimeMillis();
             Ln.d("Runner join time (ms) when should stop %d", end - start);
         }
-        isUnbinding = false;
         unbindFromService(contextWeakReference.get());
         this.runner = null;
         this.executorService.shutdown();
