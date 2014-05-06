@@ -1,7 +1,7 @@
 <img src="https://raw.github.com/stephanenicolas/robospice/master/gfx/Robospice-logo-white-background.png"
 width="250px" />
 
-Overview
+Overview [![Build Status on Travis:](https://travis-ci.org/stephanenicolas/robospice.png)](https://travis-ci.org/stephanenicolas/robospice) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.octo.android.robospice/robospice/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.octo.android.robospice/robospice)
 --------
 
 RoboSpice is a modular android library that makes writing asynchronous network requests *easy* !
@@ -34,9 +34,6 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * is a full featured replacement for long running AsyncTasks even if they are not related to networking.
 * is **open source** ;) 
 * and **tested** (more than 200 tests)
-
-RoboSpice is under Continuous Integration [on a Travis server](https://travis-ci.org/stephanenicolas/robospice/builds) Thanks to Travis.
-* Build Status on Travis: [![Build Status on Travis:](https://travis-ci.org/stephanenicolas/robospice.png)](https://travis-ci.org/stephanenicolas/robospice)
 
 RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonarsource.org/dashboard/index/504442). Thanks to Sonar Source.
 
@@ -94,7 +91,7 @@ License
 -------
 
   Copyright (C) 2012 Octo Technology (http://www.octo.com)
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
