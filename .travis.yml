@@ -6,23 +6,18 @@ branches:
     - release
     - fast-test
 
-language: java
-jdk: oraclejdk7
+language: android
+android:
+  components:
+    - android-8
+    - sysimg-8
 env:
   matrix:
-    # android-16 is always included
-    - ANDROID_SDKS=android-8            ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
-    - ANDROID_SDKS=android-15,sysimg-15 ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
-    - ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
-    
-before_install:
-  # Install base Android SDK
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq libstdc++6:i386 lib32z1
-    - export COMPONENTS=build-tools-19.0.1,android-19,$ANDROID_SDKS
-    - curl -L https://raw.github.com/octo-online/robospice/master/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
-    - source ~/.android-sdk-installer/env
+    - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
+    - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
 
+before_install:
     # Create and start emulator
     - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
     - emulator -avd test -no-skin -no-audio -no-window &
