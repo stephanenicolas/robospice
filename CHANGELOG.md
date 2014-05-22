@@ -4,7 +4,7 @@ Release notes for RoboSpice
 Version 1.5.0 (planned)
 -------------
 
-* TODO : finish migrating samples to gralde and release.
+* TODO : finish migrating samples to gradle and release.
 * TODO : inject requests in listeners
 * TODO : inject service in requests
 
@@ -13,7 +13,7 @@ Version 1.4.12 (planned Feb 2014)
 
 Enhancements
 
-* Updated Retrofit extension to use Retrofit version 1.5.0
+* Updated Retrofit extension to use Retrofit version 1.5.1
 * Updated OkHttp extension to use OkHttp version 1.5.4
 * Updated Google Http Client extension to use Google Http Client version 1.18.0-rc
 
