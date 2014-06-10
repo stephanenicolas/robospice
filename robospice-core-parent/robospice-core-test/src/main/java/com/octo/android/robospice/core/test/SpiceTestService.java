@@ -20,6 +20,7 @@ import com.octo.android.robospice.stub.StringPersisterStub;
 public class SpiceTestService extends SpiceService {
 
     private static final int TEST_THREAD_COUNT = 3;
+    private static final int TEST_THREAD_KEEP_ALIVE_TIME = 1000;
     private static final int TEST_THREAD_PRIORITY = Thread.NORM_PRIORITY;
     
     @Override
@@ -56,8 +57,23 @@ public class SpiceTestService extends SpiceService {
     }
 
     @Override
+    public int getCoreThreadCount() {
+        return TEST_THREAD_COUNT;
+    }
+
+    @Override
+    public int getMaximumThreadCount() {
+        return TEST_THREAD_COUNT;
+    }
+
+    @Override
     public int getThreadPriority() {
         return TEST_THREAD_PRIORITY;
+    }
+
+    @Override
+    public int getKeepAliveTime() {
+        return TEST_THREAD_KEEP_ALIVE_TIME;
     }
 
     @Override
@@ -76,5 +92,4 @@ public class SpiceTestService extends SpiceService {
     public RequestProcessor getRequestProcessor() {
         return super.getRequestProcessor();
     }
-
 }

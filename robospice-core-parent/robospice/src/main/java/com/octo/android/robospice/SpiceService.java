@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import roboguice.util.temp.Ln;
+
 import android.app.Application;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -63,6 +65,8 @@ public abstract class SpiceService extends Service {
 
     protected static final int DEFAULT_THREAD_COUNT = 1;
     protected static final int DEFAULT_THREAD_PRIORITY = Thread.MIN_PRIORITY;
+    /** Default in TimeUnit.NANOSECONDS implies core threads are not disposed when idle.*/
+    protected static final int DEFAULT_THREAD_KEEP_ALIVE_TIME = 0;
 
     private static final boolean DEFAULT_FAIL_ON_CACHE_ERROR = false;
 
@@ -220,12 +224,18 @@ public abstract class SpiceService extends Service {
      * @return the {@link ExecutorService} to be used to execute requests .
      */
     protected ExecutorService getExecutorService() {
-        final int threadCount = getThreadCount();
+        final int coreThreadCount = getCoreThreadCount();
+        final int maxThreadCount = getMaximumThreadCount();
         final int threadPriority = getThreadPriority();
-        if (threadCount <= 0) {
+        if (coreThreadCount <= 0 || maxThreadCount <= 0) {
             throw new IllegalArgumentException("Thread count must be >= 1");
         } else {
-            return PriorityThreadPoolExecutor.getPriorityExecutor(threadCount, threadPriority);
+            PriorityThreadPoolExecutor executor = PriorityThreadPoolExecutor
+                .getPriorityExecutor(coreThreadCount, maxThreadCount,
+                    threadPriority);
+            executor.setKeepAliveTime(getKeepAliveTime(), TimeUnit.NANOSECONDS);
+            executor.allowCoreThreadTimeOut(isCoreThreadDisposable());
+            return executor;
         }
     }
 
@@ -288,7 +298,8 @@ public abstract class SpiceService extends Service {
     // DELEGATE METHODS (delegation is used to ease tests)
     // ----------------------------------
 
-    public abstract CacheManager createCacheManager(Application application) throws CacheCreationException;
+    public abstract CacheManager createCacheManager(Application application)
+        throws CacheCreationException;
 
     /**
      * Override this method to increase the number of threads used to process
@@ -299,6 +310,48 @@ public abstract class SpiceService extends Service {
      */
     public int getThreadCount() {
         return DEFAULT_THREAD_COUNT;
+    }
+
+    /**
+     * Override this method to increase the number of core threads used to
+     * process requests. This method will have no effect if you override
+     * {@link #getExecutorService()}.
+     * @return the number of threads used to process requests. Defaults to
+     *         {@link #DEFAULT_THREAD_COUNT}.
+     */
+    public int getCoreThreadCount() {
+        return getThreadCount();
+    }
+
+    /**
+     * Override this method to increase the number of maximum threads used to
+     * process requests. This method will have no effect if you override
+     * {@link #getExecutorService()}.
+     * @return the number of threads used to process requests. Defaults to
+     *         {@link #DEFAULT_THREAD_COUNT}.
+     */
+    public int getMaximumThreadCount() {
+        return getThreadCount();
+    }
+
+    /**
+     * Override this method to set the keep alive time for core threads
+     * {@link #getExecutorService()}.
+     * @return the time to keep alive idle threads on {@see
+     *         TimeUnit.NANOSECONDS}. Defaults to
+     *         {@link #DEFAULT_THREAD_KEEP_ALIVE_TIME}.
+     */
+    public int getKeepAliveTime() {
+        return DEFAULT_THREAD_KEEP_ALIVE_TIME;
+    }
+    
+    /**
+     * Override this method to disable timeout on core threads.
+     * {@link #getExecutorService()}.
+     * @return whether core threads are disposable or not (DEFAULT=true).
+     */
+    public boolean isCoreThreadDisposable() {
+        return true;
     }
 
     /**
