@@ -18,7 +18,7 @@ Enhancements
 Bug fixes
 
 * Fix a potential concurrent issue in the request processor : listeners could be lost when added simultanously. Thanks to seva-ask for this fix : https://github.com/stephanenicolas/robospice/pull/296
-
+* Fix a potential multiple unbindings in SpiceManager : https://github.com/stephanenicolas/robospice/pull/301. Thqnks to seva-ask
 
 Version 1.4.12 (April 17th 2014)
 --------------
