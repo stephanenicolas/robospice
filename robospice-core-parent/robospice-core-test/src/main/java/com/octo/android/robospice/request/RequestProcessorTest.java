@@ -129,6 +129,7 @@ public class RequestProcessorTest extends AndroidTestCase {
                 listenersCalled++;
             }
         }
+        assertEquals(threadCount, listeners.size());
         assertEquals(threadCount, listenersCalled);
     }
 
