@@ -115,5 +115,10 @@ Alternatives to RoboSpice
 * [Ion](https://github.com/koush/ion)
 * [droidQuery](http://phil-brown.github.io/droidQuery/)
 * [Android Job Queue](https://github.com/path/android-priority-jobqueue)
+
+	
+Projects related to RoboSpice 
+-----------------------------
+
 * [Blandware Android AtLeap Core](https://github.com/blandware/android-atleap) is a library accelerating development. It contains universal Content Provider (for SQLite, ORMLite), Drawer, Account Authenticator, etc. [AtLeap Sample](https://github.com/blandware/android-atleap/tree/master/atleap-sample) is a good example of RoboSpice, Retrofit, ORMLite, Picasso integration.
 
