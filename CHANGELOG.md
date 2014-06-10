@@ -8,7 +8,19 @@ Version 1.5.0 (planned)
 * TODO : inject requests in listeners
 * TODO : inject service in requests
 
-Version 1.4.12 (planned Feb 2014)
+Version 1.4.13 (Planned 2014)
+--------------
+
+Enhancements
+
+* Requests are not retried anymore when network is down. https://github.com/stephanenicolas/robospice/pull/291. Thx to softwaremaverick for fixing this bug.
+
+Bug fixes
+
+* Fix a potential concurrent issue in the request processor : listeners could be lost when added simultanously. Thanks to seva-ask for this fix : https://github.com/stephanenicolas/robospice/pull/296
+
+
+Version 1.4.12 (April 17th 2014)
 --------------
 
 Enhancements
