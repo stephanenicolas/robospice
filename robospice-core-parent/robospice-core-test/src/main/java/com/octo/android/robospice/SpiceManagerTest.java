@@ -41,7 +41,7 @@ public class SpiceManagerTest extends AndroidTestCase {
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_LARGE = 500;
     private static final long WAIT_BEFORE_EXECUTING_REQUEST_SHORT = 200;
     private static final long REQUEST_COMPLETION_TIME_OUT = 5000;
-    private static final long SPICE_MANAGER_WAIT_TIMEOUT = 500;
+    private static final long SPICE_MANAGER_WAIT_TIMEOUT = 700;
     private static final long SMALL_THREAD_SLEEP = 50;
 
     private SpiceManagerUnderTest spiceManager;

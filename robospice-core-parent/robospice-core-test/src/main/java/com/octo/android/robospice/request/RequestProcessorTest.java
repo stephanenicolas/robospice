@@ -46,7 +46,7 @@ public class RequestProcessorTest extends AndroidTestCase {
     private static final long TEST_DURATION = DurationInMillis.ONE_SECOND;
     private static final String TEST_RETURNED_DATA = "coucou";
     private static final String TEST_RETURNED_DATA2 = "toto";
-    private static final long REQUEST_COMPLETION_TIME_OUT = 2000;
+    private static final long REQUEST_COMPLETION_TIME_OUT = 4000;
     private static final long WAIT_BEFORE_REQUEST_EXECUTION = 200;
     private static final float TEST_RETRY_BACKOFF_MULTIPLIER = 1.0f;
     private static final long TEST_DELAY_BEFORE_RETRY = WAIT_BEFORE_REQUEST_EXECUTION;
@@ -95,19 +95,18 @@ public class RequestProcessorTest extends AndroidTestCase {
 
     @SuppressWarnings("rawtypes")
     public void testAddRequestsFromManyThreads() throws Exception {
-        final ArrayList<RequestListenerWithProgressStub> listeners = new ArrayList<RequestListenerWithProgressStub>();
+        final ArrayList<RequestListenerStub> listeners = new ArrayList<RequestListenerStub>();
         final ArrayList<Thread> threads = new ArrayList<Thread>();
         final int threadCount = 100;
-        for (int i = 0; i < threadCount; i++) {
-            EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(TEST_RETURNED_DATA);
-        }
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(TEST_RETURNED_DATA);
         EasyMock.replay(mockCacheManager);
+        
         for (int i = 0; i < threadCount; i++) {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
-                    RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+                    RequestListenerStub<String> mockRequestListener = new RequestListenerStub<String>();
                     synchronized (listeners) {
                         listeners.add(mockRequestListener);
                     }
@@ -119,18 +118,22 @@ public class RequestProcessorTest extends AndroidTestCase {
             thread.start();
             threads.add(thread);
         }
+        //wait for all threads to have added their requests and listeners
         for (Thread thread : threads) {
             thread.join(REQUEST_COMPLETION_TIME_OUT);
         }
-        Thread.sleep(REQUEST_COMPLETION_TIME_OUT);
-        int listenersCalled = 0;
-        for (RequestListenerWithProgressStub listener : listeners) {
+
+        int listenersCalledCount = 0;
+        for (RequestListenerStub listener : listeners) {
+            //wait for all listeners to have been invoked
+            listener.await(REQUEST_COMPLETION_TIME_OUT);
             if (listener.isSuccessful() != null) {
-                listenersCalled++;
+                listenersCalledCount++;
             }
         }
+        EasyMock.verify(mockCacheManager);
         assertEquals(threadCount, listeners.size());
-        assertEquals(threadCount, listenersCalled);
+        assertEquals(threadCount, listenersCalledCount);
     }
 
     // ============================================================================================
