@@ -8,6 +8,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.octo.android.robospice.core.test.SpiceTestService;
 import com.octo.android.robospice.priority.PriorityThreadPoolExecutor;
 
+import java.util.concurrent.TimeUnit;
+
 //Thanks to http://stackoverflow.com/questions/2300029/servicetestcaset-getservice
 @SmallTest
 public class SpiceServiceTest extends ServiceTestCase<SpiceTestService> {
@@ -62,11 +64,36 @@ public class SpiceServiceTest extends ServiceTestCase<SpiceTestService> {
 
         // then
         assertTrue(getService().getExecutorService() instanceof PriorityThreadPoolExecutor);
-        PriorityThreadPoolExecutor executorService = (PriorityThreadPoolExecutor) getService().getExecutorService();
+        final PriorityThreadPoolExecutor executorService =
+                (PriorityThreadPoolExecutor) getService().getExecutorService();
 
-        assertEquals(getService().getThreadCount(), executorService.getCorePoolSize());
+        assertEquals(getService().getCoreThreadCount(), executorService.getCorePoolSize());
+        assertEquals(getService().getMaximumThreadCount(), executorService.getMaximumPoolSize());
+        assertEquals(getService().getThreadPriority(), executorService.getThreadFactory()
+                .newThread(null).getPriority());
+        assertEquals(getService().getKeepAliveTime(),
+                executorService.getKeepAliveTime(TimeUnit.NANOSECONDS));
+    }
 
-        assertEquals(getService().getThreadPriority(), executorService.getThreadFactory().newThread(null).getPriority());
+    public void testGetExecutorService_corethread_defaults() {
+        // given
+
+        // when
+        Intent startIntent = new Intent();
+        startIntent.setClass(getContext(), SpiceTestService.class);
+        startService(startIntent);
+
+        // then
+        assertTrue(getService().getExecutorService() instanceof PriorityThreadPoolExecutor);
+        final PriorityThreadPoolExecutor executorService =
+                (PriorityThreadPoolExecutor) getService().getExecutorService();
+
+        assertEquals(getService().getCoreThreadCount(), executorService.getCorePoolSize());
+        assertEquals(getService().getMaximumThreadCount(), executorService.getMaximumPoolSize());
+        assertEquals(getService().getThreadPriority(), executorService.getThreadFactory()
+                .newThread(null).getPriority());
+        assertEquals(getService().getKeepAliveTime(),
+                executorService.getKeepAliveTime(TimeUnit.NANOSECONDS));
     }
 
     public void testStops_shutsdown_executor_service() {
