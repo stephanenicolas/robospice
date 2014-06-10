@@ -1162,7 +1162,7 @@ public class RequestProcessorTest extends AndroidTestCase {
         requestListenerSet.add(mockRequestListener);
 
         EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
-        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expectLastCall().times(1);
         EasyMock.replay(mockCacheManager);
 
         // when
@@ -1174,7 +1174,7 @@ public class RequestProcessorTest extends AndroidTestCase {
 
         // then
         assertNotNull(stubRequest.getRetryPolicy());
-        assertEquals(0, stubRequest.getRetryPolicy().getRetryCount());
+        assertEquals(TEST_RETRY_COUNT, stubRequest.getRetryPolicy().getRetryCount());
         EasyMock.verify(mockCacheManager);
         assertFalse(stubRequest.isLoadDataFromNetworkCalled());
         assertTrue(mockRequestListener.isExecutedInUIThread());
