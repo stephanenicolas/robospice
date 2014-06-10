@@ -96,13 +96,14 @@ public class RequestProcessorTest extends AndroidTestCase {
     @SuppressWarnings("rawtypes")
     public void testAddRequestsFromManyThreads() throws Exception {
         final ArrayList<RequestListenerWithProgressStub> listeners = new ArrayList<RequestListenerWithProgressStub>();
+        final ArrayList<Thread> threads = new ArrayList<Thread>();
         final int threadCount = 100;
         for (int i = 0; i < threadCount; i++) {
             EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(TEST_RETURNED_DATA);
         }
         EasyMock.replay(mockCacheManager);
         for (int i = 0; i < threadCount; i++) {
-            new Thread(new Runnable() {
+            Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
@@ -114,7 +115,12 @@ public class RequestProcessorTest extends AndroidTestCase {
                     requestListenerSet.add(mockRequestListener);
                     requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
                 }
-            }).start();
+            });
+            thread.start();
+            threads.add(thread);
+        }
+        for (Thread thread : threads) {
+            thread.join(REQUEST_COMPLETION_TIME_OUT);
         }
         Thread.sleep(REQUEST_COMPLETION_TIME_OUT);
         int listenersCalled = 0;

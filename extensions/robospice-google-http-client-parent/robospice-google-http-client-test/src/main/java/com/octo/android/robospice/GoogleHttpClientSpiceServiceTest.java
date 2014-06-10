@@ -41,7 +41,8 @@ public class GoogleHttpClientSpiceServiceTest extends ServiceTestCase<GoogleHttp
         Intent startIntent = new Intent();
         startIntent.setClass(getContext(), GoogleHttpClientSpiceTestService.class);
         startService(startIntent);
-        assertNotNull(getService().createRequestFactory());
+        getService();
+        assertNotNull(GoogleHttpClientSpiceService.createRequestFactory());
     }
 
     public void test_addRequest_injects_request_factory() throws InterruptedException {

@@ -10,7 +10,6 @@
 		<relativePath>../../</relativePath>
 	</parent>
 
-	<groupId>com.octo.android.robospice</groupId>
 	<artifactId>robospice-google-http-client-parent</artifactId>
 	<packaging>pom</packaging>
 	<name>Robospice - Extension Google Http Java Client Module Parent</name>

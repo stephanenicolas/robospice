@@ -10,7 +10,6 @@
 		<version>1.4.13-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.octo.android.robospice</groupId>
 	<artifactId>robospice-ormlite-parent</artifactId>
 	<packaging>pom</packaging>
 	<name>Robospice - Extension ORMLite Module Parent</name>
