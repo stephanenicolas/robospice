@@ -1174,7 +1174,7 @@ public class RequestProcessorTest extends AndroidTestCase {
 
         // then
         assertNotNull(stubRequest.getRetryPolicy());
-        assertEquals(0, stubRequest.getRetryPolicy().getRetryCount());
+        assertEquals(TEST_RETRY_COUNT, stubRequest.getRetryPolicy().getRetryCount());
         EasyMock.verify(mockCacheManager);
         assertFalse(stubRequest.isLoadDataFromNetworkCalled());
         assertTrue(mockRequestListener.isExecutedInUIThread());
