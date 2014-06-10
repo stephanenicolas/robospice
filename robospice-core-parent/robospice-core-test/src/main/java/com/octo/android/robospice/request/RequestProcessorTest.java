@@ -93,14 +93,15 @@ public class RequestProcessorTest extends AndroidTestCase {
         super.tearDown();
     }
 
+    @SuppressWarnings("rawtypes")
     public void testAddRequestsFromManyThreads() throws Exception {
         final ArrayList<RequestListenerWithProgressStub> listeners = new ArrayList<RequestListenerWithProgressStub>();
-        int threadsCount = 100;
-        for (int i = 0; i < threadsCount; i++) {
+        final int threadCount = 100;
+        for (int i = 0; i < threadCount; i++) {
             EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(TEST_RETURNED_DATA);
         }
         EasyMock.replay(mockCacheManager);
-        for (int i = 0; i < threadsCount; i++) {
+        for (int i = 0; i < threadCount; i++) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -122,7 +123,7 @@ public class RequestProcessorTest extends AndroidTestCase {
                 listenersCalled++;
             }
         }
-        assertEquals(threadsCount, listenersCalled);
+        assertEquals(threadCount, listenersCalled);
     }
 
     // ============================================================================================
