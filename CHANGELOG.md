@@ -14,6 +14,7 @@ Version 1.4.13 (Planned 2014)
 Enhancements
 
 * Requests are not retried anymore when network is down. https://github.com/stephanenicolas/robospice/pull/291. Thx to softwaremaverick for fixing this bug.
+* SpiceService's executor core threads can now be exceeded and customized and are disposable. Thx to Jorge Vila for this feature. https://github.com/stephanenicolas/robospice/pull/304
 
 Bug fixes
 
