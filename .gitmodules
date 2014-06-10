@@ -1,3 +1,4 @@
 [submodule "RoboSpice-samples"]
 	path = RoboSpice-samples
 	url=git://github.com/octo-online/RoboSpice-samples.git
+	branch = master
