@@ -1,5 +1,6 @@
 package com.octo.android.robospice.request;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -90,6 +91,38 @@ public class RequestProcessorTest extends AndroidTestCase {
     protected void tearDown() throws Exception {
         requestProcessorUnderTest.shouldStop();
         super.tearDown();
+    }
+
+    public void testAddRequestsFromManyThreads() throws Exception {
+        final ArrayList<RequestListenerWithProgressStub> listeners = new ArrayList<RequestListenerWithProgressStub>();
+        int threadsCount = 100;
+        for (int i = 0; i < threadsCount; i++) {
+            EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(TEST_RETURNED_DATA);
+        }
+        EasyMock.replay(mockCacheManager);
+        for (int i = 0; i < threadsCount; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    CachedSpiceRequestStub<String> stubRequest = createSuccessfulRequest(TEST_CLASS, TEST_CACHE_KEY, TEST_DURATION, TEST_RETURNED_DATA);
+                    RequestListenerWithProgressStub<String> mockRequestListener = new RequestListenerWithProgressStub<String>();
+                    synchronized (listeners) {
+                        listeners.add(mockRequestListener);
+                    }
+                    Set<RequestListener<?>> requestListenerSet = new HashSet<RequestListener<?>>();
+                    requestListenerSet.add(mockRequestListener);
+                    requestProcessorUnderTest.addRequest(stubRequest, requestListenerSet);
+                }
+            }).start();
+        }
+        Thread.sleep(REQUEST_COMPLETION_TIME_OUT);
+        int listenersCalled = 0;
+        for (RequestListenerWithProgressStub listener : listeners) {
+            if (listener.isSuccessful() != null) {
+                listenersCalled++;
+            }
+        }
+        assertEquals(threadsCount, listenersCalled);
     }
 
     // ============================================================================================

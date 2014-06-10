@@ -37,10 +37,7 @@ public class RequestProcessor {
 
     /**
      * Build a request processor using a custom. This feature has been
-     * implemented follwing a feature request from Riccardo Ciovati.
-     * @param context
-     *            the context on which {@link SpiceRequest} will provide their
-     *            results.
+     * implemented following a feature request from Riccardo Ciovati.
      * @param cacheManager
      *            the {@link CacheManager} that will be used to retrieve
      *            requests' result and store them.
@@ -78,17 +75,21 @@ public class RequestProcessor {
         }
 
         boolean aggregated = false;
-        Set<RequestListener<?>> listRequestListenerForThisRequest = mapRequestToRequestListener.get(request);
+        Set<RequestListener<?>> listRequestListenerForThisRequest;
 
-        if (listRequestListenerForThisRequest == null) {
-            if (request.isProcessable()) {
-                Ln.d("Adding entry for type %s and cacheKey %s.", request.getResultType(), request.getRequestCacheKey());
-                listRequestListenerForThisRequest = Collections.synchronizedSet(new HashSet<RequestListener<?>>());
-                this.mapRequestToRequestListener.put(request, listRequestListenerForThisRequest);
+        synchronized (mapRequestToRequestListener) {
+            listRequestListenerForThisRequest = mapRequestToRequestListener.get(request);
+
+            if (listRequestListenerForThisRequest == null) {
+                if (request.isProcessable()) {
+                    Ln.d("Adding entry for type %s and cacheKey %s.", request.getResultType(), request.getRequestCacheKey());
+                    listRequestListenerForThisRequest = Collections.synchronizedSet(new HashSet<RequestListener<?>>());
+                    this.mapRequestToRequestListener.put(request, listRequestListenerForThisRequest);
+                }
+            } else {
+                Ln.d("Request for type %s and cacheKey %s already exists.", request.getResultType(), request.getRequestCacheKey());
+                aggregated = true;
             }
-        } else {
-            Ln.d("Request for type %s and cacheKey %s already exists.", request.getResultType(), request.getRequestCacheKey());
-            aggregated = true;
         }
 
         if (listRequestListener != null && listRequestListenerForThisRequest != null) {
