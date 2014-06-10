@@ -46,7 +46,7 @@ public class RequestProcessorTest extends AndroidTestCase {
     private static final long TEST_DURATION = DurationInMillis.ONE_SECOND;
     private static final String TEST_RETURNED_DATA = "coucou";
     private static final String TEST_RETURNED_DATA2 = "toto";
-    private static final long REQUEST_COMPLETION_TIME_OUT = 4000;
+    private static final long REQUEST_COMPLETION_TIME_OUT = 8000;
     private static final long WAIT_BEFORE_REQUEST_EXECUTION = 200;
     private static final float TEST_RETRY_BACKOFF_MULTIPLIER = 1.0f;
     private static final long TEST_DELAY_BEFORE_RETRY = WAIT_BEFORE_REQUEST_EXECUTION;
