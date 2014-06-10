@@ -1097,10 +1097,12 @@ public class SpiceManager implements Runnable {
         public void onServiceDisconnected(final ComponentName name) {
             lockAcquireService.lock();
             try {
-                Ln.d("Unbound from service start : " + spiceService.getClass().getSimpleName());
-                spiceService = null;
-                isUnbinding = false;
-                conditionServiceUnbound.signalAll();
+                if (spiceService != null) {
+                    Ln.d("Unbound from service start : " + spiceService.getClass().getSimpleName());
+                    spiceService = null;
+                    isUnbinding = false;
+                    conditionServiceUnbound.signalAll();
+                }
             } finally {
                 lockAcquireService.unlock();
             }
