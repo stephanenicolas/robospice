@@ -121,7 +121,7 @@ public class RequestProcessorTest extends AndroidTestCase {
             threads.add(thread);
         }
         //wait for all threads to have added their requests and listeners
-        for(Thread thread : threads) {
+        for (Thread thread : threads) {
             thread.join(REQUEST_COMPLETION_TIME_OUT_LARGE);
         }
         
