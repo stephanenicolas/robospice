@@ -3,6 +3,7 @@ package com.octo.android.robospice.persistence.retrofit;
 import java.io.File;
 import java.util.List;
 
+import retrofit.converter.Converter;
 import retrofit.converter.GsonConverter;
 import android.app.Application;
 
@@ -14,6 +15,12 @@ public class GsonRetrofitObjectPersisterFactory extends RetrofitObjectPersisterF
     // ============================================================================================
     // CONSTRUCTOR
     // ============================================================================================
+    
+    public GsonRetrofitObjectPersisterFactory(Application application, Converter converter, File cacheFolder)
+        throws CacheCreationException {
+        super(application, converter, cacheFolder);
+    }
+
     public GsonRetrofitObjectPersisterFactory(Application application, File cacheFolder) throws CacheCreationException {
         super(application, new GsonConverter(new Gson()), cacheFolder);
     }

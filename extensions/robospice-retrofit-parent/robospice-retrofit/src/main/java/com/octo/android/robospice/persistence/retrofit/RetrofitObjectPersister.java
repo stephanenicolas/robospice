@@ -125,4 +125,6 @@ public class RetrofitObjectPersister<T> extends InFileObjectPersister<T> {
             IOUtils.closeQuietly(fileInputStream);
         }
     }
+    
+    
 }

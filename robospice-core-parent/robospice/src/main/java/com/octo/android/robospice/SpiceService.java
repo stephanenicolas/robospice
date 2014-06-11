@@ -234,7 +234,9 @@ public abstract class SpiceService extends Service {
                 .getPriorityExecutor(coreThreadCount, maxThreadCount,
                     threadPriority);
             executor.setKeepAliveTime(getKeepAliveTime(), TimeUnit.NANOSECONDS);
-            executor.allowCoreThreadTimeOut(getKeepAliveTime() != 0 && isCoreThreadDisposable());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                executor.allowCoreThreadTimeOut(getKeepAliveTime() != 0 && isCoreThreadDisposable());
+            }
             return executor;
         }
     }
