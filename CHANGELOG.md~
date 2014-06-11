@@ -4,13 +4,73 @@ Release notes for RoboSpice
 Version 1.5.0 (planned)
 -------------
 
-* TODO : finish migrating samples to gralde and release.
+* TODO : finish migrating samples to gradle and release.
 * TODO : inject requests in listeners
 * TODO : inject service in requests
 
-Version 1.4.10 (Planned november 2013)
--------------
+Version 1.4.13 (Planned June 2014)
+--------------
 
+Enhancements
+
+* Requests are not retried anymore when network is down. https://github.com/stephanenicolas/robospice/pull/291. Thx to softwaremaverick for fixing this bug.
+* SpiceService's executor core threads can now be exceeded and customized and are disposable. Thx to Jorge Vila for this feature. https://github.com/stephanenicolas/robospice/pull/304
+
+Bug fixes
+
+* Fix a potential concurrent issue in the request processor : listeners could be lost when added simultanously. Thanks to seva-ask for this fix : https://github.com/stephanenicolas/robospice/pull/296
+* Fix a potential multiple unbindings in SpiceManager : https://github.com/stephanenicolas/robospice/pull/301. Thqnks to seva-ask
+
+Version 1.4.12 (April 17th 2014)
+--------------
+
+Enhancements
+
+* Updated Retrofit extension to use Retrofit version 1.5.1
+* Updated OkHttp extension to use OkHttp version 1.5.4
+* Updated Google Http Client extension to use Google Http Client version 1.18.0-rc
+
+Bug fixes
+
+* Bug fix : add proper synchronization to DefaultRequestProcessor stop/execute
+* Fix a few bugs in spice list: when network was off, thumbnails were reloaded incorrectly.
+* Bug fix: close InputStream in RetrofitObjectPersister. PR: #268, Thx to György Dancsi
+* Bug fix: corrected cache prefix generation. PR: #277, Thx to Pierre Degand
+
+Version 1.4.11 (January 16th 2014)
+--------------
+
+Enhancements
+
+* Refactor of RoboSpice core dependencies. Thx to Isuski. https://github.com/octo-online/robospice/issues/245
+* General maven plugin and dependencies upgrade.
+* Correct api targetting problem for executors in ui spicelist.
+
+Bug fixes 
+
+* Request dropped when stopping the SpiceManager. Thx to Dorian Cussen. https://github.com/octo-online/robospice/issues/246 
+* Bug in RequestProcessor stop mechanism. Thx to Isuski. https://github.com/octo-online/robospice/issues/244
+* Minor Javadoc enhancements
+
+Version 1.4.10 (January 9th 2014)
+--------------
+
+Enhancements 
+
+* upgrade to maven android plugin version 3.8.1
+* spicemanager: always use isStarted() when checking if started. Pull request #214. Thx to Giorgos Kylafas for fixing the bug. https://github.com/octo-online/robospice/pull/214 
+* Updated android-maven-plugin to fix build. Pull request #235. Thx to Tanner Perrien for fixing he bug. https://github.com/octo-online/robospice/pull/235
+* Add retrofit jackson 2 converter. Merged pull request Vlad omihaz : https://github.com/octo-online/robospice/pull/239
+* Update all dependencies. Fix issue #238. Jackson dependency for spring android will remain 2.2.3. Jackson 2.3.1 needs Android SDK 9+.
+* Optimized RoboSpice UI Spice List. Thanks to Cyril Mottier for pushing this. 
+
+Bug fixes
+
+* Bug fix : NPE in execute. Fix issue #221. Thx to Daniel Novak.
+* Bug fix : Incorrect behaviour in addListenerIfPending. Fix issue #215. Thx to Isuski
+* Bug fix : Fixed context leak in the event that the manager is not stopped. Pull request #233. Thx to Tanner Perrien.
+* Bug fix : Many threads blocked in PausablePriorityBlockingQueue.take. Fix issue #220. Thx to Nicolas Poirier.
+* Bug fix : ConcurrentModificationException in RequestProcessor. Fix issue 91. Pull request #242. Thx to softwaremaverick and Fernando Franco Gíraldez.
 
 Version 1.4.9 (October 23rd 2013)
 -------------
