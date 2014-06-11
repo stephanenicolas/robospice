@@ -21,6 +21,7 @@ Bug fixes
 * Fix a potential concurrent issue in the request processor : listeners could be lost when added simultanously. Thanks to seva-ask for this fix : https://github.com/stephanenicolas/robospice/pull/296
 * Fix a potential multiple unbindings in SpiceManager : https://github.com/stephanenicolas/robospice/pull/301. Thqnks to seva-ask
 * RetrofitGsonSpiceService object persister was buggy. Thx to keirongulrajani. https://github.com/stephanenicolas/robospice/issues/272
+* Fixed an ANR when app started with screen off. Thx to Colin Lee. https://github.com/stephanenicolas/robospice/issues/270
 
 Version 1.4.12 (April 17th 2014)
 --------------
