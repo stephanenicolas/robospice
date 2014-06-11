@@ -1316,20 +1316,17 @@ public class SpiceManager implements Runnable {
 
         @Override
         public T call() {
-            synchronized (spiceManager) {
-                if (spiceManager.isStopped) {
+            try {
+                spiceManager.waitForServiceToBeBound();
+                if (spiceManager.spiceService == null) {
                     return null;
                 }
+                
+                spiceManager.lockSendRequestsToService.lock();
                 try {
-                    spiceManager.waitForServiceToBeBound();
-                    if (spiceManager.spiceService == null) {
+                    if (spiceManager.spiceService == null || spiceManager.isStopped) {
                         return null;
                     }
-                } catch (InterruptedException e) {
-                    Ln.e(e, "Spice command %s couldn't bind to service.", getClass().getName());
-                }
-
-                try {
                     T result = executeWhenBound(spiceManager.spiceService);
                     successFull = true;
                     return result;
@@ -1337,8 +1334,14 @@ public class SpiceManager implements Runnable {
                     Ln.e(e);
                     this.exception = e;
                     return null;
+                } finally {
+                    spiceManager.lockSendRequestsToService.unlock();
                 }
+            } catch (InterruptedException e) {
+                Ln.e(e, "Spice command %s couldn't bind to service.", getClass().getName());
+                return null;
             }
+
         }
 
         protected abstract T executeWhenBound(SpiceService service) throws Exception;
