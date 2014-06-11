@@ -40,6 +40,10 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit</groupId>
+			<artifactId>converter-jackson</artifactId>
+		</dependency>
 		<!-- http://stackoverflow.com/questions/5591811/ignoring-innerclasses-attribute-warning-is-killing-eclipse -->
 		<dependency>
 			<groupId>commons-logging</groupId>
