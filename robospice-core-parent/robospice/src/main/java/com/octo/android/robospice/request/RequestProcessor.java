@@ -65,7 +65,7 @@ public class RequestProcessor {
         if (request.isCancelled()) {
             synchronized (mapRequestToRequestListener) {
                 for (final CachedSpiceRequest<?> cachedSpiceRequest : mapRequestToRequestListener.keySet()) {
-                    if (cachedSpiceRequest.equals(request)) {
+                    if (request.equals(cachedSpiceRequest)) {
                         cachedSpiceRequest.cancel();
                         requestProgressManager.notifyListenersOfRequestCancellation(request);
                         return;

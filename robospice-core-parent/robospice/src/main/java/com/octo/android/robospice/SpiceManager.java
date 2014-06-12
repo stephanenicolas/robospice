@@ -596,7 +596,7 @@ public class SpiceManager implements Runnable {
      * Cancel a pending request if it exists. If no such request exists, this
      * method does nothing. If a request identified by clazz and requestCacheKey
      * exists, it will be cancelled and its associated listeners will get
-     * notified.
+     * notified. This method is asynchronous.
      * @param clazz
      *            the class of the result of the pending request to look for.
      * @param requestCacheKey
@@ -813,21 +813,16 @@ public class SpiceManager implements Runnable {
     // ============================================================================================
 
     /**
-     * Cancel a specific request
+     * Cancel a specific request. Synchronous.
      * @param request
      *            the request to cancel
      */
     public void cancel(final SpiceRequest<?> request) {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                request.cancel();
-            }
-        });
+        request.cancel();
     }
 
     /**
-     * Cancel all requests
+     * Cancel all requests. Asynchronous.
      */
     public void cancelAllRequests() {
         executorService.execute(new Runnable() {

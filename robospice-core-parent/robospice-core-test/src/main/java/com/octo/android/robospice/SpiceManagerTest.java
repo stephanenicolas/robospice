@@ -382,6 +382,41 @@ public class SpiceManagerTest extends AndroidTestCase {
         assertTrue(spiceRequestStub.isCancelled());
     }
 
+    public void test_cancel_cancels_1_request_before_listener_is_triggered() throws InterruptedException {
+        //TDD for https://github.com/stephanenicolas/robospice/issues/251
+        // given
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(String.class, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        RequestListenerWithProgressStub<String> requestListenerStub = new RequestListenerWithProgressStub<String>();
+
+        spiceManager.start(getContext());
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceManager.cancel(spiceRequestStub);
+        
+        // test
+        assertTrue(spiceRequestStub.isCancelled());
+        assertNull(requestListenerStub.isSuccessful());
+    }
+    
+    public void test_cancel_cancels_1_request_by_key_before_listener_is_triggered() throws InterruptedException {
+        //TDD for https://github.com/stephanenicolas/robospice/issues/251
+        // given
+        SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(String.class, TEST_RETURNED_DATA, WAIT_BEFORE_EXECUTING_REQUEST_LARGE);
+        RequestListenerWithProgressStub<String> requestListenerStub = new RequestListenerWithProgressStub<String>();
+
+        spiceManager.start(getContext());
+        // when
+        spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+        spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+        spiceManager.cancel(String.class, TEST_CACHE_KEY);
+        requestListenerStub.awaitComplete(REQUEST_COMPLETION_TIME_OUT);
+
+        // test
+        assertTrue(spiceRequestStub.isCancelled());
+        assertNull(requestListenerStub.isSuccessful());
+    }
+
     public void test_cancelAllRequests_cancels_2_requests() throws InterruptedException {
         // given
         spiceManager.start(getContext());
