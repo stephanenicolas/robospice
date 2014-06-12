@@ -73,7 +73,7 @@ public class InFileWeatherPersisterTest extends AndroidTestCase {
         dataPersistenceManager.saveDataToCacheAndReturnData(weatherRequestStatus, FILE_NAME);
 
         // WHEN
-        WeatherResult weatherReturned = dataPersistenceManager.loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
+        WeatherResult weatherReturned = dataPersistenceManager.loadDataFromCache(FILE_NAME, FIVE_SECONDS);
 
         // THEN
         assertEquals(TEST_TEMP, weatherReturned.getWeather().getCurren_weather().get(0).getTemp());
@@ -88,7 +88,7 @@ public class InFileWeatherPersisterTest extends AndroidTestCase {
         cachedFile.setLastModified(System.currentTimeMillis() - FIVE_SECONDS);
 
         // WHEN
-        WeatherResult weatherReturned = dataPersistenceManager.loadDataFromCache(FILE_NAME, DurationInMillis.ONE_SECOND);
+        WeatherResult weatherReturned = dataPersistenceManager.loadDataFromCache(FILE_NAME, FIVE_SECONDS);
 
         // THEN
         assertNull(weatherReturned);
