@@ -87,6 +87,8 @@ public abstract class SpiceService extends Service {
     /** Responsible for persisting data. */
     private CacheManager cacheManager;
 
+    private boolean isCreated;
+
     // ----------------------------------
     // CONSTRUCTOR
     // ----------------------------------
@@ -128,7 +130,13 @@ public abstract class SpiceService extends Service {
 
         notification = createDefaultNotification();
 
+        isCreated = true;
         Ln.d("SpiceService instance created.");
+    }
+    
+    //for tests only
+    public boolean isCreated() {
+        return isCreated;
     }
 
     private RequestRunner createRequestRunner(final ExecutorService executorService, final NetworkStateChecker networkStateChecker, RequestProgressManager requestProgressManager) {
@@ -349,6 +357,7 @@ public abstract class SpiceService extends Service {
     
     /**
      * Override this method to disable timeout on core threads.
+     * This is only taken into consideration for Android SDK 9+.
      * {@link #getExecutorService()}.
      * @return whether core threads are disposable or not (DEFAULT=true).
      */

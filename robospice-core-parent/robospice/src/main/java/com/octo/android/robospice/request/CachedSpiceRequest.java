@@ -10,7 +10,10 @@ import com.octo.android.robospice.retry.RetryPolicy;
 
 /**
  * Decorates {@link SpiceRequest} and provides additional information used by
- * RoboSpice.
+ * RoboSpice. There are very few chances that you should use this class directly, though you can.
+ * But generally speaking, 
+ * {@link com.octo.android.robospice.SpiceManager#execute(SpiceRequest, Object, long, com.octo.android.robospice.request.listener.RequestListener)}
+ * is considered to be more clear.
  * @author SNI
  * @param <RESULT>
  */
@@ -155,7 +158,7 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
     public String toString() {
         return "CachedSpiceRequest [requestCacheKey=" + requestCacheKey + ", cacheDuration=" + cacheDuration + ", spiceRequest=" + spiceRequest + "]";
     }
-    
+
     // --------------------------------------------------------------------
     //  COMPARISON METHODS : THEY DEFINE AGGREGATION OF SPICE REQUESTS.
     // --------------------------------------------------------------------
@@ -182,24 +185,16 @@ public class CachedSpiceRequest<RESULT> extends SpiceRequest<RESULT> {
             return false;
         }
         final CachedSpiceRequest<?> other = (CachedSpiceRequest<?>) obj;
-        if (spiceRequest.getResultType() == null) {
-            if (other.spiceRequest.getResultType() != null) {
-                return false;
-            }
-        } else if (!spiceRequest.getResultType().equals(other.spiceRequest.getResultType())) {
+        if (spiceRequest.getResultType() == null && other.spiceRequest.getResultType() != null) {
+            return false;
+        }
+        if (!spiceRequest.getResultType().equals(other.spiceRequest.getResultType())) {
             return false;
         }
         if (spiceRequest.isAggregatable() != other.spiceRequest.isAggregatable()) {
             return false;
         }
-        if (requestCacheKey == null) {
-            return false;
-        } else if (!requestCacheKey.equals(other.requestCacheKey)) {
-            return false;
-        }
-        // if a request is not cancelled, it should not receive events for a
-        // cancelled request.
-        if (!isCancelled() && other.isCancelled()) {
+        if (requestCacheKey == null || !requestCacheKey.equals(other.requestCacheKey)) {
             return false;
         }
         return true;
