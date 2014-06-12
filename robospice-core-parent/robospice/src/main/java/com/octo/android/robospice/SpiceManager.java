@@ -237,6 +237,10 @@ public class SpiceManager implements Runnable {
         return mapPendingRequestToRequestListener.size();
     }
 
+    private Context getContextReference() {
+        return contextWeakReference.get();
+    }
+
     @Override
     public void run() {
 
@@ -246,7 +250,7 @@ public class SpiceManager implements Runnable {
             return;
         }
 
-        bindToService(contextWeakReference.get());
+        bindToService();
 
         try {
             waitForServiceToBeBound();
@@ -265,8 +269,6 @@ public class SpiceManager implements Runnable {
             }
         } catch (final InterruptedException e) {
             Ln.d(e, "Interrupted while waiting for acquiring service.");
-        } finally {
-            unbindFromService(contextWeakReference.get());
         }
     }
 
@@ -331,7 +333,7 @@ public class SpiceManager implements Runnable {
             long end = System.currentTimeMillis();
             Ln.d("Runner join time (ms) when should stop %d", end - start);
         }
-        unbindFromService(contextWeakReference.get());
+        unbindFromService();
         this.runner = null;
         this.executorService.shutdown();
         this.contextWeakReference.clear();
@@ -1155,7 +1157,7 @@ public class SpiceManager implements Runnable {
         boolean success = false;
 
         // start the service it is not started yet.
-        Context context = contextWeakReference.get();
+        Context context = getContextReference();
         if (context != null) {
             checkServiceIsProperlyDeclaredInAndroidManifest(context);
             final Intent intent = new Intent(context, spiceServiceClass);
@@ -1166,7 +1168,8 @@ public class SpiceManager implements Runnable {
         return success;
     }
 
-    private void bindToService(final Context context) {
+    private void bindToService() {
+        Context context = getContextReference();
         if (context == null || requestQueue.isEmpty() && isStopped) {
             // fix issue 40. Thx Shussu
             // fix issue 246.
@@ -1192,14 +1195,15 @@ public class SpiceManager implements Runnable {
             // this should not happen in apps, but can happen during tests.
             Ln.d(t, "Binding to service failed.");
             Ln.d("Context is" + context);
-            Ln.d("ApplicationContext is " + context.getApplicationContext() + context.getApplicationContext());
+            Ln.d("ApplicationContext is " + context.getApplicationContext());
         } finally {
             lockSendRequestsToService.unlock();
             lockAcquireService.unlock();
         }
     }
 
-    private void unbindFromService(final Context context) {
+    private void unbindFromService() {
+        Context context = getContextReference();
         if (context == null) {
             return;
         }
