@@ -1077,10 +1077,12 @@ public class SpiceManager implements Runnable {
         public void onServiceConnected(final ComponentName name, final IBinder service) {
             lockAcquireService.lock();
             try {
-                spiceService = ((SpiceServiceBinder) service).getSpiceService();
-                spiceService.addSpiceServiceListener(removerSpiceServiceListener);
-                Ln.d("Bound to service : " + spiceService.getClass().getSimpleName());
-                conditionServiceBound.signalAll();
+                if (service instanceof SpiceServiceBinder) {
+                    spiceService = ((SpiceServiceBinder) service).getSpiceService();
+                    spiceService.addSpiceServiceListener(removerSpiceServiceListener);
+                    Ln.d("Bound to service : " + spiceService.getClass().getSimpleName());
+                    conditionServiceBound.signalAll();
+                }
             } finally {
                 lockAcquireService.unlock();
             }
@@ -1091,10 +1093,12 @@ public class SpiceManager implements Runnable {
         public void onServiceDisconnected(final ComponentName name) {
             lockAcquireService.lock();
             try {
-                Ln.d("Unbound from service start : " + spiceService.getClass().getSimpleName());
-                spiceService = null;
-                isUnbinding = false;
-                conditionServiceUnbound.signalAll();
+                if (spiceService != null) {
+                    Ln.d("Unbound from service start : " + spiceService.getClass().getSimpleName());
+                    spiceService = null;
+                    isUnbinding = false;
+                    conditionServiceUnbound.signalAll();
+                }
             } finally {
                 lockAcquireService.unlock();
             }

@@ -31,7 +31,7 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * is **stable**, **efficient** and designed to respect Android philosophy
 * supports request **cancelling**, request **priorization** and requests  **aggregation**
 * supports aggregation of different web services
-* is a full featured replacement for long running AsyncTasks even if they are not related to networking.
+* is a full featured replacement for long running AsyncTasks even if they are not related to networking.
 * is **open source** ;) 
 * and **tested** (more than 200 tests)
 
@@ -48,8 +48,8 @@ To learn more, look at the presentation slides we created for DroidCon UK 2012, 
 A few links : 
 
 * Browse RoboSpice's full documentation on [the Wiki](https://github.com/octo-online/robospice/wiki).
-* [Javadocs](http://octo-online.github.com/robospice/site/latest/apidocs/index.html).
-* [Maven site](http://octo-online.github.com/robospice/site/latest/index.html).
+* [Javadocs](http://stephanenicolas.github.io/robospice/site/latest/apidocs/index.html).
+* [Maven site](http://stephanenicolas.github.io/robospice/site/latest/index.html).
 * [Discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 * [Stack Over Flow questions about RoboSpice](http://stackoverflow.com/questions/tagged/robospice)
 
