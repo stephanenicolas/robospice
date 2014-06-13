@@ -17,8 +17,8 @@ public class RetrofitSpiceRequestStub extends RetrofitSpiceRequest<WeatherResult
 
     @Override
     public WeatherResult loadDataFromNetwork() throws Exception {
+        reentrantLock.lock();
         try {
-            reentrantLock.lock();
             loadDataFromNetworkHasBeenExecuted.signal();
         } finally {
             reentrantLock.unlock();
@@ -27,8 +27,8 @@ public class RetrofitSpiceRequestStub extends RetrofitSpiceRequest<WeatherResult
     }
 
     public void await(long timeout) throws InterruptedException {
+        reentrantLock.lock();
         try {
-            reentrantLock.lock();
             loadDataFromNetworkHasBeenExecuted.await(timeout, TimeUnit.MILLISECONDS);
         } finally {
             reentrantLock.unlock();

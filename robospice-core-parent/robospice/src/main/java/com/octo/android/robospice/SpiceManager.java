@@ -83,7 +83,7 @@ public class SpiceManager implements Runnable {
      * The prefix of SpiceManager threads (used to send requests to the
      * service).
      */
-    protected static final String SPICE_MANAGER_THREAD_NAM_PREFIX = "SpiceManagerThread ";
+    protected static final String SPICE_MANAGER_THREAD_NAME_PREFIX = "SpiceManagerThread ";
     /** Number of threads used to execute internal commands. */
     private static final int DEFAULT_THREAD_COUNT = 3;
     /** Delay to let runner stop properly (in ms). */
@@ -204,7 +204,7 @@ public class SpiceManager implements Runnable {
         } else {
             executorService = Executors.newFixedThreadPool(getThreadCount(), new MinPriorityThreadFactory());
             // start the binding to the service
-            runner = new Thread(this, SPICE_MANAGER_THREAD_NAM_PREFIX + spiceManagerThreadIndex++);
+            runner = new Thread(this, SPICE_MANAGER_THREAD_NAME_PREFIX + spiceManagerThreadIndex++);
             runner.setPriority(Thread.MIN_PRIORITY);
             isStopped = false;
             runner.start();
@@ -255,6 +255,7 @@ public class SpiceManager implements Runnable {
         try {
             waitForServiceToBeBound();
             if (spiceService == null) {
+                Ln.d("No spice service bound.");
                 return;
             }
             while (!requestQueue.isEmpty() || !isStopped && !Thread.interrupted()) {
@@ -267,6 +268,7 @@ public class SpiceManager implements Runnable {
                     break;
                 }
             }
+            Ln.d("SpiceManager request runner terminated. Requests count: %d, stopped %b, interrupted %b", requestQueue.size(), isStopped, Thread.interrupted());
         } catch (final InterruptedException e) {
             Ln.d(e, "Interrupted while waiting for acquiring service.");
         }
@@ -277,12 +279,15 @@ public class SpiceManager implements Runnable {
         try {
             if (spiceRequest != null && spiceService != null) {
                 if (isStopped) {
+                    Ln.d("Sending request to service without listeners : " + spiceRequest.getClass().getSimpleName());
                     spiceService.addRequest(spiceRequest, null);
                 } else {
                     final Set<RequestListener<?>> listRequestListener = mapRequestToLaunchToRequestListener.get(spiceRequest);
                     Ln.d("Sending request to service : " + spiceRequest.getClass().getSimpleName());
                     spiceService.addRequest(spiceRequest, listRequestListener);
                 }
+            } else {
+                Ln.d("Service or request was null");
             }
         } finally {
             lockSendRequestsToService.unlock();
@@ -1082,8 +1087,8 @@ public class SpiceManager implements Runnable {
                     spiceService.addSpiceServiceListener(removerSpiceServiceListener);
                     Ln.d("Bound to service : " + spiceService.getClass().getSimpleName());
                     conditionServiceBound.signalAll();
-                } else { 
-                    Ln.e("Unexpected IBinder service at onServiceConnected :%s ", service.getClass().getName()); 
+                } else {
+                    Ln.e("Unexpected IBinder service at onServiceConnected :%s ", service.getClass().getName());
                 }
             } finally {
                 lockAcquireService.unlock();

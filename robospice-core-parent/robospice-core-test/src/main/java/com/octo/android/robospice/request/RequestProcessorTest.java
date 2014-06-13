@@ -586,6 +586,10 @@ public class RequestProcessorTest extends AndroidTestCase {
         Set<RequestListener<?>> requestListenerSet2 = new HashSet<RequestListener<?>>();
         requestListenerSet2.add(requestListenerStub2);
 
+        EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY), EasyMock.eq(TEST_DURATION))).andReturn(null);
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY))).andReturn(TEST_RETURNED_DATA);
+        EasyMock.expectLastCall().anyTimes();
         EasyMock.expect(mockCacheManager.loadDataFromCache(EasyMock.eq(TEST_CLASS), EasyMock.eq(TEST_CACHE_KEY2), EasyMock.eq(TEST_DURATION))).andReturn(null);
         EasyMock.expect(mockCacheManager.saveDataToCacheAndReturnData(EasyMock.eq(TEST_RETURNED_DATA), EasyMock.eq(TEST_CACHE_KEY2))).andReturn(TEST_RETURNED_DATA);
         EasyMock.replay(mockCacheManager);

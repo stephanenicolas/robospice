@@ -23,10 +23,16 @@ before_install:
     - emulator -avd test -no-skin -no-audio -no-window &
 
 # We will run findbugs and checkstyle in the script phase
-install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dandroid.dex.optimize=false
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dpmd.skip=true -Dandroid.generateApk=false
 
 before_script:
   - adb devices
   - ./wait_for_emulator
 
 script: mvn install -Dandroid.device=test -Dmaven.javadoc.skip=true -Dandroid.dex.optimize=false
+
+#play RS core tests only
+#script: mvn install -pl robospice-core-parent/robospice-core-test -Dandroid.device=test -Dmaven.javadoc.skip=true -Dandroid.dex.optimize=false -Dandroid.test.classes=com.octo.android.robospice.SpiceManagerTest
+
+after_failure:
+  - adb logcat -d 
