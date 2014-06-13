@@ -132,12 +132,13 @@ public class SpiceManagerTest extends AndroidTestCase {
             spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
             //Thread.sleep(SMALL_THREAD_SLEEP);
             spiceManager.start(getContext());
-            spiceManager.shouldStop();
+            spiceManager.shouldStopAndJoin(REQUEST_COMPLETION_TIME_OUT);
 
             spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
 
             // then
             assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
+            Thread.sleep(SMALL_THREAD_SLEEP);
         }
     }
 
