@@ -1082,6 +1082,8 @@ public class SpiceManager implements Runnable {
                     spiceService.addSpiceServiceListener(removerSpiceServiceListener);
                     Ln.d("Bound to service : " + spiceService.getClass().getSimpleName());
                     conditionServiceBound.signalAll();
+                } else { 
+                    Ln.e("Unexpected IBinder service at onServiceConnected :%s ", service.getClass().getName()); 
                 }
             } finally {
                 lockAcquireService.unlock();
@@ -1324,7 +1326,7 @@ public class SpiceManager implements Runnable {
                 if (spiceManager.spiceService == null) {
                     return null;
                 }
-                
+
                 spiceManager.lockSendRequestsToService.lock();
                 try {
                     if (spiceManager.spiceService == null || spiceManager.isStopped) {
