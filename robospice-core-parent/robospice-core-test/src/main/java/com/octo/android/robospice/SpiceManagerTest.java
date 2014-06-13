@@ -119,6 +119,28 @@ public class SpiceManagerTest extends AndroidTestCase {
         }
     }
 
+    public void test_execute_should_execute_request_even_if_started_after_execute() throws InterruptedException {
+        //TDD for issue https://github.com/stephanenicolas/robospice/issues/321
+        final int requestCount = 50;
+        for (int i = 0; i < requestCount; i++) {
+
+            // given
+            SpiceRequestStub<String> spiceRequestStub = new SpiceRequestSucceedingStub<String>(TEST_CLASS, TEST_RETURNED_DATA);
+            RequestListenerStub<String> requestListenerStub = new RequestListenerStub<String>();
+
+            // when
+            spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
+            //Thread.sleep(SMALL_THREAD_SLEEP);
+            spiceManager.start(getContext());
+            spiceManager.shouldStop();
+
+            spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
+
+            // then
+            assertTrue(spiceRequestStub.isLoadDataFromNetworkCalled());
+        }
+    }
+
     public void test_execute_should_execute_request_even_if_stopped_right_after_execute() throws InterruptedException {
         // given
         spiceManager.start(getContext());
@@ -393,12 +415,12 @@ public class SpiceManagerTest extends AndroidTestCase {
         spiceManager.execute(spiceRequestStub, TEST_CACHE_KEY, TEST_DURATION, requestListenerStub);
         spiceRequestStub.awaitForLoadDataFromNetworkIsCalled(REQUEST_COMPLETION_TIME_OUT);
         spiceManager.cancel(spiceRequestStub);
-        
+
         // test
         assertTrue(spiceRequestStub.isCancelled());
         assertNull(requestListenerStub.isSuccessful());
     }
-    
+
     public void test_cancel_cancels_1_request_by_key_before_listener_is_triggered() throws InterruptedException {
         //TDD for https://github.com/stephanenicolas/robospice/issues/251
         // given
