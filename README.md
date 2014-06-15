@@ -115,7 +115,7 @@ Alternatives to RoboSpice
 * [Ion](https://github.com/koush/ion)
 * [droidQuery](http://phil-brown.github.io/droidQuery/)
 * [Android Job Queue](https://github.com/path/android-priority-jobqueue)
-
+* [Goro](http://stanfy.com/blog/goro-2/)
 	
 Projects related to RoboSpice 
 -----------------------------
