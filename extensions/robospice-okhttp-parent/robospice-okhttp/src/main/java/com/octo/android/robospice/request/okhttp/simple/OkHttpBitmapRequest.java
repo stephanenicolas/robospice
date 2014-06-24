@@ -5,10 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import org.apache.commons.io.IOUtils;
 
 import roboguice.util.temp.Ln;
@@ -87,8 +87,9 @@ public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> implements I
     @Override
     public Bitmap loadDataFromNetwork() throws Exception {
         try {
-            HttpURLConnection connection = getOkHttpClient().open(new URL(url));
-            processStream(connection.getContentLength(), connection.getInputStream());
+            Request request = new Request.Builder().url(url).build();
+            Response response = getOkHttpClient().newCall(request).execute();
+            processStream(response.body().contentLength(), response.body().byteStream());
 
             if (width != -1 && height != -1) {
                 this.options = new BitmapFactory.Options();
@@ -119,7 +120,7 @@ public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> implements I
         return cacheFile;
     }
 
-    public void processStream(int contentLength, final InputStream inputStream) throws IOException {
+    public void processStream(long contentLength, final InputStream inputStream) throws IOException {
         OutputStream fileOutputStream = null;
         try {
             // touch
