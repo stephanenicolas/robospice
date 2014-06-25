@@ -37,7 +37,7 @@ public class OkHttpBigBinaryRequest extends OkHttpBinaryRequest {
     }
 
     @Override
-    public InputStream processStream(final long contentLength,
+    public InputStream processStream(final int contentLength,
         final InputStream inputStream) throws IOException {
         OutputStream fileOutputStream = null;
         try {

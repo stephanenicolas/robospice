@@ -1,14 +1,14 @@
 package com.octo.android.robospice.request.okhttp.simple;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
+import com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest;
+import com.squareup.okhttp.OkUrlFactory;
+import org.apache.commons.io.IOUtils;
 import roboguice.util.temp.Ln;
 
-import com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class OkHttpSimpleTextRequest extends OkHttpSpiceRequest<String> {
 
@@ -25,9 +25,9 @@ public class OkHttpSimpleTextRequest extends OkHttpSpiceRequest<String> {
     public String loadDataFromNetwork() throws Exception {
         try {
             Ln.d("Call web service " + url);
-            Request request = new Request.Builder().url(url).build();
-            Response response = getOkHttpClient().newCall(request).execute();
-            return response.body().string();
+            OkUrlFactory urlFactory = new OkUrlFactory(getOkHttpClient());
+            HttpURLConnection connection = urlFactory.open(new URL(url));
+            return IOUtils.toString(connection.getInputStream());
         } catch (final MalformedURLException e) {
             Ln.e(e, "Unable to create URL");
             throw e;

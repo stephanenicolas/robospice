@@ -21,7 +21,7 @@ public class OkHttpSmallBinaryRequest extends OkHttpBinaryRequest {
     }
 
     @Override
-    public InputStream processStream(final long contentLength,
+    public InputStream processStream(final int contentLength,
         final InputStream inputStream) throws IOException {
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();
         readBytes(inputStream, new ProgressByteProcessor(this, bos,

@@ -23,7 +23,7 @@
 	</modules>
 
 	<properties>
-		<okhttp.version>2.0.0</okhttp.version>
+		<okhttp.version>1.6.0</okhttp.version>
 	</properties>
 
 	<dependencyManagement>
@@ -39,6 +39,11 @@
 				<artifactId>okhttp</artifactId>
 				<version>${okhttp.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp</groupId>
+                <artifactId>okhttp-urlconnection</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 

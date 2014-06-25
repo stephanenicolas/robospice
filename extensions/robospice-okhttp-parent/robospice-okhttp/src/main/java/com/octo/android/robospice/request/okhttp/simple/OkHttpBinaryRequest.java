@@ -2,10 +2,11 @@ package com.octo.android.robospice.request.okhttp.simple;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URL;
 
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.squareup.okhttp.OkUrlFactory;
 import org.apache.commons.io.IOUtils;
 
 import roboguice.util.temp.Ln;
@@ -31,9 +32,9 @@ public abstract class OkHttpBinaryRequest extends OkHttpSpiceRequest<InputStream
     @Override
     public final InputStream loadDataFromNetwork() throws Exception {
         try {
-            Request request = new Request.Builder().url(url).build();
-            Response response = getOkHttpClient().newCall(request).execute();
-            return processStream(response.body().contentLength(), response.body().byteStream());
+            OkUrlFactory urlFactory = new OkUrlFactory(getOkHttpClient());
+            HttpURLConnection connection = urlFactory.open(new URL(url));
+            return processStream(connection.getContentLength(), connection.getInputStream());
         } catch (final MalformedURLException e) {
             Ln.e(e, "Unable to create URL");
             throw e;
@@ -55,7 +56,7 @@ public abstract class OkHttpBinaryRequest extends OkHttpSpiceRequest<InputStream
      *            stream of the download
      * @return an inputstream containing the download
      */
-    public abstract InputStream processStream(long contentLength, InputStream inputStream) throws IOException;
+    public abstract InputStream processStream(int contentLength, InputStream inputStream) throws IOException;
 
     /**
      * Inspired from Guava com.google.common.io.ByteStreams
