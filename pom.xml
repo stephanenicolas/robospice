@@ -19,13 +19,13 @@
 	<packaging>pom</packaging>
 	<name>Robospice - Parent</name>
 	<description>RoboSpice is a modular android library that eases the development of Data-Driven Android applications.</description>
-	<url>https://github.com/octo-online/robospice</url>
+	<url>https://github.com/stephanenicolas/robospice</url>
 	<inceptionYear>2012</inceptionYear>
 
 	<scm>
-		<connection>scm:git:ssh://git@github.com/octo-online/robospice.git</connection>
-		<url>git:ssh://git@github.com/octo-online/robospice.git</url>
-		<developerConnection>scm:git:ssh://git@github.com/octo-online/robospice.git</developerConnection>
+		<connection>scm:git:ssh://git@github.com/stephanenicolas/robospice.git</connection>
+		<url>git:ssh://git@github.com/stephanenicolas/robospice.git</url>
+		<developerConnection>scm:git:ssh://git@github.com/stephanenicolas/robospice.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -38,14 +38,14 @@
 
 	<issueManagement>
 		<system>Github Issue Tracker</system>
-		<url>https://github.com/octo-online/robospice/issues</url>
+		<url>https://github.com/stephanenicolas/robospice/issues</url>
 	</issueManagement>
 
 	<developers>
 		<developer>
 			<id>SNI</id>
 			<name>Stéphane Nicolas</name>
-			<email>snicolas@octo.com</email>
+			<email>steff.nicolas@gmail.com</email>
 		</developer>
 		<developer>
 			<id>VDL</id>
@@ -80,7 +80,7 @@
 
 	<ciManagement>
 		<system>travis</system>
-		<url>https://travis-ci.org/octo-online/robospice</url>
+		<url>https://travis-ci.org/stephanenicolas/robospice</url>
 	</ciManagement>
 
 	<modules>
