@@ -1015,7 +1015,7 @@ public class SpiceManager implements Runnable {
         synchronized (mapRequestToLaunchToRequestListener) {
             Set<RequestListener<?>> listeners = mapRequestToLaunchToRequestListener.get(cachedSpiceRequest);
             if (listeners == null) {
-                listeners = new HashSet<RequestListener<?>>();
+                listeners = Collections.synchronizedSet(new HashSet<RequestListener<?>>());
                 this.mapRequestToLaunchToRequestListener.put(cachedSpiceRequest, listeners);
             }
             listeners.add(requestListener);
