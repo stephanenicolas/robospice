@@ -23,6 +23,7 @@ Bug fixes
 * Fix a potential concurrent issue,removing listeners could be impossible in some rare cases. Thx to seva-ask. https://github.com/stephanenicolas/robospice/pull/318
 * RetrofitGsonSpiceService object persister was buggy. Thx to keirongulrajani. https://github.com/stephanenicolas/robospice/issues/272
 * Fixed an ANR when app started with screen off. Thx to Colin Lee. https://github.com/stephanenicolas/robospice/issues/270
+* Fixed ConcurrentModificationException. Thx to escarti. https://github.com/stephanenicolas/robospice/issues/91
 
 Version 1.4.12 (April 17th 2014)
 --------------
