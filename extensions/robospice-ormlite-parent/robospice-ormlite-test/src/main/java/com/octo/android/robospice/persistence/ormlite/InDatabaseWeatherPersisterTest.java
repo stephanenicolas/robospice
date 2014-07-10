@@ -29,7 +29,7 @@ import java.util.Map;
 @SmallTest
 public class InDatabaseWeatherPersisterTest extends AndroidTestCase {
     private ObjectPersister<Weather> dataPersistenceManager;
-    private NotificationContentResolver mResolver;
+    private MockNotificationContentResolver mResolver;
     private Application mApplication;
 
     private static final CurrenWeather TEST_TEMP = new CurrenWeather();
@@ -57,8 +57,8 @@ public class InDatabaseWeatherPersisterTest extends AndroidTestCase {
         handledClassesToNotificationUri.put(Night.class, null);
         handledClassesToNotificationUri.put(Wind.class, null);
 
-        mResolver = new NotificationContentResolver();
-        mApplication = new NotificationApplication(getContext(), mResolver);
+        mResolver = new MockNotificationContentResolver();
+        mApplication = new MockNotificationApplicaiton(getContext(), mResolver);
 
         RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper(mApplication, "sample_database.db", 1);
         databaseHelper.clearTableFromDataBase(Weather.class);
@@ -230,26 +230,26 @@ public class InDatabaseWeatherPersisterTest extends AndroidTestCase {
     }
 
 
-    private static class NotificationContentResolver extends MockContentResolver {
+    private static class MockNotificationContentResolver extends MockContentResolver {
 
-        private ArrayList<Uri> mNotifcationUris = new ArrayList<Uri>();
+        private ArrayList<Uri> mNotificationUris = new ArrayList<Uri>();
         @Override
         public void notifyChange(Uri uri, ContentObserver observer, boolean syncToNetwork) {
-            mNotifcationUris.add(uri);
+            mNotificationUris.add(uri);
         }
 
         public List<Uri> getNotificationUris() {
-            return mNotifcationUris;
+            return mNotificationUris;
         }
     }
 
-    private static class NotificationApplication extends MockApplication {
+    private static class MockNotificationApplicaiton extends MockApplication {
 
         private Context mContext;
-        private NotificationContentResolver mContentResolver;
+        private MockNotificationContentResolver mContentResolver;
 
 
-        public NotificationApplication(Context context, NotificationContentResolver contentResolver) {
+        public MockNotificationApplicaiton(Context context, MockNotificationContentResolver contentResolver) {
             super();
             mContext = context;
             mContentResolver = contentResolver;
