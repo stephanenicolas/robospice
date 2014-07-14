@@ -13,7 +13,7 @@ android:
     - sysimg-10
 env:
   matrix:
-    - ANDROID_TARGET=android-10   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-10   ANDROID_ABI=armeabi
     - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
 
