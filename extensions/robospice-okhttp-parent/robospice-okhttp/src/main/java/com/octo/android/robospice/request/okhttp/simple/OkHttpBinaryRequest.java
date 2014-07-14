@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.squareup.okhttp.OkUrlFactory;
 import org.apache.commons.io.IOUtils;
 
 import roboguice.util.temp.Ln;
@@ -31,7 +32,8 @@ public abstract class OkHttpBinaryRequest extends OkHttpSpiceRequest<InputStream
     @Override
     public final InputStream loadDataFromNetwork() throws Exception {
         try {
-            HttpURLConnection connection = getOkHttpClient().open(new URL(url));
+            OkUrlFactory urlFactory = new OkUrlFactory(getOkHttpClient());
+            HttpURLConnection connection = urlFactory.open(new URL(url));
             return processStream(connection.getContentLength(), connection.getInputStream());
         } catch (final MalformedURLException e) {
             Ln.e(e, "Unable to create URL");

@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.squareup.okhttp.OkUrlFactory;
 import org.apache.commons.io.IOUtils;
 
 import roboguice.util.temp.Ln;
@@ -87,7 +88,8 @@ public class OkHttpBitmapRequest extends OkHttpSpiceRequest<Bitmap> implements I
     @Override
     public Bitmap loadDataFromNetwork() throws Exception {
         try {
-            HttpURLConnection connection = getOkHttpClient().open(new URL(url));
+            OkUrlFactory urlFactory = new OkUrlFactory(getOkHttpClient());
+            HttpURLConnection connection = urlFactory.open(new URL(url));
             processStream(connection.getContentLength(), connection.getInputStream());
 
             if (width != -1 && height != -1) {
