@@ -8,13 +8,14 @@ Version 1.5.0 (planned)
 * TODO : inject requests in listeners
 * TODO : inject service in requests
 
-Version 1.4.13 (Planned June 2014)
+Version 1.4.13 (Planned July 2014)
 --------------
 
 Enhancements
 
 * Requests are not retried anymore when network is down. https://github.com/stephanenicolas/robospice/pull/291. Thx to softwaremaverick for fixing this bug.
 * SpiceService's executor core threads can now be exceeded and customized and are disposable. Thx to Jorge Vila for this feature. https://github.com/stephanenicolas/robospice/pull/304
+* The OrmLite extension now notifies foreign objects for changes (instead of root only): https://github.com/stephanenicolas/robospice/issues/240. Thx to @agrebnev.
 
 Bug fixes
 
