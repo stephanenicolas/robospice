@@ -11,6 +11,9 @@ Version 1.5.0 (planned)
 Version 1.4.13 (Planned July 2014)
 --------------
 
+Team 
+* Nikola Keskinov joined the RoboSpice Team. Welcome Niko !
+
 Enhancements
 
 * Requests are not retried anymore when network is down. https://github.com/stephanenicolas/robospice/pull/291. Thx to softwaremaverick for fixing this bug.
@@ -25,6 +28,8 @@ Bug fixes
 * RetrofitGsonSpiceService object persister was buggy. Thx to keirongulrajani. https://github.com/stephanenicolas/robospice/issues/272
 * Fixed an ANR when app started with screen off. Thx to Colin Lee. https://github.com/stephanenicolas/robospice/issues/270
 * Fixed ConcurrentModificationException. Thx to escarti. https://github.com/stephanenicolas/robospice/issues/91
+* Fixed a bug in SpiceNotificationService. Thx to kaivnlp. https://github.com/stephanenicolas/robospice/issues/299
+* Cancelling methods by key didn't work. Thx to Pierre Degand. https://github.com/stephanenicolas/robospice/issues/251
 
 Version 1.4.12 (April 17th 2014)
 --------------
