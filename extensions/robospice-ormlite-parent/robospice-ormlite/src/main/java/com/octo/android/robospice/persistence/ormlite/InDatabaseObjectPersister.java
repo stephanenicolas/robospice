@@ -1,21 +1,9 @@
 package com.octo.android.robospice.persistence.ormlite;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-
-import roboguice.util.temp.Ln;
 import android.app.Application;
 import android.net.Uri;
 
+import com.j256.ormlite.android.DatabaseTableConfigUtil;
 import com.j256.ormlite.dao.LazyForeignCollection;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.field.DatabaseFieldConfig;
@@ -29,28 +17,42 @@ import com.octo.android.robospice.persistence.ObjectPersister;
 import com.octo.android.robospice.persistence.exception.CacheLoadingException;
 import com.octo.android.robospice.persistence.exception.CacheSavingException;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+
+import roboguice.util.temp.Ln;
+
 public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
 
     private RoboSpiceDatabaseHelper databaseHelper;
     private RuntimeExceptionDao<T, ID> dao;
-    private Uri notificationUri;
+    private Map<Class<?>, Uri> mapHandledClassesToNotificationUri;
+    private Map<Class<?>, DatabaseTableConfig> mTableConfigs = new HashMap<Class<?>, DatabaseTableConfig>();
+
 
     /**
-     * @param application
-     *            the android context needed to access android file system or databases to store.
+     * @param application the android context needed to access android file system or databases to store.
      */
     public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType) {
         this(application, databaseHelper, modelObjectType, null);
     }
 
     /**
-     * @param application
-     *            the android context needed to access android file system or databases to store.
+     * @param application the android context needed to access android file system or databases to store.
      */
-    public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType, Uri notificationUri) {
+    public InDatabaseObjectPersister(Application application, RoboSpiceDatabaseHelper databaseHelper, Class<T> modelObjectType, Map<Class<?>, Uri> mapHandledClassesToNotificationUri) {
         super(application, modelObjectType);
         this.databaseHelper = databaseHelper;
-        this.notificationUri = notificationUri;
+        this.mapHandledClassesToNotificationUri = mapHandledClassesToNotificationUri;
 
         try {
             TableUtils.createTableIfNotExists(databaseHelper.getConnectionSource(), modelObjectType);
@@ -94,22 +96,9 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
                     try {
                         databaseHelper.createOrUpdateInDatabase(data, getHandledClass());
                         saveAllForeignObjectsToCache(data);
-                        Object id = null;
-                        @SuppressWarnings("unchecked")
-                        DatabaseTableConfig<T> childDatabaseTableConfig = (DatabaseTableConfig<T>) DatabaseTableConfig.fromClass(databaseHelper.getConnectionSource(), data.getClass());
-                        for (FieldType childFieldType : childDatabaseTableConfig.getFieldTypes(null)) {
-                            if (childFieldType.isId()) {
-                                id = childFieldType.extractJavaFieldValue(data);
-                            }
-                        }
+                        Object id = getIdField(data.getClass()).extractJavaFieldValue(data);
                         CacheEntry cacheEntry = new CacheEntry(String.valueOf(cacheKey), System.currentTimeMillis(), data.getClass(), id);
                         databaseHelper.createOrUpdateCacheEntryInDatabase(cacheEntry);
-
-                        if (notificationUri != null) {
-                            getApplication().getContentResolver().notifyChange(notificationUri, null);
-                            Uri itemNotificationUri = notificationUri.buildUpon().appendPath(id.toString()).build();
-                            getApplication().getContentResolver().notifyChange(itemNotificationUri, null);
-                        }
                     } catch (Exception e) {
                         Ln.d(e, "Exception occured during saveDataToCacheAndReturnData");
                     }
@@ -166,8 +155,8 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
      * <li>re inject the children into the parent
      * <li>save the children (as the parent now exists in database).
      * </ul>
-     * @param data
-     *            the parent POJO to save in the database.
+     *
+     * @param data the parent POJO to save in the database.
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
@@ -238,6 +227,17 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
             }
         }
 
+        //notify
+        if (mapHandledClassesToNotificationUri != null && mapHandledClassesToNotificationUri.containsKey(parentClass)) {
+            Uri notificationUri = mapHandledClassesToNotificationUri.get(parentClass);
+            if (notificationUri != null) {
+                getApplication().getContentResolver().notifyChange(notificationUri, null);
+                Object id = getIdField(data.getClass()).extractJavaFieldValue(data);
+                Uri itemNotificationUri = notificationUri.buildUpon().appendPath(id.toString()).build();
+                getApplication().getContentResolver().notifyChange(itemNotificationUri, null);
+            }
+        }
+
         // future hook
 
     }
@@ -300,6 +300,34 @@ public class InDatabaseObjectPersister<T, ID> extends ObjectPersister<T> {
         } catch (SQLException e) {
             return null;
         }
+    }
+
+    protected FieldType getIdField(Class clazz) throws SQLException {
+
+        DatabaseTableConfig config = getDatabaseTableConfig(clazz);
+        FieldType[] fieldTypes = config.getFieldTypes(databaseHelper.getConnectionSource().getDatabaseType());
+        FieldType idFieldType = null;
+        for (FieldType fieldType : fieldTypes) {
+            if (fieldType.isId() || fieldType.isGeneratedId() || fieldType.isGeneratedIdSequence()) {
+                idFieldType = fieldType;
+            }
+        }
+        if (idFieldType == null) {
+            throw new IllegalStateException("Cannot find id field");
+        }
+        return idFieldType;
+    }
+
+    protected DatabaseTableConfig getDatabaseTableConfig(Class clazz) throws SQLException {
+        DatabaseTableConfig config = mTableConfigs.get(clazz);
+        if (config == null) {
+            config = DatabaseTableConfigUtil.fromClass(databaseHelper.getConnectionSource(), clazz);
+            if (config != null) {
+                config.extractFieldTypes(databaseHelper.getConnectionSource());
+                mTableConfigs.put(clazz, config);
+            }
+        }
+        return config;
     }
 
 }
