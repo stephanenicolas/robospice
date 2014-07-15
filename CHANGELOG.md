@@ -11,6 +11,9 @@ Version 1.5.0 (planned)
 Version 1.4.13 (Planned July 2014)
 --------------
 
+SDK Compatibility : 
+* Android is now officially compatible from SDK 10+. We drop support for SDK 8 & 9. Though a "best effort" help will be provided to/by the community.
+
 Team 
 * Nikola Keskinov joined the RoboSpice Team. Welcome Niko !
 
