@@ -121,4 +121,4 @@ Projects related to RoboSpice
 -----------------------------
 
 * [Blandware Android AtLeap Core](https://github.com/blandware/android-atleap) is a library accelerating development. It contains universal Content Provider (for SQLite, ORMLite), Drawer, Account Authenticator, etc. [AtLeap Sample](https://github.com/blandware/android-atleap/tree/master/atleap-sample) is a good example of RoboSpice, Retrofit, ORMLite, Picasso integration.
-
+* [SpiceAnnotations](https://github.com/ddekanski/SpiceAnnotations) : using RoboSpice and Android Annotations by Daniel Dekanski. Also read his [blog post](http://blog.goyello.com/2014/06/26/androidannotations-robospice-the-best-of-both-worlds/).
