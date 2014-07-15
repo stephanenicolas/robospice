@@ -41,10 +41,9 @@ public class SpiceListView extends ListView {
     // --- PUBLIC API
     // ----------------------------
 
-    @Deprecated
     @Override
     public void setOnScrollListener(OnScrollListener l) {
-        throw new RuntimeException("OnScrollListener is already used internally by a SpliceListView.");
+        super.setOnScrollListener(new SpiceListScrollListener(l));
     }
 
     @Override
@@ -79,15 +78,32 @@ public class SpiceListView extends ListView {
     // --- INNER CLASS API
     // ----------------------------
     private final class SpiceListScrollListener implements OnScrollListener {
+
+        private final OnScrollListener wrappedListener;
+
+        public SpiceListScrollListener() {
+            this.wrappedListener = null;
+        }
+
+        public SpiceListScrollListener(OnScrollListener wrappedListener) {
+            this.wrappedListener = wrappedListener;
+        }
+
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             if (getAdapter() != null) {
                 getAdapter().setNetworkFetchingAllowed(scrollState == SCROLL_STATE_IDLE);
             }
+            if (wrappedListener != null) {
+                wrappedListener.onScrollStateChanged(view, scrollState);
+            }
         }
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (wrappedListener != null) {
+                wrappedListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+            }
         }
     }
 
