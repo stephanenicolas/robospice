@@ -18,6 +18,8 @@ import android.widget.ListView;
  */
 public class SpiceListView extends ListView {
 
+    private final SpiceListScrollListener onScrollListener = new SpiceListScrollListener();
+
     // ----------------------------
     // --- CONSTRUCTORS
     // ----------------------------
@@ -41,9 +43,15 @@ public class SpiceListView extends ListView {
     // --- PUBLIC API
     // ----------------------------
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param l The listener to register with the ListView, or {@code null} to unregister an existing one.
+     */
     @Override
     public void setOnScrollListener(OnScrollListener l) {
-        super.setOnScrollListener(new SpiceListScrollListener(l));
+        onScrollListener.setWrappedListener(l);
+        super.setOnScrollListener(onScrollListener);
     }
 
     @Override
@@ -71,7 +79,7 @@ public class SpiceListView extends ListView {
     // --- PRIVATE API
     // ----------------------------
     private void initialize() {
-        super.setOnScrollListener(new SpiceListScrollListener());
+        super.setOnScrollListener(onScrollListener);
     }
 
     // ----------------------------
@@ -79,14 +87,10 @@ public class SpiceListView extends ListView {
     // ----------------------------
     private final class SpiceListScrollListener implements OnScrollListener {
 
-        private final OnScrollListener wrappedListener;
+        private OnScrollListener wrappedListener;
 
-        public SpiceListScrollListener() {
-            this.wrappedListener = null;
-        }
-
-        public SpiceListScrollListener(OnScrollListener wrappedListener) {
-            this.wrappedListener = wrappedListener;
+        private void setWrappedListener(OnScrollListener l) {
+            this.wrappedListener = l;
         }
 
         @Override
