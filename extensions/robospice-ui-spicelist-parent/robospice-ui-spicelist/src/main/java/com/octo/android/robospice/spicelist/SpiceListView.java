@@ -43,6 +43,10 @@ public class SpiceListView extends ListView {
     // --- PUBLIC API
     // ----------------------------
 
+    /**
+     * {@inheritDoc}
+     * @param l The listener to register with the ListView, or {@code null} to unregister an existing one.
+     */
     @Override
     public void setOnScrollListener(OnScrollListener l) {
         onScrollListener.setWrappedListener(l);
