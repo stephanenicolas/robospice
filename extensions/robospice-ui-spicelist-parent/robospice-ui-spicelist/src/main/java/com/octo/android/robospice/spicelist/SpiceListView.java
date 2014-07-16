@@ -45,6 +45,7 @@ public class SpiceListView extends ListView {
 
     /**
      * {@inheritDoc}
+     *
      * @param l The listener to register with the ListView, or {@code null} to unregister an existing one.
      */
     @Override
