@@ -27,12 +27,13 @@ Bug fixes
 
 * Fix a potential concurrent issue in the request processor : listeners could be lost when added simultanously. Thanks to seva-ask for this fix : https://github.com/stephanenicolas/robospice/pull/296
 * Fix a potential multiple unbindings in SpiceManager : https://github.com/stephanenicolas/robospice/pull/301. Thanks to seva-ask
-* Fix a potential concurrent issue,removing listeners could be impossible in some rare cases. Thx to seva-ask. https://github.com/stephanenicolas/robospice/pull/318
+* Fix a potential concurrent issue, removing listeners could be impossible in some rare cases. Thx to seva-ask. https://github.com/stephanenicolas/robospice/pull/318
 * RetrofitGsonSpiceService object persister was buggy. Thx to keirongulrajani. https://github.com/stephanenicolas/robospice/issues/272
 * Fixed an ANR when app started with screen off. Thx to Colin Lee. https://github.com/stephanenicolas/robospice/issues/270
 * Fixed ConcurrentModificationException. Thx to escarti. https://github.com/stephanenicolas/robospice/issues/91
 * Fixed a bug in SpiceNotificationService. Thx to kaivnlp. https://github.com/stephanenicolas/robospice/issues/299
 * Cancelling methods by key didn't work. Thx to Pierre Degand. https://github.com/stephanenicolas/robospice/issues/251
+* SpiceListView can accept a custom OnScrollListener now. Thx to Wielliam Tell. https://groups.google.com/forum/#!msg/robospice/BNgKSE8d5G8/fkC9XCovpe8J
 
 Version 1.4.12 (April 17th 2014)
 --------------
