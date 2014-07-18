@@ -12,7 +12,7 @@ Version 1.4.13 (Planned July 2014)
 --------------
 
 SDK Compatibility : 
-* Android is now officially compatible from SDK 10+. We drop support for SDK 8 & 9. Though a "best effort" help will be provided to/by the community.
+* RS is now officially compatible from SDK 10+. We drop support for SDK 8 & 9. Though a "best effort" help will be provided to/by the community. The main cause is that Android emulator < 10 is not available anymore, thus we lost CI testing capacity and can't guarantee test passing anymore. 
 
 Team 
 * Nikola Keskinov joined the RoboSpice Team. Welcome Niko !
