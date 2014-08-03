@@ -9,8 +9,9 @@ branches:
 language: android
 android:
   components:
-    - android-10
-    - sysimg-10
+    - android-19
+    - build-tools-20.0.0
+
 env:
   matrix:
     - ANDROID_TARGET=android-10   ANDROID_ABI=armeabi
