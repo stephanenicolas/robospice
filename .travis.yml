@@ -25,7 +25,7 @@ before_install:
     - emulator -avd test -no-skin -no-audio -no-window &
 
 # We will run findbugs and checkstyle in the script phase
-install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dpmd.skip=true -Dandroid.generateApk=false -X
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dpmd.skip=true -Dandroid.generateApk=false
 
 before_script:
   - adb devices
