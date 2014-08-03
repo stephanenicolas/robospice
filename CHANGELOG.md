@@ -22,6 +22,7 @@ Enhancements
 * Requests are not retried anymore when network is down. https://github.com/stephanenicolas/robospice/pull/291. Thx to softwaremaverick for fixing this bug.
 * SpiceService's executor core threads can now be exceeded and customized and are disposable. Thx to Jorge Vila for this feature. https://github.com/stephanenicolas/robospice/pull/304
 * The OrmLite extension now notifies foreign objects for changes (instead of root only): https://github.com/stephanenicolas/robospice/issues/240. Thx to @agrebnev.
+* SpiceListView can accept a custom OnScrollListener now. Thx to Wielliam Tell. https://groups.google.com/forum/#!msg/robospice/BNgKSE8d5G8/fkC9XCovpe8J
 
 Bug fixes
 
@@ -33,7 +34,6 @@ Bug fixes
 * Fixed ConcurrentModificationException. Thx to escarti. https://github.com/stephanenicolas/robospice/issues/91
 * Fixed a bug in SpiceNotificationService. Thx to kaivnlp. https://github.com/stephanenicolas/robospice/issues/299
 * Cancelling methods by key didn't work. Thx to Pierre Degand. https://github.com/stephanenicolas/robospice/issues/251
-* SpiceListView can accept a custom OnScrollListener now. Thx to Wielliam Tell. https://groups.google.com/forum/#!msg/robospice/BNgKSE8d5G8/fkC9XCovpe8J
 
 Version 1.4.12 (April 17th 2014)
 --------------
