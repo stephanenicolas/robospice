@@ -74,11 +74,11 @@
 <a class="jxr_linenumber" name="64" href="#64">64</a>          <strong class="jxr_keyword">super</strong>.onStart(intent, startId);
 <a class="jxr_linenumber" name="65" href="#65">65</a>          notificationId = intent.getIntExtra(BUNDLE_KEY_NOTIFICATION_ID, DEFAULT_ROBOSPICE_NOTIFICATION_ID);
 <a class="jxr_linenumber" name="66" href="#66">66</a>          requestClass = (Class&lt;?&gt;) intent.getSerializableExtra(BUNDLE_KEY_REQUEST_CLASS);
-<a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">if</strong> (spiceServiceClass == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="68" href="#68">68</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(<span class="jxr_string">"Please specify a service class to monitor. Use #createIntent as helper."</span>);
-<a class="jxr_linenumber" name="69" href="#69">69</a>          }
-<a class="jxr_linenumber" name="70" href="#70">70</a>          requestCacheKey = intent.getStringExtra(BUNDLE_KEY_REQUEST_CACHE_KEY);
-<a class="jxr_linenumber" name="71" href="#71">71</a>          spiceServiceClass = (Class&lt;? <strong class="jxr_keyword">extends</strong> SpiceService&gt;) intent.getSerializableExtra(BUNDLE_KEY_SERVICE_CLASS);
+<a class="jxr_linenumber" name="67" href="#67">67</a>          requestCacheKey = intent.getStringExtra(BUNDLE_KEY_REQUEST_CACHE_KEY);
+<a class="jxr_linenumber" name="68" href="#68">68</a>          spiceServiceClass = (Class&lt;? <strong class="jxr_keyword">extends</strong> SpiceService&gt;) intent.getSerializableExtra(BUNDLE_KEY_SERVICE_CLASS);
+<a class="jxr_linenumber" name="69" href="#69">69</a>          <strong class="jxr_keyword">if</strong> (spiceServiceClass == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="70" href="#70">70</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(<span class="jxr_string">"Please specify a service class to monitor. Use #createIntent as helper."</span>);
+<a class="jxr_linenumber" name="71" href="#71">71</a>          }
 <a class="jxr_linenumber" name="72" href="#72">72</a>          foreground = intent.getBooleanExtra(BUNDLE_KEY_FOREGROUND, <strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="73" href="#73">73</a>  
 <a class="jxr_linenumber" name="74" href="#74">74</a>          spiceManager = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/octo/android/robospice/SpiceManager.html">SpiceManager</a>(spiceServiceClass);

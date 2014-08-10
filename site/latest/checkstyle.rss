@@ -25,7 +25,7 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2012 - 2014</copyright>
     <item>
-      <title>File: 246,
+      <title>File: 248,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -242,7 +242,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheCreationException.java">com/octo/android/robospice/persistence/exception/CacheCreationException.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retry.RetryPolicy.java">com/octo/android/robospice/retry/RetryPolicy.java</a>
                 </td>
                 <td>
                   0
@@ -256,7 +256,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.retry.RetryPolicy.java">com/octo/android/robospice/retry/RetryPolicy.java</a>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.exception.CacheCreationException.java">com/octo/android/robospice/persistence/exception/CacheCreationException.java</a>
                 </td>
                 <td>
                   0
@@ -1461,6 +1461,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.googlehttpclient.json.InFileWeatherPersisterJacksonTest.java">com/octo/android/robospice/persistence/googlehttpclient/json/InFileWeatherPersisterJacksonTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.persistence.retrofit.InFileWeatherPersisterJackson2Test.java">com/octo/android/robospice/persistence/retrofit/InFileWeatherPersisterJackson2Test.java</a>
                 </td>
                 <td>
                   0
@@ -2945,6 +2959,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.command.AddSpiceServiceListenerCommand.java">com/octo/android/robospice/command/AddSpiceServiceListenerCommand.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/stephanenicolas/robospice/checkstyle.html#com.octo.android.robospice.spicelist.SpiceListViewTest.java">com/octo/android/robospice/spicelist/SpiceListViewTest.java</a>
                 </td>
                 <td>
                   0

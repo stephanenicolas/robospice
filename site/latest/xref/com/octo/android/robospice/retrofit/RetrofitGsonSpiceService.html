@@ -19,7 +19,7 @@
 <a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> com.google.gson.Gson;
 <a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.CacheManager;
 <a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.exception.CacheCreationException;
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.retrofit.RetrofitObjectPersisterFactory;
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> com.octo.android.robospice.persistence.retrofit.GsonRetrofitObjectPersisterFactory;
 <a class="jxr_linenumber" name="13" href="#13">13</a>  
 <a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_javadoccomment"> * A pre-set, easy to use, retrofit service. It will use retrofit for network</em>
@@ -38,7 +38,7 @@
 <a class="jxr_linenumber" name="28" href="#28">28</a>      @Override
 <a class="jxr_linenumber" name="29" href="#29">29</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a> createCacheManager(Application application) <strong class="jxr_keyword">throws</strong> CacheCreationException {
 <a class="jxr_linenumber" name="30" href="#30">30</a>          <a href="../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a> cacheManager = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/octo/android/robospice/persistence/CacheManager.html">CacheManager</a>();
-<a class="jxr_linenumber" name="31" href="#31">31</a>          cacheManager.addPersister(<strong class="jxr_keyword">new</strong> <a href="../../../../../com/octo/android/robospice/persistence/retrofit/RetrofitObjectPersisterFactory.html">RetrofitObjectPersisterFactory</a>(application, getConverter(), getCacheFolder()));
+<a class="jxr_linenumber" name="31" href="#31">31</a>          cacheManager.addPersister(<strong class="jxr_keyword">new</strong> <a href="../../../../../com/octo/android/robospice/persistence/retrofit/GsonRetrofitObjectPersisterFactory.html">GsonRetrofitObjectPersisterFactory</a>(application, getConverter(), getCacheFolder()));
 <a class="jxr_linenumber" name="32" href="#32">32</a>          <strong class="jxr_keyword">return</strong> cacheManager;
 <a class="jxr_linenumber" name="33" href="#33">33</a>      }
 <a class="jxr_linenumber" name="34" href="#34">34</a>  
