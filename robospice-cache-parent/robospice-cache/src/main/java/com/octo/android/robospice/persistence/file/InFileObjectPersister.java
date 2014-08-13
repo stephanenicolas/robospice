@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import roboguice.util.temp.Ln;
@@ -108,6 +109,9 @@ public abstract class InFileObjectPersister<T> extends ObjectPersister<T> {
                 return filename.startsWith(prefix);
             }
         });
+        if (cacheFileNameList == null) {
+            return Collections.emptyList();
+        }
         List<Object> result = new ArrayList<Object>(cacheFileNameList.length);
         for (String cacheFileName : cacheFileNameList) {
             String cacheKey = cacheFileName.substring(prefixLength);
