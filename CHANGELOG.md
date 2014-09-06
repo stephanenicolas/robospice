@@ -8,7 +8,14 @@ Version 1.5.0 (planned)
 * TODO : inject requests in listeners
 * TODO : inject service in requests
 
-Version 1.4.13 (Planned July 2014)
+Version 1.4.14 (September 6 2014)
+-------------
+
+* Fix NPE when cache folder is empty. Thx to skhanzada. https://github.com/stephanenicolas/robospice/pull/352
+* Upgrade libraries versions. https://github.com/stephanenicolas/robospice/issues/351
+
+
+Version 1.4.13 (August 9 2014)
 --------------
 
 SDK Compatibility : 

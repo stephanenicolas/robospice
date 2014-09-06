@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
-		<version>1.4.13</version>
+		<version>1.4.14-SNAP5.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 
@@ -25,9 +25,9 @@
 	<properties>
 		<spring-android.version>1.0.1.RELEASE</spring-android.version>
 		<simplexmlserializer.version>2.7.1</simplexmlserializer.version>
-		<gson.version>2.2.4</gson.version>
+		<gson.version>2.3</gson.version>
 		<jackson.version>1.9.11</jackson.version>
-		<jackson2.version>2.2.3</jackson2.version>
+		<jackson2.version>2.4.2</jackson2.version>
 	</properties>
 
 	<dependencyManagement>

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
-		<version>1.4.13</version>
+		<version>1.4.14-SNAP5.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 
@@ -23,7 +23,7 @@
 	</modules>
 
 	<properties>
-		<retrofit.version>1.6.0</retrofit.version>
+		<retrofit.version>1.6.1</retrofit.version>
 	</properties>
 
 	<dependencyManagement>
