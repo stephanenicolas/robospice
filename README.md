@@ -1,17 +1,17 @@
-<img src="https://raw.github.com/octo-online/robospice/master/gfx/Robospice-logo-white-background.png" 
+<img src="https://raw.github.com/stephanenicolas/robospice/master/gfx/Robospice-logo-white-background.png"
 width="250px" />
 
-Overview
+Overview [![Build Status on Travis:](https://travis-ci.org/stephanenicolas/robospice.png)](https://travis-ci.org/stephanenicolas/robospice) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.octo.android.robospice/robospice/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.octo.android.robospice/robospice)
 --------
 
 RoboSpice is a modular android library that makes writing asynchronous network requests *easy* !
 
 To learn more about RoboSpice in 30 seconds, try [this infographics]
-(https://raw.github.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png).
+(https://raw.github.com/stephanenicolas/robospice/master/gfx/RoboSpice-InfoGraphics.png).
 
-If you want to start using RoboSpice right now, jump to the [Wiki](https://github.com/octo-online/robospice/wiki) or the [samples](https://github.com/octo-online/RoboSpice-samples). 
+If you want to start using RoboSpice right now, jump to the [Wiki](https://github.com/stephanenicolas/robospice/wiki) or the [samples](https://github.com/octo-online/RoboSpice-samples).
 
-The [Wiki](https://github.com/octo-online/robospice/wiki) has a fully detailed section to quickly setup you up whether you use Gradle, Maven or ant/eclipse.
+The [Wiki](https://github.com/stephanenicolas/robospice/wiki) has a fully detailed section to quickly setup you up whether you use Gradle, Maven or ant/eclipse.
 
 
 Main features of RoboSpice
@@ -35,21 +35,18 @@ or [Xml](http://simple.sourceforge.net/), or flat text files, or binary files, e
 * is **open source** ;) 
 * and **tested** (more than 200 tests)
 
-RoboSpice is under Continuous Integration [on a Travis server](https://travis-ci.org/stephanenicolas/robospice/builds) Thanks to Travis.
-* Build Status on Travis: [![Build Status on Travis:](https://travis-ci.org/stephanenicolas/robospice.png)](https://travis-ci.org/stephanenicolas/robospice)
-
 RoboSpice is [under Quality control on Sonar's Nemo instance](http://nemo.sonarsource.org/dashboard/index/504442). Thanks to Sonar Source.
 
 To learn more about RoboSpice
 -----------------------------
 
-To learn more, look at the presentation slides we created for DroidCon UK 2012, they are available in the [download section](https://github.com/octo-online/robospice/downloads).
+To learn more, look at the presentation slides we created for DroidCon UK 2012, they are available in the [download section](https://github.com/stephanenicolas/robospice/downloads).
 
 A few links : 
 
-* Browse RoboSpice's full documentation on [the Wiki](https://github.com/octo-online/robospice/wiki).
-* [Javadocs](http://stephanenicolas.github.io/robospice/site/latest/apidocs/index.html).
-* [Maven site](http://stephanenicolas.github.io/robospice/site/latest/index.html).
+* Browse RoboSpice's full documentation on [the Wiki](https://github.com/stephanenicolas/robospice/wiki).
+* [Javadocs](http://stephanenicolas.github.com/robospice/site/latest/apidocs/index.html).
+* [Maven site](http://stephanenicolas.github.com/robospice/site/latest/index.html).
 * [Discussion group on google](https://groups.google.com/forum/?fromgroups#!forum/robospice).
 * [Stack Over Flow questions about RoboSpice](http://stackoverflow.com/questions/tagged/robospice)
 
@@ -60,12 +57,12 @@ The RoboSpice team proposes a lot of sample applications in [their own GitHub re
 
 We also propose a few demo : 
 * [RoboSpice Motivations](http://goo.gl/pzqH4) : a pedagogical app that explains the motivations behind RoboSpice.
-* and [a demo that illustrates non-network related requests (offline)](](https://play.google.com/store/apps/details?id=com.octo.android.robospice.sample.offline#?t=W251bGwsMSwxLDIxMiwiY29tLm9jdG8uYW5kcm9pZC5yb2Jvc3BpY2Uuc2FtcGxlLm9mZmxpbmUiXQ..).
+* and [a demo that illustrates non-network related requests (offline)](https://play.google.com/store/apps/details?id=com.octo.android.robospice.sample.offline#?t=W251bGwsMSwxLDIxMiwiY29tLm9jdG8uYW5kcm9pZC5yb2Jvc3BpY2Uuc2FtcGxlLm9mZmxpbmUiXQ..).
 
 A project initiated by Octo Technology 
 -------------------------------------
 
-![Octo Technology logo](https://raw.github.com/octo-online/robospice/master/gfx/octo-ascii-logo-blue.png)
+![Octo Technology logo](https://raw.github.com/stephanenicolas/robospice/master/gfx/octo-ascii-logo-blue.png)
 
 RoboSpice has been incubated at [Octo Technology](http://www.octo.com/en), a french company based in Paris, focused on software design and quality. 
 It offers its employees to work part time on Research & Development projects. RoboSpice was one of them.
@@ -94,7 +91,7 @@ License
 -------
 
   Copyright (C) 2012 Octo Technology (http://www.octo.com)
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
@@ -118,4 +115,10 @@ Alternatives to RoboSpice
 * [Ion](https://github.com/koush/ion)
 * [droidQuery](http://phil-brown.github.io/droidQuery/)
 * [Android Job Queue](https://github.com/path/android-priority-jobqueue)
+* [Goro](http://stanfy.com/blog/goro-2/)
+	
+Projects related to RoboSpice 
+-----------------------------
 
+* [Blandware Android AtLeap Core](https://github.com/blandware/android-atleap) is a library accelerating development. It contains universal Content Provider (for SQLite, ORMLite), Drawer, Account Authenticator, etc. [AtLeap Sample](https://github.com/blandware/android-atleap/tree/master/atleap-sample) is a good example of RoboSpice, Retrofit, ORMLite, Picasso integration.
+* [SpiceAnnotations](https://github.com/ddekanski/SpiceAnnotations) : using RoboSpice and Android Annotations by Daniel Dekanski. Also read his [blog post](http://blog.goyello.com/2014/06/26/androidannotations-robospice-the-best-of-both-worlds/).
