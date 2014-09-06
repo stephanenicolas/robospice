@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.octo.android.robospice</groupId>
 		<artifactId>robospice-parent</artifactId>
-		<version>1.4.14</version>
+		<version>1.4.15-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>robospice-core-parent</artifactId>
