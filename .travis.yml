@@ -9,6 +9,7 @@ branches:
 language: android
 android:
   components:
+    - android-21
     - android-19
     - build-tools-21.0.1
 
