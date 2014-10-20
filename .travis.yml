@@ -11,6 +11,7 @@ android:
   components:
     - android-21
     - android-19
+    - sys-img-armeabi-v7a-android-21
     - build-tools-21.0.1
 
 env:
