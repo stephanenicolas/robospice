@@ -1,9 +1,5 @@
 #Thanks to https://raw.github.com/embarkmobile/android-maven-example/master/.travis.yml
 
-cache:
-  directories:
-  - $HOME/.m2
-
 branches:
   only:
     - master
@@ -23,14 +19,14 @@ env:
     - ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
     - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
+#    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
 
 before_install:
     # Create and start emulator
     - android list targets
     - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-    - cp ~/.android/avd/test.avd/config.ini ~/.android/avd/test.avd/config.ini.back
-    - cat ~/.android/avd/test.avd/config.ini.back | sed s/hw.ramSize=512/hw.ramSize=1024/ > ~/.android/avd/test.avd/config.ini
+#    - cp ~/.android/avd/test.avd/config.ini ~/.android/avd/test.avd/config.ini.back
+#    - cat ~/.android/avd/test.avd/config.ini.back | sed s/hw.ramSize=512/hw.ramSize=1024/ > ~/.android/avd/test.avd/config.ini
     - emulator -avd test -no-skin -no-audio -no-window &
 
 # We will run findbugs and checkstyle in the script phase
