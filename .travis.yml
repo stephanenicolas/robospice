@@ -1,5 +1,9 @@
 #Thanks to https://raw.github.com/embarkmobile/android-maven-example/master/.travis.yml
 
+cache:
+  directories:
+  - $HOME/.m2
+
 branches:
   only:
     - master
