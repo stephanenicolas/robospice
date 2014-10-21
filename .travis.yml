@@ -29,6 +29,8 @@ before_install:
     # Create and start emulator
     - android list targets
     - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+    - cp ~/.android/avd/test.avd/config.ini ~/.android/avd/test.avd/config.ini.back
+    - cat ~/.android/avd/test.avd/config.ini.back | sed s/hw.ramSize=512/hw.ramSize=1024/ > ~/.android/avd/test.avd/config.ini
     - emulator -avd test -no-skin -no-audio -no-window &
 
 # We will run findbugs and checkstyle in the script phase
