@@ -58,7 +58,7 @@ public abstract class SpiceRequest<RESULT> implements Comparable<SpiceRequest<RE
     }
 
     /**
-     * Sets the priority of the request. Use priority constants or a positive
+     * Sets the priority of the request. Use priority constants or a non-negative
      * integer. Will have no effect on a request after it starts being executed.
      * @param priority
      *            the priority of request. Defaults to {@link #PRIORITY_NORMAL}.
@@ -68,7 +68,7 @@ public abstract class SpiceRequest<RESULT> implements Comparable<SpiceRequest<RE
      */
     public void setPriority(int priority) {
         if (priority < 0) {
-            throw new IllegalArgumentException("Priority must be positive.");
+            throw new IllegalArgumentException("Priority must be non-negative.");
         }
         this.priority = priority;
     }
