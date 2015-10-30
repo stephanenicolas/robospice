@@ -145,7 +145,7 @@ public class DefaultRequestRunner implements RequestRunner {
                 printRequestProcessingDuration(startTime, request);
                 return;
             }
-            Ln.d("Calling netwok request.");
+            Ln.d("Calling network request.");
             request.setStatus(RequestStatus.LOADING_FROM_NETWORK);
             result = request.loadDataFromNetwork();
             Ln.d("Network request call ended.");
