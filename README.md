@@ -4,6 +4,12 @@ width="250px" />
 Overview [![Build Status on Travis:](https://travis-ci.org/stephanenicolas/robospice.png)](https://travis-ci.org/stephanenicolas/robospice) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.octo.android.robospice/robospice/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.octo.android.robospice/robospice)
 --------
 
+We froze RS last week, the library is not maintained anymore. Personnally, I now always use a mix of retrofit and Rx instead, RS has sailed a long way home and yes, the latest constraints in android O don't make it easy for RS at all, it's probably the last nail in its coffin. @stephanenicolas
+
+Thx to all RS users for your warm support, it's been a pleasure to ofer this library to the community. Thx to @rciovati too for his important contributions to RS !
+
+--------
+
 RoboSpice is a modular android library that makes writing asynchronous network requests *easy* !
 
 To learn more about RoboSpice in 30 seconds, try [this infographics]
